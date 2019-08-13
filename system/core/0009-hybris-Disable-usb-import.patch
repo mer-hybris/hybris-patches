@@ -1,0 +1,28 @@
+From 063884fbe11097fb83f334e107c698d3a065bbc8 Mon Sep 17 00:00:00 2001
+From: David Greaves <david@dgreaves.com>
+Date: Wed, 19 Feb 2014 19:02:32 +0000
+Subject: [PATCH 09/37] (hybris) Disable usb import
+
+Change-Id: I8aba60bc79fb4aab3854f0569b325ad69c5126d4
+Signed-off-by: David Greaves <david@dgreaves.com>
+---
+ rootdir/init.rc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index fbab513..2049b60 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -5,7 +5,8 @@
+ #
+ 
+ import /init.environ.rc
+-import /init.usb.rc
++# Mer handles usb stuff
++#import /init.usb.rc
+ import /init.${ro.hardware}.rc
+ import /vendor/etc/init/hw/init.${ro.hardware}.rc
+ import /init.usb.configfs.rc
+-- 
+2.7.4
+

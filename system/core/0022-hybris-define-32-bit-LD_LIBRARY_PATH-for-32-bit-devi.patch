@@ -1,0 +1,76 @@
+From 09d7863a41e41d783af43f402168d5ec97c6a96b Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jollamobile.com>
+Date: Wed, 25 Oct 2017 14:14:59 +0300
+Subject: [PATCH 22/37] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
+ devices
+
+---
+ rootdir/Android.mk                   | 12 ++++++++++++
+ rootdir/init.environ.rc.in           |  1 +
+ rootdir/init.extraenv.armeabi-v7a.rc |  2 ++
+ rootdir/init.rc                      |  5 +++++
+ 4 files changed, 20 insertions(+)
+ create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
+
+diff --git a/rootdir/Android.mk b/rootdir/Android.mk
+index 5f5c363..af5e68d 100644
+--- a/rootdir/Android.mk
++++ b/rootdir/Android.mk
+@@ -8,6 +8,18 @@ LOCAL_MODULE := init.rc
+ LOCAL_SRC_FILES := $(LOCAL_MODULE)
+ LOCAL_MODULE_CLASS := ETC
+ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
++LOCAL_REQUIRED_MODULES := init.extraenv.armeabi-v7a.rc
++
++include $(BUILD_PREBUILT)
++
++#######################################
++# init.extraenv.armeabi-v7a.rc
++include $(CLEAR_VARS)
++
++LOCAL_MODULE := init.extraenv.armeabi-v7a.rc
++LOCAL_SRC_FILES := $(LOCAL_MODULE)
++LOCAL_MODULE_CLASS := ETC
++LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
+ 
+ include $(BUILD_PREBUILT)
+ 
+diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
+index fcafbb1..516dc82 100644
+--- a/rootdir/init.environ.rc.in
++++ b/rootdir/init.environ.rc.in
+@@ -5,6 +5,7 @@ on init
+     # This is not 64-bit safe -stskeeps
+     # Hopefully now it is - ghosalmartin
+     # this breaks mixed 32/64-bit devices -mal
++    # for 32-bit devices with android kernel logger there is now a file called init.extraenv.armeabi-v7a.rc - krnlyng
+     # export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib64-dev-alog:/vendor/lib64:/system/lib64:/usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
+     export ANDROID_BOOTLOGO 1
+     export ANDROID_ROOT /system
+diff --git a/rootdir/init.extraenv.armeabi-v7a.rc b/rootdir/init.extraenv.armeabi-v7a.rc
+new file mode 100644
+index 0000000..c96e2c6
+--- /dev/null
++++ b/rootdir/init.extraenv.armeabi-v7a.rc
+@@ -0,0 +1,2 @@
++on init
++    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 16d68d3..85323a1 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -4,6 +4,11 @@
+ # This is a common source of Android security bugs.
+ #
+ 
++# this file is only necessary if your device is 32 bit and it is
++# using the android kernel logger if your device is 64 bit defining
++# LD_LIBRARY_PATH will break some binaries, since you cannot have both
++# 32 bit libraries and 64 bit libraries in your LD_LIBRARY_PATH.
++import /init.extraenv.${ro.product.cpu.abi}.rc
+ import /init.environ.rc
+ # Mer handles usb stuff
+ #import /init.usb.rc
+-- 
+2.7.4
+

@@ -1,0 +1,68 @@
+From 0158a3dc1d4826f0ba6f170d5a04852f73f64825 Mon Sep 17 00:00:00 2001
+From: Martin Ghosal <Martin.Ghosal@sky.uk>
+Date: Sun, 8 Jan 2017 16:34:54 +0000
+Subject: [PATCH 16/37] (hybris) Disable all zygote variations
+
+Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
+---
+ rootdir/init.zygote32.rc    | 1 +
+ rootdir/init.zygote32_64.rc | 2 ++
+ rootdir/init.zygote64.rc    | 1 +
+ rootdir/init.zygote64_32.rc | 2 ++
+ 4 files changed, 6 insertions(+)
+
+diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
+index ac87979..b24f7b5 100644
+--- a/rootdir/init.zygote32.rc
++++ b/rootdir/init.zygote32.rc
+@@ -12,3 +12,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+diff --git a/rootdir/init.zygote32_64.rc b/rootdir/init.zygote32_64.rc
+index a535846..62b9236 100644
+--- a/rootdir/init.zygote32_64.rc
++++ b/rootdir/init.zygote32_64.rc
+@@ -12,6 +12,7 @@ service zygote /system/bin/app_process32 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+ 
+ service zygote_secondary /system/bin/app_process64 -Xzygote /system/bin --zygote --socket-name=zygote_secondary
+     class main
+@@ -21,3 +22,4 @@ service zygote_secondary /system/bin/app_process64 -Xzygote /system/bin --zygote
+     socket zygote_secondary stream 660 root system
+     onrestart restart zygote
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
+index 6fc810b..edf82ce 100644
+--- a/rootdir/init.zygote64.rc
++++ b/rootdir/init.zygote64.rc
+@@ -12,3 +12,4 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
+index 7ddd52e..e74202a 100644
+--- a/rootdir/init.zygote64_32.rc
++++ b/rootdir/init.zygote64_32.rc
+@@ -12,6 +12,7 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+ 
+ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary --enable-lazy-preload
+     class main
+@@ -21,3 +22,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
+     socket zygote_secondary stream 660 root system
+     onrestart restart zygote
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+-- 
+2.7.4
+

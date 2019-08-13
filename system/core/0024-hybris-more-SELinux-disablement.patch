@@ -1,0 +1,51 @@
+From e1a58aa7564bfde917461a137007014aa39d9c54 Mon Sep 17 00:00:00 2001
+From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+Date: Wed, 18 Apr 2018 18:49:02 +0200
+Subject: [PATCH 24/37] (hybris) more SELinux disablement
+
+Change-Id: Ic1bc474e993f2b66ab9114e88d7ec4f718a99d5c
+Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+---
+ init/init.cpp | 3 +++
+ init/log.cpp  | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index c631fc2..cdab577 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -668,7 +668,10 @@ int main(int argc, char** argv) {
+ 
+     // Make the time that init started available for bootstat to log.
+     property_set("ro.boottime.init", getenv("INIT_STARTED_AT"));
++    // Mer: this seems to cause problems
++#if 0
+     property_set("ro.boottime.init.selinux", getenv("INIT_SELINUX_TOOK"));
++#endif
+ 
+     // Set libavb version for Framework-only OTA match in Treble build.
+     const char* avb_version = getenv("INIT_AVB_VERSION");
+diff --git a/init/log.cpp b/init/log.cpp
+index 6198fc2..0c7c7b5 100644
+--- a/init/log.cpp
++++ b/init/log.cpp
+@@ -54,6 +54,8 @@ static void InitAborter(const char* abort_message) {
+ 
+ void InitKernelLogging(char* argv[]) {
+     // Make stdin/stdout/stderr all point to /dev/null.
++    // Disable SELinux
++    /*
+     int fd = open("/sys/fs/selinux/null", O_RDWR);
+     if (fd == -1) {
+         int saved_errno = errno;
+@@ -65,6 +67,7 @@ void InitKernelLogging(char* argv[]) {
+     dup2(fd, 1);
+     dup2(fd, 2);
+     if (fd > 2) close(fd);
++    */
+ 
+     android::base::InitLogging(argv, &android::base::KernelLogger, InitAborter);
+ }
+-- 
+2.7.4
+

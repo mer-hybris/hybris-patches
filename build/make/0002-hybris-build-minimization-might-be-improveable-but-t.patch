@@ -1,0 +1,1292 @@
+From 1dba61e7803e8f88b8edf58b990f1af8616e61b7 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Thu, 7 Jun 2018 15:32:40 +0000
+Subject: [PATCH 2/3] (hybris) build minimization (might be improveable, but
+ this version doesn't break dependancies)
+
+Change-Id: Ic862dc084f5f4e3fa7ccd90b0757deff0f17b802
+---
+ core/dex_preopt.mk                      | 109 +---------
+ core/droiddoc.mk                        | 368 +-------------------------------
+ core/host_dalvik_java_library.mk        | 225 +------------------
+ core/host_dalvik_static_java_library.mk |  29 +--
+ core/java_library.mk                    | 105 +--------
+ core/main.mk                            |   3 +
+ core/package.mk                         |  85 +-------
+ core/static_java_library.mk             | 238 +--------------------
+ 8 files changed, 10 insertions(+), 1152 deletions(-)
+ mode change 100644 => 120000 core/dex_preopt.mk
+ mode change 100644 => 120000 core/droiddoc.mk
+ mode change 100644 => 120000 core/host_dalvik_java_library.mk
+ mode change 100644 => 120000 core/host_dalvik_static_java_library.mk
+ mode change 100644 => 120000 core/java_library.mk
+ mode change 100644 => 120000 core/package.mk
+ mode change 100644 => 120000 core/static_java_library.mk
+
+diff --git a/core/dex_preopt.mk b/core/dex_preopt.mk
+deleted file mode 100644
+index 7298bde..0000000
+--- a/core/dex_preopt.mk
++++ /dev/null
+@@ -1,108 +0,0 @@
+-####################################
+-# dexpreopt support - typically used on user builds to run dexopt (for Dalvik) or dex2oat (for ART) ahead of time
+-#
+-####################################
+-
+-# list of boot classpath jars for dexpreopt
+-DEXPREOPT_BOOT_JARS := $(subst $(space),:,$(PRODUCT_BOOT_JARS))
+-DEXPREOPT_BOOT_JARS_MODULES := $(PRODUCT_BOOT_JARS)
+-PRODUCT_BOOTCLASSPATH := $(subst $(space),:,$(foreach m,$(DEXPREOPT_BOOT_JARS_MODULES),/system/framework/$(m).jar))
+-
+-PRODUCT_SYSTEM_SERVER_CLASSPATH := $(subst $(space),:,$(foreach m,$(PRODUCT_SYSTEM_SERVER_JARS),/system/framework/$(m).jar))
+-
+-DEXPREOPT_BUILD_DIR := $(OUT_DIR)
+-DEXPREOPT_PRODUCT_DIR_FULL_PATH := $(PRODUCT_OUT)/dex_bootjars
+-DEXPREOPT_PRODUCT_DIR := $(patsubst $(DEXPREOPT_BUILD_DIR)/%,%,$(DEXPREOPT_PRODUCT_DIR_FULL_PATH))
+-DEXPREOPT_BOOT_JAR_DIR := system/framework
+-DEXPREOPT_BOOT_JAR_DIR_FULL_PATH := $(DEXPREOPT_PRODUCT_DIR_FULL_PATH)/$(DEXPREOPT_BOOT_JAR_DIR)
+-
+-# The default value for LOCAL_DEX_PREOPT
+-DEX_PREOPT_DEFAULT ?= true
+-
+-# The default filter for which files go into the system_other image (if it is
+-# being used). To bundle everything one should set this to '%'
+-SYSTEM_OTHER_ODEX_FILTER ?= app/% priv-app/%
+-
+-# Method returning whether the install path $(1) should be for system_other.
+-# Under SANITIZE_LITE, we do not want system_other. Just put things under /data/asan.
+-ifeq ($(SANITIZE_LITE),true)
+-install-on-system-other =
+-else
+-install-on-system-other = $(filter-out $(PRODUCT_DEXPREOPT_SPEED_APPS) $(PRODUCT_SYSTEM_SERVER_APPS),$(basename $(notdir $(filter $(foreach f,$(SYSTEM_OTHER_ODEX_FILTER),$(TARGET_OUT)/$(f)),$(1)))))
+-endif
+-
+-# The default values for pre-opting: always preopt PIC.
+-# Conditional to building on linux, as dex2oat currently does not work on darwin.
+-ifeq ($(HOST_OS),linux)
+-  WITH_DEXPREOPT ?= true
+-  ifeq (eng,$(TARGET_BUILD_VARIANT))
+-    # Don't strip for quick development turnarounds.
+-    DEX_PREOPT_DEFAULT := nostripping
+-    # For an eng build only pre-opt the boot image and system server. This gives reasonable performance
+-    # and still allows a simple workflow: building in frameworks/base and syncing.
+-    WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY ?= true
+-  endif
+-  # Add mini-debug-info to the boot classpath unless explicitly asked not to.
+-  ifneq (false,$(WITH_DEXPREOPT_DEBUG_INFO))
+-    PRODUCT_DEX_PREOPT_BOOT_FLAGS += --generate-mini-debug-info
+-  endif
+-
+-  # Non eng linux builds must have preopt enabled so that system server doesn't run as interpreter
+-  # only. b/74209329
+-  ifeq (,$(filter eng, $(TARGET_BUILD_VARIANT)))
+-    ifneq (true,$(WITH_DEXPREOPT))
+-      ifneq (true,$(WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY))
+-        $(call pretty-error, DEXPREOPT must be enabled for user and userdebug builds)
+-      endif
+-    endif
+-  endif
+-endif
+-
+-GLOBAL_DEXPREOPT_FLAGS :=
+-
+-# Special rules for building stripped boot jars that override java_library.mk rules
+-
+-# $(1): boot jar module name
+-define _dexpreopt-boot-jar-remove-classes.dex
+-_dbj_jar_no_dex := $(DEXPREOPT_BOOT_JAR_DIR_FULL_PATH)/$(1)_nodex.jar
+-_dbj_src_jar := $(call intermediates-dir-for,JAVA_LIBRARIES,$(1),,COMMON)/javalib.jar
+-
+-$(call dexpreopt-copy-jar,$$(_dbj_src_jar),$$(_dbj_jar_no_dex),$(DEX_PREOPT_DEFAULT))
+-
+-_dbj_jar_no_dex :=
+-_dbj_src_jar :=
+-endef
+-
+-$(foreach b,$(DEXPREOPT_BOOT_JARS_MODULES),$(eval $(call _dexpreopt-boot-jar-remove-classes.dex,$(b))))
+-
+-include $(BUILD_SYSTEM)/dex_preopt_libart.mk
+-
+-# Define dexpreopt-one-file based on current default runtime.
+-# $(1): the input .jar or .apk file
+-# $(2): the output .odex file
+-define dexpreopt-one-file
+-$(call dex2oat-one-file,$(1),$(2))
+-endef
+-
+-DEXPREOPT_ONE_FILE_DEPENDENCY_TOOLS := $(DEX2OAT_DEPENDENCY)
+-DEXPREOPT_ONE_FILE_DEPENDENCY_BUILT_BOOT_PREOPT := $(DEFAULT_DEX_PREOPT_BUILT_IMAGE_FILENAME)
+-ifdef TARGET_2ND_ARCH
+-$(TARGET_2ND_ARCH_VAR_PREFIX)DEXPREOPT_ONE_FILE_DEPENDENCY_BUILT_BOOT_PREOPT := $($(TARGET_2ND_ARCH_VAR_PREFIX)DEFAULT_DEX_PREOPT_BUILT_IMAGE_FILENAME)
+-endif  # TARGET_2ND_ARCH
+-
+-ifeq ($(PRODUCT_DIST_BOOT_AND_SYSTEM_JARS),true)
+-boot_profile_jars_zip := $(PRODUCT_OUT)/boot_profile_jars.zip
+-all_boot_jars := \
+-  $(foreach m,$(DEXPREOPT_BOOT_JARS_MODULES),$(PRODUCT_OUT)/system/framework/$(m).jar) \
+-  $(foreach m,$(PRODUCT_SYSTEM_SERVER_JARS),$(PRODUCT_OUT)/system/framework/$(m).jar)
+-
+-$(boot_profile_jars_zip): PRIVATE_JARS := $(all_boot_jars)
+-$(boot_profile_jars_zip): $(all_boot_jars) $(SOONG_ZIP)
+-	echo "Create boot profiles package: $@"
+-	rm -f $@
+-	$(SOONG_ZIP) -o $@ -C $(PRODUCT_OUT) $(PRIVATE_JARS)
+-
+-droidcore: $(boot_profile_jars_zip)
+-
+-$(call dist-for-goals, droidcore, $(boot_profile_jars_zip))
+-endif
+diff --git a/core/dex_preopt.mk b/core/dex_preopt.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/dex_preopt.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/droiddoc.mk b/core/droiddoc.mk
+deleted file mode 100644
+index bcd2002..0000000
+--- a/core/droiddoc.mk
++++ /dev/null
+@@ -1,367 +0,0 @@
+-#
+-# Copyright (C) 2008 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-$(call record-module-type,DROIDDOC)
+-###########################################################
+-## Common logic to both droiddoc and javadoc
+-###########################################################
+-LOCAL_IS_HOST_MODULE := $(call true-or-empty,$(LOCAL_IS_HOST_MODULE))
+-ifeq ($(LOCAL_IS_HOST_MODULE),true)
+-my_prefix := HOST_
+-LOCAL_HOST_PREFIX :=
+-else
+-my_prefix := TARGET_
+-endif
+-
+-LOCAL_MODULE_CLASS := $(strip $(LOCAL_MODULE_CLASS))
+-ifndef LOCAL_MODULE_CLASS
+-$(error $(LOCAL_PATH): LOCAL_MODULE_CLASS not defined)
+-endif
+-
+-full_src_files := $(patsubst %,$(LOCAL_PATH)/%,$(LOCAL_SRC_FILES))
+-out_dir := $(OUT_DOCS)/$(LOCAL_MODULE)
+-full_target := $(call doc-timestamp-for,$(LOCAL_MODULE))
+-
+-ifeq ($(LOCAL_DROIDDOC_SOURCE_PATH),)
+-LOCAL_DROIDDOC_SOURCE_PATH := $(LOCAL_PATH)
+-endif
+-
+-ifeq ($(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR),)
+-LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR := $(SRC_DROIDDOC_DIR)/$(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR)
+-endif
+-
+-ifeq ($(LOCAL_DROIDDOC_ASSET_DIR),)
+-LOCAL_DROIDDOC_ASSET_DIR := assets
+-endif
+-ifeq ($(LOCAL_DROIDDOC_CUSTOM_ASSET_DIR),)
+-LOCAL_DROIDDOC_CUSTOM_ASSET_DIR := assets
+-endif
+-
+-ifeq ($(LOCAL_IS_HOST_MODULE),true)
+-
+-$(full_target): PRIVATE_BOOTCLASSPATH :=
+-full_java_libs := $(addprefix $(HOST_OUT_JAVA_LIBRARIES)/,\
+-  $(addsuffix $(COMMON_JAVA_PACKAGE_SUFFIX),$(LOCAL_JAVA_LIBRARIES)))
+-
+-else
+-
+-ifneq ($(LOCAL_SDK_VERSION),)
+-  ifeq ($(LOCAL_SDK_VERSION)$(TARGET_BUILD_APPS),current)
+-    # Use android_stubs_current if LOCAL_SDK_VERSION is current and no TARGET_BUILD_APPS.
+-    LOCAL_JAVA_LIBRARIES := android_stubs_current $(LOCAL_JAVA_LIBRARIES)
+-    $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, android_stubs_current)
+-  else ifeq ($(LOCAL_SDK_VERSION)$(TARGET_BUILD_APPS),system_current)
+-    LOCAL_JAVA_LIBRARIES := android_system_stubs_current $(LOCAL_JAVA_LIBRARIES)
+-    $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, android_system_stubs_current)
+-  else ifeq ($(LOCAL_SDK_VERSION)$(TARGET_BUILD_APPS),test_current)
+-    LOCAL_JAVA_LIBRARIES := android_test_stubs_current $(LOCAL_JAVA_LIBRARIES)
+-    $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, android_test_stubs_current)
+-  else ifeq ($(LOCAL_SDK_VERSION)$(TARGET_BUILD_APPS),core_current)
+-    LOCAL_JAVA_LIBRARIES := core.current.stubs $(LOCAL_JAVA_LIBRARIES)
+-    $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, core.current.stubs)
+-  else
+-    # core_<ver> is subset of <ver>. Instead of defining a prebuilt lib for core_<ver>,
+-    # use the stub for <ver> when building for apps.
+-    _version := $(patsubst core_%,%,$(LOCAL_SDK_VERSION))
+-    LOCAL_JAVA_LIBRARIES := sdk_v$(_version) $(LOCAL_JAVA_LIBRARIES)
+-    $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, sdk_v$(_version))
+-    _version :=
+-  endif
+-else
+-  ifeq ($(LOCAL_NO_STANDARD_LIBRARIES),true)
+-    LOCAL_JAVA_LIBRARIES := core-oj core-libart
+-  else
+-    LOCAL_JAVA_LIBRARIES := core-oj core-libart ext framework $(LOCAL_JAVA_LIBRARIES)
+-  endif
+-  $(full_target): PRIVATE_BOOTCLASSPATH := $(call java-lib-files, core-oj):$(call java-lib-files, core-libart)
+-endif  # LOCAL_SDK_VERSION
+-LOCAL_JAVA_LIBRARIES := $(sort $(LOCAL_JAVA_LIBRARIES))
+-
+-full_java_libs := $(call java-lib-files,$(LOCAL_JAVA_LIBRARIES)) $(LOCAL_CLASSPATH)
+-endif # !LOCAL_IS_HOST_MODULE
+-
+-$(full_target): PRIVATE_CLASSPATH := $(call normalize-path-list,$(full_java_libs))
+-
+-intermediates.COMMON := $(call local-intermediates-dir,COMMON)
+-
+-$(full_target): PRIVATE_SOURCE_PATH := $(call normalize-path-list,$(LOCAL_DROIDDOC_SOURCE_PATH))
+-$(full_target): PRIVATE_JAVA_FILES := $(filter %.java,$(full_src_files))
+-$(full_target): PRIVATE_JAVA_FILES += $(addprefix $($(my_prefix)OUT_COMMON_INTERMEDIATES)/, $(filter %.java,$(LOCAL_INTERMEDIATE_SOURCES)))
+-$(full_target): PRIVATE_JAVA_FILES += $(filter %.java,$(LOCAL_GENERATED_SOURCES))
+-$(full_target): PRIVATE_SRCJARS := $(LOCAL_SRCJARS)
+-$(full_target): PRIVATE_SOURCE_INTERMEDIATES_DIR := $(intermediates.COMMON)/src
+-$(full_target): PRIVATE_SRCJAR_INTERMEDIATES_DIR := $(intermediates.COMMON)/srcjars
+-$(full_target): PRIVATE_SRC_LIST_FILE := $(intermediates.COMMON)/droiddoc-src-list
+-$(full_target): PRIVATE_SRCJAR_LIST_FILE := $(intermediates.COMMON)/droiddoc-srcjar-list
+-
+-ifneq ($(strip $(LOCAL_ADDITIONAL_JAVA_DIR)),)
+-$(full_target): PRIVATE_ADDITIONAL_JAVA_DIR := $(LOCAL_ADDITIONAL_JAVA_DIR)
+-endif
+-
+-$(full_target): PRIVATE_OUT_DIR := $(out_dir)
+-$(full_target): PRIVATE_DROIDDOC_OPTIONS := $(LOCAL_DROIDDOC_OPTIONS)
+-$(full_target): PRIVATE_STUB_OUT_DIR := $(LOCAL_DROIDDOC_STUB_OUT_DIR)
+-$(full_target): PRIVATE_METALAVA_DOCS_STUB_OUT_DIR := $(LOCAL_DROIDDOC_METALAVA_DOCS_STUB_OUT_DIR)
+-
+-# Lists the input files for the doc build into a text file
+-# suitable for the @ syntax of javadoc.
+-# $(1): the file to create
+-# $(2): files to include
+-# $(3): list of directories to search for java files in
+-define prepare-doc-source-list
+-$(hide) mkdir -p $(dir $(1))
+-$(call dump-words-to-file, $(2), $(1))
+-$(hide) for d in $(3) ; do find $$d -name '*.java' -and -not -name '.*' >> $(1) 2> /dev/null ; done ; true
+-endef
+-
+-###########################################################
+-## Logic for droiddoc only
+-###########################################################
+-ifneq ($(strip $(LOCAL_DROIDDOC_USE_STANDARD_DOCLET)),true)
+-
+-droiddoc_templates := \
+-    $(sort $(shell find $(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR) -type f $(if $(ALLOW_MISSING_DEPENDENCIES),2>/dev/null)))
+-
+-ifdef ALLOW_MISSING_DEPENDENCIES
+-  ifndef droiddoc_templates
+-    droiddoc_templates := $(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR)
+-  endif
+-endif
+-
+-$(full_target): PRIVATE_DOCLETPATH := $(HOST_OUT_JAVA_LIBRARIES)/jsilver$(COMMON_JAVA_PACKAGE_SUFFIX):$(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX)
+-$(full_target): PRIVATE_CURRENT_BUILD := -hdf page.build $(BUILD_ID)-$(BUILD_NUMBER_FROM_FILE)
+-$(full_target): PRIVATE_CURRENT_TIME :=  -hdf page.now "$$($(DATE_FROM_FILE) "+%d %b %Y %k:%M")"
+-$(full_target): PRIVATE_CUSTOM_TEMPLATE_DIR := $(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR)
+-$(full_target): PRIVATE_IN_CUSTOM_ASSET_DIR := $(LOCAL_DROIDDOC_CUSTOM_TEMPLATE_DIR)/$(LOCAL_DROIDDOC_CUSTOM_ASSET_DIR)
+-$(full_target): PRIVATE_OUT_ASSET_DIR := $(out_dir)/$(LOCAL_DROIDDOC_ASSET_DIR)
+-$(full_target): PRIVATE_OUT_CUSTOM_ASSET_DIR := $(out_dir)/$(LOCAL_DROIDDOC_CUSTOM_ASSET_DIR)
+-
+-html_dir_files :=
+-ifneq ($(strip $(LOCAL_DROIDDOC_HTML_DIR)),)
+-$(full_target): PRIVATE_DROIDDOC_HTML_DIR := -htmldir $(LOCAL_PATH)/$(LOCAL_DROIDDOC_HTML_DIR)
+-html_dir_files := $(sort $(shell find $(LOCAL_PATH)/$(LOCAL_DROIDDOC_HTML_DIR) -type f))
+-else
+-$(full_target): PRIVATE_DROIDDOC_HTML_DIR :=
+-endif
+-ifneq ($(strip $(LOCAL_ADDITIONAL_HTML_DIR)),)
+-$(full_target): PRIVATE_ADDITIONAL_HTML_DIR := -htmldir2 $(LOCAL_PATH)/$(LOCAL_ADDITIONAL_HTML_DIR)
+-else
+-$(full_target): PRIVATE_ADDITIONAL_HTML_DIR :=
+-endif
+-
+-# TODO(nanzhang): Remove it if this is not used any more
+-$(full_target): PRIVATE_LOCAL_PATH := $(LOCAL_PATH)
+-
+-ifeq ($(strip $(LOCAL_DROIDDOC_USE_METALAVA)),true)
+-ifneq ($(LOCAL_DROIDDOC_METALAVA_PREVIOUS_API),)
+-$(full_target): PRIVATE_DROIDDOC_METALAVA_PREVIOUS_API := --previous-api $(LOCAL_DROIDDOC_METALAVA_PREVIOUS_API)
+-else
+-$(full_target): PRIVATE_DROIDDOC_METALAVA_PREVIOUS_API :=
+-endif #!LOCAL_DROIDDOC_METALAVA_PREVIOUS_API
+-
+-metalava_annotations_deps :=
+-ifeq ($(strip $(LOCAL_DROIDDOC_METALAVA_ANNOTATIONS_ENABLED)),true)
+-ifeq ($(LOCAL_DROIDDOC_METALAVA_PREVIOUS_API),)
+-$(error $(LOCAL_PATH): LOCAL_DROIDDOC_METALAVA_PREVIOUS_API has to be non-empty if metalava annotations was enabled!)
+-endif
+-ifeq ($(LOCAL_DROIDDOC_METALAVA_MERGE_ANNOTATIONS_DIR),)
+-$(error $(LOCAL_PATH): LOCAL_DROIDDOC_METALAVA_MERGE_ANNOTATIONS_DIR has to be non-empty if metalava annotations was enabled!)
+-endif
+-
+-$(full_target): PRIVATE_DROIDDOC_METALAVA_ANNOTATIONS := --include-annotations --migrate-nullness \
+-    --extract-annotations $(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGING/$(LOCAL_MODULE)_annotations.zip \
+-    --merge-annotations $(LOCAL_DROIDDOC_METALAVA_MERGE_ANNOTATIONS_DIR) \
+-    --hide HiddenTypedefConstant --hide SuperfluousPrefix --hide AnnotationExtraction
+-metalava_annotations_deps := $(sort $(shell find $(LOCAL_DROIDDOC_METALAVA_MERGE_ANNOTATIONS_DIR) -type f))
+-else
+-$(full_target): PRIVATE_DROIDDOC_METALAVA_ANNOTATIONS :=
+-endif #LOCAL_DROIDDOC_METALAVA_ANNOTATIONS_ENABLED=true
+-
+-ifneq (,$(filter --generate-documentation,$(LOCAL_DROIDDOC_OPTIONS)))
+-
+-pos = $(if $(findstring $1,$2),$(call pos,$1,$(wordlist 2,$(words $2),$2),x $3),$3)
+-metalava_args := $(wordlist 1, $(words $(call pos,--generate-documentation,$(LOCAL_DROIDDOC_OPTIONS))), \
+-    $(LOCAL_DROIDDOC_OPTIONS))
+-remaining_args :=  $(wordlist $(words $(call pos,--generate-documentation,$(LOCAL_DROIDDOC_OPTIONS))), \
+-    $(words $(LOCAL_DROIDDOC_OPTIONS)), $(LOCAL_DROIDDOC_OPTIONS))
+-doclava_args := $(wordlist 2, $(words $(remaining_args)), $(remaining_args))
+-
+-$(full_target): \
+-        $(full_src_files) $(LOCAL_GENERATED_SOURCES) \
+-        $(droiddoc_templates) \
+-        $(HOST_JDK_TOOLS_JAR) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/jsilver$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/metalava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(html_dir_files) \
+-        $(full_java_libs) \
+-        $(ZIPSYNC) \
+-        $(LOCAL_SRCJARS) \
+-        $(LOCAL_ADDITIONAL_DEPENDENCIES) \
+-        $(LOCAL_DROIDDOC_METALAVA_PREVIOUS_API) \
+-        $(metalava_annotations_deps)
+-	@echo metalava based docs: $(PRIVATE_OUT_DIR)
+-	$(hide) mkdir -p $(dir $@)
+-	$(hide) rm -rf $(PRIVATE_STUB_OUT_DIR)
+-	$(hide) rm -rf $(PRIVATE_METALAVA_DOCS_STUB_OUT_DIR)
+-	$(call prepare-doc-source-list,$(PRIVATE_SRC_LIST_FILE),$(PRIVATE_JAVA_FILES), \
+-			$(PRIVATE_SOURCE_INTERMEDIATES_DIR) $(PRIVATE_ADDITIONAL_JAVA_DIR))
+-	$(ZIPSYNC) -d $(PRIVATE_SRCJAR_INTERMEDIATES_DIR) -l $(PRIVATE_SRCJAR_LIST_FILE) -f "*.java" $(PRIVATE_SRCJARS)
+-	$(hide) ( \
+-		$(JAVA) -jar $(HOST_OUT_JAVA_LIBRARIES)/metalava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-                -encoding UTF-8 -source 1.8 \@$(PRIVATE_SRC_LIST_FILE) \@$(PRIVATE_SRCJAR_LIST_FILE) \
+-                $(addprefix -bootclasspath ,$(PRIVATE_BOOTCLASSPATH)) \
+-                $(addprefix -classpath ,$(PRIVATE_CLASSPATH)) \
+-                --sourcepath $(PRIVATE_SOURCE_PATH) \
+-                --no-banner --color --quiet \
+-                $(addprefix --stubs ,$(PRIVATE_STUB_OUT_DIR)) \
+-                $(addprefix --doc-stubs ,$(PRIVATE_METALAVA_DOCS_STUB_OUT_DIR)) \
+-                --write-stubs-source-list $(intermediates.COMMON)/stubs-src-list \
+-                $(metalava_args) $(PRIVATE_DROIDDOC_METALAVA_PREVIOUS_API) $(PRIVATE_DROIDDOC_METALAVA_ANNOTATIONS) \
+-                $(JAVADOC) -encoding UTF-8 -source 1.8 STUBS_SOURCE_LIST \
+-                -J-Xmx1600m -J-XX:-OmitStackTraceInFastThrow -XDignore.symbol.file \
+-                -quiet -doclet com.google.doclava.Doclava -docletpath $(PRIVATE_DOCLETPATH) \
+-                -templatedir $(PRIVATE_CUSTOM_TEMPLATE_DIR) \
+-                $(PRIVATE_DROIDDOC_HTML_DIR) $(PRIVATE_ADDITIONAL_HTML_DIR) \
+-                $(addprefix -bootclasspath ,$(PRIVATE_BOOTCLASSPATH)) \
+-                $(addprefix -classpath ,$(PRIVATE_CLASSPATH)) \
+-                -sourcepath $(PRIVATE_SOURCE_PATH) \
+-                -d $(PRIVATE_OUT_DIR) \
+-                $(PRIVATE_CURRENT_BUILD) $(PRIVATE_CURRENT_TIME) $(doclava_args) \
+-        && touch -f $@ ) || (rm -rf $(PRIVATE_OUT_DIR) $(PRIVATE_SRC_LIST_FILE); exit 45)
+-else
+-# no docs generation
+-$(full_target): \
+-        $(full_src_files) $(LOCAL_GENERATED_SOURCES) \
+-        $(full_java_libs) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/metalava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(ZIPSYNC) \
+-        $(LOCAL_SRCJARS) \
+-        $(LOCAL_ADDITIONAL_DEPENDENCIES)
+-	@echo metalava based stubs: $@
+-	$(hide) mkdir -p $(dir $@)
+-	$(hide) rm -rf $(PRIVATE_STUB_OUT_DIR)
+-	$(call prepare-doc-source-list,$(PRIVATE_SRC_LIST_FILE),$(PRIVATE_JAVA_FILES), \
+-			$(PRIVATE_SOURCE_INTERMEDIATES_DIR) $(PRIVATE_ADDITIONAL_JAVA_DIR))
+-	$(ZIPSYNC) -d $(PRIVATE_SRCJAR_INTERMEDIATES_DIR) -l $(PRIVATE_SRCJAR_LIST_FILE) -f "*.java" $(PRIVATE_SRCJARS)
+-	$(hide) ( \
+-		$(JAVA) -jar $(HOST_OUT_JAVA_LIBRARIES)/metalava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-                -encoding UTF-8 -source 1.8 \@$(PRIVATE_SRC_LIST_FILE) \@$(PRIVATE_SRCJAR_LIST_FILE) \
+-                $(addprefix -bootclasspath ,$(PRIVATE_BOOTCLASSPATH)) \
+-                $(addprefix -classpath ,$(PRIVATE_CLASSPATH)) \
+-                --sourcepath $(PRIVATE_SOURCE_PATH) \
+-                $(PRIVATE_DROIDDOC_OPTIONS) $(PRIVATE_DROIDDOC_METALAVA_PREVIOUS_API) $(PRIVATE_DROIDDOC_METALAVA_ANNOTATIONS) \
+-                --no-banner --color --quiet \
+-                $(addprefix --stubs ,$(PRIVATE_STUB_OUT_DIR)) \
+-        && touch -f $@ ) || (rm -rf $(PRIVATE_SRC_LIST_FILE); exit 45)
+-
+-endif # stubs + docs generation
+-ifeq ($(strip $(LOCAL_DROIDDOC_METALAVA_ANNOTATIONS_ENABLED)),true)
+-$(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGING/$(LOCAL_MODULE)_annotations.zip: $(full_target)
+-endif
+-
+-else # doclava based droiddoc generation
+-
+-# TODO(tobiast): Clean this up once we move to -source 1.9.
+-# OpenJDK 9 does not have the concept of a "boot classpath" so we should
+-# then rename PRIVATE_BOOTCLASSPATH to PRIVATE_MODULE or similar. For now,
+-# keep -bootclasspath here since it works in combination with -source 1.8.
+-$(full_target): \
+-        $(full_src_files) $(LOCAL_GENERATED_SOURCES) \
+-        $(droiddoc_templates) \
+-        $(HOST_JDK_TOOLS_JAR) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/jsilver$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX) \
+-        $(html_dir_files) \
+-        $(full_java_libs) \
+-        $(ZIPSYNC) \
+-        $(LOCAL_SRCJARS) \
+-        $(LOCAL_ADDITIONAL_DEPENDENCIES)
+-	@echo Docs droiddoc: $(PRIVATE_OUT_DIR)
+-	$(hide) mkdir -p $(dir $@)
+-	$(hide) rm -rf $(PRIVATE_STUB_OUT_DIR)
+-	$(call prepare-doc-source-list,$(PRIVATE_SRC_LIST_FILE),$(PRIVATE_JAVA_FILES), \
+-			$(PRIVATE_SOURCE_INTERMEDIATES_DIR) $(PRIVATE_ADDITIONAL_JAVA_DIR))
+-	$(ZIPSYNC) -d $(PRIVATE_SRCJAR_INTERMEDIATES_DIR) -l $(PRIVATE_SRCJAR_LIST_FILE) -f "*.java" $(PRIVATE_SRCJARS)
+-	$(hide) ( \
+-		$(JAVADOC) \
+-                -encoding UTF-8 -source 1.8 \@$(PRIVATE_SRC_LIST_FILE) \@$(PRIVATE_SRCJAR_LIST_FILE) \
+-                -J-Xmx1600m -J-XX:-OmitStackTraceInFastThrow -XDignore.symbol.file \
+-                -quiet -doclet com.google.doclava.Doclava -docletpath $(PRIVATE_DOCLETPATH) \
+-                -templatedir $(PRIVATE_CUSTOM_TEMPLATE_DIR) \
+-                $(PRIVATE_DROIDDOC_HTML_DIR) $(PRIVATE_ADDITIONAL_HTML_DIR) \
+-                $(addprefix -bootclasspath ,$(PRIVATE_BOOTCLASSPATH)) \
+-                $(addprefix -classpath ,$(PRIVATE_CLASSPATH)) \
+-                -sourcepath $(PRIVATE_SOURCE_PATH)$(addprefix :,$(PRIVATE_CLASSPATH)) \
+-                -d $(PRIVATE_OUT_DIR) \
+-                $(PRIVATE_CURRENT_BUILD) $(PRIVATE_CURRENT_TIME) $(PRIVATE_DROIDDOC_OPTIONS) \
+-                $(addprefix -stubs ,$(PRIVATE_STUB_OUT_DIR)) \
+-        && touch -f $@ ) || (rm -rf $(PRIVATE_OUT_DIR) $(PRIVATE_SRC_LIST_FILE); exit 45)
+-endif #LOCAL_DROIDDOC_USE_METALAVA
+-
+-else
+-
+-###########################################################
+-## Logic for javadoc only
+-###########################################################
+-ifdef USE_OPENJDK9
+-# For OpenJDK 9 we use --patch-module to define the core libraries code.
+-# TODO(tobiast): Reorganize this when adding proper support for OpenJDK 9
+-# modules. Here we treat all code in core libraries as being in java.base
+-# to work around the OpenJDK 9 module system. http://b/62049770
+-$(full_target): PRIVATE_BOOTCLASSPATH_ARG := --patch-module=java.base=$(PRIVATE_BOOTCLASSPATH)
+-else
+-# For OpenJDK 8 we can use -bootclasspath to define the core libraries code.
+-$(full_target): PRIVATE_BOOTCLASSPATH_ARG := $(addprefix -bootclasspath ,$(PRIVATE_BOOTCLASSPATH))
+-endif
+-$(full_target): $(full_src_files) $(LOCAL_GENERATED_SOURCES) $(full_java_libs) $(ZIPSYNC) $(LOCAL_SRCJARS) $(LOCAL_ADDITIONAL_DEPENDENCIES)
+-	@echo Docs javadoc: $(PRIVATE_OUT_DIR)
+-	@mkdir -p $(dir $@)
+-	$(call prepare-doc-source-list,$(PRIVATE_SRC_LIST_FILE),$(PRIVATE_JAVA_FILES), \
+-			$(PRIVATE_SOURCE_INTERMEDIATES_DIR) $(PRIVATE_ADDITIONAL_JAVA_DIR))
+-	$(ZIPSYNC) -d $(PRIVATE_SRCJAR_INTERMEDIATES_DIR) -l $(PRIVATE_SRCJAR_LIST_FILE) -f "*.java" $(PRIVATE_SRCJARS)
+-	$(hide) ( \
+-		$(JAVADOC) -encoding UTF-8 \@$(PRIVATE_SRC_LIST_FILE) \@$(PRIVATE_SRCJAR_LIST_FILE) \
+-                $(PRIVATE_DROIDDOC_OPTIONS) -J-Xmx1024m -XDignore.symbol.file -Xdoclint:none -quiet \
+-                $(addprefix -classpath ,$(PRIVATE_CLASSPATH)) $(PRIVATE_BOOTCLASSPATH_ARG) \
+-                -sourcepath $(PRIVATE_SOURCE_PATH) \
+-                -d $(PRIVATE_OUT_DIR) \
+-        && touch -f $@ \
+-    ) || (rm -rf $(PRIVATE_OUT_DIR) $(PRIVATE_SRC_LIST_FILE); exit 45)
+-
+-endif # !LOCAL_DROIDDOC_USE_STANDARD_DOCLET
+-
+-ALL_DOCS += $(full_target)
+-
+-.PHONY: $(LOCAL_MODULE)-docs
+-$(LOCAL_MODULE)-docs : $(full_target)
+-
+-ifeq ($(strip $(LOCAL_UNINSTALLABLE_MODULE)),)
+-
+-# Define a rule to create a zip of these docs.
+-out_zip := $(OUT_DOCS)/$(LOCAL_MODULE)-docs.zip
+-$(out_zip): PRIVATE_DOCS_DIR := $(out_dir)
+-$(out_zip): $(full_target)
+-	@echo Package docs: $@
+-	@rm -f $@
+-	@mkdir -p $(dir $@)
+-	$(hide) ( F=$$(pwd)/$@ ; cd $(PRIVATE_DOCS_DIR) && zip -rqX $$F * )
+-
+-$(LOCAL_MODULE)-docs.zip : $(out_zip)
+-
+-$(call dist-for-goals,docs,$(out_zip))
+-
+-endif #!LOCAL_UNINSTALLABLE_MODULE
+diff --git a/core/droiddoc.mk b/core/droiddoc.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/droiddoc.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/host_dalvik_java_library.mk b/core/host_dalvik_java_library.mk
+deleted file mode 100644
+index 1ef0ccb..0000000
+--- a/core/host_dalvik_java_library.mk
++++ /dev/null
+@@ -1,224 +0,0 @@
+-#
+-# Copyright (C) 2013 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-$(call record-module-type,HOST_DALVIK_JAVA_LIBRARY)
+-
+-#
+-# Rules for building a host dalvik java library. These libraries
+-# are meant to be used by a dalvik VM instance running on the host.
+-# They will be compiled against libcore and not the host JRE.
+-#
+-
+-ifeq ($(HOST_OS),linux)
+-USE_CORE_LIB_BOOTCLASSPATH := true
+-
+-#######################################
+-include $(BUILD_SYSTEM)/host_java_library_common.mk
+-#######################################
+-
+-full_classes_turbine_jar := $(intermediates.COMMON)/classes-turbine.jar
+-full_classes_header_jarjar := $(intermediates.COMMON)/classes-header-jarjar.jar
+-full_classes_header_jar := $(intermediates.COMMON)/classes-header.jar
+-full_classes_compiled_jar := $(intermediates.COMMON)/classes-full-debug.jar
+-full_classes_combined_jar := $(intermediates.COMMON)/classes-combined.jar
+-full_classes_desugar_jar := $(intermediates.COMMON)/desugar.classes.jar
+-full_classes_jarjar_jar := $(intermediates.COMMON)/classes-jarjar.jar
+-full_classes_jar := $(intermediates.COMMON)/classes.jar
+-built_dex := $(intermediates.COMMON)/classes.dex
+-java_source_list_file := $(intermediates.COMMON)/java-source-list
+-
+-LOCAL_INTERMEDIATE_TARGETS += \
+-    $(full_classes_turbine_jar) \
+-    $(full_classes_compiled_jar) \
+-    $(full_classes_combined_jar) \
+-    $(full_classes_desugar_jar) \
+-    $(full_classes_jarjar_jar) \
+-    $(full_classes_jar) \
+-    $(built_dex) \
+-    $(java_source_list_file)
+-
+-# See comment in java.mk
+-ifndef LOCAL_CHECKED_MODULE
+-ifeq ($(LOCAL_IS_STATIC_JAVA_LIBRARY),true)
+-LOCAL_CHECKED_MODULE := $(full_classes_compiled_jar)
+-else
+-LOCAL_CHECKED_MODULE := $(built_dex)
+-endif
+-endif
+-
+-#######################################
+-include $(BUILD_SYSTEM)/base_rules.mk
+-#######################################
+-java_sources := $(addprefix $(LOCAL_PATH)/, $(filter %.java,$(LOCAL_SRC_FILES))) \
+-                $(filter %.java,$(LOCAL_GENERATED_SOURCES))
+-all_java_sources := $(java_sources)
+-
+-include $(BUILD_SYSTEM)/java_common.mk
+-
+-include $(BUILD_SYSTEM)/sdk_check.mk
+-
+-$(cleantarget): PRIVATE_CLEAN_FILES += $(intermediates.COMMON)
+-
+-# List of dependencies for anything that needs all java sources in place
+-java_sources_deps := \
+-    $(java_sources) \
+-    $(java_resource_sources) \
+-    $(proto_java_sources_file_stamp) \
+-    $(LOCAL_SRCJARS) \
+-    $(LOCAL_ADDITIONAL_DEPENDENCIES)
+-
+-$(java_source_list_file): $(java_sources_deps)
+-	$(write-java-source-list)
+-
+-$(full_classes_compiled_jar): PRIVATE_JAVA_LAYERS_FILE := $(layers_file)
+-$(full_classes_compiled_jar): PRIVATE_JAVACFLAGS := $(LOCAL_JAVACFLAGS) $(annotation_processor_flags)
+-$(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_FILES :=
+-$(full_classes_compiled_jar): PRIVATE_JAR_PACKAGES :=
+-$(full_classes_compiled_jar): PRIVATE_JAR_EXCLUDE_PACKAGES :=
+-$(full_classes_compiled_jar): PRIVATE_SRCJARS := $(LOCAL_SRCJARS)
+-$(full_classes_compiled_jar): PRIVATE_SRCJAR_LIST_FILE := $(intermediates.COMMON)/srcjar-list
+-$(full_classes_compiled_jar): PRIVATE_SRCJAR_INTERMEDIATES_DIR := $(intermediates.COMMON)/srcjars
+-$(full_classes_compiled_jar): \
+-    $(java_source_list_file) \
+-    $(java_sources_deps) \
+-    $(full_java_header_libs) \
+-    $(full_java_bootclasspath_libs) \
+-    $(full_java_system_modules_deps) \
+-    $(annotation_processor_deps) \
+-    $(NORMALIZE_PATH) \
+-    $(JAR_ARGS) \
+-    $(ZIPSYNC) \
+-    | $(SOONG_JAVAC_WRAPPER)
+-	$(transform-host-java-to-dalvik-package)
+-
+-ifneq ($(TURBINE_ENABLED),false)
+-
+-$(full_classes_turbine_jar): PRIVATE_JAVACFLAGS := $(LOCAL_JAVACFLAGS) $(annotation_processor_flags)
+-$(full_classes_turbine_jar): PRIVATE_DONT_DELETE_JAR_META_INF := $(LOCAL_DONT_DELETE_JAR_META_INF)
+-$(full_classes_turbine_jar): PRIVATE_SRCJARS := $(LOCAL_SRCJARS)
+-$(full_classes_turbine_jar): \
+-    $(java_source_list_file) \
+-    $(java_sources_deps) \
+-    $(full_java_header_libs) \
+-    $(full_java_bootclasspath_libs) \
+-    $(NORMALIZE_PATH) \
+-    $(JAR_ARGS) \
+-    $(ZIPTIME) \
+-    | $(TURBINE) \
+-    $(MERGE_ZIPS)
+-	$(transform-java-to-header.jar)
+-
+-.KATI_RESTAT: $(full_classes_turbine_jar)
+-
+-# Run jarjar before generate classes-header.jar if necessary.
+-ifneq ($(strip $(LOCAL_JARJAR_RULES)),)
+-$(full_classes_header_jarjar): PRIVATE_JARJAR_RULES := $(LOCAL_JARJAR_RULES)
+-$(full_classes_header_jarjar): $(full_classes_turbine_jar) $(LOCAL_JARJAR_RULES) | $(JARJAR)
+-	@echo Header JarJar: $@
+-	$(hide) $(JAVA) -jar $(JARJAR) process $(PRIVATE_JARJAR_RULES) $< $@
+-else
+-full_classes_header_jarjar := $(full_classes_turbine_jar)
+-endif
+-
+-$(eval $(call copy-one-file,$(full_classes_header_jarjar),$(full_classes_header_jar)))
+-
+-endif # TURBINE_ENABLED != false
+-
+-$(full_classes_combined_jar): PRIVATE_DONT_DELETE_JAR_META_INF := $(LOCAL_DONT_DELETE_JAR_META_INF)
+-$(full_classes_combined_jar): $(full_classes_compiled_jar) \
+-                              $(jar_manifest_file) \
+-                              $(full_static_java_libs)  | $(MERGE_ZIPS)
+-	$(if $(PRIVATE_JAR_MANIFEST), $(hide) sed -e "s/%BUILD_NUMBER%/$(BUILD_NUMBER_FROM_FILE)/" \
+-            $(PRIVATE_JAR_MANIFEST) > $(dir $@)/manifest.mf)
+-	$(MERGE_ZIPS) -j --ignore-duplicates $(if $(PRIVATE_JAR_MANIFEST),-m $(dir $@)/manifest.mf) \
+-            $(if $(PRIVATE_DONT_DELETE_JAR_META_INF),,-stripDir META-INF -zipToNotStrip $<) \
+-            $@ $< $(call reverse-list,$(PRIVATE_STATIC_JAVA_LIBRARIES))
+-
+-# Run jarjar if necessary, otherwise just copy the file.
+-ifneq ($(strip $(LOCAL_JARJAR_RULES)),)
+-$(full_classes_jarjar_jar): PRIVATE_JARJAR_RULES := $(LOCAL_JARJAR_RULES)
+-$(full_classes_jarjar_jar): $(full_classes_combined_jar) $(LOCAL_JARJAR_RULES) | $(JARJAR)
+-	@echo JarJar: $@
+-	$(hide) $(JAVA) -jar $(JARJAR) process $(PRIVATE_JARJAR_RULES) $< $@
+-else
+-full_classes_jarjar_jar := $(full_classes_combined_jar)
+-endif
+-
+-$(eval $(call copy-one-file,$(full_classes_jarjar_jar),$(full_classes_jar)))
+-
+-ifneq ($(USE_D8_DESUGAR),true)
+-my_desugaring :=
+-ifeq ($(LOCAL_JAVA_LANGUAGE_VERSION),1.8)
+-my_desugaring := true
+-$(full_classes_desugar_jar): PRIVATE_DX_FLAGS := $(LOCAL_DX_FLAGS)
+-$(full_classes_desugar_jar): $(full_classes_jar) $(full_java_header_libs) $(DESUGAR)
+-	$(desugar-classes-jar)
+-endif
+-else
+-my_desugaring :=
+-endif
+-
+-ifndef my_desugaring
+-full_classes_desugar_jar := $(full_classes_jar)
+-endif
+-
+-ifeq ($(LOCAL_IS_STATIC_JAVA_LIBRARY),true)
+-# No dex; all we want are the .class files with resources.
+-$(LOCAL_BUILT_MODULE) : $(java_resource_sources)
+-$(LOCAL_BUILT_MODULE) : $(full_classes_jar)
+-	@echo "host Static Jar: $(PRIVATE_MODULE) ($@)"
+-	$(copy-file-to-target)
+-
+-else # !LOCAL_IS_STATIC_JAVA_LIBRARY
+-$(built_dex): PRIVATE_INTERMEDIATES_DIR := $(intermediates.COMMON)
+-$(built_dex): PRIVATE_DX_FLAGS := $(LOCAL_DX_FLAGS)
+-$(built_dex): $(full_classes_desugar_jar) $(DX) $(ZIP2ZIP)
+-ifneq ($(USE_D8_DESUGAR),true)
+-	$(transform-classes.jar-to-dex)
+-else
+-	$(transform-classes-d8.jar-to-dex)
+-endif
+-
+-$(LOCAL_BUILT_MODULE): PRIVATE_DEX_FILE := $(built_dex)
+-$(LOCAL_BUILT_MODULE): PRIVATE_SOURCE_ARCHIVE := $(full_classes_jarjar_jar)
+-$(LOCAL_BUILT_MODULE): PRIVATE_DONT_DELETE_JAR_DIRS := $(LOCAL_DONT_DELETE_JAR_DIRS)
+-$(LOCAL_BUILT_MODULE): $(built_dex) $(java_resource_sources)
+-	@echo "Host Jar: $(PRIVATE_MODULE) ($@)"
+-	$(call initialize-package-file,$(PRIVATE_SOURCE_ARCHIVE),$@)
+-	$(add-dex-to-package)
+-
+-endif # !LOCAL_IS_STATIC_JAVA_LIBRARY
+-
+-ifneq (,$(filter-out current system_current test_current core_current, $(LOCAL_SDK_VERSION)))
+-  my_default_app_target_sdk := $(call get-numeric-sdk-version,$(LOCAL_SDK_VERSION))
+-  my_sdk_version := $(call get-numeric-sdk-version,$(LOCAL_SDK_VERSION))
+-else
+-  my_default_app_target_sdk := $(DEFAULT_APP_TARGET_SDK)
+-  my_sdk_version := $(PLATFORM_SDK_VERSION)
+-endif
+-
+-ifdef LOCAL_MIN_SDK_VERSION
+-  my_min_sdk_version := $(LOCAL_MIN_SDK_VERSION)
+-else
+-  my_min_sdk_version := $(call codename-or-sdk-to-sdk,$(my_default_app_target_sdk))
+-endif
+-
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_DEFAULT_APP_TARGET_SDK := $(my_default_app_target_sdk)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_SDK_VERSION := $(my_sdk_version)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_MIN_SDK_VERSION := $(my_min_sdk_version)
+-
+-USE_CORE_LIB_BOOTCLASSPATH :=
+-
+-endif
+diff --git a/core/host_dalvik_java_library.mk b/core/host_dalvik_java_library.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/host_dalvik_java_library.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/host_dalvik_static_java_library.mk b/core/host_dalvik_static_java_library.mk
+deleted file mode 100644
+index 78faf73..0000000
+--- a/core/host_dalvik_static_java_library.mk
++++ /dev/null
+@@ -1,28 +0,0 @@
+-#
+-# Copyright (C) 2013 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-$(call record-module-type,HOST_DALVIK_STATIC_JAVA_LIBRARY)
+-
+-#
+-# Rules for building a host dalvik static java library.
+-# These libraries will be compiled against libcore and not the host
+-# JRE.
+-#
+-LOCAL_UNINSTALLABLE_MODULE := true
+-LOCAL_IS_STATIC_JAVA_LIBRARY := true
+-
+-include $(BUILD_SYSTEM)/host_dalvik_java_library.mk
+-
+-LOCAL_IS_STATIC_JAVA_LIBRARY :=
+diff --git a/core/host_dalvik_static_java_library.mk b/core/host_dalvik_static_java_library.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/host_dalvik_static_java_library.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/java_library.mk b/core/java_library.mk
+deleted file mode 100644
+index 1b914f5..0000000
+--- a/core/java_library.mk
++++ /dev/null
+@@ -1,104 +0,0 @@
+-###########################################################
+-## Standard rules for building a java library.
+-##
+-###########################################################
+-$(call record-module-type,JAVA_LIBRARY)
+-
+-ifdef LOCAL_IS_HOST_MODULE
+-$(error $(LOCAL_PATH): Host java libraries must use BUILD_HOST_JAVA_LIBRARY)
+-endif
+-
+-LOCAL_MODULE_SUFFIX := $(COMMON_JAVA_PACKAGE_SUFFIX)
+-LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+-
+-ifneq (,$(LOCAL_ASSET_DIR))
+-$(error $(LOCAL_PATH): Target java libraries may not set LOCAL_ASSET_DIR)
+-endif
+-
+-ifneq (true,$(LOCAL_IS_STATIC_JAVA_LIBRARY))
+-ifneq (,$(LOCAL_RESOURCE_DIR))
+-$(error $(LOCAL_PATH): Target java libraries may not set LOCAL_RESOURCE_DIR)
+-endif
+-# base_rules.mk looks at this
+-all_res_assets :=
+-endif
+-
+-LOCAL_BUILT_MODULE_STEM := javalib.jar
+-
+-# For java libraries, other modules should depend on
+-# out/target/common/obj/JAVA_LIBRARIES/.../classes.jar.
+-# There are some dependencies outside the build system that assume static
+-# java libraries produce javalib.jar, so we will copy classes.jar there too.
+-intermediates.COMMON := $(call local-intermediates-dir,COMMON)
+-common_javalib.jar := $(intermediates.COMMON)/javalib.jar
+-dex_preopt_profile_src_file := $(common_javalib.jar)
+-LOCAL_INTERMEDIATE_TARGETS += $(common_javalib.jar)
+-
+-ifeq ($(LOCAL_PROGUARD_ENABLED),disabled)
+-  LOCAL_PROGUARD_ENABLED :=
+-endif
+-
+-ifeq (true,$(EMMA_INSTRUMENT))
+-ifeq (true,$(LOCAL_EMMA_INSTRUMENT))
+-ifeq (true,$(EMMA_INSTRUMENT_STATIC))
+-LOCAL_STATIC_JAVA_LIBRARIES += jacocoagent
+-# Exclude jacoco classes from proguard
+-LOCAL_PROGUARD_FLAGS += -include $(BUILD_SYSTEM)/proguard.jacoco.flags
+-endif # LOCAL_EMMA_INSTRUMENT
+-endif # EMMA_INSTRUMENT_STATIC
+-else
+-LOCAL_EMMA_INSTRUMENT := false
+-endif # EMMA_INSTRUMENT
+-
+-#################################
+-include $(BUILD_SYSTEM)/java.mk
+-#################################
+-
+-ifeq ($(LOCAL_IS_STATIC_JAVA_LIBRARY),true)
+-# There are some dependencies outside the build system that assume classes.jar
+-# is available as javalib.jar so copy it there too.
+-$(eval $(call copy-one-file,$(full_classes_proguard_jar),$(common_javalib.jar)))
+-
+-$(eval $(call copy-one-file,$(full_classes_proguard_jar),$(LOCAL_BUILT_MODULE)))
+-
+-else # !LOCAL_IS_STATIC_JAVA_LIBRARY
+-
+-$(common_javalib.jar): PRIVATE_DEX_FILE := $(built_dex)
+-$(common_javalib.jar): PRIVATE_SOURCE_ARCHIVE := $(full_classes_pre_proguard_jar)
+-$(common_javalib.jar): PRIVATE_DONT_DELETE_JAR_DIRS := $(LOCAL_DONT_DELETE_JAR_DIRS)
+-$(common_javalib.jar) : $(built_dex) $(java_resource_sources) | $(ZIPTIME) $(ZIPALIGN)
+-	@echo "target Jar: $(PRIVATE_MODULE) ($@)"
+-	$(call initialize-package-file,$(PRIVATE_SOURCE_ARCHIVE),$@.tmp)
+-	$(call add-dex-to-package-arg,$@.tmp)
+-	$(hide) $(ZIPTIME) $@.tmp
+-	$(call commit-change-for-toc,$@)
+-ifeq (true, $(LOCAL_UNCOMPRESS_DEX))
+-	$(uncompress-dexs)
+-	$(align-package)
+-endif  # LOCAL_UNCOMPRESS_DEX
+-
+-.KATI_RESTAT: $(common_javalib.jar)
+-
+-ifdef LOCAL_DEX_PREOPT
+-ifneq ($(dexpreopt_boot_jar_module),) # boot jar
+-# boot jar's rules are defined in dex_preopt.mk
+-dexpreopted_boot_jar := $(DEXPREOPT_BOOT_JAR_DIR_FULL_PATH)/$(dexpreopt_boot_jar_module)_nodex.jar
+-$(eval $(call copy-one-file,$(dexpreopted_boot_jar),$(LOCAL_BUILT_MODULE)))
+-
+-# For libart boot jars, we don't have .odex files.
+-else # ! boot jar
+-$(built_odex): PRIVATE_MODULE := $(LOCAL_MODULE)
+-# Use pattern rule - we may have multiple built odex files.
+-$(built_odex) : $(dir $(LOCAL_BUILT_MODULE))% : $(common_javalib.jar)
+-	@echo "Dexpreopt Jar: $(PRIVATE_MODULE) ($@)"
+-	$(call dexpreopt-one-file,$<,$@)
+-
+-$(eval $(call dexpreopt-copy-jar,$(common_javalib.jar),$(LOCAL_BUILT_MODULE),$(LOCAL_DEX_PREOPT)))
+-
+-endif # ! boot jar
+-
+-else # LOCAL_DEX_PREOPT
+-$(eval $(call copy-one-file,$(common_javalib.jar),$(LOCAL_BUILT_MODULE)))
+-
+-endif # LOCAL_DEX_PREOPT
+-endif # !LOCAL_IS_STATIC_JAVA_LIBRARY
+diff --git a/core/java_library.mk b/core/java_library.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/java_library.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/main.mk b/core/main.mk
+index 1946edb..035856b 100644
+--- a/core/main.mk
++++ b/core/main.mk
+@@ -455,6 +455,9 @@ subdir_makefiles_total := $(words $(subdir_makefiles))
+ 
+ $(foreach mk,$(subdir_makefiles),$(info [$(call inc_and_print,subdir_makefiles_inc)/$(subdir_makefiles_total)] including $(mk) ...)$(eval include $(mk)))
+ 
++ALL_MODULES := $(HYBRIS_TARGETS)
++ALL_LINK_TYPES := $(foreach r,$(ALL_MODULES),$(shell echo $(filter %:%:$(r),$(ALL_LINK_TYPES))))
++
+ ifneq (,$(PDK_FUSION_PLATFORM_ZIP)$(PDK_FUSION_PLATFORM_DIR))
+ # Bring in the PDK platform.zip modules.
+ include $(BUILD_SYSTEM)/pdk_fusion_modules.mk
+diff --git a/core/package.mk b/core/package.mk
+deleted file mode 100644
+index f3713fc..0000000
+--- a/core/package.mk
++++ /dev/null
+@@ -1,84 +0,0 @@
+-# We don't automatically set up rules to build packages for both
+-# TARGET_ARCH and TARGET_2ND_ARCH.
+-# To build it for TARGET_2ND_ARCH in a 64bit product, use "LOCAL_MULTILIB := 32".
+-
+-$(call record-module-type,PACKAGE)
+-
+-my_prefix := TARGET_
+-include $(BUILD_SYSTEM)/multilib.mk
+-
+-ifeq ($(TARGET_TRANSLATE_2ND_ARCH),true)
+-  ifneq ($(TARGET_SUPPORTS_64_BIT_APPS)|$(my_module_multilib),|64)
+-    my_module_multilib := first
+-  endif
+-endif
+-
+-ifeq ($(TARGET_SUPPORTS_32_BIT_APPS)|$(TARGET_SUPPORTS_64_BIT_APPS),true|true)
+-  # packages default to building for either architecture,
+-  # the preferred if its supported, otherwise the non-preferred.
+-else ifeq ($(TARGET_SUPPORTS_64_BIT_APPS),true)
+-  # only 64-bit apps supported
+-  ifeq ($(filter $(my_module_multilib),64 both first),$(my_module_multilib))
+-    # if my_module_multilib was 64, both, first, or unset, build for 64-bit
+-    my_module_multilib := 64
+-  else
+-    # otherwise don't build this app
+-    my_module_multilib := none
+-  endif
+-else
+-  # only 32-bit apps supported
+-  ifeq ($(filter $(my_module_multilib),32 both),$(my_module_multilib))
+-    # if my_module_multilib was 32, both, or unset, build for 32-bit
+-    my_module_multilib := 32
+-  else ifeq ($(my_module_multilib),first)
+-    ifndef TARGET_IS_64_BIT
+-      # if my_module_multilib was first and this is a 32-bit build, build for
+-      # 32-bit
+-      my_module_multilib := 32
+-    else
+-      # if my_module_multilib was first and this is a 64-bit build, don't build
+-      # this app
+-      my_module_multilib := none
+-    endif
+-  else
+-    # my_module_mulitlib was 64 or none, don't build this app
+-    my_module_multilib := none
+-  endif
+-endif
+-
+-LOCAL_NO_2ND_ARCH_MODULE_SUFFIX := true
+-
+-# if TARGET_PREFER_32_BIT_APPS is set, try to build 32-bit first
+-ifdef TARGET_2ND_ARCH
+-ifeq ($(TARGET_PREFER_32_BIT_APPS),true)
+-LOCAL_2ND_ARCH_VAR_PREFIX := $(TARGET_2ND_ARCH_VAR_PREFIX)
+-else
+-LOCAL_2ND_ARCH_VAR_PREFIX :=
+-endif
+-endif
+-
+-# check if preferred arch is supported
+-include $(BUILD_SYSTEM)/module_arch_supported.mk
+-ifeq ($(my_module_arch_supported),true)
+-# first arch is supported
+-include $(BUILD_SYSTEM)/package_internal.mk
+-else ifneq (,$(TARGET_2ND_ARCH))
+-# check if the non-preferred arch is the primary or secondary
+-ifeq ($(TARGET_PREFER_32_BIT_APPS),true)
+-LOCAL_2ND_ARCH_VAR_PREFIX :=
+-else
+-LOCAL_2ND_ARCH_VAR_PREFIX := $(TARGET_2ND_ARCH_VAR_PREFIX)
+-endif
+-
+-# check if non-preferred arch is supported
+-include $(BUILD_SYSTEM)/module_arch_supported.mk
+-ifeq ($(my_module_arch_supported),true)
+-# secondary arch is supported
+-include $(BUILD_SYSTEM)/package_internal.mk
+-endif
+-endif # TARGET_2ND_ARCH
+-
+-LOCAL_2ND_ARCH_VAR_PREFIX :=
+-LOCAL_NO_2ND_ARCH_MODULE_SUFFIX :=
+-
+-my_module_arch_supported :=
+diff --git a/core/package.mk b/core/package.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/package.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+diff --git a/core/static_java_library.mk b/core/static_java_library.mk
+deleted file mode 100644
+index 0429dd2..0000000
+--- a/core/static_java_library.mk
++++ /dev/null
+@@ -1,237 +0,0 @@
+-#
+-# Copyright (C) 2008 The Android Open Source Project
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#      http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-#
+-
+-# Standard rules for building a "static" java library.
+-# Static java libraries are not installed, nor listed on any
+-# classpaths.  They can, however, be included wholesale in
+-# other java modules.
+-
+-$(call record-module-type,STATIC_JAVA_LIBRARY)
+-LOCAL_UNINSTALLABLE_MODULE := true
+-LOCAL_IS_STATIC_JAVA_LIBRARY := true
+-LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+-
+-intermediates.COMMON := $(call local-intermediates-dir,COMMON)
+-
+-my_res_package :=
+-
+-ifdef LOCAL_AAPT2_ONLY
+-LOCAL_USE_AAPT2 := true
+-endif
+-
+-# Process Support Library dependencies.
+-include $(BUILD_SYSTEM)/support_libraries.mk
+-
+-# Hack to build static Java library with Android resource
+-# See bug 5714516
+-all_resources :=
+-need_compile_res :=
+-# A static Java library needs to explicily set LOCAL_RESOURCE_DIR.
+-ifdef LOCAL_RESOURCE_DIR
+-need_compile_res := true
+-LOCAL_RESOURCE_DIR := $(foreach d,$(LOCAL_RESOURCE_DIR),$(call clean-path,$(d)))
+-endif
+-ifdef LOCAL_USE_AAPT2
+-ifneq ($(LOCAL_STATIC_ANDROID_LIBRARIES),)
+-need_compile_res := true
+-endif
+-endif
+-
+-ifeq ($(need_compile_res),true)
+-all_resources := $(strip \
+-    $(foreach dir, $(LOCAL_RESOURCE_DIR), \
+-      $(addprefix $(dir)/, \
+-        $(patsubst res/%,%, \
+-          $(call find-subdir-assets,$(dir)) \
+-        ) \
+-      ) \
+-    ))
+-
+-# By default we should remove the R/Manifest classes from a static Java library,
+-# because they will be regenerated in the app that uses it.
+-# But if the static Java library will be used by a library, then we may need to
+-# keep the generated classes with "LOCAL_JAR_EXCLUDE_FILES := none".
+-ifndef LOCAL_JAR_EXCLUDE_FILES
+-LOCAL_JAR_EXCLUDE_FILES := $(ANDROID_RESOURCE_GENERATED_CLASSES)
+-endif
+-ifeq (none,$(LOCAL_JAR_EXCLUDE_FILES))
+-LOCAL_JAR_EXCLUDE_FILES :=
+-endif
+-
+-proguard_options_file :=
+-
+-ifneq ($(filter custom,$(LOCAL_PROGUARD_ENABLED)),custom)
+-  proguard_options_file := $(intermediates.COMMON)/proguard_options
+-endif
+-
+-LOCAL_PROGUARD_FLAGS := $(addprefix -include ,$(proguard_options_file)) $(LOCAL_PROGUARD_FLAGS)
+-
+-R_file_stamp := $(intermediates.COMMON)/src/R.stamp
+-LOCAL_INTERMEDIATE_TARGETS += $(R_file_stamp)
+-
+-ifdef LOCAL_USE_AAPT2
+-# For library we treat all the resource equal with no overlay.
+-my_res_resources := $(all_resources)
+-my_overlay_resources :=
+-# For libraries put everything in the COMMON intermediate directory.
+-my_res_package := $(intermediates.COMMON)/package-res.apk
+-
+-LOCAL_INTERMEDIATE_TARGETS += $(my_res_package)
+-endif  # LOCAL_USE_AAPT2
+-endif  # need_compile_res
+-
+-all_res_assets := $(all_resources)
+-
+-include $(BUILD_SYSTEM)/java_renderscript.mk
+-
+-ifeq (true,$(need_compile_res))
+-include $(BUILD_SYSTEM)/android_manifest.mk
+-
+-LOCAL_SDK_RES_VERSION:=$(strip $(LOCAL_SDK_RES_VERSION))
+-ifeq ($(LOCAL_SDK_RES_VERSION),)
+-  LOCAL_SDK_RES_VERSION:=$(LOCAL_SDK_VERSION)
+-endif
+-
+-framework_res_package_export :=
+-# Please refer to package.mk
+-ifneq ($(LOCAL_NO_STANDARD_LIBRARIES),true)
+-ifneq ($(filter-out current system_current test_current,$(LOCAL_SDK_RES_VERSION))$(if $(TARGET_BUILD_APPS),$(filter current system_current test_current,$(LOCAL_SDK_RES_VERSION))),)
+-framework_res_package_export := \
+-    $(HISTORICAL_SDK_VERSIONS_ROOT)/$(LOCAL_SDK_RES_VERSION)/android.jar
+-else
+-framework_res_package_export := \
+-    $(call intermediates-dir-for,APPS,framework-res,,COMMON)/package-export.apk
+-endif
+-endif
+-
+-ifdef LOCAL_USE_AAPT2
+-import_proguard_flag_files := $(strip $(foreach l,$(LOCAL_STATIC_ANDROID_LIBRARIES),\
+-    $(call intermediates-dir-for,JAVA_LIBRARIES,$(l),,COMMON)/export_proguard_flags))
+-$(intermediates.COMMON)/export_proguard_flags: $(import_proguard_flag_files) $(addprefix $(LOCAL_PATH)/,$(LOCAL_EXPORT_PROGUARD_FLAG_FILES))
+-	@echo "Export proguard flags: $@"
+-	rm -f $@
+-	touch $@
+-	for f in $+; do \
+-		echo -e "\n# including $$f" >>$@; \
+-		cat $$f >>$@; \
+-	done
+-import_proguard_flag_files :=
+-endif
+-
+-include $(BUILD_SYSTEM)/aapt_flags.mk
+-
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_AAPT_FLAGS := $(LOCAL_AAPT_FLAGS)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_TARGET_AAPT_CHARACTERISTICS := $(TARGET_AAPT_CHARACTERISTICS)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_MANIFEST_PACKAGE_NAME := $(LOCAL_MANIFEST_PACKAGE_NAME)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_MANIFEST_INSTRUMENTATION_FOR := $(LOCAL_MANIFEST_INSTRUMENTATION_FOR)
+-
+-# add --non-constant-id to prevent inlining constants.
+-# AAR needs text symbol file R.txt.
+-ifdef LOCAL_USE_AAPT2
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_AAPT_FLAGS := $(LOCAL_AAPT_FLAGS) --static-lib --output-text-symbols $(intermediates.COMMON)/R.txt
+-ifndef LOCAL_AAPT_NAMESPACES
+-  $(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_AAPT_FLAGS += --no-static-lib-packages
+-endif
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_PRODUCT_AAPT_CONFIG :=
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_PRODUCT_AAPT_PREF_CONFIG :=
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_TARGET_AAPT_CHARACTERISTICS :=
+-else
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_AAPT_FLAGS := $(LOCAL_AAPT_FLAGS) --non-constant-id --output-text-symbols $(intermediates.COMMON)
+-
+-my_srcjar := $(intermediates.COMMON)/aapt.srcjar
+-LOCAL_SRCJARS += $(my_srcjar)
+-$(R_file_stamp): PRIVATE_SRCJAR := $(my_srcjar)
+-$(R_file_stamp): PRIVATE_JAVA_GEN_DIR := $(intermediates.COMMON)/aapt
+-$(R_file_stamp): .KATI_IMPLICIT_OUTPUTS := $(my_srcjar)
+-endif
+-
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_ANDROID_MANIFEST := $(full_android_manifest)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_RESOURCE_PUBLICS_OUTPUT := $(intermediates.COMMON)/public_resources.xml
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_RESOURCE_DIR := $(LOCAL_RESOURCE_DIR)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_AAPT_INCLUDES := $(framework_res_package_export)
+-
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_ASSET_DIR :=
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_PROGUARD_OPTIONS_FILE := $(proguard_options_file)
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_MANIFEST_PACKAGE_NAME :=
+-$(LOCAL_INTERMEDIATE_TARGETS): PRIVATE_MANIFEST_INSTRUMENTATION_FOR :=
+-
+-ifdef LOCAL_USE_AAPT2
+-  # One more level with name res so we can zip up the flat resources that can be linked by apps.
+-  my_compiled_res_base_dir := $(intermediates.COMMON)/flat-res/res
+-  ifneq (,$(renderscript_target_api))
+-    ifneq ($(call math_gt_or_eq,$(renderscript_target_api),21),true)
+-      my_generated_res_zips := $(rs_generated_res_zip)
+-    endif  # renderscript_target_api < 21
+-  endif  # renderscript_target_api is set
+-  include $(BUILD_SYSTEM)/aapt2.mk
+-  $(my_res_package) : $(framework_res_package_export)
+-  $(my_res_package): .KATI_IMPLICIT_OUTPUTS += $(intermediates.COMMON)/R.txt
+-else
+-  $(R_file_stamp): .KATI_IMPLICIT_OUTPUTS += $(intermediates.COMMON)/R.txt
+-  $(R_file_stamp): PRIVATE_RESOURCE_LIST := $(all_resources)
+-  $(R_file_stamp) : $(all_resources) $(full_android_manifest) $(AAPT) $(SOONG_ZIP) \
+-    $(framework_res_package_export) $(rs_generated_res_zip)
+-	@echo "target R.java/Manifest.java: $(PRIVATE_MODULE) ($@)"
+-	$(create-resource-java-files)
+-	$(hide) find $(PRIVATE_JAVA_GEN_DIR) -name R.java | xargs cat > $@
+-endif  # LOCAL_USE_AAPT2
+-
+-endif # need_compile_res
+-
+-include $(BUILD_SYSTEM)/java_library.mk
+-
+-ifeq (true,$(need_compile_res))
+-
+-$(LOCAL_BUILT_MODULE): $(R_file_stamp)
+-$(java_source_list_file): $(R_file_stamp)
+-$(full_classes_compiled_jar): $(R_file_stamp)
+-$(full_classes_turbine_jar): $(R_file_stamp)
+-
+-
+-# if we have custom proguarding done use the proguarded classes jar instead of the normal classes jar
+-ifeq ($(filter custom,$(LOCAL_PROGUARD_ENABLED)),custom)
+-aar_classes_jar = $(full_classes_jar)
+-else
+-aar_classes_jar = $(full_classes_pre_proguard_jar)
+-endif
+-
+-# Rule to build AAR, archive including classes.jar, resource, etc.
+-built_aar := $(intermediates.COMMON)/javalib.aar
+-$(built_aar): PRIVATE_MODULE := $(LOCAL_MODULE)
+-$(built_aar): PRIVATE_ANDROID_MANIFEST := $(full_android_manifest)
+-$(built_aar): PRIVATE_CLASSES_JAR := $(aar_classes_jar)
+-$(built_aar): PRIVATE_RESOURCE_DIR := $(LOCAL_RESOURCE_DIR)
+-$(built_aar): PRIVATE_R_TXT := $(intermediates.COMMON)/R.txt
+-$(built_aar): $(JAR_ARGS)
+-$(built_aar) : $(aar_classes_jar) $(full_android_manifest) $(intermediates.COMMON)/R.txt
+-	@echo "target AAR:  $(PRIVATE_MODULE) ($@)"
+-	$(hide) rm -rf $(dir $@)aar && mkdir -p $(dir $@)aar/res
+-	$(hide) cp $(PRIVATE_ANDROID_MANIFEST) $(dir $@)aar/AndroidManifest.xml
+-	$(hide) cp $(PRIVATE_CLASSES_JAR) $(dir $@)aar/classes.jar
+-	# Note: Use "cp -n" to honor the resource overlay rules, if multiple res dirs exist.
+-	$(hide) $(foreach res,$(PRIVATE_RESOURCE_DIR),cp -Rfn $(res)/* $(dir $@)aar/res;)
+-	$(hide) cp $(PRIVATE_R_TXT) $(dir $@)aar/R.txt
+-	$(hide) $(JAR) -cMf $@ \
+-	  $(call jar-args-sorted-files-in-directory,$(dir $@)aar)
+-
+-# Register the aar file.
+-ALL_MODULES.$(LOCAL_MODULE).AAR := $(built_aar)
+-endif  # need_compile_res
+-
+-# Reset internal variables.
+-aar_classes_jar :=
+-all_res_assets :=
+-LOCAL_IS_STATIC_JAVA_LIBRARY :=
+diff --git a/core/static_java_library.mk b/core/static_java_library.mk
+new file mode 120000
+index 0000000..97f5a79
+--- /dev/null
++++ b/core/static_java_library.mk
+@@ -0,0 +1 @@
++clear_vars.mk
+\ No newline at end of file
+-- 
+2.7.4
+

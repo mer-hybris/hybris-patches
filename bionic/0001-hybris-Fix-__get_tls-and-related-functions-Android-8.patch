@@ -1,0 +1,194 @@
+From 37ff1a6589ca177efdeff77ca046f52074f0bc43 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jollamobile.com>
+Date: Thu, 1 Feb 2018 00:57:52 +0000
+Subject: [PATCH 1/6] (hybris) Fix __get_tls and related functions (>=Android
+ 8)
+
+Change-Id: If75e4ae739ec6c482a68b1b69c2130535add2279
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
+---
+ libc/bionic/ndk_cruft.cpp         | 18 ++++++++-----
+ libc/libc.arm.map                 |  1 +
+ libc/libc.arm64.map               |  1 +
+ libc/libc.x86.map                 |  1 +
+ libc/private/__get_tls.h          | 30 ++++++++--------------
+ libc/private/__get_tls_internal.h | 54 +++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 80 insertions(+), 25 deletions(-)
+ create mode 100644 libc/private/__get_tls_internal.h
+
+diff --git a/libc/bionic/ndk_cruft.cpp b/libc/bionic/ndk_cruft.cpp
+index dbacf18..7fe91ed 100644
+--- a/libc/bionic/ndk_cruft.cpp
++++ b/libc/bionic/ndk_cruft.cpp
+@@ -49,6 +49,18 @@
+ 
+ extern "C" {
+ 
++void** __get_tls_hooks(void) {
++#include "private/__get_tls_internal.h"
++  return __get_tls_internal();
++}
++
++// TODO: does anything still need this?
++// with hybris we need it, so thanks for keeping it.
++void** __get_tls() {
++#include "private/__get_tls_internal.h"
++    return __get_tls_internal();
++}
++
+ // LP64 doesn't need to support any legacy cruft.
+ #if !defined(__LP64__)
+ 
+@@ -70,12 +82,6 @@ int __open() {
+   abort();
+ }
+ 
+-// TODO: does anything still need this?
+-void** __get_tls() {
+-#include "private/__get_tls.h"
+-  return __get_tls();
+-}
+-
+ // This non-standard function was in our <string.h> for some reason.
+ void memswap(void* m1, void* m2, size_t n) {
+   char* p = reinterpret_cast<char*>(m1);
+diff --git a/libc/libc.arm.map b/libc/libc.arm.map
+index b0f96a9..d896aa6 100644
+--- a/libc/libc.arm.map
++++ b/libc/libc.arm.map
+@@ -1519,6 +1519,7 @@ LIBC_PRIVATE {
+     __gedf2; # arm
+     __get_thread; # arm x86 mips
+     __get_tls; # arm x86 mips
++    __get_tls_hooks; # hybris
+     __getdents64; # arm x86 mips
+     __gnu_ldivmod_helper; # arm
+     __gnu_uldivmod_helper; # arm
+diff --git a/libc/libc.arm64.map b/libc/libc.arm64.map
+index 6b0e415..631db17 100644
+--- a/libc/libc.arm64.map
++++ b/libc/libc.arm64.map
+@@ -1342,6 +1342,7 @@ LIBC_P { # introduced=P
+ 
+ LIBC_PRIVATE {
+   global:
++    __get_tls_hooks; # hybris
+     android_getaddrinfofornet;
+     android_getaddrinfofornetcontext;
+     android_gethostbyaddrfornet;
+diff --git a/libc/libc.x86.map b/libc/libc.x86.map
+index 2855f9e..13e95a2 100644
+--- a/libc/libc.x86.map
++++ b/libc/libc.x86.map
+@@ -1411,6 +1411,7 @@ LIBC_PRIVATE {
+     __futex_wake; # arm x86 mips
+     __get_thread; # arm x86 mips
+     __get_tls; # arm x86 mips
++    __get_tls_hooks; # hybris
+     __getdents64; # arm x86 mips
+     __open; # arm x86 mips
+     __page_shift; # arm x86 mips
+diff --git a/libc/private/__get_tls.h b/libc/private/__get_tls.h
+index 04c5fdb..9f37b01 100644
+--- a/libc/private/__get_tls.h
++++ b/libc/private/__get_tls.h
+@@ -29,25 +29,17 @@
+ #ifndef __BIONIC_PRIVATE_GET_TLS_H_
+ #define __BIONIC_PRIVATE_GET_TLS_H_
+ 
+-#if defined(__aarch64__)
+-# define __get_tls() ({ void** __val; __asm__("mrs %0, tpidr_el0" : "=r"(__val)); __val; })
+-#elif defined(__arm__)
+-# define __get_tls() ({ void** __val; __asm__("mrc p15, 0, %0, c13, c0, 3" : "=r"(__val)); __val; })
+-#elif defined(__mips__)
+-# define __get_tls() \
+-    /* On mips32r1, this goes via a kernel illegal instruction trap that's optimized for v1. */ \
+-    ({ register void** __val asm("v1"); \
+-       __asm__(".set    push\n" \
+-               ".set    mips32r2\n" \
+-               "rdhwr   %0,$29\n" \
+-               ".set    pop\n" : "=r"(__val)); \
+-       __val; })
+-#elif defined(__i386__)
+-# define __get_tls() ({ void** __val; __asm__("movl %%gs:0, %0" : "=r"(__val)); __val; })
+-#elif defined(__x86_64__)
+-# define __get_tls() ({ void** __val; __asm__("mov %%fs:0, %0" : "=r"(__val)); __val; })
+-#else
+-#error unsupported architecture
++#ifdef __cplusplus
++extern "C" {
+ #endif
++void **__get_tls(void);
++void **__get_tls_hooks(void);
++#ifdef __cplusplus
++}
++#endif
++
++#include "__get_tls_internal.h"
++
++//#define __get_tls __get_tls_hooks
+ 
+ #endif /* __BIONIC_PRIVATE_GET_TLS_H_ */
+diff --git a/libc/private/__get_tls_internal.h b/libc/private/__get_tls_internal.h
+new file mode 100644
+index 0000000..4a8fa5f
+--- /dev/null
++++ b/libc/private/__get_tls_internal.h
+@@ -0,0 +1,54 @@
++/*
++ * Copyright (C) 2008 The Android Open Source Project
++ * All rights reserved.
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *  * Redistributions of source code must retain the above copyright
++ *    notice, this list of conditions and the following disclaimer.
++ *  * Redistributions in binary form must reproduce the above copyright
++ *    notice, this list of conditions and the following disclaimer in
++ *    the documentation and/or other materials provided with the
++ *    distribution.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
++ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
++ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
++ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
++ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
++ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
++ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
++ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++ * SUCH DAMAGE.
++ */
++
++#ifndef __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_
++#define __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_
++
++#if defined(__aarch64__)
++# define __get_tls_internal() ({ void** __val; __asm__("mrs %0, tpidr_el0" : "=r"(__val)); __val; })
++#elif defined(__arm__)
++# define __get_tls_internal() ({ void** __val; __asm__("mrc p15, 0, %0, c13, c0, 3" : "=r"(__val)); __val; })
++#elif defined(__mips__)
++# define __get_tls_internal() \
++    /* On mips32r1, this goes via a kernel illegal instruction trap that's optimized for v1. */ \
++    ({ register void** __val asm("v1"); \
++       __asm__(".set    push\n" \
++               ".set    mips32r2\n" \
++               "rdhwr   %0,$29\n" \
++               ".set    pop\n" : "=r"(__val)); \
++       __val; })
++#elif defined(__i386__)
++# define __get_tls_internal() ({ void** __val; __asm__("movl %%gs:0, %0" : "=r"(__val)); __val; })
++#elif defined(__x86_64__)
++# define __get_tls_internal() ({ void** __val; __asm__("mov %%fs:0, %0" : "=r"(__val)); __val; })
++#else
++#error unsupported architecture
++#endif
++
++#endif /* __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_ */
++
+-- 
+2.7.4
+

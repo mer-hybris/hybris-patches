@@ -1,0 +1,34 @@
+From 61b4530eed861401abdd2481d500744df50b4e9c Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 4 Jun 2018 10:00:13 +0200
+Subject: [PATCH 25/37] (hybris) don't try to mount since mer handles this
+
+Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
+---
+ init/init_first_stage.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/init/init_first_stage.cpp b/init/init_first_stage.cpp
+index 033ce41..5c9aa93 100644
+--- a/init/init_first_stage.cpp
++++ b/init/init_first_stage.cpp
+@@ -477,6 +477,7 @@ bool FirstStageMountVBootV2::InitAvbHandle() {
+ // ----------------
+ // Mounts partitions specified by fstab in device tree.
+ bool DoFirstStageMount() {
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     // Skips first stage mount if we're in recovery mode.
+     if (IsRecoveryMode()) {
+         LOG(INFO) << "First stage mount skipped (recovery mode)";
+@@ -495,6 +496,8 @@ bool DoFirstStageMount() {
+         return false;
+     }
+     return handle->DoFirstStageMount();
++#endif
++    return true;
+ }
+ 
+ void SetInitAvbVersionInRecovery() {
+-- 
+2.7.4
+

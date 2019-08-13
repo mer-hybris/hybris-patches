@@ -1,0 +1,32 @@
+From 64a585da8d93159bbb1ea3cd64a65bb39580f28f Mon Sep 17 00:00:00 2001
+From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+Date: Thu, 13 Mar 2014 08:51:53 +0000
+Subject: [PATCH 10/37] (hybris) allow system group to trigger haptics
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
+
+Conflicts:
+	rootdir/init.rc
+
+Change-Id: I9f1af094fa8a4ef48f4c3ea0ec35cb66d3c083d8
+---
+ rootdir/init.rc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 2049b60..bed210a 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -669,6 +669,9 @@ on boot
+     # Define default initial receive window size in segments.
+     setprop net.tcp.default_init_rwnd 60
+ 
++    # Allow system group to trigger vibrator
++    chmod 0664 /sys/class/timed_output/vibrator/enable
++
+     # Start standard binderized HAL daemons
+     class_start hal
+ 
+-- 
+2.7.4
+

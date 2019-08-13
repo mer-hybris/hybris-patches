@@ -1,0 +1,35 @@
+From ebb6134e85e174c4602cf9b6aa461d35b240ad2b Mon Sep 17 00:00:00 2001
+From: David Greaves <david@dgreaves.com>
+Date: Tue, 22 Oct 2013 17:07:56 +0100
+Subject: [PATCH 03/37] (hybris) Mer can specify mis-alignment handling - this
+ is the wrong place to set it
+
+Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
+---
+ rootdir/init.rc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 13c5a07..0072393 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -109,13 +109,15 @@ on init
+ 
+     write /proc/sys/kernel/panic_on_oops 1
+     write /proc/sys/kernel/hung_task_timeout_secs 0
+-    write /proc/cpu/alignment 4
++
++    #write /proc/cpu/alignment 4
+ 
+     # scheduler tunables
+     # Disable auto-scaling of scheduler tunables with hotplug. The tunables
+     # will vary across devices in unpredictable ways if allowed to scale with
+     # cpu cores.
+     write /proc/sys/kernel/sched_tunable_scaling 0
++
+     write /proc/sys/kernel/sched_latency_ns 10000000
+     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
+     write /proc/sys/kernel/sched_child_runs_first 0
+-- 
+2.7.4
+

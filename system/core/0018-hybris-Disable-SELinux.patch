@@ -1,0 +1,96 @@
+From dd5df0e010f620c5bdcdf5455b794fdf43fd0612 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Date: Thu, 9 Feb 2017 21:48:19 +0200
+Subject: [PATCH 18/37] (hybris) Disable SELinux
+
+Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
+---
+ init/property_service.cpp |  2 ++
+ init/selinux.cpp          |  3 +++
+ init/service.cpp          | 10 +++++++++-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index f097531..3333eed 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -112,6 +112,8 @@ void property_init() {
+ }
+ static bool CheckMacPerms(const std::string& name, const char* target_context,
+                           const char* source_context, const ucred& cr) {
++    // Disable permission check in Mer
++    return true;
+     if (!target_context || !source_context) {
+         return false;
+     }
+diff --git a/init/selinux.cpp b/init/selinux.cpp
+index 0ba5c4a..416c127 100644
+--- a/init/selinux.cpp
++++ b/init/selinux.cpp
+@@ -382,6 +382,9 @@ bool LoadPolicy() {
+ }  // namespace
+ 
+ void SelinuxInitialize() {
++    // Disable in Mer
++    return;
++
+     Timer t;
+ 
+     LOG(INFO) << "Loading SELinux policy";
+diff --git a/init/service.cpp b/init/service.cpp
+index 37d3a88..9c294af 100644
+--- a/init/service.cpp
++++ b/init/service.cpp
+@@ -66,6 +66,8 @@ using android::base::WriteStringToFile;
+ namespace android {
+ namespace init {
+ 
++// Disable SELinux
++/*
+ static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
+     std::string computed_context;
+ 
+@@ -101,6 +103,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+     }
+     return computed_context;
+ }
++*/
+ 
+ Result<Success> Service::SetUpMountNamespace() const {
+     constexpr unsigned int kSafeFlags = MS_NODEV | MS_NOEXEC | MS_NOSUID;
+@@ -309,11 +312,14 @@ void Service::SetProcessAttributes() {
+             PLOG(FATAL) << "setuid failed for " << name_;
+         }
+     }
++// Disable SELinux
++/*
+     if (!seclabel_.empty()) {
+         if (setexeccon(seclabel_.c_str()) < 0) {
+             PLOG(FATAL) << "cannot setexeccon('" << seclabel_ << "') for " << name_;
+         }
+     }
++*/
+     if (priority_ != 0) {
+         if (setpriority(PRIO_PROCESS, 0, priority_) != 0) {
+             PLOG(FATAL) << "setpriority failed for " << name_;
+@@ -824,6 +830,8 @@ Result<Success> Service::Start() {
+     }
+ 
+     std::string scon;
++// Disable SELinux
++/*
+     if (!seclabel_.empty()) {
+         scon = seclabel_;
+     } else {
+@@ -833,7 +841,7 @@ Result<Success> Service::Start() {
+         }
+         scon = *result;
+     }
+-
++*/
+     LOG(INFO) << "starting service '" << name_ << "'...";
+ 
+     pid_t pid = -1;
+-- 
+2.7.4
+

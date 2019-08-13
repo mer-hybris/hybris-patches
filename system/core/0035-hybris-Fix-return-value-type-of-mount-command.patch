@@ -1,0 +1,26 @@
+From ca5cae9dac7d2e243ab08868196aa6014266fabe Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Date: Sun, 18 Nov 2018 18:51:22 +0200
+Subject: [PATCH 35/37] (hybris) Fix return value type of mount command.
+
+Change-Id: Ib759e1be92d110863e43f13f7317372c6182a02d
+---
+ init/builtins.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init/builtins.cpp b/init/builtins.cpp
+index 23efc95..4e2bce3 100644
+--- a/init/builtins.cpp
++++ b/init/builtins.cpp
+@@ -589,7 +589,7 @@ static Result<Success> do_mount_all(const BuiltinArguments& args) {
+         return Error() << "mount_fstab() failed " << mount_fstab_return_code.error();
+     }
+ */
+-    auto mount_fstab_return_code = WEXITSTATUS(0);
++    Result<int> mount_fstab_return_code = WEXITSTATUS(0);
+     property_set(prop_name, std::to_string(t.duration().count()));
+ 
+     if (import_rc) {
+-- 
+2.7.4
+

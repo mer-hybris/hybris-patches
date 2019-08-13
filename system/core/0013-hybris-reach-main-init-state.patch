@@ -1,0 +1,25 @@
+From 56f513813205ddb1b3c6861c77ad6cb41bd84c9c Mon Sep 17 00:00:00 2001
+From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+Date: Sat, 22 Aug 2015 12:03:42 +0100
+Subject: [PATCH 13/37] (hybris) reach main init state
+
+Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
+---
+ rootdir/init.rc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 34d46f6..27d2b01 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -676,6 +676,7 @@ on boot
+     class_start hal
+ 
+     class_start core
++    class_start main
+ 
+ # Never gets called, since Mer does its own 'mount_all'
+ on nonencrypted
+-- 
+2.7.4
+

@@ -1,0 +1,26 @@
+From 50d6d27f2bd097883d4188d12b4145273b14c8ea Mon Sep 17 00:00:00 2001
+From: Martin Ghosal <Martin.Ghosal@sky.uk>
+Date: Sun, 8 Jan 2017 17:16:08 +0000
+Subject: [PATCH 17/37] (hybris) Disable ueventd service
+
+Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
+---
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 318b935..9cca537 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -753,6 +753,8 @@ service ueventd /sbin/ueventd
+     critical
+     seclabel u:r:ueventd:s0
+     shutdown critical
++#Not used by Mer
++    disabled
+ 
+ service console /system/bin/sh
+     class core
+-- 
+2.7.4
+

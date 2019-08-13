@@ -1,0 +1,81 @@
+From 44a0b628b778be7df54c7f58276685233db80dfc Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <f_haider@gmx.at>
+Date: Thu, 28 Mar 2019 12:46:12 -0400
+Subject: [PATCH 36/37] (hybris) disable some more selinux functionality.
+
+Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
+---
+ init/property_service.cpp | 3 +++
+ init/subcontext.cpp       | 4 ++--
+ init/util.cpp             | 4 ++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index 5bead05..f0d3453 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -338,11 +338,14 @@ class SocketConnection {
+     const ucred& cred() { return cred_; }
+ 
+     std::string source_context() const {
++#if 0
+         char* source_context = nullptr;
+         getpeercon(socket_, &source_context);
+         std::string result = source_context;
+         freecon(source_context);
+         return result;
++#endif
++        return "";
+     }
+ 
+   private:
+diff --git a/init/subcontext.cpp b/init/subcontext.cpp
+index fdb4641..5fbe8fc 100644
+--- a/init/subcontext.cpp
++++ b/init/subcontext.cpp
+@@ -243,11 +243,11 @@ void Subcontext::Fork() {
+         if (child_fd < 0) {
+             PLOG(FATAL) << "Could not dup child_fd";
+         }
+-
++#if 0
+         if (setexeccon(context_.c_str()) < 0) {
+             PLOG(FATAL) << "Could not set execcon for '" << context_ << "'";
+         }
+-
++#endif
+         auto init_path = GetExecutablePath();
+         auto child_fd_string = std::to_string(child_fd);
+         const char* args[] = {init_path.c_str(), "subcontext", context_.c_str(),
+diff --git a/init/util.cpp b/init/util.cpp
+index e27f4f8..a5c95df 100644
+--- a/init/util.cpp
++++ b/init/util.cpp
+@@ -117,10 +117,12 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
+         return -1;
+     }
+ 
++#if 0
+     std::string secontext;
+     if (SelabelLookupFileContext(addr.sun_path, S_IFSOCK, &secontext) && !secontext.empty()) {
+         setfscreatecon(secontext.c_str());
+     }
++#endif
+ 
+     if (passcred) {
+         int on = 1;
+@@ -133,9 +135,11 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
+     int ret = bind(fd, (struct sockaddr *) &addr, sizeof (addr));
+     int savederrno = errno;
+ 
++#if 0
+     if (!secontext.empty()) {
+         setfscreatecon(nullptr);
+     }
++#endif
+ 
+     if (ret) {
+         errno = savederrno;
+-- 
+2.7.4
+

@@ -1,0 +1,47 @@
+From cf00c01d09a8a3a8712ce32527a59e84fc58fadb Mon Sep 17 00:00:00 2001
+From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+Date: Tue, 18 Mar 2014 14:07:11 +0000
+Subject: [PATCH 11/37] (hybris) trigger late_start on property change
+
+Android's late_start is triggered by mount_all, which also determines whether
+the /data partition is encrypted.
+
+Mer rootfs now has to spawn a service after mount points are ready, and before
+peripheral services (such as sensors, wlan, bt, ...) are started. That service
+has to issue `setprop droid.late_start trigger_late_start`
+
+Change-Id: I3a2c118e671b9eae8e8f1cb64f55da57c214ac8f
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
+
+Conflicts:
+	rootdir/init.rc
+---
+ rootdir/init.rc | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index bed210a..34d46f6 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -677,6 +677,7 @@ on boot
+ 
+     class_start core
+ 
++# Never gets called, since Mer does its own 'mount_all'
+ on nonencrypted
+     class_start main
+     class_start late_start
+@@ -684,6 +685,10 @@ on nonencrypted
+ on property:sys.init_log_level=*
+     loglevel ${sys.init_log_level}
+ 
++# Mer needs to set this property when fs units are mounted
++on property:droid.late_start=trigger_late_start
++    class_start late_start
++
+ on charger
+     class_start charger
+ 
+-- 
+2.7.4
+

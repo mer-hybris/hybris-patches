@@ -1,0 +1,43 @@
+From c4497049d7c4e5fc9084aec50469137c8bc8ef9f Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Wed, 5 Aug 2015 14:31:01 +0200
+Subject: [PATCH 2/3] (hybris) Search for libraries first from
+ /usr/libexec/droid-hybris/system/lib/hw/.
+
+Change-Id: I7496d961f8218b6077b9d628dd350ac20550b5d2
+---
+ hardware.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/hardware.c b/hardware.c
+index 77cfd8d..1a811fe 100644
+--- a/hardware.c
++++ b/hardware.c
+@@ -36,10 +36,12 @@
+ #define HAL_LIBRARY_PATH1 "/system/lib64/hw"
+ #define HAL_LIBRARY_PATH2 "/vendor/lib64/hw"
+ #define HAL_LIBRARY_PATH3 "/odm/lib64/hw"
++#define HAL_LIBRARY_PATH4 "/usr/libexec/droid-hybris/system/lib64/hw"
+ #else
+ #define HAL_LIBRARY_PATH1 "/system/lib/hw"
+ #define HAL_LIBRARY_PATH2 "/vendor/lib/hw"
+ #define HAL_LIBRARY_PATH3 "/odm/lib/hw"
++#define HAL_LIBRARY_PATH4 "/usr/libexec/droid-hybris/system/lib/hw"
+ #endif
+ 
+ /**
+@@ -149,6 +151,11 @@ static int hw_module_exists(char *path, size_t path_len, const char *name,
+                             const char *subname)
+ {
+     snprintf(path, path_len, "%s/%s.%s.so",
++             HAL_LIBRARY_PATH4, name, subname);
++    if (access(path, R_OK) == 0)
++        return 0;
++
++    snprintf(path, path_len, "%s/%s.%s.so",
+              HAL_LIBRARY_PATH3, name, subname);
+     if (access(path, R_OK) == 0)
+         return 0;
+-- 
+2.7.4
+

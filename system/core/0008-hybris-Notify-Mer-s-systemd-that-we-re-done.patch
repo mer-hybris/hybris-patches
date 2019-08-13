@@ -1,0 +1,38 @@
+From f510929d2095cc856213cae18bc979eeee707a60 Mon Sep 17 00:00:00 2001
+From: David Greaves <david@dgreaves.com>
+Date: Wed, 20 Nov 2013 19:24:31 +0000
+Subject: [PATCH 08/37] (hybris) Notify Mer's systemd that we're done
+
+Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
+Signed-off-by: David Greaves <david.greaves@jollamobile.com>
+---
+ rootdir/init.rc | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 2c45bb7..fbab513 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -763,3 +763,19 @@ on property:ro.debuggable=1
+ service flash_recovery /system/bin/install-recovery.sh
+     class main
+     oneshot
++    disabled
++
++# This trigger is run by our modified init after boot has finished
++on ready
++    class_start mer
++
++# Notify Mer's systemd that we're done
++# This is started at the end of boot after both core and main classes
++service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
++    class mer
++    oneshot
++
++# update recovery if enabled
++on property:persist.sys.recovery_update=true
++    start flash_recovery
++
+-- 
+2.7.4
+
