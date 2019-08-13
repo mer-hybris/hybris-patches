@@ -1,0 +1,48 @@
+From b7b7a4bf3de3c772b6e0963f571d5652851f8152 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jollamobile.com>
+Date: Tue, 30 Jan 2018 14:55:33 +0200
+Subject: [PATCH 3/3] (hybris) gps.h Use proper aapcs attribute with functions
+ with float arguments
+
+---
+ include/hardware/gps.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/include/hardware/gps.h b/include/hardware/gps.h
+index 4e108b3f..e461aa1d 100644
+--- a/include/hardware/gps.h
++++ b/include/hardware/gps.h
+@@ -28,6 +28,12 @@
+ 
+ #include "gnss-base.h"
+ 
++#ifdef __ARM_PCS_VFP
++#define FP_ATTRIB __attribute__((pcs("aapcs")))
++#else
++#define FP_ATTRIB
++#endif
++
+ __BEGIN_DECLS
+ 
+ /*
+@@ -631,7 +637,7 @@ typedef struct {
+      * ID). Latitude and longitude are measured in degrees expected accuracy is
+      * measured in meters
+      */
+-    int  (*inject_location)(double latitude, double longitude, float accuracy);
++    int  (*inject_location)(double latitude, double longitude, float accuracy) FP_ATTRIB;
+ 
+     /**
+      * Specifies that the next call to start will not use the
+@@ -1200,7 +1206,7 @@ typedef struct {
+     */
+    void (*add_geofence_area) (int32_t geofence_id, double latitude, double longitude,
+        double radius_meters, int last_transition, int monitor_transitions,
+-       int notification_responsiveness_ms, int unknown_timer_ms);
++       int notification_responsiveness_ms, int unknown_timer_ms) FP_ATTRIB;
+ 
+    /**
+     * Pause monitoring a particular geofence.
+-- 
+2.17.1
+

@@ -1,0 +1,36 @@
+From f2a785f398e5c329983ad10d7349f3438cb0d92f Mon Sep 17 00:00:00 2001
+From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+Date: Sun, 30 Oct 2016 14:07:11 +0000
+Subject: [PATCH] (hybris) AudioService is disabled in hybris adaptations
+
+Without this patch, camera is waiting for AudioService indefinitely
+
+Change-Id: Id572746cc77c8d26e3a8e7fc1dc05b17ac282ed4
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
+---
+ services/camera/libcameraservice/CameraService.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
+index 550be4a7d..d0c55c04f 100644
+--- a/services/camera/libcameraservice/CameraService.cpp
++++ b/services/camera/libcameraservice/CameraService.cpp
+@@ -2051,6 +2051,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
+     ATRACE_CALL();
+ 
+     LOG1("CameraService::loadSoundLocked ref=%d", mSoundRef);
++/*
+     if (SOUND_SHUTTER == kind && mSoundPlayer[SOUND_SHUTTER] == NULL) {
+         mSoundPlayer[SOUND_SHUTTER] = newMediaPlayer("/product/media/audio/ui/camera_click.ogg");
+         if (mSoundPlayer[SOUND_SHUTTER] == nullptr) {
+@@ -2068,6 +2069,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
+             mSoundPlayer[SOUND_RECORDING_STOP] = newMediaPlayer("/system/media/audio/ui/VideoStop.ogg");
+         }
+     }
++*/
+ }
+ 
+ void CameraService::decreaseSoundRef() {
+-- 
+2.17.1
+

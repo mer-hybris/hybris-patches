@@ -1,0 +1,99 @@
+From 6e2d88cb450e05d1f77e579cb0b0e2249485d295 Mon Sep 17 00:00:00 2001
+From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
+Date: Thu, 31 Oct 2013 12:19:19 +0200
+Subject: [PATCH 12/39] (hybris) property_service.c: adding support for getprop
+ and listprop
+
+Change-Id: Ie5fbdb55c48038ce8250f27500623b3b81cc5cd1
+Signed-off-by: Jani Monoses <jani@ubuntu.com>
+Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
+
+Conflicts:
+	init/property_service.c
+
+Conflicts:
+	init/property_service.cpp
+---
+ init/init.cpp             |  3 ++-
+ init/property_service.cpp | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 345810550..c578b54cf 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -702,6 +702,7 @@ int main(int argc, char** argv) {
+         InstallSigtermHandler();
+     }
+ 
++
+     property_load_boot_defaults();
+     export_oem_lock_status();
+     start_property_service();
+@@ -754,7 +755,7 @@ int main(int argc, char** argv) {
+     am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
+ 
+     /* run all device triggers based on current state of device nodes in /dev */
+-    am.QueueBuiltinAction(queue_device_triggers_action, "queue_device_triggers");
++    //am.QueueBuiltinAction(queue_device_triggers_action, "queue_device_triggers");
+ 
+     /* Run actions when all boot up is done and init is ready */
+     am.QueueEventTrigger("ready");
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index f47c93596..e95a80d23 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -482,6 +482,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
+ static void handle_property_set_fd() {
+     static constexpr uint32_t kDefaultSocketTimeout = 2000; /* ms */
+ 
++    char rproperty[PROP_VALUE_MAX];
++    const prop_info *pi;
++
+     int s = accept4(property_set_fd, nullptr, nullptr, SOCK_CLOEXEC);
+     if (s == -1) {
+         return;
+@@ -553,7 +556,40 @@ static void handle_property_set_fd() {
+         socket.SendUint32(result);
+         break;
+       }
++    case PROP_MSG_GETPROP: {
++        int ret;
++        int n;
++        char prop_name[PROP_NAME_MAX];
++        char prop_value[PROP_VALUE_MAX];
++        prop_name[PROP_NAME_MAX-1] = 0;
++        prop_value[PROP_VALUE_MAX-1] = 0;
+ 
++        if (!is_legal_property_name(prop_name, strlen(prop_name))) {
++            ERROR("sys_prop: illegal property name. Got: \"%s\"\n", prop_name);
++            return;
++        }
++
++        /* If we have a value, copy it over, otherwise returns the default */
++        ret = __system_property_get(prop_name, rproperty);
++        if (ret) {
++            strlcpy(prop_value, rproperty, sizeof(prop_value));
++        }
++
++        /* Send the property value back */
++        //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
++        break;
++      }
++    case PROP_MSG_LISTPROP: {
++        int n;
++        char prop_name[PROP_NAME_MAX];
++        char prop_value[PROP_VALUE_MAX];
++        for(n = 0; (pi = __system_property_find_nth(n)); n++) {
++            prop_name[0] = prop_value[0] = 0;
++            __system_property_read(pi, prop_name, prop_value);
++            //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
++        }
++        break;
++      }
+     default:
+         LOG(ERROR) << "sys_prop: invalid command " << cmd;
+         socket.SendUint32(PROP_ERROR_INVALID_CMD);
+-- 
+2.17.1
+

@@ -1,0 +1,101 @@
+From 0c0d6836c726ea40a3bfc40595a356e4b84b21a9 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Wed, 6 Jun 2018 09:33:03 +0200
+Subject: [PATCH 29/39] (hybris) disable the usage of libprocessgroup, since it
+ is incompatible.
+
+Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
+---
+ init/Android.bp  |  2 --
+ init/Android.mk  |  1 -
+ init/service.cpp | 15 +++++++++++----
+ 3 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/init/Android.bp b/init/Android.bp
+index 3287331e2..fbafcdb14 100644
+--- a/init/Android.bp
++++ b/init/Android.bp
+@@ -79,7 +79,6 @@ cc_defaults {
+         "libdl",
+         "libsparse",
+         "libz",
+-        "libprocessgroup",
+         "libavb",
+         "libkeyutils",
+         "libprotobuf-cpp-lite",
+@@ -222,7 +221,6 @@ cc_binary {
+     shared_libs: [
+         "libprotobuf-cpp-lite",
+         "libhidl-gen-utils",
+-        "libprocessgroup",
+         "liblog",
+         "libcutils",
+     ],
+diff --git a/init/Android.mk b/init/Android.mk
+index 2295bd719..d70d99556 100644
+--- a/init/Android.mk
++++ b/init/Android.mk
+@@ -73,7 +73,6 @@ LOCAL_STATIC_LIBRARIES := \
+     libdl \
+     libsparse \
+     libz \
+-    libprocessgroup \
+     libavb \
+     libkeyutils \
+     libprotobuf-cpp-lite \
+diff --git a/init/service.cpp b/init/service.cpp
+index 5a041868b..28d7241d4 100644
+--- a/init/service.cpp
++++ b/init/service.cpp
+@@ -36,7 +36,6 @@
+ #include <android-base/strings.h>
+ #include <android-base/unique_fd.h>
+ #include <hidl-util/FQName.h>
+-#include <processgroup/processgroup.h>
+ #include <selinux/selinux.h>
+ #include <system/thread_defs.h>
+ 
+@@ -268,15 +267,21 @@ void Service::KillProcessGroup(int signal) {
+     // These functions handle their own logging, so no additional logging is needed.
+     if (!process_cgroup_empty_) {
+         LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
+-                  << ") process group...";
++                  << ") process group... HYBRIS: killing PID instead of process group.";
++
++        kill(pid_, signal);
++
++        // hybris: TODO?
++#if DISABLED_FOR_HYBRIS_SUPPORT
+         int r;
+         if (signal == SIGTERM) {
+             r = killProcessGroupOnce(uid_, pid_, signal);
+         } else {
+             r = killProcessGroup(uid_, pid_, signal);
+         }
+-
+-        if (r == 0) process_cgroup_empty_ = true;
++        if (r == 0)
++#endif
++        process_cgroup_empty_ = true;
+     }
+ }
+ 
+@@ -959,6 +964,7 @@ Result<Success> Service::Start() {
+     start_order_ = next_start_order_++;
+     process_cgroup_empty_ = false;
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     errno = -createProcessGroup(uid_, pid_);
+     if (errno != 0) {
+         PLOG(ERROR) << "createProcessGroup(" << uid_ << ", " << pid_ << ") failed for service '"
+@@ -982,6 +988,7 @@ Result<Success> Service::Start() {
+             }
+         }
+     }
++#endif
+ 
+     NotifyStateChange("running");
+     return Success();
+-- 
+2.17.1
+

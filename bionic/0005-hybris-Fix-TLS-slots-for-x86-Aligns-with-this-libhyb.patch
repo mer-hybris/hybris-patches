@@ -1,0 +1,48 @@
+From 9c38126cb2cc4f894cc1fb22261924359c962c32 Mon Sep 17 00:00:00 2001
+From: Ilya Bizyaev <bizyaev@zoho.com>
+Date: Sat, 20 Jan 2018 17:48:27 +0300
+Subject: [PATCH 5/6] (hybris) Fix TLS slots for x86 Aligns with this libhybris
+ patch: https://github.com/libhybris/libhybris/pull/370
+
+Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
+---
+ libc/private/bionic_tls.h | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/libc/private/bionic_tls.h b/libc/private/bionic_tls.h
+index af4d4d07c..07590f60c 100644
+--- a/libc/private/bionic_tls.h
++++ b/libc/private/bionic_tls.h
+@@ -56,12 +56,16 @@ __BEGIN_DECLS
+ enum {
+   TLS_SLOT_SELF = 0, // The kernel requires this specific slot for x86.
+   TLS_SLOT_THREAD_ID,
+-  TLS_SLOT_ERRNO = 5,
++
++  TLS_SLOT_STACK_GUARD = 5, // GCC requires this specific slot for x86.
++  
++  TLS_SLOT_ERRNO,
+ 
+   // These two aren't used by bionic itself, but allow the graphics code to
+   // access TLS directly rather than using the pthread API.
+-  TLS_SLOT_OPENGL_API = 6,
+-  TLS_SLOT_OPENGL = 7,
++  TLS_SLOT_OPENGL_API,
++  TLS_SLOT_OPENGL,
++  TLS_SLOT_DLERROR,
+ 
+   // This slot is only used to pass information from the dynamic linker to
+   // libc.so when the C library is loaded in to memory. The C runtime init
+@@ -69,9 +73,6 @@ enum {
+   // we reuse an existing location that isn't needed during libc startup.
+   TLS_SLOT_BIONIC_PREINIT = TLS_SLOT_OPENGL_API,
+ 
+-  TLS_SLOT_STACK_GUARD = 8, // GCC requires this specific slot for x86.
+-  TLS_SLOT_DLERROR,
+-
+   // Fast storage for Thread::Current() in ART.
+   TLS_SLOT_ART_THREAD_SELF,
+ 
+-- 
+2.17.1
+

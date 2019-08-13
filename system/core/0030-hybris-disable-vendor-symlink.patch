@@ -1,0 +1,28 @@
+From 84d69d03abe1c6f711d7551b74c03d892745f068 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Thu, 7 Jun 2018 15:29:53 +0000
+Subject: [PATCH 30/39] (hybris) disable vendor symlink
+
+Change-Id: I26a32268e2f3af7ab0550397900f7a3ef0edfae5
+---
+ rootdir/init.rc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 462280954..368766a99 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -53,7 +53,9 @@ on init
+     symlink /sys/kernel/debug /d
+ 
+     # Link /vendor to /system/vendor for devices without a vendor partition.
+-    symlink /system/vendor /vendor
++    # hybris: in android 8 vendor is a seperate partition and our systemd
++    # doesn't like if /vendor is a symlink and it cannot mount vendor to that.
++    # symlink /system/vendor /vendor
+ 
+     # Create energy-aware scheduler tuning nodes
+     mkdir /dev/stune
+-- 
+2.17.1
+

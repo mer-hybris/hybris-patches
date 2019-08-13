@@ -1,0 +1,41 @@
+From b422706d9a7ad022f177a464c8037e088db0a8a1 Mon Sep 17 00:00:00 2001
+From: David Greaves <david@dgreaves.com>
+Date: Tue, 8 Oct 2013 16:59:30 +0100
+Subject: [PATCH 02/39] (hybris) Don't create/mount dev/proc/sys... when
+ booting with Mer
+
+Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
+---
+ init/init.cpp | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index eb9dd755b..48af128cd 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -574,17 +574,17 @@ int main(int argc, char** argv) {
+         setenv("PATH", _PATH_DEFPATH, 1);
+         // Get the basic filesystem setup we need put together in the initramdisk
+         // on / and then we'll let the rc file figure out the rest.
+-        mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
+-        mkdir("/dev/pts", 0755);
++        //mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
++        //mkdir("/dev/pts", 0755);
+         mkdir("/dev/socket", 0755);
+-        mount("devpts", "/dev/pts", "devpts", 0, NULL);
++        //mount("devpts", "/dev/pts", "devpts", 0, NULL);
+         #define MAKE_STR(x) __STRING(x)
+-        mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
++        //mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
+         // Don't expose the raw commandline to unprivileged processes.
+         chmod("/proc/cmdline", 0440);
+         gid_t groups[] = { AID_READPROC };
+         setgroups(arraysize(groups), groups);
+-        mount("sysfs", "/sys", "sysfs", 0, NULL);
++        //mount("sysfs", "/sys", "sysfs", 0, NULL);
+         mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
+ 
+         mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
+-- 
+2.17.1
+

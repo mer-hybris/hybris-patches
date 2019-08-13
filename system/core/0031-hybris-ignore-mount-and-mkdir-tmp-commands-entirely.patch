@@ -1,0 +1,77 @@
+From 7d4d7514ffeba53b8697a426c20118d34a241ea4 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 27 Aug 2018 11:08:12 +0000
+Subject: [PATCH 31/39] (hybris) ignore "mount" and "mkdir /tmp" commands
+ entirely.
+
+mount is usually removed during build, but if the *.rc files are on
+partitions we cannot easily change this is required (e.g. system,
+vendor, odm, ...).
+
+mkdir /tmp has the side effect that it changes the permissions on
+/tmp. systemd owned directories shouldn't be changed by
+droid-hal-init. In the future we might need to add other
+directories to this blacklist as well.
+
+unmount doens't make sense if we don't allow mount.
+
+Change-Id: Iba637613c6a927098c947536e11348e269e1bef3
+---
+ init/builtins.cpp | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/init/builtins.cpp b/init/builtins.cpp
+index 8bb7b0f0c..23efc95b0 100644
+--- a/init/builtins.cpp
++++ b/init/builtins.cpp
+@@ -243,6 +243,13 @@ static Result<Success> do_insmod(const BuiltinArguments& args) {
+ // mkdir <path> [mode] [owner] [group]
+ static Result<Success> do_mkdir(const BuiltinArguments& args) {
+     mode_t mode = 0755;
++
++    if (args[1] == "/tmp") {
++        // hybris, do not recreate or change permissions on tmp (consider
++        // this for other systemd owned directories as well?)
++        return Success();
++    }
++
+     if (args.size() >= 3) {
+         mode = std::strtoul(args[2].c_str(), 0, 8);
+     }
+@@ -295,10 +302,13 @@ static Result<Success> do_mkdir(const BuiltinArguments& args) {
+ 
+ /* umount <path> */
+ static Result<Success> do_umount(const BuiltinArguments& args) {
++    return Success();
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (umount(args[1].c_str()) < 0) {
+         return ErrnoError() << "umount() failed";
+     }
+     return Success();
++#endif
+ }
+ 
+ static struct {
+@@ -327,6 +337,11 @@ static struct {
+ 
+ /* mount <type> <device> <path> <flags ...> <options> */
+ static Result<Success> do_mount(const BuiltinArguments& args) {
++    (void)args;
++    (void)mount_flags;
++
++    return Success();
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     const char* options = nullptr;
+     unsigned flags = 0;
+     bool wait = false;
+@@ -389,6 +404,7 @@ static Result<Success> do_mount(const BuiltinArguments& args) {
+     }
+ 
+     return Success();
++#endif
+ }
+ 
+ /* Imports .rc files from the specified paths. Default ones are applied if none is given.
+-- 
+2.17.1
+

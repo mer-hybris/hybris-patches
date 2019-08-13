@@ -1,0 +1,29 @@
+From da58625677d57126fbe52a7c315aa2b0dae8f1d1 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Sun, 16 Jun 2019 13:14:30 +0200
+Subject: [PATCH 5/5] (hybris) Create the (somehow) missing settingsd socket
+ for rild
+
+Change-Id: Ic7415aab65788f37ee5c5a67be1916319e484f77
+---
+ cmds/servicemanager/servicemanager.rc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
+index 193061281..03803d139 100644
+--- a/cmds/servicemanager/servicemanager.rc
++++ b/cmds/servicemanager/servicemanager.rc
+@@ -34,3 +34,10 @@ service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
+     class main
+     user system
+     group audio
++
++# dummy service to create the (somehow) missing settingsd socket for rild
++service settingsd_HYBRIS /bin/sleep infinity
++    setenv LD_LIBRARY_PATH /usr/lib:/lib
++    socket settingsd stream 0600 radio radio
++    class early_hal
++    oneshot
+-- 
+2.17.1
+
