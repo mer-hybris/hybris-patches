@@ -1,7 +1,7 @@
-From 0d35d71f9d1ec63ae39648e1aca03c02fd42dd31 Mon Sep 17 00:00:00 2001
+From 44eff29a55aed4d115ea468b00d4345ffcdf7a2d Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 15 Jul 2015 08:29:08 +0000
-Subject: [PATCH 2/6] (hybris) Pick GLES shared objects from appropriate paths
+Subject: [PATCH 2/5] (hybris) Pick GLES shared objects from appropriate paths
  (32-bit case)
 
 Change-Id: I4c7739ba8a4d64fa115163d5700b0df3370b286b
