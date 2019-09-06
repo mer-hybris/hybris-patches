@@ -1,7 +1,7 @@
-From 671d34023bd2ab7aab166d78155591d6084df151 Mon Sep 17 00:00:00 2001
+From 36bf4036b08f84e9756346c9c278ff87f191cc99 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Sun, 16 Jun 2019 13:14:30 +0200
-Subject: [PATCH 1/1] (hybris) Create the (somehow) missing settingsd socket
+Subject: [PATCH 5/5] (hybris) Create the (somehow) missing settingsd socket
  for rild
 
 Change-Id: Ic7415aab65788f37ee5c5a67be1916319e484f77
@@ -10,10 +10,10 @@ Change-Id: Ic7415aab65788f37ee5c5a67be1916319e484f77
  1 file changed, 7 insertions(+)
 
 diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
-index b29934d5a..bc2748bd8 100644
+index 1930612..03803d1 100644
 --- a/cmds/servicemanager/servicemanager.rc
 +++ b/cmds/servicemanager/servicemanager.rc
-@@ -35,3 +35,10 @@ service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
+@@ -34,3 +34,10 @@ service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
      class main
      user system
      group audio
@@ -25,5 +25,5 @@ index b29934d5a..bc2748bd8 100644
 +    class early_hal
 +    oneshot
 -- 
-2.17.1
+2.7.4
 

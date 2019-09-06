@@ -1,7 +1,7 @@
-From a8f21436fdb127eeec5d6efec4cc4a4dceb1cc33 Mon Sep 17 00:00:00 2001
+From 43efb446b6872bdff454f1a67048e400345704f4 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 19:00:03 +0200
-Subject: [PATCH 4/6] (hybris) Allow surfaceflinger to be started from
+Subject: [PATCH 4/5] (hybris) Allow surfaceflinger to be started from
  SailfishOS.
 
 Change-Id: Ibaecd8d27524bbb0d3bc7b40017bf92736b8629d
@@ -47,7 +47,7 @@ index db82772..27cc95a 100644
      return false;
  }
 diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
-index 11e7ff0..46a9fdb 100644
+index 25cb589..4a18104 100644
 --- a/services/surfaceflinger/SurfaceFlinger.cpp
 +++ b/services/surfaceflinger/SurfaceFlinger.cpp
 @@ -3412,7 +3412,7 @@ bool callingThreadHasUnscopedSurfaceFlingerAccess() {
