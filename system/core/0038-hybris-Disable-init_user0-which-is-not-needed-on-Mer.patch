@@ -1,17 +1,17 @@
-From 77aa75a70e53c836b7dc416f2f40cab25693e125 Mon Sep 17 00:00:00 2001
+From 75df6c383da1e1fc3875a2705aa51d58aa614b8a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
 Date: Mon, 10 Dec 2018 12:11:06 +0200
-Subject: [PATCH] (hybris) Disable init_user0 which is not needed on Mer.
+Subject: [PATCH 38/39] (hybris) Disable init_user0 which is not needed on Mer.
 
 ---
  rootdir/init.rc | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 3c28b010f..b829be4ca 100644
+index 0acebed78..085ff1c8e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -544,7 +544,8 @@ on post-fs-data
+@@ -546,7 +546,8 @@ on post-fs-data
      mkdir /data/cache/backup_stage 0700 system system
      mkdir /data/cache/backup 0700 system system
  

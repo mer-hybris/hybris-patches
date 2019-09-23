@@ -1,22 +1,22 @@
-From cff254ce062c1e8420e4e3680097ac55896e6290 Mon Sep 17 00:00:00 2001
+From 56e074cab0466e0f6f00f983f870d39c892f205e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:57:47 +0200
-Subject: [PATCH 20/37] (hybris) Use services from
+Subject: [PATCH 20/39] (hybris) Use services from
  /usr/libexec/droid-hybris/system/etc/init/.
 
 Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131
 ---
  init/init.cpp        |   4 +-
- init/init_parser.cpp | 169 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ init/init_parser.cpp | 169 +++++++++++++++++++++++++++++++++++++++++++
  init/util.cpp        |   3 +-
  3 files changed, 173 insertions(+), 3 deletions(-)
  create mode 100644 init/init_parser.cpp
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 5fb32cb..c631fc2 100644
+index 49f646797..8dc013d3e 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -113,8 +113,8 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+@@ -114,8 +114,8 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
      std::string bootscript = GetProperty("ro.boot.init_rc", "");
      if (bootscript.empty()) {
          parser.ParseConfig("/init.rc");
@@ -29,7 +29,7 @@ index 5fb32cb..c631fc2 100644
              late_import_paths.emplace_back("/product/etc/init");
 diff --git a/init/init_parser.cpp b/init/init_parser.cpp
 new file mode 100644
-index 0000000..c4b8063
+index 000000000..c4b80636a
 --- /dev/null
 +++ b/init/init_parser.cpp
 @@ -0,0 +1,169 @@
@@ -203,7 +203,7 @@ index 0000000..c4b8063
 +}  // namespace init
 +}  // namespace android
 diff --git a/init/util.cpp b/init/util.cpp
-index 4455b2e..8eb184d 100644
+index 4455b2eb1..8eb184da9 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
 @@ -162,7 +162,8 @@ out_unlink:
@@ -217,5 +217,5 @@ index 4455b2e..8eb184d 100644
          return ErrnoError() << "open() failed";
      }
 -- 
-2.7.4
+2.17.1
 

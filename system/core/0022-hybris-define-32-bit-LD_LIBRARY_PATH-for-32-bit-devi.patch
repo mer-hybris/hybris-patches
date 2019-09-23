@@ -1,7 +1,7 @@
-From 09d7863a41e41d783af43f402168d5ec97c6a96b Mon Sep 17 00:00:00 2001
+From 8f109bc7e60a69df91ba0fd6d98b056e8f108f71 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Wed, 25 Oct 2017 14:14:59 +0300
-Subject: [PATCH 22/37] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
+Subject: [PATCH 22/39] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
  devices
 
 ---
@@ -13,7 +13,7 @@ Subject: [PATCH 22/37] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index 5f5c363..af5e68d 100644
+index 5f5c363a7..af5e68d3a 100644
 --- a/rootdir/Android.mk
 +++ b/rootdir/Android.mk
 @@ -8,6 +8,18 @@ LOCAL_MODULE := init.rc
@@ -36,7 +36,7 @@ index 5f5c363..af5e68d 100644
  include $(BUILD_PREBUILT)
  
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index fcafbb1..516dc82 100644
+index fcafbb113..516dc82f6 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
 @@ -5,6 +5,7 @@ on init
@@ -49,14 +49,14 @@ index fcafbb1..516dc82 100644
      export ANDROID_ROOT /system
 diff --git a/rootdir/init.extraenv.armeabi-v7a.rc b/rootdir/init.extraenv.armeabi-v7a.rc
 new file mode 100644
-index 0000000..c96e2c6
+index 000000000..c96e2c65d
 --- /dev/null
 +++ b/rootdir/init.extraenv.armeabi-v7a.rc
 @@ -0,0 +1,2 @@
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 16d68d3..85323a1 100644
+index 86f657be2..8afcfcc67 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,11 @@
@@ -72,5 +72,5 @@ index 16d68d3..85323a1 100644
  # Mer handles usb stuff
  #import /init.usb.rc
 -- 
-2.7.4
+2.17.1
 

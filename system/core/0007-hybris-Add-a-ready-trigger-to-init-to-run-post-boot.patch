@@ -1,7 +1,7 @@
-From 34e2349f3ac919f6867dff7b4c4d373d8f2474e1 Mon Sep 17 00:00:00 2001
+From 6586a8c81cfc326f1cc7e3bbed8e1bc3a5247806 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:18:51 +0000
-Subject: [PATCH 07/37] (hybris) Add a ready trigger to init to run post boot
+Subject: [PATCH 07/39] (hybris) Add a ready trigger to init to run post boot
 
 Change-Id: I9c828463424c0e82c3de0159db08299e7ce6fe06
 ---
@@ -9,10 +9,10 @@ Change-Id: I9c828463424c0e82c3de0159db08299e7ce6fe06
  1 file changed, 6 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 93282fd..f492d4d 100644
+index 527d275c7..9a451877a 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -746,6 +746,12 @@ int main(int argc, char** argv) {
+@@ -750,6 +750,12 @@ int main(int argc, char** argv) {
      // Run all property triggers based on current state of the properties.
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
@@ -26,5 +26,5 @@ index 93282fd..f492d4d 100644
          // By default, sleep until something happens.
          int epoll_timeout_ms = -1;
 -- 
-2.7.4
+2.17.1
 

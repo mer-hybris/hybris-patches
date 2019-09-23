@@ -1,7 +1,7 @@
-From 700cd471d926592199e36657e51a46f975ea1362 Mon Sep 17 00:00:00 2001
+From b7333f2978cb4031d4366da49413bd347dcda922 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 3 Jun 2019 13:46:44 +0200
-Subject: [PATCH 37/37] (hybris) Disable /mnt tmpfs creation
+Subject: [PATCH 37/39] (hybris) Disable /mnt tmpfs creation
 
 Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
 ---
@@ -9,10 +9,10 @@ Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 1ffa036..414c53d 100644
+index 214c62215..7fe36d504 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -600,8 +600,8 @@ int main(int argc, char** argv) {
+@@ -601,8 +601,8 @@ int main(int argc, char** argv) {
  
          // Mount staging areas for devices managed by vold
          // See storage config details at http://source.android.com/devices/storage/
@@ -24,5 +24,5 @@ index 1ffa036..414c53d 100644
          // part of the vendor partition, e.g. because they are mounted read-write.
          mkdir("/mnt/vendor", 0755);
 -- 
-2.7.4
+2.17.1
 
