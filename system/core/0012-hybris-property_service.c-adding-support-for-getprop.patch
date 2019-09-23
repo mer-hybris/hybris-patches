@@ -1,7 +1,7 @@
-From dc6405f9886a3587941dcc7dc0f1494acfab5535 Mon Sep 17 00:00:00 2001
+From 6cf9230f3f32233b6ad101f244a1ed4b914c1355 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/37] (hybris) property_service.c: adding support for getprop
+Subject: [PATCH 12/39] (hybris) property_service.c: adding support for getprop
  and listprop
 
 Change-Id: Ie5fbdb55c48038ce8250f27500623b3b81cc5cd1
@@ -19,10 +19,10 @@ Conflicts:
  2 files changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index f492d4d..5fb32cb 100644
+index 9a451877a..49f646797 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -698,6 +698,7 @@ int main(int argc, char** argv) {
+@@ -699,6 +699,7 @@ int main(int argc, char** argv) {
          InstallSigtermHandler();
      }
  
@@ -30,7 +30,7 @@ index f492d4d..5fb32cb 100644
      property_load_boot_defaults();
      export_oem_lock_status();
      start_property_service();
-@@ -747,7 +748,7 @@ int main(int argc, char** argv) {
+@@ -751,7 +752,7 @@ int main(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -40,7 +40,7 @@ index f492d4d..5fb32cb 100644
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 4172ba7..f097531 100644
+index 4172ba754..f0975313b 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -481,6 +481,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
@@ -95,5 +95,5 @@ index 4172ba7..f097531 100644
          LOG(ERROR) << "sys_prop: invalid command " << cmd;
          socket.SendUint32(PROP_ERROR_INVALID_CMD);
 -- 
-2.7.4
+2.17.1
 

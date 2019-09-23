@@ -1,7 +1,7 @@
-From 55bc676d405124e4c41e1ad900c1480389918bc7 Mon Sep 17 00:00:00 2001
+From 1653fc62093ef821c1d949b14d6d9e6e303f0734 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 8 Oct 2013 16:59:30 +0100
-Subject: [PATCH 02/37] (hybris) Don't create/mount dev/proc/sys... when
+Subject: [PATCH 02/39] (hybris) Don't create/mount dev/proc/sys... when
  booting with Mer
 
 Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
@@ -10,10 +10,10 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 4fe115e..93282fd 100644
+index fc58eeabb..527d275c7 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -573,17 +573,17 @@ int main(int argc, char** argv) {
+@@ -574,17 +574,17 @@ int main(int argc, char** argv) {
          setenv("PATH", _PATH_DEFPATH, 1);
          // Get the basic filesystem setup we need put together in the initramdisk
          // on / and then we'll let the rc file figure out the rest.
@@ -37,5 +37,5 @@ index 4fe115e..93282fd 100644
  
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
 -- 
-2.7.4
+2.17.1
 

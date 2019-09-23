@@ -1,7 +1,7 @@
-From ba135c5da262aa6e07252f054d954ac8506d9618 Mon Sep 17 00:00:00 2001
+From 0e7d0f8148750dc788a62f85496d32f2b384594d Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:10:16 +0100
-Subject: [PATCH 05/37] (hybris) Systemd handles control groups
+Subject: [PATCH 05/39] (hybris) Systemd handles control groups
 
 Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
 ---
@@ -9,7 +9,7 @@ Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
  1 file changed, 8 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 513d32e..c882e4c 100644
+index 513d32e24..c882e4c3a 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -28,14 +28,6 @@ on early-init
@@ -28,5 +28,5 @@ index 513d32e..c882e4c 100644
  
  on init
 -- 
-2.7.4
+2.17.1
 

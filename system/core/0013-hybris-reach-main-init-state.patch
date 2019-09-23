@@ -1,25 +1,28 @@
-From 56f513813205ddb1b3c6861c77ad6cb41bd84c9c Mon Sep 17 00:00:00 2001
+From 31251fc4ee21ac0248be27efeb933dbd415e7cba Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sat, 22 Aug 2015 12:03:42 +0100
-Subject: [PATCH 13/37] (hybris) reach main init state
+Subject: [PATCH 13/39] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
- rootdir/init.rc | 1 +
- 1 file changed, 1 insertion(+)
+ rootdir/init.rc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 34d46f6..27d2b01 100644
+index 34d46f6d2..cfebb021e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -676,6 +676,7 @@ on boot
-     class_start hal
+@@ -386,7 +386,9 @@ on post-fs-data
+     restorecon /data
  
-     class_start core
-+    class_start main
+     # Make sure we have the device encryption key.
+-    start vold
++    #start vold
++    # hybris continue bootup properly
++    setprop vold.decrypt trigger_restart_min_framework
+     installkey /data
  
- # Never gets called, since Mer does its own 'mount_all'
- on nonencrypted
+     # Start bootcharting as soon as possible after the data partition is
 -- 
-2.7.4
+2.17.1
 
