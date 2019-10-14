@@ -1,28 +1,44 @@
-From 31251fc4ee21ac0248be27efeb933dbd415e7cba Mon Sep 17 00:00:00 2001
+From ce33e4c319ab68a3d19b8f0705ee843be6abb6fa Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sat, 22 Aug 2015 12:03:42 +0100
-Subject: [PATCH 13/39] (hybris) reach main init state
+Subject: [PATCH 13/40] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
- rootdir/init.rc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ rootdir/init.rc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 34d46f6d2..cfebb021e 100644
+index 70284ead7..f44b75501 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -386,7 +386,9 @@ on post-fs-data
+@@ -342,7 +342,7 @@ on late-init
+ 
+ on early-fs
+     # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
+-    start vold
++    #start vold
+ 
+ on post-fs
+     exec - system system -- /system/bin/vdc checkpoint markBootAttempt
+@@ -412,7 +412,7 @@ on post-fs-data
+     mark_post_data
+ 
+     # Start checkpoint before we touch data
+-    start vold
++    #start vold
+     exec - system system -- /system/bin/vdc checkpoint prepareCheckpoint
+ 
+     # We chown/chmod /data again so because mount is run as root + defaults
+@@ -422,6 +422,8 @@ on post-fs-data
      restorecon /data
  
      # Make sure we have the device encryption key.
--    start vold
-+    #start vold
 +    # hybris continue bootup properly
 +    setprop vold.decrypt trigger_restart_min_framework
      installkey /data
  
      # Start bootcharting as soon as possible after the data partition is
 -- 
-2.17.1
+2.23.0
 

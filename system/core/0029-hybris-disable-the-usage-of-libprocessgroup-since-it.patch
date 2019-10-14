@@ -1,29 +1,30 @@
-From d20f661f0ad17646fb740224a353848dd689ddc4 Mon Sep 17 00:00:00 2001
+From 6145125c01cb798a1a7cbea40239c71abb54603a Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:33:03 +0200
-Subject: [PATCH 29/39] (hybris) disable the usage of libprocessgroup, since it
+Subject: [PATCH 29/40] (hybris) disable the usage of libprocessgroup, since it
  is incompatible.
 
 Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
- init/Android.bp  |  2 --
- init/Android.mk  |  1 -
- init/service.cpp | 15 +++++++++++----
- 3 files changed, 11 insertions(+), 7 deletions(-)
+ init/Android.bp  |  3 ---
+ init/init.cpp    |  2 --
+ init/service.cpp | 19 ++++++++++++++++---
+ 3 files changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 63c8382a4..3b6f46f53 100644
+index 6be7290e3..0be06b5ad 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -79,7 +79,6 @@ cc_defaults {
-         "libdl",
-         "libsparse",
-         "libz",
+@@ -84,8 +84,6 @@ cc_defaults {
+         "liblog",
+         "liblogwrap",
+         "liblp",
 -        "libprocessgroup",
-         "libavb",
-         "libkeyutils",
-         "libprotobuf-cpp-lite",
-@@ -221,7 +220,6 @@ cc_binary {
+-        "libprocessgroup_setup",
+         "libselinux",
+         "libutils",
+     ],
+@@ -239,7 +237,6 @@ cc_binary {
      shared_libs: [
          "libprotobuf-cpp-lite",
          "libhidl-gen-utils",
@@ -31,23 +32,24 @@ index 63c8382a4..3b6f46f53 100644
          "liblog",
          "libcutils",
      ],
-diff --git a/init/Android.mk b/init/Android.mk
-index c4a6a50e5..d6fc5b5b9 100644
---- a/init/Android.mk
-+++ b/init/Android.mk
-@@ -71,7 +71,6 @@ LOCAL_STATIC_LIBRARIES := \
-     libdl \
-     libsparse \
-     libz \
--    libprocessgroup \
-     libavb \
-     libkeyutils \
-     libprotobuf-cpp-lite \
+diff --git a/init/init.cpp b/init/init.cpp
+index 28a2d6661..8ff468ea9 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -43,8 +43,6 @@
+ #include <keyutils.h>
+ #include <libavb/libavb.h>
+ #include <libgsi/libgsi.h>
+-#include <processgroup/processgroup.h>
+-#include <processgroup/setup.h>
+ #include <selinux/android.h>
+ 
+ #ifndef RECOVERY
 diff --git a/init/service.cpp b/init/service.cpp
-index 9c294af15..c2d8a383a 100644
+index c17afb246..8f8f54230 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -36,7 +36,6 @@
+@@ -38,7 +38,6 @@
  #include <android-base/strings.h>
  #include <android-base/unique_fd.h>
  #include <hidl-util/FQName.h>
@@ -55,7 +57,7 @@ index 9c294af15..c2d8a383a 100644
  #include <selinux/selinux.h>
  #include <system/thread_defs.h>
  
-@@ -263,15 +262,21 @@ void Service::KillProcessGroup(int signal) {
+@@ -272,7 +271,13 @@ void Service::KillProcessGroup(int signal) {
      // These functions handle their own logging, so no additional logging is needed.
      if (!process_cgroup_empty_) {
          LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
@@ -64,38 +66,59 @@ index 9c294af15..c2d8a383a 100644
 +
 +        kill(pid_, signal);
 +
-+        // hybris: TODO?
++// hybris: TODO?
 +#if DISABLED_FOR_HYBRIS_SUPPORT
++
          int r;
          if (signal == SIGTERM) {
              r = killProcessGroupOnce(uid_, pid_, signal);
-         } else {
-             r = killProcessGroup(uid_, pid_, signal);
+@@ -281,6 +286,8 @@ void Service::KillProcessGroup(int signal) {
          }
--
--        if (r == 0) process_cgroup_empty_ = true;
-+        if (r == 0)
+ 
+         if (r == 0) process_cgroup_empty_ = true;
 +#endif
 +        process_cgroup_empty_ = true;
      }
  }
  
-@@ -954,6 +959,7 @@ Result<Success> Service::Start() {
+@@ -1012,6 +1019,7 @@ Result<Success> Service::Start() {
+         std::for_each(descriptors_.begin(), descriptors_.end(),
+                       std::bind(&DescriptorInfo::CreateAndPublish, std::placeholders::_1, scon));
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+         // See if there were "writepid" instructions to write to files under cpuset path.
+         std::string cpuset_path;
+         if (CgroupGetControllerPath("cpuset", &cpuset_path)) {
+@@ -1069,6 +1077,7 @@ Result<Success> Service::Start() {
+             PLOG(ERROR) << "cannot execve('" << args_[0] << "')";
+         }
+ 
++#endif
+         _exit(127);
+     }
+ 
+@@ -1091,8 +1100,11 @@ Result<Success> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
 +#if DISABLED_FOR_HYBRIS_SUPPORT
-     errno = -createProcessGroup(uid_, pid_);
+     bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
+                       limit_percent_ != -1 || !limit_property_.empty();
++
++
+     errno = -createProcessGroup(uid_, pid_, use_memcg);
      if (errno != 0) {
          PLOG(ERROR) << "createProcessGroup(" << uid_ << ", " << pid_ << ") failed for service '"
-@@ -977,6 +983,7 @@ Result<Success> Service::Start() {
+@@ -1137,7 +1149,8 @@ Result<Success> Service::Start() {
              }
          }
      }
+-
 +#endif
- 
++    
      NotifyStateChange("running");
      return Success();
+ }
 -- 
-2.17.1
+2.23.0
 

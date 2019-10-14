@@ -1,4 +1,4 @@
-From 829c9f20e760085a4c5872f6f1292c8d0e418e57 Mon Sep 17 00:00:00 2001
+From 8e7d6a5468060dd647fec9b52dfb4f19dbdc39ba Mon Sep 17 00:00:00 2001
 From: Ilya Bizyaev <bizyaev@zoho.com>
 Date: Sat, 20 Jan 2018 17:48:27 +0300
 Subject: [PATCH 5/6] (hybris) Fix TLS slots for x86 Aligns with this libhybris
@@ -6,43 +6,32 @@ Subject: [PATCH 5/6] (hybris) Fix TLS slots for x86 Aligns with this libhybris
 
 Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
 ---
- libc/private/bionic_tls.h | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ libc/private/bionic_asm_tls.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/libc/private/bionic_tls.h b/libc/private/bionic_tls.h
-index af4d4d0..07590f6 100644
---- a/libc/private/bionic_tls.h
-+++ b/libc/private/bionic_tls.h
-@@ -56,12 +56,16 @@ __BEGIN_DECLS
- enum {
-   TLS_SLOT_SELF = 0, // The kernel requires this specific slot for x86.
-   TLS_SLOT_THREAD_ID,
--  TLS_SLOT_ERRNO = 5,
-+
-+  TLS_SLOT_STACK_GUARD = 5, // GCC requires this specific slot for x86.
-+  
-+  TLS_SLOT_ERRNO,
+diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
+index 40e6a5394..07ded2005 100644
+--- a/libc/private/bionic_asm_tls.h
++++ b/libc/private/bionic_asm_tls.h
+@@ -104,12 +104,12 @@
  
-   // These two aren't used by bionic itself, but allow the graphics code to
-   // access TLS directly rather than using the pthread API.
--  TLS_SLOT_OPENGL_API = 6,
--  TLS_SLOT_OPENGL = 7,
-+  TLS_SLOT_OPENGL_API,
-+  TLS_SLOT_OPENGL,
-+  TLS_SLOT_DLERROR,
- 
-   // This slot is only used to pass information from the dynamic linker to
-   // libc.so when the C library is loaded in to memory. The C runtime init
-@@ -69,9 +73,6 @@ enum {
-   // we reuse an existing location that isn't needed during libc startup.
-   TLS_SLOT_BIONIC_PREINIT = TLS_SLOT_OPENGL_API,
- 
--  TLS_SLOT_STACK_GUARD = 8, // GCC requires this specific slot for x86.
--  TLS_SLOT_DLERROR,
--
-   // Fast storage for Thread::Current() in ART.
-   TLS_SLOT_ART_THREAD_SELF,
- 
+ #define TLS_SLOT_SELF             0
+ #define TLS_SLOT_THREAD_ID        1
+-#define TLS_SLOT_APP              2 // was historically used for errno
+-#define TLS_SLOT_OPENGL           3
+-#define TLS_SLOT_OPENGL_API       4
+-#define TLS_SLOT_STACK_GUARD      5
+-#define TLS_SLOT_SANITIZER        6 // was historically used for dlerror
+-#define TLS_SLOT_ART_THREAD_SELF  7
++#define TLS_SLOT_APP                // was historically used for errno
++#define TLS_SLOT_OPENGL           2
++#define TLS_SLOT_OPENGL_API       5
++#define TLS_SLOT_STACK_GUARD      6
++#define TLS_SLOT_SANITIZER        7 // was historically used for dlerror
++#define TLS_SLOT_ART_THREAD_SELF  
+ #define TLS_SLOT_DTV              8
+ #define TLS_SLOT_BIONIC_TLS       9
+ #define MAX_TLS_SLOT              9 // update this value when reserving a slot
 -- 
-2.7.4
+2.23.0
 

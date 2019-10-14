@@ -1,4 +1,4 @@
-From d6b0d88fd16ed59bc56d0d1fa41b054686fc1f81 Mon Sep 17 00:00:00 2001
+From e710725eb69970ed73c47e2e037908f179a15a57 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sun, 17 Dec 2017 00:16:16 +0200
 Subject: [PATCH 2/6] (hybris) Add support for get and list of properties.
@@ -9,7 +9,7 @@ Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
  1 file changed, 2 insertions(+)
 
 diff --git a/libc/include/sys/_system_properties.h b/libc/include/sys/_system_properties.h
-index 67beb9a..d547585 100644
+index 744a45b71..2f32bc28f 100644
 --- a/libc/include/sys/_system_properties.h
 +++ b/libc/include/sys/_system_properties.h
 @@ -44,6 +44,8 @@ __BEGIN_DECLS
@@ -22,5 +22,5 @@ index 67beb9a..d547585 100644
  
  #define PROP_SUCCESS 0
 -- 
-2.7.4
+2.23.0
 

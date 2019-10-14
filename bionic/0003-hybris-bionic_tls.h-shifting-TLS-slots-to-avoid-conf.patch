@@ -1,4 +1,4 @@
-From 5b22181f0316b519b1712b1f291d2f83bccba640 Mon Sep 17 00:00:00 2001
+From 265be0718cd40ec8edd3e014b3a7501174bafbb4 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 9 Jan 2014 00:57:01 -0200
 Subject: [PATCH 3/6] (hybris) bionic_tls.h: shifting TLS slots to avoid
@@ -10,38 +10,32 @@ Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Conflicts:
 	libc/private/bionic_tls.h
 ---
- libc/private/bionic_tls.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ libc/private/bionic_asm_tls.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/libc/private/bionic_tls.h b/libc/private/bionic_tls.h
-index de086f2..af4d4d0 100644
---- a/libc/private/bionic_tls.h
-+++ b/libc/private/bionic_tls.h
-@@ -56,12 +56,12 @@ __BEGIN_DECLS
- enum {
-   TLS_SLOT_SELF = 0, // The kernel requires this specific slot for x86.
-   TLS_SLOT_THREAD_ID,
--  TLS_SLOT_ERRNO,
-+  TLS_SLOT_ERRNO = 5,
+diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
+index 92f707aad..40e6a5394 100644
+--- a/libc/private/bionic_asm_tls.h
++++ b/libc/private/bionic_asm_tls.h
+@@ -84,12 +84,12 @@
+ #define TLS_SLOT_BIONIC_TLS       -1
+ #define TLS_SLOT_DTV              0
+ #define TLS_SLOT_THREAD_ID        1
+-#define TLS_SLOT_APP              2 // was historically used for errno
+-#define TLS_SLOT_OPENGL           3
+-#define TLS_SLOT_OPENGL_API       4
+-#define TLS_SLOT_STACK_GUARD      5
+-#define TLS_SLOT_SANITIZER        6 // was historically used for dlerror
+-#define TLS_SLOT_ART_THREAD_SELF  7
++#define TLS_SLOT_APP                // was historically used for errno
++#define TLS_SLOT_OPENGL           2
++#define TLS_SLOT_OPENGL_API       5
++#define TLS_SLOT_STACK_GUARD      6
++#define TLS_SLOT_SANITIZER        7 // was historically used for dlerror
++#define TLS_SLOT_ART_THREAD_SELF
  
-   // These two aren't used by bionic itself, but allow the graphics code to
-   // access TLS directly rather than using the pthread API.
--  TLS_SLOT_OPENGL_API = 3,
--  TLS_SLOT_OPENGL = 4,
-+  TLS_SLOT_OPENGL_API = 6,
-+  TLS_SLOT_OPENGL = 7,
- 
-   // This slot is only used to pass information from the dynamic linker to
-   // libc.so when the C library is loaded in to memory. The C runtime init
-@@ -69,7 +69,7 @@ enum {
-   // we reuse an existing location that isn't needed during libc startup.
-   TLS_SLOT_BIONIC_PREINIT = TLS_SLOT_OPENGL_API,
- 
--  TLS_SLOT_STACK_GUARD = 5, // GCC requires this specific slot for x86.
-+  TLS_SLOT_STACK_GUARD = 8, // GCC requires this specific slot for x86.
-   TLS_SLOT_DLERROR,
- 
-   // Fast storage for Thread::Current() in ART.
+ // The maximum slot is fixed by the minimum TLS alignment in Bionic executables.
+ #define MAX_TLS_SLOT              7
 -- 
-2.7.4
+2.23.0
 

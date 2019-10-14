@@ -1,4 +1,4 @@
-From 44eff29a55aed4d115ea468b00d4345ffcdf7a2d Mon Sep 17 00:00:00 2001
+From 2270d2fdcae29295e47b5b4ae87688b14a29defd Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 15 Jul 2015 08:29:08 +0000
 Subject: [PATCH 2/5] (hybris) Pick GLES shared objects from appropriate paths
@@ -11,10 +11,10 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index 91a3455..386991a 100644
+index 038a43233..426b9d7de 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
-@@ -178,9 +178,9 @@ static void* load_wrapper(const char* path) {
+@@ -140,9 +140,9 @@ static void* load_wrapper(const char* path) {
  
  #ifndef EGL_WRAPPER_DIR
  #if defined(__LP64__)
@@ -26,19 +26,23 @@ index 91a3455..386991a 100644
  #endif
  #endif
  
-@@ -240,9 +240,9 @@ void* Loader::open(egl_connection_t* cnx)
+@@ -320,13 +320,13 @@ void* Loader::open(egl_connection_t* cnx)
+                         HAL_SUBNAME_KEY_PROPERTIES[0], HAL_SUBNAME_KEY_PROPERTIES[1]);
  
-     LOG_ALWAYS_FATAL_IF(!hnd, "couldn't find an OpenGL ES implementation");
+     if (!cnx->libEgl) {
+-        cnx->libEgl = load_wrapper(EGL_WRAPPER_DIR "/libEGL.so");
++        cnx->libEgl = load_wrapper(EGL_WRAPPER_DIR "libEGL.so");
+     }
+     if (!cnx->libGles1) {
+-        cnx->libGles1 = load_wrapper(EGL_WRAPPER_DIR "/libGLESv1_CM.so");
++        cnx->libGles1 = load_wrapper(EGL_WRAPPER_DIR "libGLESv1_CM.so");
+     }
+     if (!cnx->libGles2) {
+-        cnx->libGles2 = load_wrapper(EGL_WRAPPER_DIR "/libGLESv2.so");
++        cnx->libGles2 = load_wrapper(EGL_WRAPPER_DIR "libGLESv2.so");
+     }
  
--    cnx->libEgl   = load_wrapper(EGL_WRAPPER_DIR "/libEGL.so");
--    cnx->libGles2 = load_wrapper(EGL_WRAPPER_DIR "/libGLESv2.so");
--    cnx->libGles1 = load_wrapper(EGL_WRAPPER_DIR "/libGLESv1_CM.so");
-+    cnx->libEgl   = load_wrapper(EGL_WRAPPER_DIR "libEGL.so");
-+    cnx->libGles2 = load_wrapper(EGL_WRAPPER_DIR "libGLESv2.so");
-+    cnx->libGles1 = load_wrapper(EGL_WRAPPER_DIR "libGLESv1_CM.so");
- 
-     LOG_ALWAYS_FATAL_IF(!cnx->libEgl,
-             "couldn't load system EGL wrapper libraries");
+     if (!cnx->libEgl || !cnx->libGles2 || !cnx->libGles1) {
 -- 
-2.7.4
+2.23.0
 

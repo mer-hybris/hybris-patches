@@ -1,0 +1,43 @@
+From fc94f8187298d3deaa1e7ad836abe91558840192 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
+Date: Sun, 20 Oct 2019 15:19:55 +0200
+Subject: [PATCH 40/40] (hybris) Disable unused code that was disabled by
+ privous patches.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: I2a78d91094495fad7b3cf514dd437d72a0718706
+Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
+---
+ init/service.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/init/service.cpp b/init/service.cpp
+index 8f8f54230..30f2508a4 100644
+--- a/init/service.cpp
++++ b/init/service.cpp
+@@ -190,6 +190,7 @@ Result<Success> Service::EnterNamespaces() const {
+     return Success();
+ }
+ 
++/*
+ static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
+     std::vector<std::string> expanded_args;
+     std::vector<char*> c_strings;
+@@ -211,10 +212,12 @@ static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigsto
+     return execv(c_strings[0], c_strings.data()) == 0;
+ }
+ 
++
+ static bool IsRuntimeApexReady() {
+     struct stat buf;
+     return stat("/apex/com.android.runtime/", &buf) == 0;
+ }
++*/
+ 
+ unsigned long Service::next_start_order_ = 1;
+ bool Service::is_exec_service_running_ = false;
+-- 
+2.23.0
+
