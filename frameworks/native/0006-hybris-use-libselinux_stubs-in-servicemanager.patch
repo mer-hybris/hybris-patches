@@ -1,0 +1,23 @@
+From 28f6a85f72a532946b3ad64c5f316f23c770706c Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Fri, 8 Jun 2018 14:44:30 +0200
+Subject: [PATCH 6/6] (hybris) use libselinux_stubs in servicemanager
+
+Change-Id: Iad17a5ff109e231237d7c0ed692a2dc178c99a5e
+---
+ cmds/servicemanager/servicemanager.rc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
+index 03803d139..bc2748bd8 100644
+--- a/cmds/servicemanager/servicemanager.rc
++++ b/cmds/servicemanager/servicemanager.rc
+@@ -1,4 +1,5 @@
+ service servicemanager /system/bin/servicemanager
++    setenv LD_PRELOAD /usr/libexec/droid-hybris/system/lib64/libselinux_stubs.so
+     class core animation
+     user system
+     group system readproc
+-- 
+2.17.1
+
