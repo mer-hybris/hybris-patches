@@ -1,0 +1,26 @@
+From c67806620f833b503f3b188ec5b1564d23ab26bb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Fri, 28 Feb 2020 23:13:01 +0200
+Subject: [PATCH] (hybris) Do not log battery status to kernel log.
+
+---
+ hardware/health/libhealthd_board.cpp | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/hardware/health/libhealthd_board.cpp b/hardware/health/libhealthd_board.cpp
+index 163b8b8..08b2da6 100644
+--- a/hardware/health/libhealthd_board.cpp
++++ b/hardware/health/libhealthd_board.cpp
+@@ -39,6 +39,8 @@ void healthd_board_init(struct healthd_config *) {
+ /* } */
+ int healthd_board_battery_update(struct android::BatteryProperties *props) {
+     ::device::sony::health::health_board_battery_update(props);
++    // HYBRIS: silence excessive logging of battery status
++    return 1;
+     // return 0 to log periodic polled battery status to kernel log
+-    return 0;
++    //return 0;
+ }
+-- 
+2.17.1
+
