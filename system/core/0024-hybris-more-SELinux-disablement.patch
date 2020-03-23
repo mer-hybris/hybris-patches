@@ -1,7 +1,7 @@
-From 1ce5df555b3ba8f7995e1907d3616e7491d704a8 Mon Sep 17 00:00:00 2001
+From 87fe03c9be64114ec272027d1ca12db642e820f0 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:49:02 +0200
-Subject: [PATCH 24/39] (hybris) more SELinux disablement
+Subject: [PATCH 24/41] (hybris) more SELinux disablement
 
 Change-Id: Ic1bc474e993f2b66ab9114e88d7ec4f718a99d5c
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
@@ -47,5 +47,5 @@ index 6198fc25f..0c7c7b50d 100644
      android::base::InitLogging(argv, &android::base::KernelLogger, InitAborter);
  }
 -- 
-2.17.1
+2.20.1
 

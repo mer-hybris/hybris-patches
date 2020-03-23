@@ -1,7 +1,7 @@
-From 3f10a48c586a2e21b2967ffdb6233475eefef726 Mon Sep 17 00:00:00 2001
+From 6b49a219e0febdab4bf42362dbf64075c08c1190 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 6 Nov 2013 21:09:30 +0000
-Subject: [PATCH 01/39] (hybris) Add /usr/libexec/droid-hybris/lib-dev-alog/ to
+Subject: [PATCH 01/41] (hybris) Add /usr/libexec/droid-hybris/lib-dev-alog/ to
  the LD_LIBRARY_PATH for all init'ed binaries to support the /dev/alog used in
  Mer
 
@@ -25,5 +25,5 @@ index 2e2ab7465..deefac4e0 100644
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
 -- 
-2.17.1
+2.20.1
 

@@ -1,7 +1,7 @@
-From a2fbf62f4b43e628a1146a1714ba64c233b8a60d Mon Sep 17 00:00:00 2001
+From 4d6294e08a0d838dd9078e0ba65e6177631ed111 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sun, 8 Jan 2017 16:34:54 +0000
-Subject: [PATCH 16/39] (hybris) Disable all zygote variations
+Subject: [PATCH 16/41] (hybris) Disable all zygote variations
 
 Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
 ---
@@ -64,5 +64,5 @@ index 7ddd52ee5..e74202a7e 100644
      writepid /dev/cpuset/foreground/tasks
 +    disabled
 -- 
-2.17.1
+2.20.1
 

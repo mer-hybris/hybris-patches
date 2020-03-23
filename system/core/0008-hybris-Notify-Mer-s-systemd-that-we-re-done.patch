@@ -1,7 +1,7 @@
-From e59568278cf4a68586c426bdd2e5e5463255fce4 Mon Sep 17 00:00:00 2001
+From 89879a92b37666f69dfb4a8f41037ff07b2ca6a3 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:24:31 +0000
-Subject: [PATCH 08/39] (hybris) Notify Mer's systemd that we're done
+Subject: [PATCH 08/41] (hybris) Notify Mer's systemd that we're done
 
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
@@ -10,10 +10,10 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 16 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 2c45bb7e7..fbab513e5 100644
+index baba9cc6d..74389e016 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -763,3 +763,19 @@ on property:ro.debuggable=1
+@@ -757,3 +757,19 @@ on property:ro.debuggable=1
  service flash_recovery /system/bin/install-recovery.sh
      class main
      oneshot
@@ -34,5 +34,5 @@ index 2c45bb7e7..fbab513e5 100644
 +    start flash_recovery
 +
 -- 
-2.17.1
+2.20.1
 

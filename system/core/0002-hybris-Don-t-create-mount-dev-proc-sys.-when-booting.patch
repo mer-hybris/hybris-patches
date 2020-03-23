@@ -1,7 +1,7 @@
-From 1653fc62093ef821c1d949b14d6d9e6e303f0734 Mon Sep 17 00:00:00 2001
+From 914e4a3ad0b1208a7fa987c254da80e98fa1ab15 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 8 Oct 2013 16:59:30 +0100
-Subject: [PATCH 02/39] (hybris) Don't create/mount dev/proc/sys... when
+Subject: [PATCH 02/41] (hybris) Don't create/mount dev/proc/sys... when
  booting with Mer
 
 Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
@@ -37,5 +37,5 @@ index fc58eeabb..527d275c7 100644
  
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
 -- 
-2.17.1
+2.20.1
 

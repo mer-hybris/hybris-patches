@@ -1,7 +1,7 @@
-From 6e89d8c8a8583630ad8743c043686c84ec936f27 Mon Sep 17 00:00:00 2001
+From 8cbe08a2e1525e0c3d203cdbbf97f3ffa0aeb28c Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:30:01 +0200
-Subject: [PATCH 27/39] (hybris) load services from droid-hybris as early as
+Subject: [PATCH 27/41] (hybris) load services from droid-hybris as early as
  possible
 
 This makes sure our service definitions are loaded first and can be used to
@@ -28,5 +28,5 @@ index e397c4c58..214c62215 100644
              late_import_paths.emplace_back("/product/etc/init");
          }
 -- 
-2.17.1
+2.20.1
 

@@ -1,7 +1,7 @@
-From 2073c43d7f5cff33f20dc1437f68e78b37ae2c6f Mon Sep 17 00:00:00 2001
+From 414f713a6b29ba3d509f797a34792b781a243e31 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:48:19 +0200
-Subject: [PATCH 18/39] (hybris) Disable SELinux
+Subject: [PATCH 18/41] (hybris) Disable SELinux
 
 Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
 ---
@@ -92,5 +92,5 @@ index 37d3a8807..9c294af15 100644
  
      pid_t pid = -1;
 -- 
-2.17.1
+2.20.1
 

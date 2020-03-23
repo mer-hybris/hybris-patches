@@ -1,7 +1,7 @@
-From 6fec76342654b725c766601228326d06ea0186ee Mon Sep 17 00:00:00 2001
+From 3dc6e2087d6f91c231811650634fd692c5c339ac Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:32:06 +0200
-Subject: [PATCH 28/39] (hybris) disable remnants of SELinux which currently
+Subject: [PATCH 28/41] (hybris) disable remnants of SELinux which currently
  break
 
 Change-Id: I252a8399c9853d993fc17d769bfbb2e4c722cfe8
@@ -39,5 +39,5 @@ index 8eb184da9..e27f4f88e 100644
      struct sockaddr_un addr;
      memset(&addr, 0 , sizeof(addr));
 -- 
-2.17.1
+2.20.1
 

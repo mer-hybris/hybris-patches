@@ -1,7 +1,7 @@
-From d7bfc109f9a23d89e476011c63bde3fe50682d72 Mon Sep 17 00:00:00 2001
+From da41f7558ba050aad4dbc9e0b1b75e40e2d3bed6 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 12:46:12 -0400
-Subject: [PATCH 36/39] (hybris) disable some more selinux functionality.
+Subject: [PATCH 36/41] (hybris) disable some more selinux functionality.
 
 Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
 ---
@@ -77,5 +77,5 @@ index e27f4f88e..a5c95df5b 100644
      if (ret) {
          errno = savederrno;
 -- 
-2.17.1
+2.20.1
 
