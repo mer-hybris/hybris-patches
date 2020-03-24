@@ -1,7 +1,7 @@
-From 6cf9230f3f32233b6ad101f244a1ed4b914c1355 Mon Sep 17 00:00:00 2001
+From 92f07fc5f32696e9c1b5d327207525de06f70118 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/39] (hybris) property_service.c: adding support for getprop
+Subject: [PATCH 12/41] (hybris) property_service.c: adding support for getprop
  and listprop
 
 Change-Id: Ie5fbdb55c48038ce8250f27500623b3b81cc5cd1
@@ -95,5 +95,5 @@ index 4172ba754..f0975313b 100644
          LOG(ERROR) << "sys_prop: invalid command " << cmd;
          socket.SendUint32(PROP_ERROR_INVALID_CMD);
 -- 
-2.17.1
+2.20.1
 

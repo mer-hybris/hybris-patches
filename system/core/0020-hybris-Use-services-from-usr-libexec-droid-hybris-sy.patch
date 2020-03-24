@@ -1,7 +1,7 @@
-From 56e074cab0466e0f6f00f983f870d39c892f205e Mon Sep 17 00:00:00 2001
+From 248324f535acf40cb7f0379f0dcf81a5048d8078 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:57:47 +0200
-Subject: [PATCH 20/39] (hybris) Use services from
+Subject: [PATCH 20/41] (hybris) Use services from
  /usr/libexec/droid-hybris/system/etc/init/.
 
 Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131
@@ -217,5 +217,5 @@ index 4455b2eb1..8eb184da9 100644
          return ErrnoError() << "open() failed";
      }
 -- 
-2.17.1
+2.20.1
 

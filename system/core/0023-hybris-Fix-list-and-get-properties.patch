@@ -1,7 +1,7 @@
-From 77ffc7ac438edf9827be45b1f4db0b732d2d3779 Mon Sep 17 00:00:00 2001
+From fb81da3648c836bb76543403f2558290d1057052 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Tue, 16 Jan 2018 16:18:31 +0200
-Subject: [PATCH 23/39] (hybris) Fix list and get properties.
+Subject: [PATCH 23/41] (hybris) Fix list and get properties.
 
 Change-Id: I9deb65f147e941fc5c9f91793f851440d02260e1
 ---
@@ -88,5 +88,5 @@ index 3333eedb1..5bead058c 100644
          break;
        }
 -- 
-2.17.1
+2.20.1
 

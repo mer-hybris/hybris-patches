@@ -1,7 +1,7 @@
-From 2b24443b29ef5118a4f919f6d4f9dee4aeaebfa7 Mon Sep 17 00:00:00 2001
+From 9d04e908c83303f72ae0dacec066484fb949f56a Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 4 Jun 2018 10:00:13 +0200
-Subject: [PATCH 25/39] (hybris) don't try to mount since mer handles this
+Subject: [PATCH 25/41] (hybris) don't try to mount since mer handles this
 
 Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
 ---
@@ -30,5 +30,5 @@ index 033ce419a..5c9aa9306 100644
  
  void SetInitAvbVersionInRecovery() {
 -- 
-2.17.1
+2.20.1
 

@@ -1,7 +1,7 @@
-From b7333f2978cb4031d4366da49413bd347dcda922 Mon Sep 17 00:00:00 2001
+From d138f79e6fe999fb2d6290825d413003069f3d6e Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 3 Jun 2019 13:46:44 +0200
-Subject: [PATCH 37/39] (hybris) Disable /mnt tmpfs creation
+Subject: [PATCH 37/41] (hybris) Disable /mnt tmpfs creation
 
 Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
 ---
@@ -24,5 +24,5 @@ index 214c62215..7fe36d504 100644
          // part of the vendor partition, e.g. because they are mounted read-write.
          mkdir("/mnt/vendor", 0755);
 -- 
-2.17.1
+2.20.1
 
