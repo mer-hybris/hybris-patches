@@ -21,7 +21,7 @@ else
     MBS=$(find . -name *.patch -exec dirname {} \; |sort -u)
     for mb in $MBS; do
         cd $OLD_WD/$mb
-        git am $OLD_WD/hybris-patches/$mb/*.patch
+        git am --no-gpg-sign $OLD_WD/hybris-patches/$mb/*.patch
     done
 fi
 
