@@ -1,7 +1,7 @@
 From a2c9dd20ff97155006ca2bd4e2b06ea51d2d60aa Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Tue, 18 Mar 2014 14:07:11 +0000
-Subject: [PATCH 11/39] (hybris) trigger late_start on property change
+Subject: [PATCH 11/40] (hybris) trigger late_start on property change
 
 Android's late_start is triggered by mount_all, which also determines whether
 the /data partition is encrypted.

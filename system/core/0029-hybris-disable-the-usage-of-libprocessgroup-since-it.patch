@@ -1,7 +1,7 @@
 From 0c0d6836c726ea40a3bfc40595a356e4b84b21a9 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:33:03 +0200
-Subject: [PATCH 29/39] (hybris) disable the usage of libprocessgroup, since it
+Subject: [PATCH 29/40] (hybris) disable the usage of libprocessgroup, since it
  is incompatible.
 
 Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64

@@ -1,7 +1,7 @@
 From d5aa68ed1a6389211abd43df9e2c2109aabded31 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:10:16 +0100
-Subject: [PATCH 05/39] (hybris) Systemd handles control groups
+Subject: [PATCH 05/40] (hybris) Systemd handles control groups
 
 Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
 ---

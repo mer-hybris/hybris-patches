@@ -1,7 +1,7 @@
 From 25929384dc9482df6671dc5da24c87b3fd32f1dd Mon Sep 17 00:00:00 2001
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 Date: Wed, 31 Jan 2018 17:12:14 +0200
-Subject: [PATCH 34/39] (hybris) Remove /sbin from droid PATH.
+Subject: [PATCH 34/40] (hybris) Remove /sbin from droid PATH.
 
 ---
  rootdir/init.environ.rc.in | 2 +-

@@ -1,7 +1,7 @@
 From 1849c79f3e1a1c90ee9b40e485725c77adf6a9c4 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:24:31 +0000
-Subject: [PATCH 08/39] (hybris) Notify Mer's systemd that we're done
+Subject: [PATCH 08/40] (hybris) Notify Mer's systemd that we're done
 
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>

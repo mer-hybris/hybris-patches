@@ -1,7 +1,7 @@
 From 1ac7333536d0727b34e02fdc1899d62c8b28fdc0 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Thu, 13 Mar 2014 08:51:53 +0000
-Subject: [PATCH 10/39] (hybris) allow system group to trigger haptics
+Subject: [PATCH 10/40] (hybris) allow system group to trigger haptics
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
 
