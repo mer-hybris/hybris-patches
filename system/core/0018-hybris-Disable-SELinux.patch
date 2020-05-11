@@ -1,7 +1,7 @@
 From 76b09fd6a855e9f1fa8a80c6fe7bf60a46c263a8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:48:19 +0200
-Subject: [PATCH 18/39] (hybris) Disable SELinux
+Subject: [PATCH 18/40] (hybris) Disable SELinux
 
 Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
 ---

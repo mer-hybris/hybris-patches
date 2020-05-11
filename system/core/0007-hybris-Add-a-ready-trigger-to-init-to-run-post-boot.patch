@@ -1,7 +1,7 @@
 From 5989860da7fbfb203719a06e28353fc6208ee772 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:18:51 +0000
-Subject: [PATCH 07/39] (hybris) Add a ready trigger to init to run post boot
+Subject: [PATCH 07/40] (hybris) Add a ready trigger to init to run post boot
 
 Change-Id: I9c828463424c0e82c3de0159db08299e7ce6fe06
 ---

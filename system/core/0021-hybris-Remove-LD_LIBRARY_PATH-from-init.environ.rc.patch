@@ -1,7 +1,7 @@
 From d0229a40ad25575ad40f23434ed09f8eb5385458 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Tue, 17 Oct 2017 21:58:40 +0300
-Subject: [PATCH 21/39] (hybris) Remove LD_LIBRARY_PATH from init.environ.rc
+Subject: [PATCH 21/40] (hybris) Remove LD_LIBRARY_PATH from init.environ.rc
 
 Change-Id: I52a2c733f609f90b6ac31be72a4f8fe7681beac0
 ---

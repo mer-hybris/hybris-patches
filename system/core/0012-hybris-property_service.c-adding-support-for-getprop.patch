@@ -1,7 +1,7 @@
 From 6e2d88cb450e05d1f77e579cb0b0e2249485d295 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/39] (hybris) property_service.c: adding support for getprop
+Subject: [PATCH 12/40] (hybris) property_service.c: adding support for getprop
  and listprop
 
 Change-Id: Ie5fbdb55c48038ce8250f27500623b3b81cc5cd1

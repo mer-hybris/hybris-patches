@@ -1,7 +1,7 @@
 From 1439cc542b25c8a45a59db6225f24c13a01f29f9 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sun, 8 Jan 2017 17:16:08 +0000
-Subject: [PATCH 17/39] (hybris) Disable ueventd service
+Subject: [PATCH 17/40] (hybris) Disable ueventd service
 
 Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
 ---

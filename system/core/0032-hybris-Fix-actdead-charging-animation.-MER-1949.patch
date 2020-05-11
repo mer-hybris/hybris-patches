@@ -1,7 +1,7 @@
 From 71a7301555b2af4b2d457b9828174fd502e8350a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 30 Aug 2018 19:54:16 +0300
-Subject: [PATCH 32/39] (hybris) Fix actdead charging animation. MER#1949
+Subject: [PATCH 32/40] (hybris) Fix actdead charging animation. MER#1949
 
 ---
  rootdir/init.rc | 2 +-

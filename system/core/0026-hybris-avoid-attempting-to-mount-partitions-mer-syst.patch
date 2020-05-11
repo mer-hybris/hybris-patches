@@ -1,7 +1,7 @@
 From c385ba2020d6479dd530100925736d67ec9442c0 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:28:27 +0200
-Subject: [PATCH 26/39] (hybris) avoid attempting to mount partitions,
+Subject: [PATCH 26/40] (hybris) avoid attempting to mount partitions,
  mer/systemd handles this
 
 Even partitions weren't mounted by this previously it still would produce an

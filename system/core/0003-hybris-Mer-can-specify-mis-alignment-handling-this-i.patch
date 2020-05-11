@@ -1,7 +1,7 @@
 From f1042f1347d6b25674f4e121c093b8e06c2e596a Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:07:56 +0100
-Subject: [PATCH 03/39] (hybris) Mer can specify mis-alignment handling - this
+Subject: [PATCH 03/40] (hybris) Mer can specify mis-alignment handling - this
  is the wrong place to set it
 
 Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984

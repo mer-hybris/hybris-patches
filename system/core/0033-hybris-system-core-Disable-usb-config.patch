@@ -1,7 +1,7 @@
 From fb88c0afbacd9a1827979dc8b09761639281cea6 Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Tue, 21 Feb 2017 13:13:26 +0100
-Subject: [PATCH 33/39] (hybris)[system/core] Disable usb config.
+Subject: [PATCH 33/40] (hybris)[system/core] Disable usb config.
 
 Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
 ---

@@ -1,7 +1,7 @@
 From fd87f13efe9db2fb1dcd29efb38d301eaa27be62 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sat, 15 Oct 2016 15:38:47 +0100
-Subject: [PATCH 15/39] (hybris) Update rootdir for 64bit libs
+Subject: [PATCH 15/40] (hybris) Update rootdir for 64bit libs
 
 Change-Id: I593ae40da755c116bb28c96dcace863e6b30b4cc
 ---

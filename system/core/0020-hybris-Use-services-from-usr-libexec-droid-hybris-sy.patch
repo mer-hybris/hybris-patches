@@ -1,7 +1,7 @@
 From c52e0c358eb27b2fccfab86a160f0c77e37a89e0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:57:47 +0200
-Subject: [PATCH 20/39] (hybris) Use services from
+Subject: [PATCH 20/40] (hybris) Use services from
  /usr/libexec/droid-hybris/system/etc/init/.
 
 Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131

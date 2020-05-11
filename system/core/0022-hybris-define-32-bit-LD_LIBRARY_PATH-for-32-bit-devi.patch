@@ -1,7 +1,7 @@
 From bd88af2919d6f2552fa3b23bc0b9d71ebefd9514 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Wed, 25 Oct 2017 14:14:59 +0300
-Subject: [PATCH 22/39] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
+Subject: [PATCH 22/40] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
  devices
 
 ---

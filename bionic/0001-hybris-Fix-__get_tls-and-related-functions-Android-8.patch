@@ -134,7 +134,7 @@ new file mode 100644
 index 000000000..4a8fa5fc2
 --- /dev/null
 +++ b/libc/private/__get_tls_internal.h
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,53 @@
 +/*
 + * Copyright (C) 2008 The Android Open Source Project
 + * All rights reserved.
@@ -188,7 +188,6 @@ index 000000000..4a8fa5fc2
 +#endif
 +
 +#endif /* __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_ */
-+
 -- 
 2.17.1
 

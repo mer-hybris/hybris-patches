@@ -1,7 +1,7 @@
 From 26133bb98b735c422674c60aec13865554a03e90 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:30:01 +0200
-Subject: [PATCH 27/39] (hybris) load services from droid-hybris as early as
+Subject: [PATCH 27/40] (hybris) load services from droid-hybris as early as
  possible
 
 This makes sure our service definitions are loaded first and can be used to

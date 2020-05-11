@@ -1,7 +1,7 @@
 From ff19de6a3f841f39d22310a4ae5d04d03997d008 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:49:02 +0200
-Subject: [PATCH 24/39] (hybris) more SELinux disablement
+Subject: [PATCH 24/40] (hybris) more SELinux disablement
 
 Change-Id: Ic1bc474e993f2b66ab9114e88d7ec4f718a99d5c
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>

@@ -1,7 +1,7 @@
 From 1adafb228c8d3e97c1b1a872b5972bbc476e7e91 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 19 Feb 2014 19:02:32 +0000
-Subject: [PATCH 09/39] (hybris) Disable usb import
+Subject: [PATCH 09/40] (hybris) Disable usb import
 
 Change-Id: I8aba60bc79fb4aab3854f0569b325ad69c5126d4
 Signed-off-by: David Greaves <david@dgreaves.com>
