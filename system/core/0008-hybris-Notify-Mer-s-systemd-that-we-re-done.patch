@@ -13,7 +13,7 @@ diff --git a/rootdir/init.rc b/rootdir/init.rc
 index 5bed0e34b..7cb3685c0 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -764,3 +764,13 @@ service flash_recovery /system/bin/install-recovery.sh
+@@ -764,3 +764,12 @@ service flash_recovery /system/bin/install-recovery.sh
  on property:persist.sys.recovery_update=true
      start flash_recovery
  
@@ -26,7 +26,6 @@ index 5bed0e34b..7cb3685c0 100644
 +service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
 +    class mer
 +    oneshot
-+
 -- 
 2.17.1
 

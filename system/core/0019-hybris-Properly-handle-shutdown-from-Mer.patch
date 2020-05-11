@@ -12,10 +12,11 @@ diff --git a/rootdir/init.rc b/rootdir/init.rc
 index ae9cd7b08..28f0ca825 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -788,3 +788,12 @@ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
+@@ -787,3 +787,12 @@
+ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
      class mer
      oneshot
- 
++
 +# Properly handle shutdown from Mer
 +on property:hybris.shutdown=*
 +    class_stop late_start
@@ -24,7 +25,6 @@ index ae9cd7b08..28f0ca825 100644
 +    class_stop hal
 +    class_stop early_hal
 +    class_stop core
-+
 -- 
 2.17.1
 

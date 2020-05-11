@@ -20,7 +20,7 @@ index af4d4d07c..07590f60c 100644
 -  TLS_SLOT_ERRNO = 5,
 +
 +  TLS_SLOT_STACK_GUARD = 5, // GCC requires this specific slot for x86.
-+  
++
 +  TLS_SLOT_ERRNO,
  
    // These two aren't used by bionic itself, but allow the graphics code to
