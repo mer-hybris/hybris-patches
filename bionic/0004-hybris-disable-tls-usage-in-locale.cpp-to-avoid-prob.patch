@@ -1,4 +1,4 @@
-From 48e009cf11f2041d662ad597b3c73a044188fdc4 Mon Sep 17 00:00:00 2001
+From c2db77fdc026934f0c8198eab45608146dfb28dc Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:37:09 +0200
 Subject: [PATCH 4/6] (hybris) disable tls usage in locale.cpp, to avoid
@@ -31,5 +31,5 @@ index 8358fb0ab..8def0e164 100644
  #if USE_TLS_SLOT
  #include "bionic/pthread_internal.h"
 -- 
-2.23.0
+2.27.0
 

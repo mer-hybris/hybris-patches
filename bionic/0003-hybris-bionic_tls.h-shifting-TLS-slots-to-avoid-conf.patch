@@ -1,4 +1,4 @@
-From 265be0718cd40ec8edd3e014b3a7501174bafbb4 Mon Sep 17 00:00:00 2001
+From 90df3815d26d79b32d6a9cb05f6ded82054744e0 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 9 Jan 2014 00:57:01 -0200
 Subject: [PATCH 3/6] (hybris) bionic_tls.h: shifting TLS slots to avoid
@@ -37,5 +37,5 @@ index 92f707aad..40e6a5394 100644
  // The maximum slot is fixed by the minimum TLS alignment in Bionic executables.
  #define MAX_TLS_SLOT              7
 -- 
-2.23.0
+2.27.0
 

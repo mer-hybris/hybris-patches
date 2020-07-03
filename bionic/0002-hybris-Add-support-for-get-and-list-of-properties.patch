@@ -1,4 +1,4 @@
-From e710725eb69970ed73c47e2e037908f179a15a57 Mon Sep 17 00:00:00 2001
+From 3c74a5052ea7eb73290fe34de4a8a05a2e0c9f11 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sun, 17 Dec 2017 00:16:16 +0200
 Subject: [PATCH 2/6] (hybris) Add support for get and list of properties.
@@ -22,5 +22,5 @@ index 744a45b71..2f32bc28f 100644
  
  #define PROP_SUCCESS 0
 -- 
-2.23.0
+2.27.0
 

@@ -1,4 +1,4 @@
-From ed1d2fb125692caeddf8dda361350d72ca043bbf Mon Sep 17 00:00:00 2001
+From f6251489321b5e8b23f43a5c568c1a6a37aced92 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 13:10:48 -0400
 Subject: [PATCH 6/6] (hybris) don't fail because of fsetxattr
@@ -22,5 +22,5 @@ index 42bee9f3e..04be16230 100644
      }
    }
 -- 
-2.23.0
+2.27.0
 

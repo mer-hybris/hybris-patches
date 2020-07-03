@@ -1,6 +1,6 @@
-From 3754ab27492f5bdb443429db9af3fc8205caeed7 Mon Sep 17 00:00:00 2001
+From af58fcbb7a0c501a5cd06ae6c5eaed17204b065c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
-Date: Mon, 21 Oct 2019 07:19:31 +0200
+Date: Fri, 3 Jul 2020 22:15:49 +0200
 Subject: [PATCH] (hybris) Silence some build errors to let the systemimage
  build
 MIME-Version: 1.0
@@ -11,8 +11,8 @@ Previous changes to bionic and the build system removed things that
 art depends on. Either remove the parts that create errors or replace
 them and insert dummy data to allow the building of the systemimage.
 
-Change-Id: I5f12c9dd80886896885b0a84667812d966054114
 Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
+Change-Id: Ide41188b6263a22c371ec28786bbc1ef1ee62df7
 ---
  build/Android.gtest.mk       | 20 ++++++++++----------
  runtime/thread-current-inl.h |  2 +-
@@ -77,7 +77,7 @@ index 9241b1f875..904a62ccff 100644
      void* thread = pthread_getspecific(Thread::pthread_key_self_);
  #endif
 diff --git a/runtime/thread.cc b/runtime/thread.cc
-index 70ed7c8038..dcfbb7926d 100644
+index be0e30ad11..dd3d07d920 100644
 --- a/runtime/thread.cc
 +++ b/runtime/thread.cc
 @@ -933,7 +933,7 @@ bool Thread::Init(ThreadList* thread_list, JavaVMExt* java_vm, JNIEnvExt* jni_en
@@ -89,7 +89,7 @@ index 70ed7c8038..dcfbb7926d 100644
  #else
    CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, this), "attach self");
  #endif
-@@ -2196,7 +2196,7 @@ void Thread::ThreadExitCallback(void* arg) {
+@@ -2199,7 +2199,7 @@ void Thread::ThreadExitCallback(void* arg) {
          "going to use a pthread_key_create destructor?): " << *self;
      CHECK(is_started_);
  #ifdef ART_TARGET_ANDROID
@@ -112,5 +112,5 @@ index ed6b2c91e5..06e6f6585b 100644
    CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, nullptr), "detach self");
  #endif
 -- 
-2.23.0
+2.27.0
 

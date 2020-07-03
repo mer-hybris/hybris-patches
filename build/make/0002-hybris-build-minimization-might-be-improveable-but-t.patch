@@ -1,4 +1,4 @@
-From 0135270cfe3fb8d78f5807ac5afd0b746186a99c Mon Sep 17 00:00:00 2001
+From a81cf1a739d91dd23fe91984b8c170265a14d5df Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Thu, 7 Jun 2018 15:32:40 +0000
 Subject: [PATCH 2/3] (hybris) build minimization (might be improveable, but
@@ -558,10 +558,10 @@ index c706cea72..e69de29bb 100644
 -endif # LOCAL_DEX_PREOPT
 -endif # !LOCAL_IS_STATIC_JAVA_LIBRARY
 diff --git a/core/main.mk b/core/main.mk
-index df5c13cc2..db5a177d6 100644
+index a13404a99..86193c909 100644
 --- a/core/main.mk
 +++ b/core/main.mk
-@@ -179,8 +179,6 @@ endif
+@@ -181,8 +181,6 @@ endif
  # Bring in standard build system definitions.
  include $(BUILD_SYSTEM)/definitions.mk
  
@@ -570,7 +570,7 @@ index df5c13cc2..db5a177d6 100644
  
  ifneq ($(filter user userdebug eng,$(MAKECMDGOALS)),)
  $(info ***************************************************************)
-@@ -478,6 +476,9 @@ subdir_makefiles_total := $(words int $(subdir_makefiles) post finish)
+@@ -489,6 +487,9 @@ subdir_makefiles_total := $(words int $(subdir_makefiles) post finish)
  
  $(foreach mk,$(subdir_makefiles),$(info [$(call inc_and_print,subdir_makefiles_inc)/$(subdir_makefiles_total)] including $(mk) ...)$(eval include $(mk)))
  
@@ -672,10 +672,10 @@ index 854e0093c..e69de29bb 100644
 -
 -my_module_arch_supported :=
 diff --git a/core/soong_droiddoc_prebuilt.mk b/core/soong_droiddoc_prebuilt.mk
-index bf1f10bd9..e69de29bb 100644
+index c0467df2b..496929963 100644
 --- a/core/soong_droiddoc_prebuilt.mk
 +++ b/core/soong_droiddoc_prebuilt.mk
-@@ -1,40 +0,0 @@
+@@ -1,43 +1,3 @@
 -# Droiddoc prebuilt coming from Soong.
 -
 -ifneq ($(LOCAL_MODULE_MAKEFILE),$(SOONG_ANDROID_MK))
@@ -716,6 +716,9 @@ index bf1f10bd9..e69de29bb 100644
 -.PHONY: $(LOCAL_MODULE) $(LOCAL_MODULE)-jdiff
 -$(LOCAL_MODULE) $(LOCAL_MODULE)-jdiff : $(OUT_DOCS)/$(LOCAL_MODULE)-jdiff-docs.zip
 -endif
+ 
+ ifdef LOCAL_DROIDDOC_METADATA_ZIP
+ $(eval $(call copy-one-file,$(LOCAL_DROIDDOC_METADATA_ZIP),$(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGING/$(LOCAL_MODULE)-metadata.zip))
 diff --git a/core/static_java_library.mk b/core/static_java_library.mk
 index ee759b9d8..e69de29bb 100644
 --- a/core/static_java_library.mk
@@ -969,10 +972,10 @@ index ee759b9d8..e69de29bb 100644
 -all_res_assets :=
 -LOCAL_IS_STATIC_JAVA_LIBRARY :=
 diff --git a/target/product/base_system.mk b/target/product/base_system.mk
-index 822d2ead8..9cb6a21ef 100644
+index 2f8a63472..4fede2c5a 100644
 --- a/target/product/base_system.mk
 +++ b/target/product/base_system.mk
-@@ -309,9 +309,9 @@ PRODUCT_HOST_PACKAGES += \
+@@ -307,9 +307,9 @@ PRODUCT_HOST_PACKAGES += \
      tz_version_host \
      tz_version_host_runtime_apex \
  
@@ -1003,5 +1006,5 @@ index a88ba3c8d..4ab27994b 100644
  # Minimal boot classpath. This should be a subset of PRODUCT_BOOT_JARS, and equivalent to
  # TARGET_CORE_JARS.
 -- 
-2.23.0
+2.27.0
 

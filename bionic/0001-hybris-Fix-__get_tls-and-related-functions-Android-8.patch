@@ -1,4 +1,4 @@
-From fc8a37731d84333173eebf09ec54bcbc86904d3f Mon Sep 17 00:00:00 2001
+From d638f78bbaf290a38680261876fa456bff349fdc Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Thu, 1 Feb 2018 00:57:52 +0000
 Subject: [PATCH 1/6] (hybris) Fix __get_tls and related functions (>=Android
@@ -51,14 +51,14 @@ index 2c3299f7b..637e3dfa1 100644
  void memswap(void* m1, void* m2, size_t n) {
    char* p = reinterpret_cast<char*>(m1);
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 88192239a..060f28387 100644
+index 88192239a..1bf0e307d 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -1593,6 +1593,7 @@ LIBC_PRIVATE {
      __gesf2; # arm
      __get_thread; # arm x86 mips
      __get_tls; # arm x86 mips
-+    __get_tls_hooks; # hybris
++     __get_tls_hooks; # # arm x86 mips hybris
      __getdents64; # arm x86 mips
      __gnu_ldivmod_helper; # arm
      __gnu_uldivmod_helper; # arm
@@ -165,5 +165,5 @@ index 000000000..4a8fa5fc2
 +#endif /* __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_ */
 +
 -- 
-2.23.0
+2.27.0
 
