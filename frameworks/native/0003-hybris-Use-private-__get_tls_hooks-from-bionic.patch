@@ -1,7 +1,7 @@
-From 5bc15a22820c54bc59f50209d189d28900846d54 Mon Sep 17 00:00:00 2001
+From 7b53411f90d79f206d1a1a689b36f87f750fd301 Mon Sep 17 00:00:00 2001
 From: David Greaves <david.greaves@jollamobile.com>
 Date: Tue, 25 Nov 2014 14:55:27 +0100
-Subject: [PATCH 3/5] (hybris) Use private __get_tls_hooks from bionic
+Subject: [PATCH 3/4] (hybris) Use private __get_tls_hooks from bionic
 
 Change-Id: I38a4ea6d8561ab7da5dfedeeba16b84ee493051e
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>

@@ -1,7 +1,7 @@
-From 2d948dadf24d983b57b2777349b801cd046e14c5 Mon Sep 17 00:00:00 2001
+From c4beef9773e328f1533d65bf08677d189b2b85c9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 13 Jul 2017 00:53:55 +0300
-Subject: [PATCH 1/5] (hybris) Use mini services and disable starting unneeded
+Subject: [PATCH 1/4] (hybris) Use mini services and disable starting unneeded
  services.
 
 Change-Id: I6e80eb3e2d92ddfbd83f1933971c3f24e9570d28
