@@ -1,7 +1,7 @@
-From 6145125c01cb798a1a7cbea40239c71abb54603a Mon Sep 17 00:00:00 2001
+From 84c3120a703b845f6013a710bf892bab4307b621 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:33:03 +0200
-Subject: [PATCH 29/40] (hybris) disable the usage of libprocessgroup, since it
+Subject: [PATCH 29/50] (hybris) disable the usage of libprocessgroup, since it
  is incompatible.
 
 Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
@@ -46,7 +46,7 @@ index 28a2d6661..8ff468ea9 100644
  
  #ifndef RECOVERY
 diff --git a/init/service.cpp b/init/service.cpp
-index c17afb246..8f8f54230 100644
+index 21b22aefb..b39282d53 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -38,7 +38,6 @@
@@ -81,7 +81,7 @@ index c17afb246..8f8f54230 100644
      }
  }
  
-@@ -1012,6 +1019,7 @@ Result<Success> Service::Start() {
+@@ -1013,6 +1020,7 @@ Result<Success> Service::Start() {
          std::for_each(descriptors_.begin(), descriptors_.end(),
                        std::bind(&DescriptorInfo::CreateAndPublish, std::placeholders::_1, scon));
  
@@ -89,7 +89,7 @@ index c17afb246..8f8f54230 100644
          // See if there were "writepid" instructions to write to files under cpuset path.
          std::string cpuset_path;
          if (CgroupGetControllerPath("cpuset", &cpuset_path)) {
-@@ -1069,6 +1077,7 @@ Result<Success> Service::Start() {
+@@ -1070,6 +1078,7 @@ Result<Success> Service::Start() {
              PLOG(ERROR) << "cannot execve('" << args_[0] << "')";
          }
  
@@ -97,7 +97,7 @@ index c17afb246..8f8f54230 100644
          _exit(127);
      }
  
-@@ -1091,8 +1100,11 @@ Result<Success> Service::Start() {
+@@ -1092,8 +1101,11 @@ Result<Success> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -109,7 +109,7 @@ index c17afb246..8f8f54230 100644
      errno = -createProcessGroup(uid_, pid_, use_memcg);
      if (errno != 0) {
          PLOG(ERROR) << "createProcessGroup(" << uid_ << ", " << pid_ << ") failed for service '"
-@@ -1137,7 +1149,8 @@ Result<Success> Service::Start() {
+@@ -1138,7 +1150,8 @@ Result<Success> Service::Start() {
              }
          }
      }

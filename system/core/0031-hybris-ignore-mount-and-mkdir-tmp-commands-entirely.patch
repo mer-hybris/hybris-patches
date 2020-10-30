@@ -1,7 +1,7 @@
-From d169848a583bd6d281e96fca3affa225b7955c2b Mon Sep 17 00:00:00 2001
+From 108b8eee47e032f4d1049a2d0eea1ad512475df4 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 27 Aug 2018 11:08:12 +0000
-Subject: [PATCH 31/40] (hybris) ignore "mount" and "mkdir /tmp" commands
+Subject: [PATCH 31/50] (hybris) ignore "mount" and "mkdir /tmp" commands
  entirely.
 
 mount is usually removed during build, but if the *.rc files are on

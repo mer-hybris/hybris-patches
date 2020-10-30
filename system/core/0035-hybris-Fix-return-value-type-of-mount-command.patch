@@ -1,7 +1,7 @@
-From 8a98d93214bbde8f350780b5c0fbd41f0160a30c Mon Sep 17 00:00:00 2001
+From a651ef33d8b26ae38196bd5ba64cf3aa7415f8a8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sun, 18 Nov 2018 18:51:22 +0200
-Subject: [PATCH 35/40] (hybris) Fix return value type of mount command.
+Subject: [PATCH 35/50] (hybris) Fix return value type of mount command.
 
 Change-Id: Ib759e1be92d110863e43f13f7317372c6182a02d
 ---

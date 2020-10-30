@@ -1,7 +1,7 @@
-From cc43550e4912973cfb2dbebdfb980f80fccc8e0d Mon Sep 17 00:00:00 2001
+From 0183f3623835f2d95f4fd930bc9a260a4b8f7cea Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:32:06 +0200
-Subject: [PATCH 28/40] (hybris) disable remnants of SELinux which currently
+Subject: [PATCH 28/50] (hybris) disable remnants of SELinux which currently
  break
 
 Change-Id: I252a8399c9853d993fc17d769bfbb2e4c722cfe8

@@ -1,0 +1,28 @@
+From 4933417b73d39fb52abed8eed7a5365a4d00d5b6 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 12 Oct 2020 16:48:00 +0000
+Subject: [PATCH 44/50] (hybris) Don't bail out if failed to initialize
+ property area
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: Ie9fe31f9e60510b91fcd857b0715b6fcc253dfee
+---
+ init/property_service.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index 620507789..8275f9cb8 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -104,7 +104,7 @@ void property_init() {
+     mkdir("/dev/__properties__", S_IRWXU | S_IXGRP | S_IXOTH);
+     CreateSerializedPropertyInfo();
+     if (__system_property_area_init()) {
+-        LOG(FATAL) << "Failed to initialize property area";
++        //LOG(FATAL) << "Failed to initialize property area";
+     }
+     if (!property_info_area.LoadDefaultPath()) {
+         LOG(FATAL) << "Failed to load serialized property info file";
+-- 
+2.23.0
+

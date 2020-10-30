@@ -1,7 +1,7 @@
-From 0feaaaf0e71e35a94faf3ab76707d52e0cf8dbfe Mon Sep 17 00:00:00 2001
+From ae0512307ee34ecff25f6dc25f3dc5c5c65c6c3a Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 3 Jun 2019 13:46:44 +0200
-Subject: [PATCH 37/40] (hybris) Disable /mnt tmpfs creation
+Subject: [PATCH 37/50] (hybris) Disable /mnt tmpfs creation
 
 Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
 ---

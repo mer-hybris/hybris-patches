@@ -1,7 +1,7 @@
-From 988accccc17569f44945b4d89a7881240200e747 Mon Sep 17 00:00:00 2001
+From 6ab44dda7269ac17b84712d80bf3f19cf2ba2487 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Wed, 25 Oct 2017 14:14:59 +0300
-Subject: [PATCH 22/40] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
+Subject: [PATCH 22/50] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
  devices
 
 ---
@@ -13,7 +13,7 @@ Subject: [PATCH 22/40] (hybris) define 32-bit LD_LIBRARY_PATH for 32-bit
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index 7ff1588b2..407550449 100644
+index 24b39991a..e603d2c34 100644
 --- a/rootdir/Android.mk
 +++ b/rootdir/Android.mk
 @@ -8,7 +8,18 @@ LOCAL_MODULE := init.rc
@@ -57,7 +57,7 @@ index 000000000..c96e2c65d
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 6f9037b7e..78c99eaaf 100644
+index 0406dcb65..543970e46 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,12 @@

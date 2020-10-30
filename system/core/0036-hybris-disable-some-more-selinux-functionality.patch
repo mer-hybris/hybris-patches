@@ -1,7 +1,7 @@
-From cbefe01dd0c205002462256ecc33d6a54efdbce7 Mon Sep 17 00:00:00 2001
+From 233d54ef951c478b2076821f216d479456e5d454 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 12:46:12 -0400
-Subject: [PATCH 36/40] (hybris) disable some more selinux functionality.
+Subject: [PATCH 36/50] (hybris) disable some more selinux functionality.
 
 Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
 ---

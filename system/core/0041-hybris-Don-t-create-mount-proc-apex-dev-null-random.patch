@@ -1,0 +1,77 @@
+From 740af4a340658bc08ef96ff2648069073c8e1f19 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 12 Oct 2020 14:22:46 +0000
+Subject: [PATCH 41/50] (hybris) Don't create/mount proc, apex, dev/null,
+ random, ...
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: I3040e7e1ddf6d30644d8dc249ed3f0a6d6633615
+---
+ init/first_stage_init.cpp | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 805bad2e5..a60e91f83 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -124,7 +124,7 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(mkdir("/dev/socket", 0755));
+     //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
+ #define MAKE_STR(x) __STRING(x)
+-    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
++    //CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
+ #undef MAKE_STR
+     // Don't expose the raw commandline to unprivileged processes.
+     //CHECKCALL(chmod("/proc/cmdline", 0440));
+@@ -135,18 +135,18 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
+ #endif
+ 
+-    CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
++    //CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
+ 
+     if constexpr (WORLD_WRITABLE_KMSG) {
+         CHECKCALL(mknod("/dev/kmsg_debug", S_IFCHR | 0622, makedev(1, 11)));
+     }
+ 
+-    CHECKCALL(mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8)));
+-    CHECKCALL(mknod("/dev/urandom", S_IFCHR | 0666, makedev(1, 9)));
++    //CHECKCALL(mknod("/dev/random", S_IFCHR | 0666, makedev(1, 8)));
++    //CHECKCALL(mknod("/dev/urandom", S_IFCHR | 0666, makedev(1, 9)));
+ 
+     // This is needed for log wrapper, which gets called before ueventd runs.
+-    CHECKCALL(mknod("/dev/ptmx", S_IFCHR | 0666, makedev(5, 2)));
+-    CHECKCALL(mknod("/dev/null", S_IFCHR | 0666, makedev(1, 3)));
++    //CHECKCALL(mknod("/dev/ptmx", S_IFCHR | 0666, makedev(5, 2)));
++    //CHECKCALL(mknod("/dev/null", S_IFCHR | 0666, makedev(1, 3)));
+ 
+     // These below mounts are done in first stage init so that first stage mount can mount
+     // subdirectories of /mnt/{vendor,product}/.  Other mounts, not required by first stage mount,
+@@ -157,18 +157,18 @@ int FirstStageMain(int argc, char** argv) {
+     //                "mode=0755,uid=0,gid=1000"));
+     // /mnt/vendor is used to mount vendor-specific partitions that can not be
+     // part of the vendor partition, e.g. because they are mounted read-write.
+-    CHECKCALL(mkdir("/mnt/vendor", 0755));
++    //CHECKCALL(mkdir("/mnt/vendor", 0755));
+     // /mnt/product is used to mount product-specific partitions that can not be
+     // part of the product partition, e.g. because they are mounted read-write.
+-    CHECKCALL(mkdir("/mnt/product", 0755));
++    //CHECKCALL(mkdir("/mnt/product", 0755));
+ 
+     // /apex is used to mount APEXes
+-    CHECKCALL(mount("tmpfs", "/apex", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+-                    "mode=0755,uid=0,gid=0"));
++    //CHECKCALL(mount("tmpfs", "/apex", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
++    //                "mode=0755,uid=0,gid=0"));
+ 
+     // /debug_ramdisk is used to preserve additional files from the debug ramdisk
+-    CHECKCALL(mount("tmpfs", "/debug_ramdisk", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+-                    "mode=0755,uid=0,gid=0"));
++    //CHECKCALL(mount("tmpfs", "/debug_ramdisk", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
++    //                "mode=0755,uid=0,gid=0"));
+ #undef CHECKCALL
+ 
+     SetStdioToDevNull(argv);
+-- 
+2.23.0
+
