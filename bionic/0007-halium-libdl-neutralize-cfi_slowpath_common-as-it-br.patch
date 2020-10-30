@@ -1,0 +1,26 @@
+From 3b2cfa4a631f91910300badccf93a40749d43817 Mon Sep 17 00:00:00 2001
+From: NeKit <nekit1000@gmail.com>
+Date: Fri, 3 Jul 2020 20:10:20 +0200
+Subject: [PATCH 7/7] (halium) libdl: neutralize cfi_slowpath_common as it
+ breaks libhybris
+
+Change-Id: I90b4af9d9e6b23cccafb659931a8e85b8bae091a
+---
+ libdl/libdl_cfi.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libdl/libdl_cfi.cpp b/libdl/libdl_cfi.cpp
+index 1dd5b21cd..f48a3cfef 100644
+--- a/libdl/libdl_cfi.cpp
++++ b/libdl/libdl_cfi.cpp
+@@ -66,6 +66,7 @@ static uintptr_t cfi_check_addr(uint16_t v, void* Ptr) {
+ }
+ 
+ static inline void cfi_slowpath_common(uint64_t CallSiteTypeId, void* Ptr, void* DiagData) {
++  return;
+   uint16_t v = shadow_load(Ptr);
+   switch (v) {
+     case CFIShadow::kInvalidShadow:
+-- 
+2.27.0
+
