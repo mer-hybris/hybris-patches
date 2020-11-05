@@ -1,15 +1,15 @@
-From b7b7a4bf3de3c772b6e0963f571d5652851f8152 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Tue, 30 Jan 2018 14:55:33 +0200
-Subject: [PATCH 3/3] (hybris) gps.h Use proper aapcs attribute with functions
- with float arguments
+Subject: [PATCH] (hybris) gps.h Use proper aapcs attribute with functions with
+ float arguments
 
 ---
  include/hardware/gps.h | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/include/hardware/gps.h b/include/hardware/gps.h
-index 4e108b3f..e461aa1d 100644
+index 4e108b3f230d88283e5d309b960e86a1aca48f6d..e461aa1d8ca7771d808772973962a77a171c7c37 100644
 --- a/include/hardware/gps.h
 +++ b/include/hardware/gps.h
 @@ -28,6 +28,12 @@
@@ -43,6 +43,3 @@ index 4e108b3f..e461aa1d 100644
  
     /**
      * Pause monitoring a particular geofence.
--- 
-2.17.1
-

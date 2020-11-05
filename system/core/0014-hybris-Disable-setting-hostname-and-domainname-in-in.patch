@@ -1,8 +1,7 @@
-From 4ce1301cc8268a9d740a4619035c86dceceeb9c7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sat, 6 Aug 2016 11:37:38 +0300
-Subject: [PATCH 14/40] (hybris) Disable setting hostname and domainname in
- init.rc.
+Subject: [PATCH] (hybris) Disable setting hostname and domainname in init.rc.
 
 Change-Id: I5b9f59e80760e53636763c89f8f76f350c17b3ec
 ---
@@ -10,7 +9,7 @@ Change-Id: I5b9f59e80760e53636763c89f8f76f350c17b3ec
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index fee301f79..4cc6cb663 100644
+index 84297373a7c06c23cf31c488f9e6730b873633ef..1d21e7c68a0930950e17f63ca28f168db3e08fa3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -579,8 +579,9 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
@@ -25,6 +24,3 @@ index fee301f79..4cc6cb663 100644
  
      # IPsec SA default expiration length
      write /proc/sys/net/core/xfrm_acq_expires 3600
--- 
-2.17.1
-

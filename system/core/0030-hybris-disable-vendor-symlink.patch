@@ -1,7 +1,7 @@
-From 84d69d03abe1c6f711d7551b74c03d892745f068 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Thu, 7 Jun 2018 15:29:53 +0000
-Subject: [PATCH 30/40] (hybris) disable vendor symlink
+Subject: [PATCH] (hybris) disable vendor symlink
 
 Change-Id: I26a32268e2f3af7ab0550397900f7a3ef0edfae5
 ---
@@ -9,7 +9,7 @@ Change-Id: I26a32268e2f3af7ab0550397900f7a3ef0edfae5
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 462280954..368766a99 100644
+index 6788eda9e60cd8857ad565d3a7feacd843fcbd7e..e9b6e87165213949564deb29cdb31ad07fd27395 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -53,7 +53,9 @@ on init
@@ -23,6 +23,3 @@ index 462280954..368766a99 100644
  
      # Create energy-aware scheduler tuning nodes
      mkdir /dev/stune
--- 
-2.17.1
-

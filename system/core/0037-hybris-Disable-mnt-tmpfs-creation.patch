@@ -1,7 +1,7 @@
-From 6e99887c6e32a66b60f3de71a71702d908debc5f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 3 Jun 2019 13:46:44 +0200
-Subject: [PATCH 37/40] (hybris) Disable /mnt tmpfs creation
+Subject: [PATCH] (hybris) Disable /mnt tmpfs creation
 
 Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
 ---
@@ -9,7 +9,7 @@ Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index d5d6c5941..5d6338103 100644
+index d5d6c59411ef9cdf1176311182c0072d0f79f8ca..5d6338103fa4543b577103dba10ae958a67cdb46 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -601,8 +601,8 @@ int main(int argc, char** argv) {
@@ -23,6 +23,3 @@ index d5d6c5941..5d6338103 100644
          // /mnt/vendor is used to mount vendor-specific partitions that can not be
          // part of the vendor partition, e.g. because they are mounted read-write.
          mkdir("/mnt/vendor", 0755);
--- 
-2.17.1
-

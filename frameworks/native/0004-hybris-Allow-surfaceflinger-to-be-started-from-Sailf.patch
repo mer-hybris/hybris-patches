@@ -1,8 +1,7 @@
-From f10d668a4b23bad9144370730c84b583bebc20e8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 19:00:03 +0200
-Subject: [PATCH 4/6] (hybris) Allow surfaceflinger to be started from
- SailfishOS.
+Subject: [PATCH] (hybris) Allow surfaceflinger to be started from SailfishOS.
 
 Change-Id: Ibaecd8d27524bbb0d3bc7b40017bf92736b8629d
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
@@ -16,10 +15,10 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
  create mode 100644 services/surfaceflinger/SurfaceFlinger_hwc1.cpp
 
 diff --git a/services/surfaceflinger/Client.cpp b/services/surfaceflinger/Client.cpp
-index 0b59147c5..54ed16e04 100644
+index 53b766e4a43010b1e016559cadfc1ccfcc2b5d27..0bfb5fe4e2cd57dfed73c0a6c77b9caaf4a01797 100644
 --- a/services/surfaceflinger/Client.cpp
 +++ b/services/surfaceflinger/Client.cpp
-@@ -131,7 +131,7 @@ status_t Client::onTransact(
+@@ -130,7 +130,7 @@ status_t Client::onTransact(
       // uid we require the sAccessSurfaceFlinger permission.
       // We grant an exception in the case that the Client has a "parent layer", as its
       // effects will be scoped to that layer.
@@ -29,7 +28,7 @@ index 0b59147c5..54ed16e04 100644
           // we're called from a different process, do the real check
           if (!PermissionCache::checkCallingPermission(sAccessSurfaceFlinger))
 diff --git a/services/surfaceflinger/StartPropertySetThread.cpp b/services/surfaceflinger/StartPropertySetThread.cpp
-index db82772f4..27cc95abc 100644
+index db82772f42169d4688567f323aabb4c63d9cb8fd..27cc95abc5c947b9ce6d76e59c4dd33365576aa6 100644
 --- a/services/surfaceflinger/StartPropertySetThread.cpp
 +++ b/services/surfaceflinger/StartPropertySetThread.cpp
 @@ -29,10 +29,11 @@ status_t StartPropertySetThread::Start() {
@@ -47,10 +46,10 @@ index db82772f4..27cc95abc 100644
      return false;
  }
 diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
-index 6d49c5c0c..8dd7e6ff0 100644
+index f513b9fd7f4bb931bb1b60b2805769b59d463618..ddebc28ceb7fe271001256ad11640b3de57e9bc9 100644
 --- a/services/surfaceflinger/SurfaceFlinger.cpp
 +++ b/services/surfaceflinger/SurfaceFlinger.cpp
-@@ -3454,7 +3454,7 @@ bool callingThreadHasUnscopedSurfaceFlingerAccess() {
+@@ -3478,7 +3478,7 @@ bool callingThreadHasUnscopedSurfaceFlingerAccess() {
      const int pid = ipc->getCallingPid();
      const int uid = ipc->getCallingUid();
  
@@ -59,7 +58,7 @@ index 6d49c5c0c..8dd7e6ff0 100644
              !PermissionCache::checkPermission(sAccessSurfaceFlinger, pid, uid)) {
          return false;
      }
-@@ -4624,7 +4624,7 @@ status_t SurfaceFlinger::CheckTransactCodeCredentials(uint32_t code) {
+@@ -4670,7 +4670,7 @@ status_t SurfaceFlinger::CheckTransactCodeCredentials(uint32_t code) {
              IPCThreadState* ipc = IPCThreadState::self();
              const int pid = ipc->getCallingPid();
              const int uid = ipc->getCallingUid();
@@ -68,7 +67,7 @@ index 6d49c5c0c..8dd7e6ff0 100644
                      !PermissionCache::checkPermission(sReadFramebuffer, pid, uid)) {
                  ALOGE("Permission Denial: can't read framebuffer pid=%d, uid=%d", pid, uid);
                  return PERMISSION_DENIED;
-@@ -4635,7 +4635,7 @@ status_t SurfaceFlinger::CheckTransactCodeCredentials(uint32_t code) {
+@@ -4681,7 +4681,7 @@ status_t SurfaceFlinger::CheckTransactCodeCredentials(uint32_t code) {
              IPCThreadState* ipc = IPCThreadState::self();
              const int pid = ipc->getCallingPid();
              const int uid = ipc->getCallingUid();
@@ -79,7 +78,7 @@ index 6d49c5c0c..8dd7e6ff0 100644
                  return PERMISSION_DENIED;
 diff --git a/services/surfaceflinger/SurfaceFlinger_hwc1.cpp b/services/surfaceflinger/SurfaceFlinger_hwc1.cpp
 new file mode 100644
-index 000000000..cafd66678
+index 0000000000000000000000000000000000000000..cafd66678e9f71b4e310c23205d3445a8314b16d
 --- /dev/null
 +++ b/services/surfaceflinger/SurfaceFlinger_hwc1.cpp
 @@ -0,0 +1,4078 @@
@@ -4162,7 +4161,7 @@ index 000000000..cafd66678
 +#error "don't include gl2/gl2.h in this file"
 +#endif
 diff --git a/services/surfaceflinger/surfaceflinger.rc b/services/surfaceflinger/surfaceflinger.rc
-index aea602bba..12482c715 100644
+index aea602bba489ac481b202d798daed8f7da99af49..12482c7155461a201c5336951e2dd8d3c46e3041 100644
 --- a/services/surfaceflinger/surfaceflinger.rc
 +++ b/services/surfaceflinger/surfaceflinger.rc
 @@ -7,3 +7,4 @@ service surfaceflinger /system/bin/surfaceflinger
@@ -4170,6 +4169,3 @@ index aea602bba..12482c715 100644
      socket pdx/system/vr/display/manager    stream 0666 system graphics u:object_r:pdx_display_manager_endpoint_socket:s0
      socket pdx/system/vr/display/vsync      stream 0666 system graphics u:object_r:pdx_display_vsync_endpoint_socket:s0
 +    setenv LD_PRELOAD /usr/libexec/droid-hybris/system/lib64/libsurfaceflinger.so
--- 
-2.17.1
-

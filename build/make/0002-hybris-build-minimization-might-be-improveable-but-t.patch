@@ -1,8 +1,8 @@
-From 7f4bafbef13272a5c691c6e2ea0855e4790f5464 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Thu, 7 Jun 2018 15:32:40 +0000
-Subject: [PATCH 2/3] (hybris) build minimization (might be improveable, but
- this version doesn't break dependancies)
+Subject: [PATCH] (hybris) build minimization (might be improveable, but this
+ version doesn't break dependancies)
 
 Change-Id: Ic862dc084f5f4e3fa7ccd90b0757deff0f17b802
 ---
@@ -25,7 +25,7 @@ Change-Id: Ic862dc084f5f4e3fa7ccd90b0757deff0f17b802
 
 diff --git a/core/dex_preopt.mk b/core/dex_preopt.mk
 deleted file mode 100644
-index 17df08de6..000000000
+index 17df08de619de10e93267331ad150d0996e0eebc..0000000000000000000000000000000000000000
 --- a/core/dex_preopt.mk
 +++ /dev/null
 @@ -1,108 +0,0 @@
@@ -139,7 +139,7 @@ index 17df08de6..000000000
 -endif
 diff --git a/core/dex_preopt.mk b/core/dex_preopt.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/dex_preopt.mk
 @@ -0,0 +1 @@
@@ -147,7 +147,7 @@ index 000000000..97f5a792a
 \ No newline at end of file
 diff --git a/core/droiddoc.mk b/core/droiddoc.mk
 deleted file mode 100644
-index bcd2002e0..000000000
+index bcd2002e01ae5bb278196f9e97b7465dcbd969ad..0000000000000000000000000000000000000000
 --- a/core/droiddoc.mk
 +++ /dev/null
 @@ -1,367 +0,0 @@
@@ -520,7 +520,7 @@ index bcd2002e0..000000000
 -endif #!LOCAL_UNINSTALLABLE_MODULE
 diff --git a/core/droiddoc.mk b/core/droiddoc.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/droiddoc.mk
 @@ -0,0 +1 @@
@@ -528,7 +528,7 @@ index 000000000..97f5a792a
 \ No newline at end of file
 diff --git a/core/host_dalvik_java_library.mk b/core/host_dalvik_java_library.mk
 deleted file mode 100644
-index 1ef0ccb17..000000000
+index 1ef0ccb17ec242ff11240e38cc98f960ffabd2f5..0000000000000000000000000000000000000000
 --- a/core/host_dalvik_java_library.mk
 +++ /dev/null
 @@ -1,224 +0,0 @@
@@ -758,7 +758,7 @@ index 1ef0ccb17..000000000
 -endif
 diff --git a/core/host_dalvik_java_library.mk b/core/host_dalvik_java_library.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/host_dalvik_java_library.mk
 @@ -0,0 +1 @@
@@ -766,7 +766,7 @@ index 000000000..97f5a792a
 \ No newline at end of file
 diff --git a/core/host_dalvik_static_java_library.mk b/core/host_dalvik_static_java_library.mk
 deleted file mode 100644
-index 78faf73a5..000000000
+index 78faf73a562c35e77b699ef5dfa68c2433e7322b..0000000000000000000000000000000000000000
 --- a/core/host_dalvik_static_java_library.mk
 +++ /dev/null
 @@ -1,28 +0,0 @@
@@ -800,7 +800,7 @@ index 78faf73a5..000000000
 -LOCAL_IS_STATIC_JAVA_LIBRARY :=
 diff --git a/core/host_dalvik_static_java_library.mk b/core/host_dalvik_static_java_library.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/host_dalvik_static_java_library.mk
 @@ -0,0 +1 @@
@@ -808,7 +808,7 @@ index 000000000..97f5a792a
 \ No newline at end of file
 diff --git a/core/java_library.mk b/core/java_library.mk
 deleted file mode 100644
-index 1b914f5ba..000000000
+index 1b914f5ba385bee79a166d66b397e5c84a85cbd9..0000000000000000000000000000000000000000
 --- a/core/java_library.mk
 +++ /dev/null
 @@ -1,104 +0,0 @@
@@ -918,14 +918,14 @@ index 1b914f5ba..000000000
 -endif # !LOCAL_IS_STATIC_JAVA_LIBRARY
 diff --git a/core/java_library.mk b/core/java_library.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/java_library.mk
 @@ -0,0 +1 @@
 +clear_vars.mk
 \ No newline at end of file
 diff --git a/core/main.mk b/core/main.mk
-index 97ec295f8..5f3ffd7ae 100644
+index 97ec295f831b3cb4293a2efbe5efbe0da7260111..5f3ffd7aee9c0bb11a0a6f4e9f2e673536f0cbbe 100644
 --- a/core/main.mk
 +++ b/core/main.mk
 @@ -466,6 +466,9 @@ subdir_makefiles_total := $(words $(subdir_makefiles))
@@ -940,7 +940,7 @@ index 97ec295f8..5f3ffd7ae 100644
  include $(BUILD_SYSTEM)/pdk_fusion_modules.mk
 diff --git a/core/package.mk b/core/package.mk
 deleted file mode 100644
-index f3713fcf7..000000000
+index f3713fcf75f921a4eab55d271843a4ef7493e48b..0000000000000000000000000000000000000000
 --- a/core/package.mk
 +++ /dev/null
 @@ -1,84 +0,0 @@
@@ -1030,7 +1030,7 @@ index f3713fcf7..000000000
 -my_module_arch_supported :=
 diff --git a/core/package.mk b/core/package.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/package.mk
 @@ -0,0 +1 @@
@@ -1038,7 +1038,7 @@ index 000000000..97f5a792a
 \ No newline at end of file
 diff --git a/core/static_java_library.mk b/core/static_java_library.mk
 deleted file mode 100644
-index 0429dd2d2..000000000
+index 0429dd2d22cb04288d5893a6d17af2ce6f8c1d4c..0000000000000000000000000000000000000000
 --- a/core/static_java_library.mk
 +++ /dev/null
 @@ -1,237 +0,0 @@
@@ -1281,12 +1281,9 @@ index 0429dd2d2..000000000
 -LOCAL_IS_STATIC_JAVA_LIBRARY :=
 diff --git a/core/static_java_library.mk b/core/static_java_library.mk
 new file mode 120000
-index 000000000..97f5a792a
+index 0000000000000000000000000000000000000000..97f5a792ae5162be84883779eb0d387611afd743
 --- /dev/null
 +++ b/core/static_java_library.mk
 @@ -0,0 +1 @@
 +clear_vars.mk
 \ No newline at end of file
--- 
-2.17.1
-

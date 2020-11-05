@@ -1,7 +1,7 @@
-From c8e2442ae48213e41c9df28f02db69fbb687c8ac Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Fri, 22 Mar 2019 18:36:56 +0200
-Subject: [PATCH 3/3] (hybris) Reduce vendorimage build size.
+Subject: [PATCH] (hybris) Reduce vendorimage build size.
 
 Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
 ---
@@ -9,7 +9,7 @@ Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 404bb5413..168193f05 100644
+index 404bb54133bd2959c9b6e22bd2138e3c9ea015f2..168193f0548b90191135175aa24f8da24d996fc8 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -19,6 +19,7 @@ $(if $(filter-out $(TARGET_COPY_OUT_SYSTEM_OTHER)/%,$(2)), \
@@ -49,6 +49,3 @@ index 404bb5413..168193f05 100644
  	$(build-vendorimage-target)
  
  .PHONY: vendorimage-nodeps vnod
--- 
-2.17.1
-

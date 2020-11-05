@@ -1,8 +1,7 @@
-From 85e56a2f67750c2a7caa2e30e6e7b3fee55c485c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Thu, 1 Feb 2018 00:57:52 +0000
-Subject: [PATCH 1/6] (hybris) Fix __get_tls and related functions (>=Android
- 8)
+Subject: [PATCH] (hybris) Fix __get_tls and related functions (>=Android 8)
 
 Change-Id: If75e4ae739ec6c482a68b1b69c2130535add2279
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
@@ -12,12 +11,12 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  libc/libc.arm64.map               |  1 +
  libc/libc.x86.map                 |  1 +
  libc/private/__get_tls.h          | 30 +++++++----------
- libc/private/__get_tls_internal.h | 54 +++++++++++++++++++++++++++++++
- 6 files changed, 80 insertions(+), 25 deletions(-)
+ libc/private/__get_tls_internal.h | 53 +++++++++++++++++++++++++++++++
+ 6 files changed, 79 insertions(+), 25 deletions(-)
  create mode 100644 libc/private/__get_tls_internal.h
 
 diff --git a/libc/bionic/ndk_cruft.cpp b/libc/bionic/ndk_cruft.cpp
-index dbacf18f0..7fe91edb3 100644
+index dbacf18f03cb1c5c47dbbcaa97ebebeb39d97b48..7fe91edb322ead7cd53b260440b1624b364b46e3 100644
 --- a/libc/bionic/ndk_cruft.cpp
 +++ b/libc/bionic/ndk_cruft.cpp
 @@ -49,6 +49,18 @@
@@ -53,7 +52,7 @@ index dbacf18f0..7fe91edb3 100644
  void memswap(void* m1, void* m2, size_t n) {
    char* p = reinterpret_cast<char*>(m1);
 diff --git a/libc/libc.arm.map b/libc/libc.arm.map
-index b0f96a9ff..d896aa659 100644
+index b0f96a9ffc78e6f2cbbc7a6f3dd0e992044da842..d896aa659b5aad82bc72c5b5faaa0e312c8216ee 100644
 --- a/libc/libc.arm.map
 +++ b/libc/libc.arm.map
 @@ -1519,6 +1519,7 @@ LIBC_PRIVATE {
@@ -65,7 +64,7 @@ index b0f96a9ff..d896aa659 100644
      __gnu_ldivmod_helper; # arm
      __gnu_uldivmod_helper; # arm
 diff --git a/libc/libc.arm64.map b/libc/libc.arm64.map
-index 6b0e41549..631db170e 100644
+index 6b0e4154949948067d8246eb80b23cef1b84333d..631db170eb3d41ce2c4c158ea19eb6e70da9f564 100644
 --- a/libc/libc.arm64.map
 +++ b/libc/libc.arm64.map
 @@ -1342,6 +1342,7 @@ LIBC_P { # introduced=P
@@ -77,7 +76,7 @@ index 6b0e41549..631db170e 100644
      android_getaddrinfofornetcontext;
      android_gethostbyaddrfornet;
 diff --git a/libc/libc.x86.map b/libc/libc.x86.map
-index 2855f9e22..13e95a248 100644
+index 2855f9e22d53705901a2483671ae5fbe561074ed..13e95a2480943010ef7e6d6ab07149ac55c5c598 100644
 --- a/libc/libc.x86.map
 +++ b/libc/libc.x86.map
 @@ -1411,6 +1411,7 @@ LIBC_PRIVATE {
@@ -89,7 +88,7 @@ index 2855f9e22..13e95a248 100644
      __open; # arm x86 mips
      __page_shift; # arm x86 mips
 diff --git a/libc/private/__get_tls.h b/libc/private/__get_tls.h
-index 04c5fdbbf..9f37b01b6 100644
+index 04c5fdbbf15ad6b63e4755d700c7d36fad53f37f..9f37b01b6edb200e7544af394886742fe20e76c1 100644
 --- a/libc/private/__get_tls.h
 +++ b/libc/private/__get_tls.h
 @@ -29,25 +29,17 @@
@@ -131,7 +130,7 @@ index 04c5fdbbf..9f37b01b6 100644
  #endif /* __BIONIC_PRIVATE_GET_TLS_H_ */
 diff --git a/libc/private/__get_tls_internal.h b/libc/private/__get_tls_internal.h
 new file mode 100644
-index 000000000..4a8fa5fc2
+index 0000000000000000000000000000000000000000..373e9391206694dd971c7742bbed59afa99c07cc
 --- /dev/null
 +++ b/libc/private/__get_tls_internal.h
 @@ -0,0 +1,53 @@
@@ -188,6 +187,3 @@ index 000000000..4a8fa5fc2
 +#endif
 +
 +#endif /* __BIONIC_PRIVATE_GET_TLS_INTERNAL_H_ */
--- 
-2.17.1
-

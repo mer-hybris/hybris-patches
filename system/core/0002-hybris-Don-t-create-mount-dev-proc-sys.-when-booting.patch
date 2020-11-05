@@ -1,8 +1,8 @@
-From b422706d9a7ad022f177a464c8037e088db0a8a1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 8 Oct 2013 16:59:30 +0100
-Subject: [PATCH 02/40] (hybris) Don't create/mount dev/proc/sys... when
- booting with Mer
+Subject: [PATCH] (hybris) Don't create/mount dev/proc/sys... when booting with
+ Mer
 
 Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
 ---
@@ -10,7 +10,7 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index eb9dd755b..48af128cd 100644
+index eb9dd755b4506d8a5093911114321955d81e8b76..48af128cdb80426db6e94e7f36281f90c2e8a900 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -574,17 +574,17 @@ int main(int argc, char** argv) {
@@ -36,6 +36,3 @@ index eb9dd755b..48af128cd 100644
          mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
  
          mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
--- 
-2.17.1
-

@@ -1,14 +1,14 @@
-From 8ab5e607e71ac798d0a8b2045492a55d6b273534 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
 Date: Mon, 10 Dec 2018 12:11:06 +0200
-Subject: [PATCH 38/40] (hybris) Disable init_user0 which is not needed on Mer.
+Subject: [PATCH] (hybris) Disable init_user0 which is not needed on Mer.
 
 ---
  rootdir/init.rc | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index bc6b3e9d0..66aaf86ce 100644
+index af0fa7d177ac53cbcaa8c4e1c5802a9e0cbc2f70..52da2bf5c7d57a44d524bbce66c7f48c74d4f364 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -551,7 +551,8 @@ on post-fs-data
@@ -21,6 +21,3 @@ index bc6b3e9d0..66aaf86ce 100644
  
      # Set SELinux security contexts on upgrade or policy update.
      restorecon --recursive --skip-ce /data
--- 
-2.17.1
-
