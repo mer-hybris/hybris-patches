@@ -1,7 +1,7 @@
-From 10c2144b808ec5ede091ea3ecbd4dc505016ee09 Mon Sep 17 00:00:00 2001
+From 79f69b9aa4cdda9f9077b4b1cda024d7dfad37db Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:09:20 +0100
-Subject: [PATCH 04/40] (hybris) Mount points are handled by Mer
+Subject: [PATCH 04/50] (hybris) Mount points are handled by Mer
 
 Change-Id: I295b30a47b6e147b037275032a00b304085fe711
 ---
@@ -9,7 +9,7 @@ Change-Id: I295b30a47b6e147b037275032a00b304085fe711
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 1d7b87ca9..1a5a5537d 100644
+index 3ae5e1944..897d392dc 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -50,8 +50,8 @@ on init

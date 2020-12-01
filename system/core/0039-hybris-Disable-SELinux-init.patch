@@ -1,7 +1,7 @@
-From 9e404a42d8916112cdcc4f503b2004b09d424257 Mon Sep 17 00:00:00 2001
+From 57cc123a345acb3d062a02630bcfcb9920cb1811 Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Wed, 4 Sep 2019 12:07:34 +0200
-Subject: [PATCH 39/40] (hybris) Disable SELinux init.
+Subject: [PATCH 39/50] (hybris) Disable SELinux init.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

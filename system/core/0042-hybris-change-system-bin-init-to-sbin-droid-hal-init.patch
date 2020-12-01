@@ -1,0 +1,42 @@
+From f359d5a20677f4ce51f79c3fef3475d5832c5ee4 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 12 Oct 2020 15:26:00 +0000
+Subject: [PATCH 42/50] (hybris) change /system/bin/init to
+ /sbin/droid-hal-init
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: I29e02a59bb6be56a2aa0bd89e8a0602b9d0b14d6
+---
+ init/first_stage_init.cpp | 2 +-
+ init/selinux.cpp          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index a60e91f83..964cbb873 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -239,7 +239,7 @@ int FirstStageMain(int argc, char** argv) {
+     uint64_t start_ms = start_time.time_since_epoch().count() / kNanosecondsPerMillisecond;
+     setenv("INIT_STARTED_AT", std::to_string(start_ms).c_str(), 1);
+ 
+-    const char* path = "/system/bin/init";
++    const char* path = "/sbin/droid-hal-init";
+     const char* args[] = {path, "selinux_setup", nullptr};
+     execv(path, const_cast<char**>(args));
+ 
+diff --git a/init/selinux.cpp b/init/selinux.cpp
+index ce506dd5e..13310740a 100644
+--- a/init/selinux.cpp
++++ b/init/selinux.cpp
+@@ -552,7 +552,7 @@ int SetupSelinux(char** argv) {
+         PLOG(FATAL) << "restorecon failed of /system/bin/init failed";
+     }
+ 
+-    const char* path = "/system/bin/init";
++    const char* path = "/sbin/droid-hal-init";
+     const char* args[] = {path, "second_stage", nullptr};
+     execv(path, const_cast<char**>(args));
+ 
+-- 
+2.23.0
+

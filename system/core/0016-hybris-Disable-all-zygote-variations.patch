@@ -1,7 +1,7 @@
-From 0b06b24ac5054ab07794465ed25b23069216f97b Mon Sep 17 00:00:00 2001
+From 0da90c161feb77a57cd82e33813894610b7444a9 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sun, 8 Jan 2017 16:34:54 +0000
-Subject: [PATCH 16/40] (hybris) Disable all zygote variations
+Subject: [PATCH 16/50] (hybris) Disable all zygote variations
 
 Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
 ---

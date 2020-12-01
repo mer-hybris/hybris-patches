@@ -1,7 +1,7 @@
-From db01ff150d9109bb408b55c0b1f7ee5af4dc39cc Mon Sep 17 00:00:00 2001
+From 89179ec5b69057cfb17223c18179dbd8063be9a4 Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Tue, 21 Feb 2017 13:13:26 +0100
-Subject: [PATCH 33/40] (hybris)[system/core] Disable usb config.
+Subject: [PATCH 33/50] (hybris)[system/core] Disable usb config.
 
 Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 235d5deea..b241ba33b 100644
+index 70a15977e..5d5468262 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -15,7 +15,7 @@ import /init.environ.rc

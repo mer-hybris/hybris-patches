@@ -1,17 +1,17 @@
-From 1045d181b582bdfe1654a9e0b88f9937afeccd9b Mon Sep 17 00:00:00 2001
+From 1ac6ca6abb8c016bf9c85287d546bbe0b32a61a9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 30 Aug 2018 19:54:16 +0300
-Subject: [PATCH 32/40] (hybris) Fix actdead charging animation. MER#1949
+Subject: [PATCH 32/50] (hybris) Fix actdead charging animation. MER#1949
 
 ---
  rootdir/init.rc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 572b8c309..235d5deea 100644
+index 29d8af76a..70a15977e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -776,7 +776,7 @@ on property:droid.late_start=trigger_late_start
+@@ -782,7 +782,7 @@ on property:droid.late_start=trigger_late_start
      class_start late_start
  
  on charger

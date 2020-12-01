@@ -1,7 +1,7 @@
-From 7c88d33ebd233c5f1225b7c4b43ed09b877f058f Mon Sep 17 00:00:00 2001
+From b012.23.024a0bb38d2ac30f696a9a2061bf99db Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/40] (hybris) property_service.c: adding support for getprop
+Subject: [PATCH 12/50] (hybris) property_service.c: adding support for getprop
  and listprop
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8

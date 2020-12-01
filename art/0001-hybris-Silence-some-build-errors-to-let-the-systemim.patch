@@ -1,4 +1,4 @@
-From af58fcbb7a0c501a5cd06ae6c5eaed17204b065c Mon Sep 17 00:00:00 2001
+From 1a27bd48255a96853e49d25c82a0fe47dd477f83 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
 Date: Fri, 3 Jul 2020 22:15:49 +0200
 Subject: [PATCH] (hybris) Silence some build errors to let the systemimage
@@ -16,9 +16,9 @@ Change-Id: Ide41188b6263a22c371ec28786bbc1ef1ee62df7
 ---
  build/Android.gtest.mk       | 20 ++++++++++----------
  runtime/thread-current-inl.h |  2 +-
- runtime/thread.cc            |  4 ++--
- runtime/thread_list.cc       |  2 +-
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ runtime/thread.cc            |  4 ++++
+ runtime/thread_list.cc       |  2 ++
+ 4 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/build/Android.gtest.mk b/build/Android.gtest.mk
 index 03aae07587..20e38df7b2 100644
@@ -64,7 +64,7 @@ index 03aae07587..20e38df7b2 100644
  ifdef ART_TEST_HOST_GTEST_Main_DEX
  $(ART_TEST_HOST_GTEST_MainStripped_DEX): $(ART_TEST_HOST_GTEST_Main_DEX)
 diff --git a/runtime/thread-current-inl.h b/runtime/thread-current-inl.h
-index 9241b1f875..904a62ccff 100644
+index 9241b1f875..a3e0520423 100644
 --- a/runtime/thread-current-inl.h
 +++ b/runtime/thread-current-inl.h
 @@ -34,7 +34,7 @@ inline Thread* Thread::Current() {
@@ -72,42 +72,45 @@ index 9241b1f875..904a62ccff 100644
    } else {
  #ifdef ART_TARGET_ANDROID
 -    void* thread = __get_tls()[TLS_SLOT_ART_THREAD_SELF];
-+    void* thread = __get_tls()[99];
++    void* thread = nullptr; //__get_tls()[TLS_SLOT_ART_THREAD_SELF];
  #else
      void* thread = pthread_getspecific(Thread::pthread_key_self_);
  #endif
 diff --git a/runtime/thread.cc b/runtime/thread.cc
-index be0e30ad11..dd3d07d920 100644
+index be0e30ad11..da112e19c9 100644
 --- a/runtime/thread.cc
 +++ b/runtime/thread.cc
-@@ -933,7 +933,7 @@ bool Thread::Init(ThreadList* thread_list, JavaVMExt* java_vm, JNIEnvExt* jni_en
+@@ -933,7 +933,9 @@ bool Thread::Init(ThreadList* thread_list, JavaVMExt* java_vm, JNIEnvExt* jni_en
    }
  
  #ifdef ART_TARGET_ANDROID
--  __get_tls()[TLS_SLOT_ART_THREAD_SELF] = this;
-+  __get_tls()[99] = this;
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
+   __get_tls()[TLS_SLOT_ART_THREAD_SELF] = this;
++#endif
  #else
    CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, this), "attach self");
  #endif
-@@ -2199,7 +2199,7 @@ void Thread::ThreadExitCallback(void* arg) {
+@@ -2199,7 +2201,9 @@ void Thread::ThreadExitCallback(void* arg) {
          "going to use a pthread_key_create destructor?): " << *self;
      CHECK(is_started_);
  #ifdef ART_TARGET_ANDROID
--    __get_tls()[TLS_SLOT_ART_THREAD_SELF] = self;
-+    __get_tls()[99] = self;
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
+     __get_tls()[TLS_SLOT_ART_THREAD_SELF] = self;
++#endif
  #else
      CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, self), "reattach self");
  #endif
 diff --git a/runtime/thread_list.cc b/runtime/thread_list.cc
-index ed6b2c91e5..06e6f6585b 100644
+index ed6b2c91e5..37a2bd6911 100644
 --- a/runtime/thread_list.cc
 +++ b/runtime/thread_list.cc
-@@ -1482,7 +1482,7 @@ void ThreadList::Unregister(Thread* self) {
+@@ -1482,7 +1482,9 @@ void ThreadList::Unregister(Thread* self) {
    // Clear the TLS data, so that the underlying native thread is recognizably detached.
    // (It may wish to reattach later.)
  #ifdef ART_TARGET_ANDROID
--  __get_tls()[TLS_SLOT_ART_THREAD_SELF] = nullptr;
-+  __get_tls()[99] = nullptr;
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
+   __get_tls()[TLS_SLOT_ART_THREAD_SELF] = nullptr;
++#endif
  #else
    CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, nullptr), "detach self");
  #endif

@@ -1,7 +1,7 @@
-From ce33e4c319ab68a3d19b8f0705ee843be6abb6fa Mon Sep 17 00:00:00 2001
+From e9af320c091fa528c32a29e4b74b282d86ef0847 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sat, 22 Aug 2015 12:03:42 +0100
-Subject: [PATCH 13/40] (hybris) reach main init state
+Subject: [PATCH 13/50] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
@@ -9,7 +9,7 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 70284ead7..f44b75501 100644
+index c104d72d5..2e9d1b736 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -342,7 +342,7 @@ on late-init

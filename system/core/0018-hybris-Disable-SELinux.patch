@@ -1,7 +1,7 @@
-From 9105a073c94fee5a2758b2c8bb24e3c987c712ef Mon Sep 17 00:00:00 2001
+From 530e84916fc5a241395dd6ce75afb1b58935e0fb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:48:19 +0200
-Subject: [PATCH 18/40] (hybris) Disable SELinux
+Subject: [PATCH 18/50] (hybris) Disable SELinux
 
 Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
 ---
@@ -38,7 +38,7 @@ index 86238b430..a47baebfe 100644
  
      LOG(INFO) << "Loading SELinux policy";
 diff --git a/init/service.cpp b/init/service.cpp
-index ccc37b70c..c17afb246 100644
+index 2db548efe..21b22aefb 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -70,6 +70,9 @@ using android::base::WriteStringToFile;
@@ -75,7 +75,7 @@ index ccc37b70c..c17afb246 100644
      if (priority_ != 0) {
          if (setpriority(PRIO_PROCESS, 0, priority_) != 0) {
              PLOG(FATAL) << "setpriority failed for " << name_;
-@@ -933,6 +941,9 @@ Result<Success> Service::Start() {
+@@ -934,6 +942,9 @@ Result<Success> Service::Start() {
      }
  
      std::string scon;
@@ -85,7 +85,7 @@ index ccc37b70c..c17afb246 100644
      if (!seclabel_.empty()) {
          scon = seclabel_;
      } else {
-@@ -952,7 +963,7 @@ Result<Success> Service::Start() {
+@@ -953,7 +964,7 @@ Result<Success> Service::Start() {
      }
  
      post_data_ = ServiceList::GetInstance().IsPostData();

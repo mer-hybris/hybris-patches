@@ -1,7 +1,7 @@
-From c5a87a9c9600b792369a774709417ab6aa406fdd Mon Sep 17 00:00:00 2001
+From 351ea2bed9126be3fd0225078f73770b54c25d81 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 4 Jun 2018 10:00:13 +0200
-Subject: [PATCH 25/40] (hybris) don't try to mount since mer handles this
+Subject: [PATCH 25/50] (hybris) don't try to mount since mer handles this
 
 Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
 ---

@@ -1,7 +1,7 @@
-From a8c1f04597a77afae9d43a61f7bf355d1b58b52e Mon Sep 17 00:00:00 2001
+From 0133e7aff942108fcbd57f228775ec253b0158f5 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:12:18 +0100
-Subject: [PATCH 06/40] (hybris) Mer uses udev
+Subject: [PATCH 06/50] (hybris) Mer uses udev
 
 Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
 ---
@@ -9,7 +9,7 @@ Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 19847001f..9f17717b1 100644
+index 10d11146a..02c89ffca 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -24,7 +24,7 @@ on early-init

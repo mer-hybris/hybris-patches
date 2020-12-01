@@ -1,7 +1,7 @@
-From eb2713ced66ee6af6b490a303519317edb65bb18 Mon Sep 17 00:00:00 2001
+From 6809c295f880556decb5a7342209bb0094cf541d Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 8 Oct 2013 16:59:30 +0100
-Subject: [PATCH 02/40] (hybris) Don't create/mount dev/proc/sys... when
+Subject: [PATCH 02/50] (hybris) Don't create/mount dev/proc/sys... when
  booting with Mer
 
 Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64

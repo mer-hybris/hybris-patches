@@ -1,4 +1,4 @@
-From aadb47d6bedbb0052b7dc2a62b8fa6df3f65d536 Mon Sep 17 00:00:00 2001
+From b2644d4d8077015b2bdc0eb2bd21117875dffbfe Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sun, 30 Oct 2016 14:07:11 +0000
 Subject: [PATCH] (hybris) AudioService is disabled in hybris adaptations
@@ -9,38 +9,37 @@ Content-Transfer-Encoding: 8bit
 Without this patch, camera is waiting for AudioService indefinitely
 
 Change-Id: Id572746cc77c8d26e3a8e7fc1dc05b17ac282ed4
-Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
 ---
- services/camera/libcameraservice/CameraService.cpp | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ services/camera/libcameraservice/CameraService.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
-index 3e6210294..5950c63ee 100644
+index 670e026183..c8a4694722 100644
 --- a/services/camera/libcameraservice/CameraService.cpp
 +++ b/services/camera/libcameraservice/CameraService.cpp
-@@ -2231,10 +2231,14 @@ void CameraService::increaseSoundRef() {
-     Mutex::Autolock lock(mSoundLock);
+@@ -2275,9 +2275,15 @@ void CameraService::increaseSoundRef() {
      mSoundRef++;
  }
--
+ 
 +#if defined(__clang__)
 +#pragma clang diagnostic push
 +#pragma clang diagnostic ignored "-Wunused-parameter"
 +#endif
  void CameraService::loadSoundLocked(sound_kind kind) {
      ATRACE_CALL();
--
+ 
 +#pragma clang diagnostic pop
-+/*
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
      LOG1("CameraService::loadSoundLocked ref=%d", mSoundRef);
      if (SOUND_SHUTTER == kind && mSoundPlayer[SOUND_SHUTTER] == NULL) {
          mSoundPlayer[SOUND_SHUTTER] = newMediaPlayer("/product/media/audio/ui/camera_click.ogg");
-@@ -2253,6 +2257,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
+@@ -2296,6 +2302,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
              mSoundPlayer[SOUND_RECORDING_STOP] = newMediaPlayer("/system/media/audio/ui/VideoStop.ogg");
          }
      }
-+    */
++#endif
  }
  
  void CameraService::decreaseSoundRef() {

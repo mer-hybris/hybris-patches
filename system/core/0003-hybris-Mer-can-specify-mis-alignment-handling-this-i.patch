@@ -1,7 +1,7 @@
-From 7d692d25bfd04a767110d208769158f569034c27 Mon Sep 17 00:00:00 2001
+From 30530bd1e6823e6942dfef06e7909b68cf22fd1d Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:07:56 +0100
-Subject: [PATCH 03/40] (hybris) Mer can specify mis-alignment handling - this
+Subject: [PATCH 03/50] (hybris) Mer can specify mis-alignment handling - this
  is the wrong place to set it
 
 Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
@@ -10,7 +10,7 @@ Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 893998cee..1d7b87ca9 100644
+index e898d4dc9..3ae5e1944 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -129,13 +129,15 @@ on init

@@ -1,7 +1,7 @@
-From 09f754eabf39dfbdcdbec23e4ad6b5fb797ca37f Mon Sep 17 00:00:00 2001
+From 59de5609b0aa2dc83ba2315c2c78270c40f2ff60 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Thu, 13 Mar 2014 08:51:53 +0000
-Subject: [PATCH 10/40] (hybris) allow system group to trigger haptics
+Subject: [PATCH 10/50] (hybris) allow system group to trigger haptics
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
 
@@ -14,10 +14,10 @@ Change-Id: I9f1af094fa8a4ef48f4c3ea0ec35cb66d3c083d8
  1 file changed, 3 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 3f4dbe678..0f3b85b7d 100644
+index 1fb018783..37a1174d9 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -744,6 +744,9 @@ on boot
+@@ -750,6 +750,9 @@ on boot
      # Define default initial receive window size in segments.
      setprop net.tcp.default_init_rwnd 60
  
