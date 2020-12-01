@@ -1,25 +1,26 @@
-From e9ff4372646599d677d9fd0f127fc5047880d4f2 Mon Sep 17 00:00:00 2001
+From db01ff150d9109bb408b55c0b1f7ee5af4dc39cc Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Tue, 21 Feb 2017 13:13:26 +0100
-Subject: [PATCH 33/39] (hybris)[system/core] Disable usb config.
+Subject: [PATCH 33/40] (hybris)[system/core] Disable usb config.
 
 Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
 ---
- rootdir/init.rc | 1 -
- 1 file changed, 1 deletion(-)
+ rootdir/init.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8556f9acd..0acebed78 100644
+index 235d5deea..b241ba33b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -14,7 +14,6 @@ import /init.environ.rc
+@@ -15,7 +15,7 @@ import /init.environ.rc
  #import /init.usb.rc
  import /init.${ro.hardware}.rc
  import /vendor/etc/init/hw/init.${ro.hardware}.rc
 -import /init.usb.configfs.rc
++#import /init.usb.configfs.rc
  import /init.${ro.zygote}.rc
  
- on early-init
+ # Cgroups are mounted right before early-init using list from /etc/cgroups.json
 -- 
-2.17.1
+2.23.0
 

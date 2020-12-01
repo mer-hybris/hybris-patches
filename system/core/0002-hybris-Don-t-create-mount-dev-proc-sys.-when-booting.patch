@@ -1,41 +1,42 @@
-From 1653fc62093ef821c1d949b14d6d9e6e303f0734 Mon Sep 17 00:00:00 2001
+From eb2713ced66ee6af6b490a303519317edb65bb18 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 8 Oct 2013 16:59:30 +0100
-Subject: [PATCH 02/39] (hybris) Don't create/mount dev/proc/sys... when
+Subject: [PATCH 02/40] (hybris) Don't create/mount dev/proc/sys... when
  booting with Mer
 
 Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
 ---
- init/init.cpp | 10 +++++-----
+ init/first_stage_init.cpp | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/init/init.cpp b/init/init.cpp
-index fc58eeabb..527d275c7 100644
---- a/init/init.cpp
-+++ b/init/init.cpp
-@@ -574,17 +574,17 @@ int main(int argc, char** argv) {
-         setenv("PATH", _PATH_DEFPATH, 1);
-         // Get the basic filesystem setup we need put together in the initramdisk
-         // on / and then we'll let the rc file figure out the rest.
--        mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
--        mkdir("/dev/pts", 0755);
-+        //mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755");
-+        //mkdir("/dev/pts", 0755);
-         mkdir("/dev/socket", 0755);
--        mount("devpts", "/dev/pts", "devpts", 0, NULL);
-+        //mount("devpts", "/dev/pts", "devpts", 0, NULL);
-         #define MAKE_STR(x) __STRING(x)
--        mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
-+        //mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC));
-         // Don't expose the raw commandline to unprivileged processes.
-         chmod("/proc/cmdline", 0440);
-         gid_t groups[] = { AID_READPROC };
-         setgroups(arraysize(groups), groups);
--        mount("sysfs", "/sys", "sysfs", 0, NULL);
-+        //mount("sysfs", "/sys", "sysfs", 0, NULL);
-         mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL);
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 2b899408a..998374a84 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -117,18 +117,18 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
+     // Get the basic filesystem setup we need put together in the initramdisk
+     // on / and then we'll let the rc file figure out the rest.
+-    CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
+-    CHECKCALL(mkdir("/dev/pts", 0755));
++    //CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
++    //CHECKCALL(mkdir("/dev/pts", 0755));
+     CHECKCALL(mkdir("/dev/socket", 0755));
+-    CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
++    //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
+ #define MAKE_STR(x) __STRING(x)
+     CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
+ #undef MAKE_STR
+     // Don't expose the raw commandline to unprivileged processes.
+-    CHECKCALL(chmod("/proc/cmdline", 0440));
++    //CHECKCALL(chmod("/proc/cmdline", 0440));
+     gid_t groups[] = {AID_READPROC};
+     CHECKCALL(setgroups(arraysize(groups), groups));
+-    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
++    //CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
+     CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
  
-         mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11));
+     CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
 -- 
-2.17.1
+2.23.0
 

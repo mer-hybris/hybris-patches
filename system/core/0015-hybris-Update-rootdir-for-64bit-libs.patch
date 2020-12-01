@@ -1,21 +1,22 @@
-From f407437fd7b447f4b8f5262299c16fe0e33514e4 Mon Sep 17 00:00:00 2001
+From 08365a541664a8545cd71e1e0f9afa64647c2fd5 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sat, 15 Oct 2016 15:38:47 +0100
-Subject: [PATCH 15/39] (hybris) Update rootdir for 64bit libs
+Subject: [PATCH 15/40] (hybris) Update rootdir for 64bit libs
 
 Change-Id: I593ae40da755c116bb28c96dcace863e6b30b4cc
 ---
- rootdir/init.environ.rc.in | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ rootdir/init.environ.rc.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index deefac4e0..144f3d396 100644
+index 0abd169df..2194fea86 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
-@@ -3,7 +3,8 @@ on init
- 
+@@ -1,8 +1,8 @@
+ # set up the global environment
+ on early-init
      export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
-     # This is not 64-bit safe -stskeeps
+-    # This is not 64-bit safe -stskeeps
 -    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 +    # Hopefully now it is - ghosalmartin
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib64-dev-alog:/vendor/lib64:/system/lib64:/usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
@@ -23,5 +24,5 @@ index deefac4e0..144f3d396 100644
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
 -- 
-2.17.1
+2.23.0
 

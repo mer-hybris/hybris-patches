@@ -1,28 +1,28 @@
-From b7333f2978cb4031d4366da49413bd347dcda922 Mon Sep 17 00:00:00 2001
+From 0feaaaf0e71e35a94faf3ab76707d52e0cf8dbfe Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 3 Jun 2019 13:46:44 +0200
-Subject: [PATCH 37/39] (hybris) Disable /mnt tmpfs creation
+Subject: [PATCH 37/40] (hybris) Disable /mnt tmpfs creation
 
 Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
 ---
- init/init.cpp | 4 ++--
+ init/first_stage_init.cpp | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/init/init.cpp b/init/init.cpp
-index 214c62215..7fe36d504 100644
---- a/init/init.cpp
-+++ b/init/init.cpp
-@@ -601,8 +601,8 @@ int main(int argc, char** argv) {
- 
-         // Mount staging areas for devices managed by vold
-         // See storage config details at http://source.android.com/devices/storage/
--        mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
--              "mode=0755,uid=0,gid=1000");
-+        //mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-+        //      "mode=0755,uid=0,gid=1000");
-         // /mnt/vendor is used to mount vendor-specific partitions that can not be
-         // part of the vendor partition, e.g. because they are mounted read-write.
-         mkdir("/mnt/vendor", 0755);
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 998374a84..0e398b453 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -149,8 +149,8 @@ int FirstStageMain(int argc, char** argv) {
+     // should be done in rc files.
+     // Mount staging areas for devices managed by vold
+     // See storage config details at http://source.android.com/devices/storage/
+-    CHECKCALL(mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+-                    "mode=0755,uid=0,gid=1000"));
++    //CHECKCALL(mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
++    //                "mode=0755,uid=0,gid=1000"));
+     // /mnt/vendor is used to mount vendor-specific partitions that can not be
+     // part of the vendor partition, e.g. because they are mounted read-write.
+     CHECKCALL(mkdir("/mnt/vendor", 0755));
 -- 
-2.17.1
+2.23.0
 

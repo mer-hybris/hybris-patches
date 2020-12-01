@@ -1,7 +1,7 @@
-From 0e7d0f8148750dc788a62f85496d32f2b384594d Mon Sep 17 00:00:00 2001
+From c5502ca02f088068ea04f5fd3e18878828e8a78a Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:10:16 +0100
-Subject: [PATCH 05/39] (hybris) Systemd handles control groups
+Subject: [PATCH 05/40] (hybris) Systemd handles control groups
 
 Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
 ---
@@ -9,16 +9,16 @@ Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
  1 file changed, 8 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 513d32e24..c882e4c3a 100644
+index 1a5a5537d..19847001f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -28,14 +28,6 @@ on early-init
-     mount cgroup none /acct nodev noexec nosuid cpuacct
+@@ -24,14 +24,6 @@ on early-init
+ 
      mkdir /acct/uid
  
--    # root memory control cgroup, used by lmkd
--    mkdir /dev/memcg 0700 root system
--    mount cgroup none /dev/memcg nodev noexec nosuid memory
+-    # memory.pressure_level used by lmkd
+-    chown root system /dev/memcg/memory.pressure_level
+-    chmod 0040 /dev/memcg/memory.pressure_level
 -    # app mem cgroups, used by activity manager, lmkd and zygote
 -    mkdir /dev/memcg/apps/ 0755 system system
 -    # cgroup for system_server and surfaceflinger
@@ -26,7 +26,7 @@ index 513d32e24..c882e4c3a 100644
 -
      start ueventd
  
- on init
+     # Run apexd-bootstrap so that APEXes that provide critical libraries
 -- 
-2.17.1
+2.23.0
 

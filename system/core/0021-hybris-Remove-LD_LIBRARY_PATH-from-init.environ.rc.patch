@@ -1,21 +1,22 @@
-From 91eab95aa6c08d1d6b0a34396f3fdc82c94ad06e Mon Sep 17 00:00:00 2001
+From 5a20c1057d5bb8e284f85236c263365bf9920a78 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Tue, 17 Oct 2017 21:58:40 +0300
-Subject: [PATCH 21/39] (hybris) Remove LD_LIBRARY_PATH from init.environ.rc
+Subject: [PATCH 21/40] (hybris) Remove LD_LIBRARY_PATH from init.environ.rc
 
 Change-Id: I52a2c733f609f90b6ac31be72a4f8fe7681beac0
 ---
- rootdir/init.environ.rc.in | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ rootdir/init.environ.rc.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index 144f3d396..fcafbb113 100644
+index 2194fea86..8bcad40e2 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
-@@ -4,7 +4,8 @@ on init
+@@ -1,8 +1,8 @@
+ # set up the global environment
+ on early-init
      export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
-     # This is not 64-bit safe -stskeeps
-     # Hopefully now it is - ghosalmartin
+-    # Hopefully now it is - ghosalmartin
 -    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib64-dev-alog:/vendor/lib64:/system/lib64:/usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 +    # this breaks mixed 32/64-bit devices -mal
 +    # export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib64-dev-alog:/vendor/lib64:/system/lib64:/usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
@@ -23,5 +24,5 @@ index 144f3d396..fcafbb113 100644
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
 -- 
-2.17.1
+2.23.0
 

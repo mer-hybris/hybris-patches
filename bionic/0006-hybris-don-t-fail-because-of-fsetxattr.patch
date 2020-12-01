@@ -1,4 +1,4 @@
-From f0cc4b60fd962a9f220b3a393558226901f3f83e Mon Sep 17 00:00:00 2001
+From f6251489321b5e8b23f43a5c568c1a6a37aced92 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 13:10:48 -0400
 Subject: [PATCH 6/6] (hybris) don't fail because of fsetxattr
@@ -9,7 +9,7 @@ Change-Id: I4d765ff401d6b4f12da0305416cb751eb0c9e96b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libc/system_properties/prop_area.cpp b/libc/system_properties/prop_area.cpp
-index 42bee9f..04be162 100644
+index 42bee9f3e..04be16230 100644
 --- a/libc/system_properties/prop_area.cpp
 +++ b/libc/system_properties/prop_area.cpp
 @@ -79,7 +79,7 @@ prop_area* prop_area::map_prop_area_rw(const char* filename, const char* context
@@ -22,5 +22,5 @@ index 42bee9f..04be162 100644
      }
    }
 -- 
-2.7.4
+2.27.0
 

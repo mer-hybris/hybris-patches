@@ -1,0 +1,51 @@
+From 79f3537ae0e6f7ec4f90eea3cb9964504bef59d2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
+Date: Mon, 21 Oct 2019 07:12:52 +0200
+Subject: [PATCH] (hybris) Disable some tests to avoid build errors.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Disables these tests to avoid build errors because some parts that
+they need are disabled in the build system to minimize the build process.
+
+Change-Id: I14adf0fe1015491ac9d2ad8b2f7a570c695f2690
+Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
+---
+ .../Android.mk                                | 23 -------------------
+ 1 file changed, 23 deletions(-)
+
+diff --git a/core/tests/hosttests/test-apps/MultiDexLegacyTestAppWithCorruptedDex/Android.mk b/core/tests/hosttests/test-apps/MultiDexLegacyTestAppWithCorruptedDex/Android.mk
+index a6f87ea2e5d..40c005e8e63 100644
+--- a/core/tests/hosttests/test-apps/MultiDexLegacyTestAppWithCorruptedDex/Android.mk
++++ b/core/tests/hosttests/test-apps/MultiDexLegacyTestAppWithCorruptedDex/Android.mk
+@@ -13,26 +13,3 @@
+ # limitations under the License.
+ 
+ LOCAL_PATH:= $(call my-dir)
+-
+-include $(CLEAR_VARS)
+-
+-LOCAL_MODULE_TAGS := tests
+-
+-LOCAL_SRC_FILES := $(call all-java-files-under, src)
+-
+-LOCAL_SDK_VERSION := 18
+-
+-LOCAL_PACKAGE_NAME := MultiDexLegacyTestApp_corrupted
+-
+-LOCAL_STATIC_JAVA_LIBRARIES := android-support-multidex
+-
+-LOCAL_DEX_PREOPT := false
+-
+-include $(BUILD_PACKAGE)
+-
+-corrupted_classes2_dex := $(dir $(built_dex))/classes2.dex
+-
+-$(corrupted_classes2_dex): $(built_dex)
+-	$(hide) touch $@
+-
+-$(LOCAL_BUILT_MODULE): $(corrupted_classes2_dex)
+-- 
+2.23.0
+

@@ -1,25 +1,24 @@
-From f8a08335fe5d042424a848f562066f084257c107 Mon Sep 17 00:00:00 2001
+From 92d86677baf15c7cd45f1440097ffed3d5238afc Mon Sep 17 00:00:00 2001
 From: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 Date: Wed, 31 Jan 2018 17:12:14 +0200
-Subject: [PATCH 34/39] (hybris) Remove /sbin from droid PATH.
+Subject: [PATCH 34/40] (hybris) Remove /sbin from droid PATH.
 
 ---
  rootdir/init.environ.rc.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index 516dc82f6..90c2b64d6 100644
+index 73fbaa413..8f95df9c6 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
-@@ -1,7 +1,7 @@
+@@ -1,6 +1,6 @@
  # set up the global environment
- on init
- 
+ on early-init
 -    export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
 +    export PATH /vendor/bin:/system/sbin:/system/bin:/system/xbin
-     # This is not 64-bit safe -stskeeps
-     # Hopefully now it is - ghosalmartin
      # this breaks mixed 32/64-bit devices -mal
+     # for 32-bit devices with android kernel logger there is now a file called init.extraenv.armeabi-v7a.rc - krnlyng
+     # export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib64-dev-alog:/vendor/lib64:/system/lib64:/usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 -- 
-2.17.1
+2.23.0
 

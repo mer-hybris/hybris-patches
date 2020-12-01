@@ -1,4 +1,4 @@
-From bb8d83f75b1b0a7eb2aeb63ef53fd83f750205b2 Mon Sep 17 00:00:00 2001
+From 5bc15a22820c54bc59f50209d189d28900846d54 Mon Sep 17 00:00:00 2001
 From: David Greaves <david.greaves@jollamobile.com>
 Date: Tue, 25 Nov 2014 14:55:27 +0100
 Subject: [PATCH 3/5] (hybris) Use private __get_tls_hooks from bionic
@@ -11,10 +11,10 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  2 files changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/opengl/libs/EGL/egl.cpp b/opengl/libs/EGL/egl.cpp
-index f53cf3f..2d8a98a 100644
+index 25b1009ba..51a5582c7 100644
 --- a/opengl/libs/EGL/egl.cpp
 +++ b/opengl/libs/EGL/egl.cpp
-@@ -234,7 +234,7 @@ void gl_noop() {
+@@ -241,7 +241,7 @@ void gl_noop() {
  // ----------------------------------------------------------------------------
  
  void setGlThreadSpecific(gl_hooks_t const *value) {
@@ -24,7 +24,7 @@ index f53cf3f..2d8a98a 100644
  }
  
 diff --git a/opengl/libs/hooks.h b/opengl/libs/hooks.h
-index 81dbe0e..dfb08a5 100644
+index 63a0e140c..9eac975f1 100644
 --- a/opengl/libs/hooks.h
 +++ b/opengl/libs/hooks.h
 @@ -34,7 +34,7 @@
@@ -36,7 +36,7 @@ index 81dbe0e..dfb08a5 100644
  
  #undef NELEM
  #define NELEM(x)            (sizeof(x)/sizeof(*(x)))
-@@ -76,16 +76,8 @@ struct gl_hooks_t {
+@@ -80,16 +80,8 @@ struct gl_hooks_t {
  
  EGLAPI void setGlThreadSpecific(gl_hooks_t const *value);
  
@@ -55,5 +55,5 @@ index 81dbe0e..dfb08a5 100644
      return hooks;
  }
 -- 
-2.7.4
+2.23.0
 
