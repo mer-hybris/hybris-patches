@@ -1,7 +1,7 @@
-From da41f7558ba050aad4dbc9e0b1b75e40e2d3bed6 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 12:46:12 -0400
-Subject: [PATCH 36/41] (hybris) disable some more selinux functionality.
+Subject: [PATCH] (hybris) disable some more selinux functionality.
 
 Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
 ---
@@ -11,7 +11,7 @@ Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
  3 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 5bead058c..f0d345326 100644
+index 5bead05..f0d3453 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -338,11 +338,14 @@ class SocketConnection {
@@ -30,7 +30,7 @@ index 5bead058c..f0d345326 100644
  
    private:
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index fdb46415d..5fbe8fc40 100644
+index fdb4641..5fbe8fc 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
 @@ -243,11 +243,11 @@ void Subcontext::Fork() {
@@ -48,7 +48,7 @@ index fdb46415d..5fbe8fc40 100644
          auto child_fd_string = std::to_string(child_fd);
          const char* args[] = {init_path.c_str(), "subcontext", context_.c_str(),
 diff --git a/init/util.cpp b/init/util.cpp
-index e27f4f88e..a5c95df5b 100644
+index e27f4f8..a5c95df 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
 @@ -117,10 +117,12 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
@@ -77,5 +77,5 @@ index e27f4f88e..a5c95df5b 100644
      if (ret) {
          errno = savederrno;
 -- 
-2.20.1
+2.7.4
 

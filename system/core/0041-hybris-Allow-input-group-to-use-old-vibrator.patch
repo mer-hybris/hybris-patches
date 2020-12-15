@@ -1,8 +1,8 @@
-From 324315555140ca5fb378286dcd166f9750cba627 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Juho=20H=C3=A4m=C3=A4l=C3=A4inen?=
  <juho.hamalainen@jolla.com>
 Date: Tue, 24 Mar 2020 14:07:40 +0200
-Subject: [PATCH 41/41] (hybris) Allow input group to use old vibrator.
+Subject: [PATCH] (hybris) Allow input group to use old vibrator.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -13,7 +13,7 @@ Signed-off-by: Juho Hämäläinen <juho.hamalainen@jolla.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index b2f6540ab..e33f89132 100644
+index b2f6540..e33f891 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -655,7 +655,8 @@ on boot
@@ -27,5 +27,5 @@ index b2f6540ab..e33f89132 100644
      chown system system /sys/class/leds/lcd-backlight/brightness
      chown system system /sys/class/leds/button-backlight/brightness
 -- 
-2.20.1
+2.7.4
 

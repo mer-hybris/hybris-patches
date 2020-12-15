@@ -1,8 +1,7 @@
-From 38087c05e0ae2555c9cf1322b0a06a1d28c66874 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 27 Aug 2018 11:08:12 +0000
-Subject: [PATCH 31/41] (hybris) ignore "mount" and "mkdir /tmp" commands
- entirely.
+Subject: [PATCH] (hybris) ignore "mount" and "mkdir /tmp" commands entirely.
 
 mount is usually removed during build, but if the *.rc files are on
 partitions we cannot easily change this is required (e.g. system,
@@ -21,7 +20,7 @@ Change-Id: Iba637613c6a927098c947536e11348e269e1bef3
  1 file changed, 16 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 8bb7b0f0c..23efc95b0 100644
+index 8bb7b0f..23efc95 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
 @@ -243,6 +243,13 @@ static Result<Success> do_insmod(const BuiltinArguments& args) {
@@ -73,5 +72,5 @@ index 8bb7b0f0c..23efc95b0 100644
  
  /* Imports .rc files from the specified paths. Default ones are applied if none is given.
 -- 
-2.20.1
+2.7.4
 

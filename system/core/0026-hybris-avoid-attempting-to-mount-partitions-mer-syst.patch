@@ -1,8 +1,8 @@
-From 164040621dc4486715572828e165f5dbc3d819c0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:28:27 +0200
-Subject: [PATCH 26/41] (hybris) avoid attempting to mount partitions,
- mer/systemd handles this
+Subject: [PATCH] (hybris) avoid attempting to mount partitions, mer/systemd
+ handles this
 
 Even partitions weren't mounted by this previously it still would produce an
 error and further boot.
@@ -13,7 +13,7 @@ Change-Id: Icaea2cd8d145d8205f4a130119aedbd2720c868d
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 8bd92ccdd..8bb7b0f0c 100644
+index 8bd92cc..8bb7b0f 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
 @@ -416,6 +416,7 @@ static void import_late(const std::vector<std::string>& args, size_t start_index
@@ -66,5 +66,5 @@ index 8bd92ccdd..8bb7b0f0c 100644
          /* queue_fs_event will queue event based on mount_fstab return code
           * and return processed return code*/
 -- 
-2.20.1
+2.7.4
 

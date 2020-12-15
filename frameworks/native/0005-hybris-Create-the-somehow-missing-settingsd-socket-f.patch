@@ -1,8 +1,8 @@
-From 36bf4036b08f84e9756346c9c278ff87f191cc99 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Sun, 16 Jun 2019 13:14:30 +0200
-Subject: [PATCH 5/5] (hybris) Create the (somehow) missing settingsd socket
- for rild
+Subject: [PATCH] (hybris) Create the (somehow) missing settingsd socket for
+ rild
 
 Change-Id: Ic7415aab65788f37ee5c5a67be1916319e484f77
 ---

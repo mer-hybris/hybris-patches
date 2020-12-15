@@ -1,7 +1,7 @@
-From 5209d32be26139274a72a5de571cda056740cf77 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sat, 22 Aug 2015 12:03:42 +0100
-Subject: [PATCH 13/41] (hybris) reach main init state
+Subject: [PATCH] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
@@ -9,7 +9,7 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5520adfb4..9bbca6c1b 100644
+index 5520adf..9bbca6c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -390,7 +390,9 @@ on post-fs-data
@@ -24,5 +24,5 @@ index 5520adfb4..9bbca6c1b 100644
  
      # Start bootcharting as soon as possible after the data partition is
 -- 
-2.20.1
+2.7.4
 

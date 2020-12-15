@@ -1,7 +1,7 @@
-From d6b0d88fd16ed59bc56d0d1fa41b054686fc1f81 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sun, 17 Dec 2017 00:16:16 +0200
-Subject: [PATCH 2/6] (hybris) Add support for get and list of properties.
+Subject: [PATCH] (hybris) Add support for get and list of properties.
 
 Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
 ---

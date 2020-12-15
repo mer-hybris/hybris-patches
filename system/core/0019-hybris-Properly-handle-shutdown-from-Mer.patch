@@ -1,7 +1,7 @@
-From 2f367d901e5873529f52d0040d95de043d1e57cb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sat, 8 Jul 2017 00:27:20 +0300
-Subject: [PATCH 19/41] (hybris) Properly handle shutdown from Mer.
+Subject: [PATCH] (hybris) Properly handle shutdown from Mer.
 
 Change-Id: I89daebb9559d38f3c639f4634c417252c7a92fe0
 ---
@@ -9,7 +9,7 @@ Change-Id: I89daebb9559d38f3c639f4634c417252c7a92fe0
  1 file changed, 9 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5231f45fd..d3ef1148d 100644
+index 5231f45..d3ef114 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -783,6 +783,15 @@ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
@@ -29,5 +29,5 @@ index 5231f45fd..d3ef1148d 100644
  on property:persist.sys.recovery_update=true
      start flash_recovery
 -- 
-2.20.1
+2.7.4
 

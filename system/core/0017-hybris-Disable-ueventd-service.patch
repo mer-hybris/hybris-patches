@@ -1,7 +1,7 @@
-From 028e980eb3a8c45348d6fb7b8b40bb70d7a9be62 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sun, 8 Jan 2017 17:16:08 +0000
-Subject: [PATCH 17/41] (hybris) Disable ueventd service
+Subject: [PATCH] (hybris) Disable ueventd service
 
 Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
 ---
@@ -9,7 +9,7 @@ Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 55dcd8782..5231f45fd 100644
+index 55dcd87..5231f45 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -748,6 +748,8 @@ service ueventd /sbin/ueventd
@@ -22,5 +22,5 @@ index 55dcd8782..5231f45fd 100644
  service console /system/bin/sh
      class core
 -- 
-2.20.1
+2.7.4
 

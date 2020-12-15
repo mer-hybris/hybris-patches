@@ -1,8 +1,8 @@
-From 5b22181f0316b519b1712b1f291d2f83bccba640 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 9 Jan 2014 00:57:01 -0200
-Subject: [PATCH 3/6] (hybris) bionic_tls.h: shifting TLS slots to avoid
- conflicts with libc/hybris
+Subject: [PATCH] (hybris) bionic_tls.h: shifting TLS slots to avoid conflicts
+ with libc/hybris
 
 Change-Id: Idf503fe8fa0a24edf4dbbabaa8d3a1c2d1f60295
 Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>

@@ -1,7 +1,7 @@
-From 475be6b868e08dbcb49f5730f7b2e6332a37e3d4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Wed, 4 Sep 2019 12:07:34 +0200
-Subject: [PATCH 39/41] (hybris) Disable SELinux init.
+Subject: [PATCH] (hybris) Disable SELinux init.
 
 Sailfish OS SELinux initialization is done by systemd.
 Conflicting init has been resolved by disabling SELinux
@@ -14,7 +14,7 @@ Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 7fe36d504..ce2100c57 100644
+index 7fe36d5..ce2100c 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -70,6 +70,8 @@ using android::base::StringPrintf;
@@ -66,5 +66,5 @@ index 7fe36d504..ce2100c57 100644
      epoll_fd = epoll_create1(EPOLL_CLOEXEC);
      if (epoll_fd == -1) {
 -- 
-2.20.1
+2.7.4
 

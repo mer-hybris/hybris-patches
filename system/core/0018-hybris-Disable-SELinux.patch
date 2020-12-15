@@ -1,7 +1,7 @@
-From 414f713a6b29ba3d509f797a34792b781a243e31 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:48:19 +0200
-Subject: [PATCH 18/41] (hybris) Disable SELinux
+Subject: [PATCH] (hybris) Disable SELinux
 
 Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
 ---
@@ -11,7 +11,7 @@ Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
  3 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index f0975313b..3333eedb1 100644
+index f097531..3333eed 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -112,6 +112,8 @@ void property_init() {
@@ -24,7 +24,7 @@ index f0975313b..3333eedb1 100644
          return false;
      }
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 0ba5c4ae3..416c12789 100644
+index 0ba5c4a..416c127 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
 @@ -382,6 +382,9 @@ bool LoadPolicy() {
@@ -38,7 +38,7 @@ index 0ba5c4ae3..416c12789 100644
  
      LOG(INFO) << "Loading SELinux policy";
 diff --git a/init/service.cpp b/init/service.cpp
-index 37d3a8807..9c294af15 100644
+index 37d3a88..9c294af 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -66,6 +66,8 @@ using android::base::WriteStringToFile;
@@ -92,5 +92,5 @@ index 37d3a8807..9c294af15 100644
  
      pid_t pid = -1;
 -- 
-2.20.1
+2.7.4
 

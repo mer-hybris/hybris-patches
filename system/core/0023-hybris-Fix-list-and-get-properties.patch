@@ -1,7 +1,7 @@
-From fb81da3648c836bb76543403f2558290d1057052 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Tue, 16 Jan 2018 16:18:31 +0200
-Subject: [PATCH 23/41] (hybris) Fix list and get properties.
+Subject: [PATCH] (hybris) Fix list and get properties.
 
 Change-Id: I9deb65f147e941fc5c9f91793f851440d02260e1
 ---
@@ -9,7 +9,7 @@ Change-Id: I9deb65f147e941fc5c9f91793f851440d02260e1
  1 file changed, 30 insertions(+), 5 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 3333eedb1..5bead058c 100644
+index 3333eed..5bead05 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -269,6 +269,13 @@ uint32_t InitPropertySet(const std::string& name, const std::string& value) {
@@ -88,5 +88,5 @@ index 3333eedb1..5bead058c 100644
          break;
        }
 -- 
-2.20.1
+2.7.4
 

@@ -1,7 +1,7 @@
-From 4d6294e08a0d838dd9078e0ba65e6177631ed111 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sun, 8 Jan 2017 16:34:54 +0000
-Subject: [PATCH 16/41] (hybris) Disable all zygote variations
+Subject: [PATCH] (hybris) Disable all zygote variations
 
 Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
 ---
@@ -12,7 +12,7 @@ Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
  4 files changed, 6 insertions(+)
 
 diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
-index ac87979ec..b24f7b5b9 100644
+index ac87979..b24f7b5 100644
 --- a/rootdir/init.zygote32.rc
 +++ b/rootdir/init.zygote32.rc
 @@ -12,3 +12,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
@@ -21,7 +21,7 @@ index ac87979ec..b24f7b5b9 100644
      writepid /dev/cpuset/foreground/tasks
 +    disabled
 diff --git a/rootdir/init.zygote32_64.rc b/rootdir/init.zygote32_64.rc
-index a535846de..62b92363c 100644
+index a535846..62b9236 100644
 --- a/rootdir/init.zygote32_64.rc
 +++ b/rootdir/init.zygote32_64.rc
 @@ -12,6 +12,7 @@ service zygote /system/bin/app_process32 -Xzygote /system/bin --zygote --start-s
@@ -38,7 +38,7 @@ index a535846de..62b92363c 100644
      writepid /dev/cpuset/foreground/tasks
 +    disabled
 diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
-index 6fc810bfa..edf82ce4b 100644
+index 6fc810b..edf82ce 100644
 --- a/rootdir/init.zygote64.rc
 +++ b/rootdir/init.zygote64.rc
 @@ -12,3 +12,4 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
@@ -47,7 +47,7 @@ index 6fc810bfa..edf82ce4b 100644
      writepid /dev/cpuset/foreground/tasks
 +    disabled
 diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
-index 7ddd52ee5..e74202a7e 100644
+index 7ddd52e..e74202a 100644
 --- a/rootdir/init.zygote64_32.rc
 +++ b/rootdir/init.zygote64_32.rc
 @@ -12,6 +12,7 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
@@ -64,5 +64,5 @@ index 7ddd52ee5..e74202a7e 100644
      writepid /dev/cpuset/foreground/tasks
 +    disabled
 -- 
-2.20.1
+2.7.4
 

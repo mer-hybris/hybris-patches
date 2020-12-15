@@ -1,8 +1,8 @@
-From e1ca562a7e324885fa14dd58651bc622ebd6f9cc Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Juho=20H=C3=A4m=C3=A4l=C3=A4inen?=
  <juho.hamalainen@jolla.com>
 Date: Mon, 23 Mar 2020 17:40:04 +0200
-Subject: [PATCH 40/40] (hybris) Allow input group to use vibrator.
+Subject: [PATCH] (hybris) Allow input group to use vibrator.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -15,7 +15,7 @@ Signed-off-by: Juho Hämäläinen <juho.hamalainen@jolla.com>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c5a6a0bc0..b2f6540ab 100644
+index c5a6a0b..b2f6540 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -649,10 +649,11 @@ on boot
@@ -33,5 +33,5 @@ index c5a6a0bc0..b2f6540ab 100644
      chown system system /sys/class/timed_output/vibrator/enable
      chown system system /sys/class/leds/keyboard-backlight/brightness
 -- 
-2.20.1
+2.7.4
 
