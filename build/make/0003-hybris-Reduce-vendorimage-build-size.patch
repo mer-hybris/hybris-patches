@@ -1,7 +1,7 @@
-From 406f994725894d4076f84a4210277f40ae43f2cf Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Fri, 22 Mar 2019 18:36:56 +0200
-Subject: [PATCH 3/3] (hybris) Reduce vendorimage build size.
+Subject: [PATCH] (hybris) Reduce vendorimage build size.
 
 Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
 ---

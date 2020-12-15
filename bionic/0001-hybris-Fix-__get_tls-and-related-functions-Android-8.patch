@@ -1,8 +1,7 @@
-From 37ff1a6589ca177efdeff77ca046f52074f0bc43 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Thu, 1 Feb 2018 00:57:52 +0000
-Subject: [PATCH 1/6] (hybris) Fix __get_tls and related functions (>=Android
- 8)
+Subject: [PATCH] (hybris) Fix __get_tls and related functions (>=Android 8)
 
 Change-Id: If75e4ae739ec6c482a68b1b69c2130535add2279
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>

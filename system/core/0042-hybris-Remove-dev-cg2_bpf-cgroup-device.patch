@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Kosola <matti.kosola@jolla.com>
+Date: Mon, 14 Dec 2020 15:55:58 +0100
+Subject: [PATCH] (hybris) Remove /dev/cg2_bpf cgroup device.
+
+Systemd v238 mixes cgroup permissions if something else is
+changing permissions of cgroup mounted devices. This cg2_bpf
+device is used by netd and it is not running in Sailfish OS.
+
+Change-Id: Ie0de704f977a21505d5bb66e1bc571818173baab
+Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
+---
+ rootdir/init.rc | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index e33f891..0431a96 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -224,10 +224,6 @@ on init
+     # This is needed by any process that uses socket tagging.
+     chmod 0644 /dev/xt_qtaguid
+ 
+-    mkdir /dev/cg2_bpf
+-    mount cgroup2 cg2_bpf /dev/cg2_bpf nodev noexec nosuid
+-    chown root root /dev/cg2_bpf
+-    chmod 0600 /dev/cg2_bpf
+     mount bpf bpf /sys/fs/bpf nodev noexec nosuid
+ 
+     # Create location for fs_mgr to store abbreviated output from filesystem
+-- 
+2.7.4
+

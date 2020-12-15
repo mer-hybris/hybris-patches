@@ -1,7 +1,7 @@
-From 3b3570a33ce50318bb4eb6b4f9b4ede9665308b0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sun, 30 Oct 2016 14:07:11 +0000
-Subject: [PATCH 1/1] (hybris) AudioService is disabled in hybris adaptations
+Subject: [PATCH] (hybris) AudioService is disabled in hybris adaptations
 
 Without this patch, camera is waiting for AudioService indefinitely
 

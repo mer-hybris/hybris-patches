@@ -1,8 +1,7 @@
-From 43efb446b6872bdff454f1a67048e400345704f4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 19:00:03 +0200
-Subject: [PATCH 4/5] (hybris) Allow surfaceflinger to be started from
- SailfishOS.
+Subject: [PATCH] (hybris) Allow surfaceflinger to be started from SailfishOS.
 
 Change-Id: Ibaecd8d27524bbb0d3bc7b40017bf92736b8629d
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>

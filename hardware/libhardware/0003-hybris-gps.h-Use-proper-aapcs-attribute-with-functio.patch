@@ -1,8 +1,8 @@
-From 05c96a503f8559cb86bd82a0dce8bc6c55a02ea8 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jollamobile.com>
 Date: Tue, 30 Jan 2018 14:55:33 +0200
-Subject: [PATCH 3/3] (hybris) gps.h Use proper aapcs attribute with functions
- with float arguments
+Subject: [PATCH] (hybris) gps.h Use proper aapcs attribute with functions with
+ float arguments
 
 ---
  include/hardware/gps.h | 10 ++++++++--

@@ -1,9 +1,8 @@
-From 6b49a219e0febdab4bf42362dbf64075c08c1190 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 6 Nov 2013 21:09:30 +0000
-Subject: [PATCH 01/41] (hybris) Add /usr/libexec/droid-hybris/lib-dev-alog/ to
- the LD_LIBRARY_PATH for all init'ed binaries to support the /dev/alog used in
- Mer
+Subject: [PATCH] (hybris) Add /usr/libexec/droid-hybris/lib-dev-alog/ to the
+ LD_LIBRARY_PATH for all init'ed binaries to support the /dev/alog used in Mer
 
 Change-Id: If58b8bd7c52b71e6e1f86f714142890dc8c73fd8
 ---
@@ -11,7 +10,7 @@ Change-Id: If58b8bd7c52b71e6e1f86f714142890dc8c73fd8
  1 file changed, 4 insertions(+)
 
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index 2e2ab7465..deefac4e0 100644
+index 2e2ab74..deefac4 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
 @@ -1,5 +1,9 @@
@@ -25,5 +24,5 @@ index 2e2ab7465..deefac4e0 100644
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
 -- 
-2.20.1
+2.7.4
 

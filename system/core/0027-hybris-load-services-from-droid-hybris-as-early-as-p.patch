@@ -1,8 +1,7 @@
-From 8cbe08a2e1525e0c3d203cdbbf97f3ffa0aeb28c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:30:01 +0200
-Subject: [PATCH 27/41] (hybris) load services from droid-hybris as early as
- possible
+Subject: [PATCH] (hybris) load services from droid-hybris as early as possible
 
 This makes sure our service definitions are loaded first and can be used to
 overwrite service definitions which are slightly different to what we need and
@@ -14,7 +13,7 @@ Change-Id: I58e86f8b3c65f46c24fc3102a859867bccb6a713
  1 file changed, 3 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index e397c4c58..214c62215 100644
+index e397c4c..214c622 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -117,6 +117,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
@@ -28,5 +27,5 @@ index e397c4c58..214c62215 100644
              late_import_paths.emplace_back("/product/etc/init");
          }
 -- 
-2.20.1
+2.7.4
 

@@ -1,7 +1,7 @@
-From c4497049d7c4e5fc9084aec50469137c8bc8ef9f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
 Date: Wed, 5 Aug 2015 14:31:01 +0200
-Subject: [PATCH 2/3] (hybris) Search for libraries first from
+Subject: [PATCH] (hybris) Search for libraries first from
  /usr/libexec/droid-hybris/system/lib/hw/.
 
 Change-Id: I7496d961f8218b6077b9d628dd350ac20550b5d2

@@ -1,8 +1,8 @@
-From 78c3feee4abb30c1ddcb43c9d0dadd9b53872f54 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:37:09 +0200
-Subject: [PATCH 4/6] (hybris) disable tls usage in locale.cpp, to avoid
- problems with libhybris
+Subject: [PATCH] (hybris) disable tls usage in locale.cpp, to avoid problems
+ with libhybris
 
 Change-Id: I498a9749853e6a5a4aaa4ae93479aff083e02d4c
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
