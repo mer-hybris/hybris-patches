@@ -1,7 +1,7 @@
-From 926be8f94140a3f2b966c1d5a3465729c0065982 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
 Date: Wed, 5 Aug 2015 14:31:01 +0200
-Subject: [PATCH 2/3] (hybris) Search for libraries first from
+Subject: [PATCH] (hybris) Search for libraries first from
  /usr/libexec/droid-hybris/system/lib/hw/.
 
 Change-Id: I7496d961f8218b6077b9d628dd350ac20550b5d2
@@ -10,7 +10,7 @@ Change-Id: I7496d961f8218b6077b9d628dd350ac20550b5d2
  1 file changed, 7 insertions(+)
 
 diff --git a/hardware.c b/hardware.c
-index 6e72ce9f..ecdcf879 100644
+index 6e72ce9f344544a1d3f05792abd499711f8681d6..ecdcf87970d3c5cfaaa717deec4d83b03caa0746 100644
 --- a/hardware.c
 +++ b/hardware.c
 @@ -39,10 +39,12 @@
@@ -38,6 +38,3 @@ index 6e72ce9f..ecdcf879 100644
      snprintf(path, path_len, "%s/%s.%s.so",
               HAL_LIBRARY_PATH3, name, subname);
      if (path_in_path(path, HAL_LIBRARY_PATH3) && access(path, R_OK) == 0)
--- 
-2.23.0
-

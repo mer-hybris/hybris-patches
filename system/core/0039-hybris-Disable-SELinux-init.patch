@@ -1,7 +1,7 @@
-From 57cc123a345acb3d062a02630bcfcb9920cb1811 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Matti Kosola <matti.kosola@jolla.com>
 Date: Wed, 4 Sep 2019 12:07:34 +0200
-Subject: [PATCH 39/50] (hybris) Disable SELinux init.
+Subject: [PATCH] (hybris) Disable SELinux init.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -20,7 +20,7 @@ Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
  3 files changed, 26 insertions(+)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 0e398b453..805bad2e5 100644
+index 0e398b4537269e191fdbc881d156497df084c62a..805bad2e5904886298d18e0a58af834421ab1dfc 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
 @@ -47,6 +47,8 @@ using namespace std::literals;
@@ -43,10 +43,10 @@ index 0e398b453..805bad2e5 100644
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
  
 diff --git a/init/init.cpp b/init/init.cpp
-index 8ff468ea9..f2936d883 100644
+index eb2e87a6ad10fb931fa2ebee43f3128d2c4718dc..5212c07579989f2d086e23a9b6664061c83b6249 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -76,6 +76,8 @@ using android::base::Timer;
+@@ -81,6 +81,8 @@ using android::base::Timer;
  using android::base::Trim;
  using android::fs_mgr::AvbHandle;
  
@@ -55,7 +55,7 @@ index 8ff468ea9..f2936d883 100644
  namespace android {
  namespace init {
  
-@@ -358,11 +360,14 @@ static Result<Success> console_init_action(const BuiltinArguments& args) {
+@@ -366,11 +368,14 @@ static Result<Success> console_init_action(const BuiltinArguments& args) {
  static Result<Success> SetupCgroupsAction(const BuiltinArguments&) {
      // Have to create <CGROUPS_RC_DIR> using make_dir function
      // for appropriate sepolicy to be set for it
@@ -70,7 +70,7 @@ index 8ff468ea9..f2936d883 100644
      return Success();
  }
  
-@@ -675,10 +680,12 @@ int SecondStageMain(int argc, char** argv) {
+@@ -737,10 +742,12 @@ int SecondStageMain(int argc, char** argv) {
      unsetenv("INIT_AVB_VERSION");
      unsetenv("INIT_FORCE_DEBUGGABLE");
  
@@ -84,7 +84,7 @@ index 8ff468ea9..f2936d883 100644
      Epoll epoll;
      if (auto result = epoll.Open(); !result) {
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 2fc027ba2..ce506dd5e 100644
+index 2fc027ba201eeb1eac8d6e589194eec5a6be5beb..ce506dd5e0be7af3960e0760ca57104b777ae760 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
 @@ -74,6 +74,8 @@ using android::base::Timer;
@@ -171,6 +171,3 @@ index 2fc027ba2..ce506dd5e 100644
      return 1;
  }
  
--- 
-2.23.0
-

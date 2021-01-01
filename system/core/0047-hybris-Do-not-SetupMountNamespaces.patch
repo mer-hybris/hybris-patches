@@ -1,7 +1,7 @@
-From 61cb16db3e9354f798e300568b40fdde18f92099 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Tue, 13 Oct 2020 13:29:00 +0000
-Subject: [PATCH 47/50] (hybris) Do not SetupMountNamespaces()
+Subject: [PATCH] (hybris) Do not SetupMountNamespaces()
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: Id2af1396ed2274a3533305722e117786aceb3cd0
@@ -10,10 +10,10 @@ Change-Id: Id2af1396ed2274a3533305722e117786aceb3cd0
  1 file changed, 2 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index f2936d883..20aa65f37 100644
+index 5212c07579989f2d086e23a9b6664061c83b6249..91d9587fb12a18f424c6fad7bf81b73032c5d788 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -705,9 +705,11 @@ int SecondStageMain(int argc, char** argv) {
+@@ -772,9 +772,11 @@ int SecondStageMain(int argc, char** argv) {
      const BuiltinFunctionMap function_map;
      Action::set_function_map(&function_map);
  
@@ -25,6 +25,3 @@ index f2936d883..20aa65f37 100644
  
      subcontexts = InitializeSubcontexts();
  
--- 
-2.23.0
-

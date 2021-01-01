@@ -1,7 +1,7 @@
-From 79f69b9aa4cdda9f9077b4b1cda024d7dfad37db Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:09:20 +0100
-Subject: [PATCH 04/50] (hybris) Mount points are handled by Mer
+Subject: [PATCH] (hybris) Mount points are handled by Mer
 
 Change-Id: I295b30a47b6e147b037275032a00b304085fe711
 ---
@@ -9,10 +9,10 @@ Change-Id: I295b30a47b6e147b037275032a00b304085fe711
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 3ae5e1944..897d392dc 100644
+index 4728697a9cccc4ee0b470fee55b6a606b47ba5dd..1ce8e7286703290172775f2e1b41f60f35e02da6 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -50,8 +50,8 @@ on init
+@@ -55,8 +55,8 @@ on init
      symlink /proc/self/fd/1 /dev/stdout
      symlink /proc/self/fd/2 /dev/stderr
  
@@ -23,7 +23,7 @@ index 3ae5e1944..897d392dc 100644
  
      # Backward compatibility.
      symlink /sys/kernel/debug /d
-@@ -356,10 +356,10 @@ on post-fs
+@@ -366,10 +366,10 @@ on post-fs
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
@@ -37,6 +37,3 @@ index 3ae5e1944..897d392dc 100644
  
      # Make sure /sys/kernel/debug (if present) is labeled properly
      # Note that tracefs may be mounted under debug, so we need to cross filesystems
--- 
-2.23.0
-

@@ -1,7 +1,7 @@
-From 149bf24830f3ac0d10067a49e437084bd2936c93 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Tue, 13 Oct 2020 15:39:00 +0000
-Subject: [PATCH 48/50] (hybris) Do not launch /system/bin/vdc
+Subject: [PATCH] (hybris) Do not launch /system/bin/vdc
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
@@ -10,10 +10,10 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c5e71291d..efa1884b4 100644
+index adde289760caf1e889b95764a1bf7b2a4027581d..330212578f8192775411148461e566c09caa8c2f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -353,7 +353,7 @@ on early-fs
+@@ -363,7 +363,7 @@ on early-fs
      #start vold
  
  on post-fs
@@ -22,7 +22,7 @@ index c5e71291d..efa1884b4 100644
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
-@@ -421,7 +421,7 @@ on post-fs-data
+@@ -431,7 +431,7 @@ on post-fs-data
  
      # Start checkpoint before we touch data
      #start vold
@@ -31,6 +31,3 @@ index c5e71291d..efa1884b4 100644
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
--- 
-2.23.0
-

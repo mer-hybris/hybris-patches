@@ -1,8 +1,7 @@
-From 108b8eee47e032f4d1049a2d0eea1ad512475df4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 27 Aug 2018 11:08:12 +0000
-Subject: [PATCH 31/50] (hybris) ignore "mount" and "mkdir /tmp" commands
- entirely.
+Subject: [PATCH] (hybris) ignore "mount" and "mkdir /tmp" commands entirely.
 
 mount is usually removed during build, but if the *.rc files are on
 partitions we cannot easily change this is required (e.g. system,
@@ -21,10 +20,10 @@ Change-Id: Iba637613c6a927098c947536e11348e269e1bef3
  1 file changed, 16 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index f98f37ed5..e4d5e48f8 100644
+index 70d0ff45a81b9c064763aba5f2325900d3cb9e27..485e964b781b1897cbbdeb688e26d0e63a5ee9e6 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
-@@ -301,6 +301,13 @@ static Result<Success> do_interface_stop(const BuiltinArguments& args) {
+@@ -315,6 +315,13 @@ static Result<Success> do_interface_stop(const BuiltinArguments& args) {
  // mkdir <path> [mode] [owner] [group]
  static Result<Success> do_mkdir(const BuiltinArguments& args) {
      mode_t mode = 0755;
@@ -38,7 +37,7 @@ index f98f37ed5..e4d5e48f8 100644
      if (args.size() >= 3) {
          mode = std::strtoul(args[2].c_str(), 0, 8);
      }
-@@ -353,10 +360,13 @@ static Result<Success> do_mkdir(const BuiltinArguments& args) {
+@@ -367,10 +374,13 @@ static Result<Success> do_mkdir(const BuiltinArguments& args) {
  
  /* umount <path> */
  static Result<Success> do_umount(const BuiltinArguments& args) {
@@ -52,7 +51,7 @@ index f98f37ed5..e4d5e48f8 100644
  }
  
  static struct {
-@@ -385,6 +395,11 @@ static struct {
+@@ -399,6 +409,11 @@ static struct {
  
  /* mount <type> <device> <path> <flags ...> <options> */
  static Result<Success> do_mount(const BuiltinArguments& args) {
@@ -64,7 +63,7 @@ index f98f37ed5..e4d5e48f8 100644
      const char* options = nullptr;
      unsigned flags = 0;
      bool wait = false;
-@@ -447,6 +462,7 @@ static Result<Success> do_mount(const BuiltinArguments& args) {
+@@ -461,6 +476,7 @@ static Result<Success> do_mount(const BuiltinArguments& args) {
      }
  
      return Success();
@@ -72,6 +71,3 @@ index f98f37ed5..e4d5e48f8 100644
  }
  
  /* Imports .rc files from the specified paths. Default ones are applied if none is given.
--- 
-2.23.0
-

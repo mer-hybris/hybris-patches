@@ -1,7 +1,7 @@
-From a075866fe514ac689a60b006c81acba930cc9a62 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Tue, 16 Jan 2018 16:18:31 +0200
-Subject: [PATCH 23/50] (hybris) Fix list and get properties.
+Subject: [PATCH] (hybris) Fix list and get properties.
 
 Change-Id: I9deb65f147e941fc5c9f91793f851440d02260e1
 ---
@@ -9,13 +9,13 @@ Change-Id: I9deb65f147e941fc5c9f91793f851440d02260e1
  1 file changed, 29 insertions(+), 3 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index d13f3429c..b60d8d143 100644
+index 2bde211ab7265bcab855a735fd9d8ca9a444f6af..972ff14c8777c913cf24c5da76ed88001c7ea8f9 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -284,6 +284,12 @@ uint32_t InitPropertySet(const std::string& name, const std::string& value) {
- 
-     return result;
- }
+@@ -260,6 +260,12 @@ class AsyncRestorecon {
+     std::queue<std::string> paths_;
+     bool thread_started_ = false;
+ };
 +// Legacy definition
 +typedef struct prop_msg_s {
 +    unsigned cmd;
@@ -25,7 +25,7 @@ index d13f3429c..b60d8d143 100644
  
  class SocketConnection {
    public:
-@@ -331,6 +337,17 @@ class SocketConnection {
+@@ -308,6 +314,17 @@ class SocketConnection {
          return result == sizeof(value);
      }
  
@@ -40,10 +40,10 @@ index d13f3429c..b60d8d143 100644
 +        return (result == sizeof(prop_msg_t));
 +    }
 +
-     int socket() { return socket_; }
- 
-     const ucred& cred() { return cred_; }
-@@ -594,14 +611,21 @@ static void handle_property_set_fd() {
+     bool GetSourceContext(std::string* source_context) const {
+         char* c_source_context = nullptr;
+         if (getpeercon(socket_, &c_source_context) != 0) {
+@@ -640,14 +657,21 @@ static void handle_property_set_fd() {
        }
      case PROP_MSG_GETPROP: {
          int ret;
@@ -68,7 +68,7 @@ index d13f3429c..b60d8d143 100644
              return;
          }
  
-@@ -613,6 +637,7 @@ static void handle_property_set_fd() {
+@@ -659,6 +683,7 @@ static void handle_property_set_fd() {
  
          /* Send the property value back */
          //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
@@ -76,7 +76,7 @@ index d13f3429c..b60d8d143 100644
          break;
        }
      case PROP_MSG_LISTPROP: {
-@@ -622,6 +647,7 @@ static void handle_property_set_fd() {
+@@ -668,6 +693,7 @@ static void handle_property_set_fd() {
              prop_name[0] = prop_value[0] = 0;
              __system_property_read(pi, prop_name, prop_value);
              //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
@@ -84,6 +84,3 @@ index d13f3429c..b60d8d143 100644
          }
          break;
        }
--- 
-2.23.0
-

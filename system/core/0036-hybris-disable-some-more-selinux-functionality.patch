@@ -1,39 +1,42 @@
-From 233d54ef951c478b2076821f216d479456e5d454 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <f_haider@gmx.at>
 Date: Thu, 28 Mar 2019 12:46:12 -0400
-Subject: [PATCH 36/50] (hybris) disable some more selinux functionality.
+Subject: [PATCH] (hybris) disable some more selinux functionality.
 
 Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
 ---
- init/property_service.cpp | 3 +++
+ init/property_service.cpp | 4 ++++
  init/subcontext.cpp       | 4 ++--
  init/util.cpp             | 4 ++++
- 3 files changed, 9 insertions(+), 2 deletions(-)
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index b60d8d143..620507789 100644
+index 972ff14c8777c913cf24c5da76ed88001c7ea8f9..2c67cd6bcab70a3fd63c746edb429fab6baaec4d 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -353,11 +353,14 @@ class SocketConnection {
-     const ucred& cred() { return cred_; }
- 
-     std::string source_context() const {
-+#if 0
-         char* source_context = nullptr;
-         getpeercon(socket_, &source_context);
-         std::string result = source_context;
-         freecon(source_context);
-         return result;
-+#endif
-+        return "";
+@@ -326,6 +326,7 @@ class SocketConnection {
      }
  
-   private:
+     bool GetSourceContext(std::string* source_context) const {
++#if 0
+         char* c_source_context = nullptr;
+         if (getpeercon(socket_, &c_source_context) != 0) {
+             return false;
+@@ -333,6 +334,9 @@ class SocketConnection {
+         *source_context = c_source_context;
+         freecon(c_source_context);
+         return true;
++#endif
++        *source_context = "";
++        return true;
+     }
+ 
+     [[nodiscard]] int Release() { return socket_.release(); }
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index 092c51ceb..f0ea236d2 100644
+index e13025a55f727222771ec36501e9f53de1161526..c8c296c2c5884cac660df3bbfac4009a78b67b3c 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -249,11 +249,11 @@ void Subcontext::Fork() {
+@@ -210,11 +210,11 @@ void Subcontext::Fork() {
          if (child_fd < 0) {
              PLOG(FATAL) << "Could not dup child_fd";
          }
@@ -48,7 +51,7 @@ index 092c51ceb..f0ea236d2 100644
          auto child_fd_string = std::to_string(child_fd);
          const char* args[] = {init_path.c_str(), "subcontext", context_.c_str(),
 diff --git a/init/util.cpp b/init/util.cpp
-index 4948772d0..c225d0643 100644
+index 4948772d0c4947f12ed7dc8060b8e159176cc6a2..c225d064387510bf92ea0b6bf7f6b7b51b0d62b5 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
 @@ -113,10 +113,12 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
@@ -76,6 +79,3 @@ index 4948772d0..c225d0643 100644
  
      if (ret) {
          errno = savederrno;
--- 
-2.23.0
-

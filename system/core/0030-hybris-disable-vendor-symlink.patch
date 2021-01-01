@@ -1,7 +1,7 @@
-From 9a27750a2b278c27445425edf52bb1590b5146c9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Thu, 7 Jun 2018 15:29:53 +0000
-Subject: [PATCH 30/50] (hybris) disable vendor symlink
+Subject: [PATCH] (hybris) disable vendor symlink
 
 Change-Id: I26a32268e2f3af7ab0550397900f7a3ef0edfae5
 ---
@@ -9,10 +9,10 @@ Change-Id: I26a32268e2f3af7ab0550397900f7a3ef0edfae5
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 543970e46..29d8af76a 100644
+index 495583122a86d8f2df88abebd25fe5a6eabb709d..7d843bc89bf9fe698a074f66b7d8022e64d7495c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -56,7 +56,9 @@ on init
+@@ -61,7 +61,9 @@ on init
      symlink /sys/kernel/debug /d
  
      # Link /vendor to /system/vendor for devices without a vendor partition.
@@ -23,6 +23,3 @@ index 543970e46..29d8af76a 100644
  
      # Create energy-aware scheduler tuning nodes
      mkdir /dev/stune/foreground
--- 
-2.23.0
-

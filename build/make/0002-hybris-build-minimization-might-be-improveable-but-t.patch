@@ -1,8 +1,8 @@
-From a81cf1a739d91dd23fe91984b8c170265a14d5df Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Thu, 7 Jun 2018 15:32:40 +0000
-Subject: [PATCH 2/3] (hybris) build minimization (might be improveable, but
- this version doesn't break dependancies)
+Subject: [PATCH] (hybris) build minimization (might be improveable, but this
+ version doesn't break dependancies)
 
 Change-Id: Ic862dc084f5f4e3fa7ccd90b0757deff0f17b802
 ---
@@ -21,7 +21,7 @@ Change-Id: Ic862dc084f5f4e3fa7ccd90b0757deff0f17b802
  12 files changed, 11 insertions(+), 879 deletions(-)
 
 diff --git a/core/dex_preopt.mk b/core/dex_preopt.mk
-index 180edafbb..e69de29bb 100644
+index 180edafbbb223522b91d5678ce1bce49a7feacc2..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/dex_preopt.mk
 +++ b/core/dex_preopt.mk
 @@ -1,49 +0,0 @@
@@ -75,7 +75,7 @@ index 180edafbb..e69de29bb 100644
 -endif  #PRODUCT_USES_ART
 -endif  #WITH_DEXPREOPT
 diff --git a/core/envsetup.mk b/core/envsetup.mk
-index 5131598a9..3e7b35b1a 100644
+index 9e722bd5c1b30588743833e4100280ebc188f83d..6110ae8f922aec9681f0480f24b03175e173ac62 100644
 --- a/core/envsetup.mk
 +++ b/core/envsetup.mk
 @@ -250,8 +250,8 @@ endef
@@ -90,7 +90,7 @@ index 5131598a9..3e7b35b1a 100644
    ifneq ($(EMMA_INSTRUMENT_STATIC),true)
      # For instrumented build, if Jacoco is not being included statically
 diff --git a/core/host_dalvik_java_library.mk b/core/host_dalvik_java_library.mk
-index 2a251e84e..8b1378917 100644
+index 2a251e84e585c7fd208acf5aa99f059028f78535..8b137891791fe96927ad78e64b0aad7bded08bdc 100644
 --- a/core/host_dalvik_java_library.mk
 +++ b/core/host_dalvik_java_library.mk
 @@ -1,192 +1 @@
@@ -287,7 +287,7 @@ index 2a251e84e..8b1378917 100644
 -
 -endif
 diff --git a/core/host_dalvik_static_java_library.mk b/core/host_dalvik_static_java_library.mk
-index 78faf73a5..e69de29bb 100644
+index 78faf73a562c35e77b699ef5dfa68c2433e7322b..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/host_dalvik_static_java_library.mk
 +++ b/core/host_dalvik_static_java_library.mk
 @@ -1,28 +0,0 @@
@@ -320,7 +320,7 @@ index 78faf73a5..e69de29bb 100644
 -
 -LOCAL_IS_STATIC_JAVA_LIBRARY :=
 diff --git a/core/host_java_library.mk b/core/host_java_library.mk
-index c8d2ee78c..e69de29bb 100644
+index c8d2ee78c2cabb3cd11908e95de8a00b8b0861f2..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/host_java_library.mk
 +++ b/core/host_java_library.mk
 @@ -1,128 +0,0 @@
@@ -453,7 +453,7 @@ index c8d2ee78c..e69de29bb 100644
 -$(eval $(call copy-one-file,$(LOCAL_FULL_CLASSES_JACOCO_JAR),$(full_classes_header_jar)))
 -endif
 diff --git a/core/java_library.mk b/core/java_library.mk
-index c706cea72..e69de29bb 100644
+index c706cea72423f1ed52efb9ab8c97d52a0982381c..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/java_library.mk
 +++ b/core/java_library.mk
 @@ -1,100 +0,0 @@
@@ -558,7 +558,7 @@ index c706cea72..e69de29bb 100644
 -endif # LOCAL_DEX_PREOPT
 -endif # !LOCAL_IS_STATIC_JAVA_LIBRARY
 diff --git a/core/main.mk b/core/main.mk
-index a13404a99..86193c909 100644
+index e8a1c4f8ae2048fb7bb347e5f2d281cc8dd4a993..57e92f1e4166d437311b52e7bdd64e240a4c10f2 100644
 --- a/core/main.mk
 +++ b/core/main.mk
 @@ -181,8 +181,6 @@ endif
@@ -570,7 +570,7 @@ index a13404a99..86193c909 100644
  
  ifneq ($(filter user userdebug eng,$(MAKECMDGOALS)),)
  $(info ***************************************************************)
-@@ -489,6 +487,9 @@ subdir_makefiles_total := $(words int $(subdir_makefiles) post finish)
+@@ -446,6 +444,9 @@ subdir_makefiles_total := $(words int $(subdir_makefiles) post finish)
  
  $(foreach mk,$(subdir_makefiles),$(info [$(call inc_and_print,subdir_makefiles_inc)/$(subdir_makefiles_total)] including $(mk) ...)$(eval include $(mk)))
  
@@ -581,7 +581,7 @@ index a13404a99..86193c909 100644
  # Bring in the PDK platform.zip modules.
  include $(BUILD_SYSTEM)/pdk_fusion_modules.mk
 diff --git a/core/package.mk b/core/package.mk
-index 854e0093c..e69de29bb 100644
+index 854e0093c66156fc36d9b90a866dcebc7e46f530..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/package.mk
 +++ b/core/package.mk
 @@ -1,86 +0,0 @@
@@ -672,7 +672,7 @@ index 854e0093c..e69de29bb 100644
 -
 -my_module_arch_supported :=
 diff --git a/core/soong_droiddoc_prebuilt.mk b/core/soong_droiddoc_prebuilt.mk
-index c0467df2b..496929963 100644
+index c0467df2be6dda1e8775c50d4f604c6b1768625c..49692996378e393408d7c1e306dd4e7085c7d4ed 100644
 --- a/core/soong_droiddoc_prebuilt.mk
 +++ b/core/soong_droiddoc_prebuilt.mk
 @@ -1,43 +1,3 @@
@@ -720,7 +720,7 @@ index c0467df2b..496929963 100644
  ifdef LOCAL_DROIDDOC_METADATA_ZIP
  $(eval $(call copy-one-file,$(LOCAL_DROIDDOC_METADATA_ZIP),$(TARGET_OUT_COMMON_INTERMEDIATES)/PACKAGING/$(LOCAL_MODULE)-metadata.zip))
 diff --git a/core/static_java_library.mk b/core/static_java_library.mk
-index ee759b9d8..e69de29bb 100644
+index ee759b9d8eb57c06ad12f0d3de31487c40e44cb1..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 100644
 --- a/core/static_java_library.mk
 +++ b/core/static_java_library.mk
 @@ -1,247 +0,0 @@
@@ -972,7 +972,7 @@ index ee759b9d8..e69de29bb 100644
 -all_res_assets :=
 -LOCAL_IS_STATIC_JAVA_LIBRARY :=
 diff --git a/target/product/base_system.mk b/target/product/base_system.mk
-index 2f8a63472..4fede2c5a 100644
+index 699b9c7a14a38a0c1d3b683e03a986eb6020a592..990e565b8825ce44dcd507b4c4b368b773626d5d 100644
 --- a/target/product/base_system.mk
 +++ b/target/product/base_system.mk
 @@ -307,9 +307,9 @@ PRODUCT_HOST_PACKAGES += \
@@ -989,7 +989,7 @@ index 2f8a63472..4fede2c5a 100644
  # The order matters for runtime class lookup performance.
  PRODUCT_BOOT_JARS := \
 diff --git a/target/product/runtime_libart.mk b/target/product/runtime_libart.mk
-index a88ba3c8d..4ab27994b 100644
+index a88ba3c8d025c3fd4bc7739d94b1296cd9c1ff3f..4ab27994be605a49c33f841ed4b1bc2ff4e1b7e7 100644
 --- a/target/product/runtime_libart.mk
 +++ b/target/product/runtime_libart.mk
 @@ -16,9 +16,9 @@
@@ -1005,6 +1005,3 @@ index a88ba3c8d..4ab27994b 100644
  
  # Minimal boot classpath. This should be a subset of PRODUCT_BOOT_JARS, and equivalent to
  # TARGET_CORE_JARS.
--- 
-2.27.0
-

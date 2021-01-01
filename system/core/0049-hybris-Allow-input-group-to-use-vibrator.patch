@@ -1,8 +1,8 @@
-From a13bc55e4b1ce6bc211b5475d59988a1ad100e56 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Juho=20H=C3=A4m=C3=A4l=C3=A4inen?=
  <juho.hamalainen@jolla.com>
 Date: Mon, 23 Mar 2020 17:40:04 +0200
-Subject: [PATCH 49/50] (hybris) Allow input group to use vibrator.
+Subject: [PATCH] (hybris) Allow input group to use vibrator.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -16,10 +16,10 @@ Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index efa1884b4..a9b7e8112 100644
+index 330212578f8192775411148461e566c09caa8c2f..041f2a7d80cf6dded1da95eb9c42e67fccc03eb3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -733,10 +733,11 @@ on boot
+@@ -740,10 +740,11 @@ on boot
      chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
      chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
  
@@ -33,6 +33,3 @@ index efa1884b4..a9b7e8112 100644
      chown system system /sys/class/leds/vibrator/state
      chown system system /sys/class/timed_output/vibrator/enable
      chown system system /sys/class/leds/keyboard-backlight/brightness
--- 
-2.23.0
-

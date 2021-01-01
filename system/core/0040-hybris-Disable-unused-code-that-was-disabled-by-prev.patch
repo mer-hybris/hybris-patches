@@ -1,8 +1,8 @@
-From 51435676f9d86e092dcef1c36aa998b726db2f7e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
 Date: Sun, 20 Oct 2019 15:19:55 +0200
-Subject: [PATCH 40/50] (hybris) Disable unused code that was disabled by
- previous patches.
+Subject: [PATCH] (hybris) Disable unused code that was disabled by previous
+ patches.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,10 +14,10 @@ Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/init/service.cpp b/init/service.cpp
-index b39282d53..e77423eea 100644
+index cf4719382773694d147032de59a9d8ca18b53254..06cd20fed7ae1ec62202fa457ce7b5a197893373 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -190,6 +190,7 @@ Result<Success> Service::EnterNamespaces() const {
+@@ -195,6 +195,7 @@ Result<Success> Service::EnterNamespaces() const {
      return Success();
  }
  
@@ -25,7 +25,7 @@ index b39282d53..e77423eea 100644
  static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
      std::vector<std::string> expanded_args;
      std::vector<char*> c_strings;
-@@ -211,10 +212,12 @@ static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigsto
+@@ -216,10 +217,12 @@ static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigsto
      return execv(c_strings[0], c_strings.data()) == 0;
  }
  
@@ -38,6 +38,3 @@ index b39282d53..e77423eea 100644
  
  unsigned long Service::next_start_order_ = 1;
  bool Service::is_exec_service_running_ = false;
--- 
-2.23.0
-

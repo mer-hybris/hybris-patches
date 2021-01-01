@@ -1,8 +1,7 @@
-From bd3f137354a9f5187c8d7df97a1ea30ae185474d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:30:01 +0200
-Subject: [PATCH 27/50] (hybris) load services from droid-hybris as early as
- possible
+Subject: [PATCH] (hybris) load services from droid-hybris as early as possible
 
 This makes sure our service definitions are loaded first and can be used to
 overwrite service definitions which are slightly different to what we need and
@@ -14,10 +13,10 @@ Change-Id: I58e86f8b3c65f46c24fc3102a859867bccb6a713
  1 file changed, 3 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index e90365a3a..28a2d6661 100644
+index eefb740899b799e5ffe6d3d8219f3ccfff3b22c0..599228c44ca0334f8418e9132821e09ea8da1bd3 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -133,6 +133,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+@@ -139,6 +139,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
          if (!parser.ParseConfig("/usr/libexec/droid-hybris/system/etc/init")) {
              late_import_paths.emplace_back("/usr/libexec/droid-hybris/system/etc/init");
          }
@@ -27,6 +26,3 @@ index e90365a3a..28a2d6661 100644
          if (!parser.ParseConfig("/product/etc/init")) {
              late_import_paths.emplace_back("/product/etc/init");
          }
--- 
-2.23.0
-

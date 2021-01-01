@@ -1,7 +1,7 @@
-From 59e5143bbb53b4663c9cf335253fcb4ea6f8cc65 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 12 Oct 2020 15:29:00 +0000
-Subject: [PATCH 43/50] (hybris) allow second stage init previously disabled by
+Subject: [PATCH] (hybris) allow second stage init previously disabled by
  selinux work
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
@@ -11,7 +11,7 @@ Change-Id: I1089428e88e7d94457f76745b23f44728dba8f6e
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 13310740a..853ee03e5 100644
+index 13310740a00aca1aadf9ad7fcf7ae54d3fde9513..853ee03e50a70adce1fdc19b41870774d9a882b3 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
 @@ -551,6 +551,7 @@ int SetupSelinux(char** argv) {
@@ -30,6 +30,3 @@ index 13310740a..853ee03e5 100644
      return 1;
  }
  
--- 
-2.23.0
-

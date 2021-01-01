@@ -1,7 +1,7 @@
-From 351ea2bed9126be3fd0225078f73770b54c25d81 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 4 Jun 2018 10:00:13 +0200
-Subject: [PATCH 25/50] (hybris) don't try to mount since mer handles this
+Subject: [PATCH] (hybris) don't try to mount since mer handles this
 
 Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
 ---
@@ -9,7 +9,7 @@ Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
  1 file changed, 3 insertions(+)
 
 diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
-index 3e76556ff..e522f63a8 100644
+index 3e76556ff745af4af2808f4051d74ec1cc50f57a..e522f63a8b37ffce601fca3d52cb2a29ab95da1d 100644
 --- a/init/first_stage_mount.cpp
 +++ b/init/first_stage_mount.cpp
 @@ -841,6 +841,7 @@ bool FirstStageMountVBootV2::InitAvbHandle() {
@@ -29,6 +29,3 @@ index 3e76556ff..e522f63a8 100644
  }
  
  void SetInitAvbVersionInRecovery() {
--- 
-2.23.0
-

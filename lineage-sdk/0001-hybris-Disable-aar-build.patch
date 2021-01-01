@@ -1,0 +1,67 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Sat, 2 Jan 2021 00:37:09 +0200
+Subject: [PATCH] (hybris) Disable aar build.
+
+Change-Id: I0578ae72dfe7aa4931e48066ae019937322a68dc
+---
+ Android.mk | 46 ----------------------------------------------
+ 1 file changed, 46 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index b813d480f7fb924d0d172c49091a221f9b0975ab..0659089d3994b1e12d4e00174d2765fff077f908 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -39,52 +39,6 @@ $(lineage_framework_module): | $(dir $(lineage_framework_module))org.lineageos.p
+ 
+ lineage_framework_built := $(call java-lib-deps, org.lineageos.platform)
+ 
+-# the sdk as an aar for publish, not built as part of full target
+-# DO NOT LINK AGAINST THIS IN BUILD
+-# ============================================================
+-include $(CLEAR_VARS)
+-
+-LOCAL_MODULE := org.lineageos.platform.sdk.aar
+-
+-LOCAL_JACK_ENABLED := disabled
+-
+-LOCAL_CONSUMER_PROGUARD_FILE := $(LOCAL_PATH)/sdk/proguard.txt
+-
+-LOCAL_RESOURCE_DIR := $(addprefix $(LOCAL_PATH)/, sdk/res/res)
+-LOCAL_MANIFEST_FILE := sdk/AndroidManifest.xml
+-
+-lineage_sdk_exclude_files := 'lineageos/library'
+-LOCAL_JAR_EXCLUDE_PACKAGES := $(lineage_sdk_exclude_files)
+-LOCAL_JAR_EXCLUDE_FILES := none
+-
+-LOCAL_STATIC_JAVA_LIBRARIES := org.lineageos.platform.sdk
+-
+-include $(BUILD_STATIC_JAVA_LIBRARY)
+-$(LOCAL_MODULE) : $(built_aar)
+-
+-# ===========================================================
+-# Common Droiddoc vars
+-lineage_platform_docs_src_files := \
+-    $(call all-java-files-under, $(lineage_sdk_src)) \
+-    $(call all-html-files-under, $(lineage_sdk_src))
+-
+-lineage_platform_docs_java_libraries := \
+-    org.lineageos.platform.sdk
+-
+-# SDK version as defined
+-lineage_platform_docs_SDK_VERSION := 15.1
+-
+-# release version
+-lineage_platform_docs_SDK_REL_ID := 9
+-
+-lineage_platform_docs_LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+-
+-lineage_platform_docs_LOCAL_DROIDDOC_SOURCE_PATH := \
+-    $(lineage_platform_docs_src_files)
+-
+-lineage_platform_docs_LOCAL_ADDITIONAL_JAVA_DIR := \
+-    $(call intermediates-dir-for,JAVA_LIBRARIES,org.lineageos.platform.sdk,,COMMON)
+-
+ # ====  the api stubs and current.xml ===========================
+ include $(CLEAR_VARS)
+ 

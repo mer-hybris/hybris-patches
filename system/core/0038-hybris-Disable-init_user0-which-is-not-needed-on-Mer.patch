@@ -1,17 +1,17 @@
-From 1e5788e7141ee30063d8652e0079e8ce0370b8b1 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
 Date: Mon, 10 Dec 2018 12:11:06 +0200
-Subject: [PATCH 38/50] (hybris) Disable init_user0 which is not needed on Mer.
+Subject: [PATCH] (hybris) Disable init_user0 which is not needed on Mer.
 
 ---
  rootdir/init.rc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5d5468262..c5e71291d 100644
+index 7427aed7a52b5b865d7ec30f2f672db3041c949a..adde289760caf1e889b95764a1bf7b2a4027581d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -605,7 +605,7 @@ on post-fs-data
+@@ -615,7 +615,7 @@ on post-fs-data
      wait_for_prop apexd.status ready
      parse_apex_configs
  
@@ -20,6 +20,3 @@ index 5d5468262..c5e71291d 100644
  
      # Set SELinux security contexts on upgrade or policy update.
      restorecon --recursive --skip-ce /data
--- 
-2.23.0
-

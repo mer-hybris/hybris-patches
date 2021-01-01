@@ -1,8 +1,8 @@
-From b012.23.024a0bb38d2ac30f696a9a2061bf99db Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/50] (hybris) property_service.c: adding support for getprop
- and listprop
+Subject: [PATCH] (hybris) property_service.c: adding support for getprop and
+ listprop
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -23,10 +23,10 @@ Conflicts:
  2 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index c3a634bc8..c11cdf987 100644
+index ed3cebae753f7df8e4974250ffd338acc811ae39..9e291b25e4bd563c2bfd02c00d5ca8b19c4a4ede 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -763,7 +763,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -830,7 +830,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,10 +36,10 @@ index c3a634bc8..c11cdf987 100644
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index f2c7462ab..9821a506c 100644
+index 65e9cda1ccc698ca0beb12dd204f8c8aa29f5bcc..b46da08031b9c6a7156263d1fc2c7cc8c1528c91 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -516,6 +516,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
+@@ -549,6 +549,9 @@ uint32_t (*property_set)(const std::string& name, const std::string& value) = In
  static void handle_property_set_fd() {
      static constexpr uint32_t kDefaultSocketTimeout = 2000; /* ms */
  
@@ -49,7 +49,7 @@ index f2c7462ab..9821a506c 100644
      int s = accept4(property_set_fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -587,7 +590,39 @@ static void handle_property_set_fd() {
+@@ -633,7 +636,39 @@ static void handle_property_set_fd() {
          socket.SendUint32(result);
          break;
        }
@@ -89,6 +89,3 @@ index f2c7462ab..9821a506c 100644
      default:
          LOG(ERROR) << "sys_prop: invalid command " << cmd;
          socket.SendUint32(PROP_ERROR_INVALID_CMD);
--- 
-2.23.0
-

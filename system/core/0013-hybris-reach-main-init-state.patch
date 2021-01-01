@@ -1,7 +1,7 @@
-From e9af320c091fa528c32a29e4b74b282d86ef0847 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sat, 22 Aug 2015 12:03:42 +0100
-Subject: [PATCH 13/50] (hybris) reach main init state
+Subject: [PATCH] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
@@ -9,10 +9,10 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c104d72d5..2e9d1b736 100644
+index 6bda9dd8cf5dd436a43a2b783b47c1227586a226..faf38f1a828f9db44e86862a4d1665d678395b5b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -342,7 +342,7 @@ on late-init
+@@ -352,7 +352,7 @@ on late-init
  
  on early-fs
      # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
@@ -21,7 +21,7 @@ index c104d72d5..2e9d1b736 100644
  
  on post-fs
      exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-@@ -412,7 +412,7 @@ on post-fs-data
+@@ -422,7 +422,7 @@ on post-fs-data
      mark_post_data
  
      # Start checkpoint before we touch data
@@ -30,7 +30,7 @@ index c104d72d5..2e9d1b736 100644
      exec - system system -- /system/bin/vdc checkpoint prepareCheckpoint
  
      # We chown/chmod /data again so because mount is run as root + defaults
-@@ -422,6 +422,8 @@ on post-fs-data
+@@ -432,6 +432,8 @@ on post-fs-data
      restorecon /data
  
      # Make sure we have the device encryption key.
@@ -39,6 +39,3 @@ index c104d72d5..2e9d1b736 100644
      installkey /data
  
      # Start bootcharting as soon as possible after the data partition is
--- 
-2.23.0
-

@@ -1,7 +1,7 @@
-From c94660fa0cbbd9411a60973ef27efc6f67c5da31 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 19 Feb 2014 19:02:32 +0000
-Subject: [PATCH 09/50] (hybris) Disable usb import
+Subject: [PATCH] (hybris) Disable usb import
 
 Change-Id: I8aba60bc79fb4aab3854f0569b325ad69c5126d4
 Signed-off-by: David Greaves <david@dgreaves.com>
@@ -10,7 +10,7 @@ Signed-off-by: David Greaves <david@dgreaves.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8df3c1f17..1fb018783 100644
+index c511f4ea3136235ee8558e20b32370d6a5a119ca..a25939dd9dbdfc8ec8db6b87c5a0b5cc445282fa 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -5,7 +5,8 @@
@@ -23,6 +23,3 @@ index 8df3c1f17..1fb018783 100644
  import /init.${ro.hardware}.rc
  import /vendor/etc/init/hw/init.${ro.hardware}.rc
  import /init.usb.configfs.rc
--- 
-2.23.0
-

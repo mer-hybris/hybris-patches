@@ -1,8 +1,7 @@
-From 0183f3623835f2d95f4fd930bc9a260a4b8f7cea Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:32:06 +0200
-Subject: [PATCH 28/50] (hybris) disable remnants of SELinux which currently
- break
+Subject: [PATCH] (hybris) disable remnants of SELinux which currently break
 
 Change-Id: I252a8399c9853d993fc17d769bfbb2e4c722cfe8
 ---
@@ -10,7 +9,7 @@ Change-Id: I252a8399c9853d993fc17d769bfbb2e4c722cfe8
  1 file changed, 4 insertions(+)
 
 diff --git a/init/util.cpp b/init/util.cpp
-index 82dfa05f0..4948772d0 100644
+index 82dfa05f02c004e11852ddcfc7d1d8ab17745c67..4948772d0c4947f12ed7dc8060b8e159176cc6a2 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
 @@ -83,12 +83,14 @@ Result<uid_t> DecodeUid(const std::string& name) {
@@ -38,6 +37,3 @@ index 82dfa05f0..4948772d0 100644
  
      struct sockaddr_un addr;
      memset(&addr, 0 , sizeof(addr));
--- 
-2.23.0
-

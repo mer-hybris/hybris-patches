@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Thu, 5 Nov 2020 20:46:35 +0200
+Subject: [PATCH] (hybris) Fix 32-bit vs 64-bit size mismatch in codecs.
+
+Change-Id: I50e928113f90eea9d85f79f183c4b74113ab73bf
+---
+ media/libstagefright/ACodec.cpp | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
+index 55e8130e48e8f00bf25a5935f5d4074df98f32e5..84408c40b522455fadfe50f8ced93aa5ea229bac 100644
+--- a/media/libstagefright/ACodec.cpp
++++ b/media/libstagefright/ACodec.cpp
+@@ -880,7 +880,9 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
+             if (mode == IOMX::kPortModeDynamicANWBuffer) {
+                 bufSize = sizeof(VideoNativeMetadata);
+             } else if (mode == IOMX::kPortModeDynamicNativeHandle) {
+-                bufSize = sizeof(VideoNativeHandleMetadata);
++                // hybris: allocate buffer that can fit 64-bit native handle if compiled in 64-bit mode
++                //bufSize = sizeof(VideoNativeHandleMetadata);
++                bufSize = sizeof(VideoNativeHandleMetadata_ptrSized);
+             }
+ 
+             size_t conversionBufferSize = 0;
+@@ -6147,6 +6149,19 @@ void ACodec::BaseState::onInputBufferFilled(const sp<AMessage> &msg) {
+                             bufferID, graphicBuffer, flags, timeUs, info->mFenceFd);
+                     }
+                     break;
++#else
++                // hybris: convert data from 64-bit camera process to 32-bit OMX if needed
++                case IOMX::kPortModeDynamicNativeHandle:
++                    if (info->mCodecData->size() >= sizeof(VideoNativeHandleMetadata_ptrSized)
++                            && sizeof(VideoNativeHandleMetadata) != sizeof(VideoNativeHandleMetadata_ptrSized)) {
++                        VideoNativeHandleMetadata_ptrSized *vnhmd =
++                            (VideoNativeHandleMetadata_ptrSized*)info->mCodecData->base();
++                        sp<NativeHandle> handle = NativeHandle::create(
++                                (native_handle *)vnhmd->pHandle, false /* ownsHandle */);
++                        err2 = mCodec->mOMXNode->emptyBuffer(
++                            bufferID, handle, flags, timeUs, info->mFenceFd);
++                    }
++                    break;
+ #endif
+                 default:
+                     ALOGW("Can't marshall %s data in %zu sized buffers in %zu-bit mode",

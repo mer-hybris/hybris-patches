@@ -1,7 +1,7 @@
-From 530e84916fc5a241395dd6ce75afb1b58935e0fb Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 9 Feb 2017 21:48:19 +0200
-Subject: [PATCH 18/50] (hybris) Disable SELinux
+Subject: [PATCH] (hybris) Disable SELinux
 
 Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
 ---
@@ -11,10 +11,10 @@ Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
  3 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 9821a506c..d13f3429c 100644
+index b46da08031b9c6a7156263d1fc2c7cc8c1528c91..2bde211ab7265bcab855a735fd9d8ca9a444f6af 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -128,6 +128,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
+@@ -149,6 +149,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
  
  static bool CheckMacPerms(const std::string& name, const char* target_context,
                            const char* source_context, const ucred& cr) {
@@ -24,7 +24,7 @@ index 9821a506c..d13f3429c 100644
          return false;
      }
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 86238b430..a47baebfe 100644
+index 86238b430376889c28bf87b2bea19c9cf9f06ed8..a47baebfe3e4981cbbd8d5805f63d84ca1c56b48 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
 @@ -421,6 +421,9 @@ bool LoadPolicy() {
@@ -38,7 +38,7 @@ index 86238b430..a47baebfe 100644
  
      LOG(INFO) << "Loading SELinux policy";
 diff --git a/init/service.cpp b/init/service.cpp
-index 2db548efe..21b22aefb 100644
+index 664fc9bafe7588a1aeb001af865149180485d44f..156711873a482eb8bdf706c2ffed9031c8e3c713 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -70,6 +70,9 @@ using android::base::WriteStringToFile;
@@ -51,7 +51,7 @@ index 2db548efe..21b22aefb 100644
  static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
      std::string computed_context;
  
-@@ -105,6 +108,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+@@ -110,6 +113,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
      }
      return computed_context;
  }
@@ -59,7 +59,7 @@ index 2db548efe..21b22aefb 100644
  
  Result<Success> Service::SetUpMountNamespace() const {
      constexpr unsigned int kSafeFlags = MS_NODEV | MS_NOEXEC | MS_NOSUID;
-@@ -317,11 +321,15 @@ void Service::SetProcessAttributes() {
+@@ -322,11 +326,15 @@ void Service::SetProcessAttributes() {
              PLOG(FATAL) << "setuid failed for " << name_;
          }
      }
@@ -75,7 +75,7 @@ index 2db548efe..21b22aefb 100644
      if (priority_ != 0) {
          if (setpriority(PRIO_PROCESS, 0, priority_) != 0) {
              PLOG(FATAL) << "setpriority failed for " << name_;
-@@ -934,6 +942,9 @@ Result<Success> Service::Start() {
+@@ -939,6 +947,9 @@ Result<Success> Service::Start() {
      }
  
      std::string scon;
@@ -85,7 +85,7 @@ index 2db548efe..21b22aefb 100644
      if (!seclabel_.empty()) {
          scon = seclabel_;
      } else {
-@@ -953,7 +964,7 @@ Result<Success> Service::Start() {
+@@ -958,7 +969,7 @@ Result<Success> Service::Start() {
      }
  
      post_data_ = ServiceList::GetInstance().IsPostData();
@@ -94,6 +94,3 @@ index 2db548efe..21b22aefb 100644
      LOG(INFO) << "starting service '" << name_ << "'...";
  
      pid_t pid = -1;
--- 
-2.23.0
-
