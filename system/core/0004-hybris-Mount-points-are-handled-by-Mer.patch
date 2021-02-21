@@ -1,7 +1,7 @@
-From 79f69b9aa4cdda9f9077b4b1cda024d7dfad37db Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:09:20 +0100
-Subject: [PATCH 04/50] (hybris) Mount points are handled by Mer
+Subject: [PATCH] (hybris) Mount points are handled by Mer
 
 Change-Id: I295b30a47b6e147b037275032a00b304085fe711
 ---
@@ -9,7 +9,7 @@ Change-Id: I295b30a47b6e147b037275032a00b304085fe711
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 3ae5e1944..897d392dc 100644
+index 3ae5e19443030dc38a93db477a0b8c2f5dd73802..897d392dcc38c7a36673f46ba70e734a74148a4d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -50,8 +50,8 @@ on init
@@ -37,6 +37,3 @@ index 3ae5e1944..897d392dc 100644
  
      # Make sure /sys/kernel/debug (if present) is labeled properly
      # Note that tracefs may be mounted under debug, so we need to cross filesystems
--- 
-2.23.0
-

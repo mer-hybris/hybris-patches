@@ -1,7 +1,7 @@
-From 71ef9dc6953122f5a567def945134de3b1a64cf5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 12 Oct 2020 17:11:00 +0000
-Subject: [PATCH 45/50] (hybris) create /dev/socket during first stage
+Subject: [PATCH] (hybris) create /dev/socket during first stage
 
 It will attempt to create it again during 2nd stage, do not fail then.
 
@@ -12,7 +12,7 @@ Change-Id: I4701723d55032e35228a84bff81b20cc93424c32
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 964cbb873..0550b379c 100644
+index 964cbb873aee4fa91bbc21684f810e0522088507..0550b379c519de96548ec926e17e7b84cb05fae7 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
 @@ -121,7 +121,7 @@ int FirstStageMain(int argc, char** argv) {
@@ -24,6 +24,3 @@ index 964cbb873..0550b379c 100644
      //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
  #define MAKE_STR(x) __STRING(x)
      //CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
--- 
-2.23.0
-

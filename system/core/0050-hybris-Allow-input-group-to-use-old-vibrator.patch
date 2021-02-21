@@ -1,8 +1,8 @@
-From 6444d034c7f405d5ff05c5989dab6b01c8ed635c Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Juho=20H=C3=A4m=C3=A4l=C3=A4inen?=
  <juho.hamalainen@jolla.com>
 Date: Tue, 24 Mar 2020 14:07:40 +0200
-Subject: [PATCH 50/50] (hybris) Allow input group to use old vibrator.
+Subject: [PATCH] (hybris) Allow input group to use old vibrator.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,7 +14,7 @@ Change-Id: I279b97beb82a5de51d40535221a2b71d3468a91f
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index a9b7e8112..f68597523 100644
+index a9b7e81124b258e202219cdc23babeb0cc405b7a..f68597523479cd28040fe8e0e63f3bb2d7c71cf5 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -739,7 +739,8 @@ on boot
@@ -27,6 +27,3 @@ index a9b7e8112..f68597523 100644
      chown system system /sys/class/leds/keyboard-backlight/brightness
      chown system system /sys/class/leds/lcd-backlight/brightness
      chown system system /sys/class/leds/button-backlight/brightness
--- 
-2.23.0
-

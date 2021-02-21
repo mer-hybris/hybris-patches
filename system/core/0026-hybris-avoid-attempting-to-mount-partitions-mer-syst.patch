@@ -1,8 +1,8 @@
-From 1d8767d941aaf0a1b1df5768b58cbc02d8886d8e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:28:27 +0200
-Subject: [PATCH 26/50] (hybris) avoid attempting to mount partitions,
- mer/systemd handles this
+Subject: [PATCH] (hybris) avoid attempting to mount partitions, mer/systemd
+ handles this
 
 Even partitions weren't mounted by this previously it still would produce an
 error and further boot.
@@ -13,7 +13,7 @@ Change-Id: Icaea2cd8d145d8205f4a130119aedbd2720c868d
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 25f324ce5..f98f37ed5 100644
+index 25f324ce51cb6f5a6e750f96aefdc2b9ef9703cc..f98f37ed535a18dafb1611ad9f7682c31864ea55 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
 @@ -518,6 +518,7 @@ static Result<int> handle_fstab(const std::string& fstabfile, std::function<int(
@@ -66,6 +66,3 @@ index 25f324ce5..f98f37ed5 100644
      if (queue_event) {
          /* queue_fs_event will queue event based on mount_fstab return code
           * and return processed return code*/
--- 
-2.23.0
-

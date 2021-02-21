@@ -1,8 +1,8 @@
-From d5ca09b790c93dbf6f9522743a975fe2817dc03d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:37:09 +0200
-Subject: [PATCH 3/7] (hybris) disable tls usage in locale.cpp, to avoid
- problems with libhybris
+Subject: [PATCH] (hybris) disable tls usage in locale.cpp, to avoid problems
+ with libhybris
 
 Change-Id: I498a9749853e6a5a4aaa4ae93479aff083e02d4c
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/libc/bionic/locale.cpp b/libc/bionic/locale.cpp
-index 8358fb0ab..8def0e164 100644
+index 8358fb0abd578b942e4500b591f0134c2cd7be03..8def0e164e3b74575681defc4a53746416e31039 100644
 --- a/libc/bionic/locale.cpp
 +++ b/libc/bionic/locale.cpp
 @@ -37,11 +37,11 @@
@@ -30,6 +30,3 @@ index 8358fb0ab..8def0e164 100644
  
  #if USE_TLS_SLOT
  #include "bionic/pthread_internal.h"
--- 
-2.27.0
-

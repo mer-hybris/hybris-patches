@@ -1,8 +1,8 @@
-From 8da8433158fc287697bba8809218822781f386f5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 9 Jan 2014 00:57:01 -0200
-Subject: [PATCH 2/7] (hybris) bionic_tls.h: shifting TLS slots to avoid
- conflicts with libc/hybris
+Subject: [PATCH] (hybris) bionic_tls.h: shifting TLS slots to avoid conflicts
+ with libc/hybris
 
 Change-Id: Idf503fe8fa0a24edf4dbbabaa8d3a1c2d1f60295
 Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
@@ -14,7 +14,7 @@ Conflicts:
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
-index 92f707aad..40e6a5394 100644
+index 92f707aadab0173bd59696d510501f068347b203..40e6a53941a98feaab7059cc33acc4a7fe6a8257 100644
 --- a/libc/private/bionic_asm_tls.h
 +++ b/libc/private/bionic_asm_tls.h
 @@ -84,12 +84,12 @@
@@ -36,6 +36,3 @@ index 92f707aad..40e6a5394 100644
  
  // The maximum slot is fixed by the minimum TLS alignment in Bionic executables.
  #define MAX_TLS_SLOT              7
--- 
-2.27.0
-

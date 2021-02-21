@@ -1,7 +1,7 @@
-From 3043dd6090c1c0aa822251f258b734b85daac18a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
 Date: Fri, 18 Oct 2019 11:43:31 +0200
-Subject: [PATCH 3/3] (hybris) Disable APEX check, we don't care about it.
+Subject: [PATCH] (hybris) Disable APEX check, we don't care about it.
 
 Change-Id: I1099755d6ec01f10b70c78ca68af822ccafb2b6f
 ---
@@ -9,7 +9,7 @@ Change-Id: I1099755d6ec01f10b70c78ca68af822ccafb2b6f
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/core/main.mk b/core/main.mk
-index 86193c909..71d828352 100644
+index 86193c909d5de2770276b24affcf38b6f6f1ce27..71d828352c1acb1e13e10228f72bf52c8e939731 100644
 --- a/core/main.mk
 +++ b/core/main.mk
 @@ -1259,7 +1259,7 @@ APEX_MODULE_LIBS += \
@@ -21,6 +21,3 @@ index 86193c909..71d828352 100644
  
  # Bionic should not be in /system, except for the bootstrap instance.
  APEX_LIBS_ABSENCE_CHECK_EXCLUDE := lib/bootstrap lib64/bootstrap
--- 
-2.27.0
-

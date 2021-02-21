@@ -1,8 +1,7 @@
-From 740af4a340658bc08ef96ff2648069073c8e1f19 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Mon, 12 Oct 2020 14:22:46 +0000
-Subject: [PATCH 41/50] (hybris) Don't create/mount proc, apex, dev/null,
- random, ...
+Subject: [PATCH] (hybris) Don't create/mount proc, apex, dev/null, random, ...
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: I3040e7e1ddf6d30644d8dc249ed3f0a6d6633615
@@ -11,7 +10,7 @@ Change-Id: I3040e7e1ddf6d30644d8dc249ed3f0a6d6633615
  1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 805bad2e5..a60e91f83 100644
+index 805bad2e5904886298d18e0a58af834421ab1dfc..a60e91f83a7db8df0166906a9de3287a83e8e3af 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
 @@ -124,7 +124,7 @@ int FirstStageMain(int argc, char** argv) {
@@ -72,6 +71,3 @@ index 805bad2e5..a60e91f83 100644
  #undef CHECKCALL
  
      SetStdioToDevNull(argv);
--- 
-2.23.0
-

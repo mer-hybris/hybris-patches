@@ -1,8 +1,8 @@
-From b012.23.024a0bb38d2ac30f696a9a2061bf99db Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 31 Oct 2013 12:19:19 +0200
-Subject: [PATCH 12/50] (hybris) property_service.c: adding support for getprop
- and listprop
+Subject: [PATCH] (hybris) property_service.c: adding support for getprop and
+ listprop
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -23,7 +23,7 @@ Conflicts:
  2 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index c3a634bc8..c11cdf987 100644
+index c3a634bc8dd280c5ecc118723fafb8fc17a5137a..c11cdf9872470bdff75e9fbddedcf95de7f65672 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -763,7 +763,7 @@ int SecondStageMain(int argc, char** argv) {
@@ -36,7 +36,7 @@ index c3a634bc8..c11cdf987 100644
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index f2c7462ab..9821a506c 100644
+index f2c7462abf027d045593d4fa6b70acc64ba51fd2..9821a506c51dbff6a967028de29fb6658cf9c454 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -516,6 +516,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
@@ -89,6 +89,3 @@ index f2c7462ab..9821a506c 100644
      default:
          LOG(ERROR) << "sys_prop: invalid command " << cmd;
          socket.SendUint32(PROP_ERROR_INVALID_CMD);
--- 
-2.23.0
-

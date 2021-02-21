@@ -1,7 +1,7 @@
-From 480a63cbf69884a8e274c305eccd3ac676e02a74 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ilya Bizyaev <bizyaev@zoho.com>
 Date: Sat, 20 Jan 2018 17:48:27 +0300
-Subject: [PATCH 4/7] (hybris) Fix TLS slots for x86 Aligns with this libhybris
+Subject: [PATCH] (hybris) Fix TLS slots for x86 Aligns with this libhybris
  patch: https://github.com/libhybris/libhybris/pull/370
 
 Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
@@ -10,7 +10,7 @@ Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
-index 40e6a5394..07ded2005 100644
+index 40e6a53941a98feaab7059cc33acc4a7fe6a8257..07ded20059c1dbe33db568be80b75666e3cfc14d 100644
 --- a/libc/private/bionic_asm_tls.h
 +++ b/libc/private/bionic_asm_tls.h
 @@ -104,12 +104,12 @@
@@ -32,6 +32,3 @@ index 40e6a5394..07ded2005 100644
  #define TLS_SLOT_DTV              8
  #define TLS_SLOT_BIONIC_TLS       9
  #define MAX_TLS_SLOT              9 // update this value when reserving a slot
--- 
-2.27.0
-

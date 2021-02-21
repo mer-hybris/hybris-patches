@@ -1,7 +1,7 @@
-From 0133e7aff942108fcbd57f228775ec253b0158f5 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:12:18 +0100
-Subject: [PATCH 06/50] (hybris) Mer uses udev
+Subject: [PATCH] (hybris) Mer uses udev
 
 Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
 ---
@@ -9,7 +9,7 @@ Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 10d11146a..02c89ffca 100644
+index 10d11146a465e70dfb6bbde9f550b66b647bee46..02c89ffca45c522a814e775274b8910a0e823b79 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -24,7 +24,7 @@ on early-init
@@ -21,6 +21,3 @@ index 10d11146a..02c89ffca 100644
  
      # Run apexd-bootstrap so that APEXes that provide critical libraries
      # become available. Note that this is executed as exec_start to ensure that
--- 
-2.23.0
-

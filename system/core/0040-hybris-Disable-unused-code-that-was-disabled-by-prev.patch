@@ -1,8 +1,8 @@
-From 51435676f9d86e092dcef1c36aa998b726db2f7e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
 Date: Sun, 20 Oct 2019 15:19:55 +0200
-Subject: [PATCH 40/50] (hybris) Disable unused code that was disabled by
- previous patches.
+Subject: [PATCH] (hybris) Disable unused code that was disabled by previous
+ patches.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,7 +14,7 @@ Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/init/service.cpp b/init/service.cpp
-index b39282d53..e77423eea 100644
+index b39282d533cbc9be06ac981c16b9303d99c22c29..e77423eea5a3b749179929c396c7a30fe99f648c 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -190,6 +190,7 @@ Result<Success> Service::EnterNamespaces() const {
@@ -38,6 +38,3 @@ index b39282d53..e77423eea 100644
  
  unsigned long Service::next_start_order_ = 1;
  bool Service::is_exec_service_running_ = false;
--- 
-2.23.0
-
