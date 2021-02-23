@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Sun, 21 Feb 2021 19:20:12 +0000
+Subject: [PATCH] (hybris) Pick GLES shared objects from appropriate paths
+ (64-bit case)
+
+Change-Id: I71ac1072e68c4d97f2808592ac007f1dc470d69f
+---
+ opengl/libs/EGL/Loader.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
+index 426b9d7de5f94475c9b7bad7841a5b511adf6d54..90a30393cfea6ad2107cb0d444a55f6e64ba0e59 100644
+--- a/opengl/libs/EGL/Loader.cpp
++++ b/opengl/libs/EGL/Loader.cpp
+@@ -140,7 +140,7 @@ static void* load_wrapper(const char* path) {
+ 
+ #ifndef EGL_WRAPPER_DIR
+ #if defined(__LP64__)
+-#define EGL_WRAPPER_DIR "/system/lib64/"
++#define EGL_WRAPPER_DIR ""
+ #else
+ #define EGL_WRAPPER_DIR ""
+ #endif
