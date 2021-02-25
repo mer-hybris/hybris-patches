@@ -1,4 +1,4 @@
-From 1a27bd48255a96853e49d25c82a0fe47dd477f83 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <theodorstormgrade@gmail.com>
 Date: Fri, 3 Jul 2020 22:15:49 +0200
 Subject: [PATCH] (hybris) Silence some build errors to let the systemimage
@@ -21,7 +21,7 @@ Change-Id: Ide41188b6263a22c371ec28786bbc1ef1ee62df7
  4 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/build/Android.gtest.mk b/build/Android.gtest.mk
-index 03aae07587..20e38df7b2 100644
+index 03aae07587d9f21ffcb1a0e3707ef32d003a80ee..20e38df7b2d18282fe63acea79097d7bb9e975f4 100644
 --- a/build/Android.gtest.mk
 +++ b/build/Android.gtest.mk
 @@ -73,28 +73,28 @@ $(foreach dir,$(GTEST_DEX_DIRECTORIES), $(eval $(call build-art-test-dex,art-gte
@@ -64,7 +64,7 @@ index 03aae07587..20e38df7b2 100644
  ifdef ART_TEST_HOST_GTEST_Main_DEX
  $(ART_TEST_HOST_GTEST_MainStripped_DEX): $(ART_TEST_HOST_GTEST_Main_DEX)
 diff --git a/runtime/thread-current-inl.h b/runtime/thread-current-inl.h
-index 9241b1f875..a3e0520423 100644
+index 9241b1f875bceba4164598adf74535142af821b5..a3e05204230e7e760d71cd80a1c98500248689b3 100644
 --- a/runtime/thread-current-inl.h
 +++ b/runtime/thread-current-inl.h
 @@ -34,7 +34,7 @@ inline Thread* Thread::Current() {
@@ -77,7 +77,7 @@ index 9241b1f875..a3e0520423 100644
      void* thread = pthread_getspecific(Thread::pthread_key_self_);
  #endif
 diff --git a/runtime/thread.cc b/runtime/thread.cc
-index be0e30ad11..da112e19c9 100644
+index be0e30ad11e5586d4b1c26dadde34d5784173a2f..da112e19c9134008ff2058bc707f89d75317eee3 100644
 --- a/runtime/thread.cc
 +++ b/runtime/thread.cc
 @@ -933,7 +933,9 @@ bool Thread::Init(ThreadList* thread_list, JavaVMExt* java_vm, JNIEnvExt* jni_en
@@ -101,7 +101,7 @@ index be0e30ad11..da112e19c9 100644
      CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, self), "reattach self");
  #endif
 diff --git a/runtime/thread_list.cc b/runtime/thread_list.cc
-index ed6b2c91e5..37a2bd6911 100644
+index ed6b2c91e5b30ae2acadb183ba096936c9572217..37a2bd69117373bcc551918c36fb2c99623d2303 100644
 --- a/runtime/thread_list.cc
 +++ b/runtime/thread_list.cc
 @@ -1482,7 +1482,9 @@ void ThreadList::Unregister(Thread* self) {
@@ -114,6 +114,3 @@ index ed6b2c91e5..37a2bd6911 100644
  #else
    CHECK_PTHREAD_CALL(pthread_setspecific, (Thread::pthread_key_self_, nullptr), "detach self");
  #endif
--- 
-2.27.0
-

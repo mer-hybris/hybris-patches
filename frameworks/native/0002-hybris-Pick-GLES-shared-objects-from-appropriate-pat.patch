@@ -1,7 +1,7 @@
-From c47e6721089fb0773f4cf93b880746b01bdf2ded Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 15 Jul 2015 08:29:08 +0000
-Subject: [PATCH 2/3] (hybris) Pick GLES shared objects from appropriate paths
+Subject: [PATCH] (hybris) Pick GLES shared objects from appropriate paths
  (32-bit case)
 
 Change-Id: I4c7739ba8a4d64fa115163d5700b0df3370b286b
@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index 038a43233..426b9d7de 100644
+index 038a43233774a48797b19d62ba701daf4b5b15bd..426b9d7de5f94475c9b7bad7841a5b511adf6d54 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
 @@ -140,9 +140,9 @@ static void* load_wrapper(const char* path) {
@@ -43,6 +43,3 @@ index 038a43233..426b9d7de 100644
      }
  
      if (!cnx->libEgl || !cnx->libGles2 || !cnx->libGles1) {
--- 
-2.23.0
-

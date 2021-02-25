@@ -1,7 +1,7 @@
-From 51acad44e8ae673dcdde66da5980a1bdce9d3ab0 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Martin Ghosal <Martin.Ghosal@sky.uk>
 Date: Sat, 15 Oct 2016 15:38:47 +0100
-Subject: [PATCH 15/50] (hybris) Update rootdir for 64bit libs
+Subject: [PATCH] (hybris) Update rootdir for 64bit libs
 
 Change-Id: I593ae40da755c116bb28c96dcace863e6b30b4cc
 ---
@@ -9,7 +9,7 @@ Change-Id: I593ae40da755c116bb28c96dcace863e6b30b4cc
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index 0abd169df..2194fea86 100644
+index 0abd169dfd403af5f02dc8474492bd12af3ea8f3..2194fea864ce500408e892bea4e6b68a5fd45c01 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
 @@ -1,8 +1,8 @@
@@ -23,6 +23,3 @@ index 0abd169df..2194fea86 100644
      export ANDROID_BOOTLOGO 1
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
--- 
-2.23.0
-

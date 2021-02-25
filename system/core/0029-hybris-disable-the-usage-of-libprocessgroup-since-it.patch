@@ -1,8 +1,8 @@
-From 84c3120a703b845f6013a710bf892bab4307b621 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:33:03 +0200
-Subject: [PATCH 29/50] (hybris) disable the usage of libprocessgroup, since it
- is incompatible.
+Subject: [PATCH] (hybris) disable the usage of libprocessgroup, since it is
+ incompatible.
 
 Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
@@ -12,7 +12,7 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 6be7290e3..0be06b5ad 100644
+index 6be7290e3278eb1ab3daa80d015c8ecbdd5b8a50..0be06b5ad5266ff76b0423f38f75781c5d699907 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
 @@ -84,8 +84,6 @@ cc_defaults {
@@ -33,7 +33,7 @@ index 6be7290e3..0be06b5ad 100644
          "libcutils",
      ],
 diff --git a/init/init.cpp b/init/init.cpp
-index 28a2d6661..8ff468ea9 100644
+index 28a2d6661b97e7ee0cea0030b2d53b9c351024b2..8ff468ea9a1eeb859dce5302326dd4964425c1ce 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -43,8 +43,6 @@
@@ -46,7 +46,7 @@ index 28a2d6661..8ff468ea9 100644
  
  #ifndef RECOVERY
 diff --git a/init/service.cpp b/init/service.cpp
-index 21b22aefb..b39282d53 100644
+index 21b22aefb33103b2b05043999795a17d8f163156..b39282d533cbc9be06ac981c16b9303d99c22c29 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -38,7 +38,6 @@
@@ -119,6 +119,3 @@ index 21b22aefb..b39282d53 100644
      NotifyStateChange("running");
      return Success();
  }
--- 
-2.23.0
-

@@ -1,7 +1,7 @@
-From 13a9255e20f0dc85eaba455b308766890c9ea688 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:24:31 +0000
-Subject: [PATCH 08/50] (hybris) Notify Mer's systemd that we're done
+Subject: [PATCH] (hybris) Notify Mer's systemd that we're done
 
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
@@ -10,7 +10,7 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 16 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 02c89ffca..8df3c1f17 100644
+index 02c89ffca45c522a814e775274b8910a0e823b79..8df3c1f171ae1db0afc09d63188b1558179109af 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -851,3 +851,19 @@ on property:ro.debuggable=1
@@ -33,6 +33,3 @@ index 02c89ffca..8df3c1f17 100644
 +on property:persist.sys.recovery_update=true
 +    start flash_recovery
 +
--- 
-2.23.0
-

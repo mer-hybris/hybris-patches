@@ -1,7 +1,7 @@
-From 59de5609b0aa2dc83ba2315c2c78270c40f2ff60 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Thu, 13 Mar 2014 08:51:53 +0000
-Subject: [PATCH 10/50] (hybris) allow system group to trigger haptics
+Subject: [PATCH] (hybris) allow system group to trigger haptics
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
 
@@ -14,7 +14,7 @@ Change-Id: I9f1af094fa8a4ef48f4c3ea0ec35cb66d3c083d8
  1 file changed, 3 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 1fb018783..37a1174d9 100644
+index 1fb018783089c7a0d226f204df67e4df2f7362f8..37a1174d97cacaa3812198b817c391c309bafaec 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -750,6 +750,9 @@ on boot
@@ -27,6 +27,3 @@ index 1fb018783..37a1174d9 100644
      # Start standard binderized HAL daemons
      class_start hal
  
--- 
-2.23.0
-

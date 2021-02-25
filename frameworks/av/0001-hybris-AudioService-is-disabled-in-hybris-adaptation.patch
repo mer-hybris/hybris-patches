@@ -1,4 +1,4 @@
-From b2644d4d8077015b2bdc0eb2bd21117875dffbfe Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Sun, 30 Oct 2016 14:07:11 +0000
 Subject: [PATCH] (hybris) AudioService is disabled in hybris adaptations
@@ -16,7 +16,7 @@ Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
-index 670e026183..c8a4694722 100644
+index 670e02618312366c7db075a422547b4d0378549c..c8a469472264122e9b5cd2127e452ac8e5bfb698 100644
 --- a/services/camera/libcameraservice/CameraService.cpp
 +++ b/services/camera/libcameraservice/CameraService.cpp
 @@ -2275,9 +2275,15 @@ void CameraService::increaseSoundRef() {
@@ -43,6 +43,3 @@ index 670e026183..c8a4694722 100644
  }
  
  void CameraService::decreaseSoundRef() {
--- 
-2.23.0
-

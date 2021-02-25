@@ -1,7 +1,7 @@
-From cd7b68932bccda2eac104c841254f90c50359cf7 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Sun, 17 Dec 2017 00:16:16 +0200
-Subject: [PATCH 1/7] (hybris) Add support for get and list of properties.
+Subject: [PATCH] (hybris) Add support for get and list of properties.
 
 Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
 ---
@@ -9,7 +9,7 @@ Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
  1 file changed, 2 insertions(+)
 
 diff --git a/libc/include/sys/_system_properties.h b/libc/include/sys/_system_properties.h
-index 744a45b71..2f32bc28f 100644
+index 744a45b71f5ef9cca938687c9cfb511eb85820ad..2f32bc28ff6f583bd6aa6ecce55f504fbb5d5d55 100644
 --- a/libc/include/sys/_system_properties.h
 +++ b/libc/include/sys/_system_properties.h
 @@ -44,6 +44,8 @@ __BEGIN_DECLS
@@ -21,6 +21,3 @@ index 744a45b71..2f32bc28f 100644
  #define PROP_MSG_SETPROP2 0x00020001
  
  #define PROP_SUCCESS 0
--- 
-2.27.0
-

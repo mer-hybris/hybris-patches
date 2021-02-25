@@ -1,7 +1,7 @@
-From 260750e58e471a94508d56b3282dc1e475ef2f40 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 18 Apr 2018 18:49:02 +0200
-Subject: [PATCH 24/50] (hybris) more SELinux disablement
+Subject: [PATCH] (hybris) more SELinux disablement
 
 Change-Id: Ic1bc474e993f2b66ab9114e88d7ec4f718a99d5c
 Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 74e1c3855..e90365a3a 100644
+index 74e1c3855f03caaf1aebcfff317b1f900c19321d..e90365a3a36cd37d9338eedec3fc4e8d2c71d35b 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -653,7 +653,10 @@ int SecondStageMain(int argc, char** argv) {
@@ -26,7 +26,7 @@ index 74e1c3855..e90365a3a 100644
      // Set libavb version for Framework-only OTA match in Treble build.
      const char* avb_version = getenv("INIT_AVB_VERSION");
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index a47baebfe..2fc027ba2 100644
+index a47baebfe3e4981cbbd8d5805f63d84ca1c56b48..2fc027ba201eeb1eac8d6e589194eec5a6be5beb 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
 @@ -311,7 +311,7 @@ bool LoadSplitPolicy() {
@@ -47,6 +47,3 @@ index a47baebfe..2fc027ba2 100644
      return true;
  }
  
--- 
-2.23.0
-

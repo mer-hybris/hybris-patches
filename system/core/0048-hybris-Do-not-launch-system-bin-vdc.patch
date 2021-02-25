@@ -1,7 +1,7 @@
-From 149bf24830f3ac0d10067a49e437084bd2936c93 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Tue, 13 Oct 2020 15:39:00 +0000
-Subject: [PATCH 48/50] (hybris) Do not launch /system/bin/vdc
+Subject: [PATCH] (hybris) Do not launch /system/bin/vdc
 
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
@@ -10,7 +10,7 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c5e71291d..efa1884b4 100644
+index c5e71291d517780873311e39cbbebcb450a8f624..efa1884b46ce1f20b5bd39bf4d4f0c771e3ef976 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -353,7 +353,7 @@ on early-fs
@@ -31,6 +31,3 @@ index c5e71291d..efa1884b4 100644
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
--- 
-2.23.0
-
