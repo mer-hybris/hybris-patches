@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Fri, 26 Feb 2021 19:17:24 +0000
+Subject: [PATCH] (hybris) do not expose EGL_ANGLE_platform_angle, otherwise
+ libhybris clients get confused.
+
+Change-Id: Ied98ee3f0943ac8a847b36239039aa305140a71b
+---
+ opengl/libs/EGL/egl_platform_entries.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/opengl/libs/EGL/egl_platform_entries.cpp b/opengl/libs/EGL/egl_platform_entries.cpp
+index a3bb6debe9b69c19fc3936be84d60584186c0621..cd7ed841cd7aa5e83468f0ea66b7769e631dd82f 100644
+--- a/opengl/libs/EGL/egl_platform_entries.cpp
++++ b/opengl/libs/EGL/egl_platform_entries.cpp
+@@ -139,7 +139,7 @@ char const * const gExtensionString  =
+ char const * const gClientExtensionString =
+         "EGL_EXT_client_extensions "
+         "EGL_KHR_platform_android "
+-        "EGL_ANGLE_platform_angle "
++//        "EGL_ANGLE_platform_angle "
+         "EGL_ANDROID_GLES_layers";
+ // clang-format on
+ 
