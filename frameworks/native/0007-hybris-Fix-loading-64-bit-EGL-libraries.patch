@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Thu, 5 Nov 2020 20:50:12 +0200
+Subject: [PATCH] (hybris) Fix loading 64-bit EGL libraries.
+
+Change-Id: I19a7dbcfb2af31081797fd8f4c68c0bb775c91dd
+---
+ opengl/libs/EGL/Loader.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
+index 0fd4a92fa9dc682ad468e894239c0baf3009d560..6ae25e6eda7bca2ba322583b693b45e641711d74 100644
+--- a/opengl/libs/EGL/Loader.cpp
++++ b/opengl/libs/EGL/Loader.cpp
+@@ -178,7 +178,7 @@ static void* load_wrapper(const char* path) {
+ 
+ #ifndef EGL_WRAPPER_DIR
+ #if defined(__LP64__)
+-#define EGL_WRAPPER_DIR "/system/lib64/"
++#define EGL_WRAPPER_DIR ""
+ #else
+ #define EGL_WRAPPER_DIR ""
+ #endif
