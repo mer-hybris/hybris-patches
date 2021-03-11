@@ -1,8 +1,8 @@
-From f1042f1347d6b25674f4e121c093b8e06c2e596a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Tue, 22 Oct 2013 17:07:56 +0100
-Subject: [PATCH 03/40] (hybris) Mer can specify mis-alignment handling - this
- is the wrong place to set it
+Subject: [PATCH] (hybris) Mer can specify mis-alignment handling - this is the
+ wrong place to set it
 
 Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
 ---
@@ -10,7 +10,7 @@ Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 4a8a60a96..640222c7e 100644
+index 4a8a60a968ed6dbd04edb027e404df91005fcc93..640222c7ea7684eb797210236b83e5fcdc53f0c2 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -110,13 +110,15 @@ on init
@@ -30,6 +30,3 @@ index 4a8a60a96..640222c7e 100644
      write /proc/sys/kernel/sched_latency_ns 10000000
      write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
      write /proc/sys/kernel/sched_child_runs_first 0
--- 
-2.17.1
-

@@ -1,16 +1,16 @@
-From 1849c79f3e1a1c90ee9b40e485725c77adf6a9c4 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: David Greaves <david@dgreaves.com>
 Date: Wed, 20 Nov 2013 19:24:31 +0000
-Subject: [PATCH 08/40] (hybris) Notify Mer's systemd that we're done
+Subject: [PATCH] (hybris) Notify Mer's systemd that we're done
 
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
 ---
- rootdir/init.rc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ rootdir/init.rc | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5bed0e34b..7cb3685c0 100644
+index 5bed0e34bac8b22dba01e705f877ca840b3db5ae..e4b505657a6b1a506aa439012a78e540664a21e0 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -764,3 +764,12 @@ service flash_recovery /system/bin/install-recovery.sh
@@ -26,6 +26,3 @@ index 5bed0e34b..7cb3685c0 100644
 +service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
 +    class mer
 +    oneshot
--- 
-2.17.1
-

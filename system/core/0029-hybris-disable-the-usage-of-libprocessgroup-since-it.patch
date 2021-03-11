@@ -1,8 +1,8 @@
-From 0c0d6836c726ea40a3bfc40595a356e4b84b21a9 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Franz-Josef Haider <franz.haider@jolla.com>
 Date: Wed, 6 Jun 2018 09:33:03 +0200
-Subject: [PATCH 29/40] (hybris) disable the usage of libprocessgroup, since it
- is incompatible.
+Subject: [PATCH] (hybris) disable the usage of libprocessgroup, since it is
+ incompatible.
 
 Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
@@ -12,7 +12,7 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 3287331e2..fbafcdb14 100644
+index 3287331e2e79894990b963cabe5819008c0dff79..fbafcdb149e71aff50d6547a56c9dff5fee6d3e8 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
 @@ -79,7 +79,6 @@ cc_defaults {
@@ -32,7 +32,7 @@ index 3287331e2..fbafcdb14 100644
          "libcutils",
      ],
 diff --git a/init/Android.mk b/init/Android.mk
-index 2295bd719..d70d99556 100644
+index 2295bd719cbe32429b7a78f6018283fb9a51a32b..d70d995568a296b50395a7516046348b6ef2549c 100644
 --- a/init/Android.mk
 +++ b/init/Android.mk
 @@ -73,7 +73,6 @@ LOCAL_STATIC_LIBRARIES := \
@@ -44,7 +44,7 @@ index 2295bd719..d70d99556 100644
      libkeyutils \
      libprotobuf-cpp-lite \
 diff --git a/init/service.cpp b/init/service.cpp
-index 5a041868b..28d7241d4 100644
+index 5a041868bae2e6ab251bd44d3ea0b8205adf783c..28d7241d48f501370224fcdeca715271d71d4c89 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -36,7 +36,6 @@
@@ -96,6 +96,3 @@ index 5a041868b..28d7241d4 100644
  
      NotifyStateChange("running");
      return Success();
--- 
-2.17.1
-

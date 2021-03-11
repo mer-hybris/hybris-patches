@@ -1,7 +1,7 @@
-From a2c9dd20ff97155006ca2bd4e2b06ea51d2d60aa Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Tue, 18 Mar 2014 14:07:11 +0000
-Subject: [PATCH 11/40] (hybris) trigger late_start on property change
+Subject: [PATCH] (hybris) trigger late_start on property change
 
 Android's late_start is triggered by mount_all, which also determines whether
 the /data partition is encrypted.
@@ -20,7 +20,7 @@ Conflicts:
  1 file changed, 5 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 12087c17a..c030ca3f0 100644
+index 7e751568591e70c09074646044bb5e4f8e4d87a3..335cde0e155960dbee60964df711b67dbe903ac1 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -676,6 +676,7 @@ on boot
@@ -42,6 +42,3 @@ index 12087c17a..c030ca3f0 100644
  on charger
      class_start charger
  
--- 
-2.17.1
-

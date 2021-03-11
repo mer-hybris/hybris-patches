@@ -1,8 +1,8 @@
-From d7dc0bc42b3980d9e0e1c35deacbba75a3e79d6a Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Date: Thu, 9 Jan 2014 00:57:01 -0200
-Subject: [PATCH 3/6] (hybris) bionic_tls.h: shifting TLS slots to avoid
- conflicts with libc/hybris
+Subject: [PATCH] (hybris) bionic_tls.h: shifting TLS slots to avoid conflicts
+ with libc/hybris
 
 Change-Id: Idf503fe8fa0a24edf4dbbabaa8d3a1c2d1f60295
 Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
@@ -14,7 +14,7 @@ Conflicts:
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/libc/private/bionic_tls.h b/libc/private/bionic_tls.h
-index de086f2d4..af4d4d07c 100644
+index de086f2d47a79587248cf0a9e53ae8bd7f722cb2..af4d4d07ccf5f72a4ff9cb2f6619ec3312a5d1ee 100644
 --- a/libc/private/bionic_tls.h
 +++ b/libc/private/bionic_tls.h
 @@ -56,12 +56,12 @@ __BEGIN_DECLS
@@ -42,6 +42,3 @@ index de086f2d4..af4d4d07c 100644
    TLS_SLOT_DLERROR,
  
    // Fast storage for Thread::Current() in ART.
--- 
-2.17.1
-

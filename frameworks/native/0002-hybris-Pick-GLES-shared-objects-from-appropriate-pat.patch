@@ -1,7 +1,7 @@
-From db0ea858d3b172aa43ba535b8165cc52dca28a50 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
 Date: Wed, 15 Jul 2015 08:29:08 +0000
-Subject: [PATCH 2/6] (hybris) Pick GLES shared objects from appropriate paths
+Subject: [PATCH] (hybris) Pick GLES shared objects from appropriate paths
  (32-bit case)
 
 Change-Id: I4c7739ba8a4d64fa115163d5700b0df3370b286b
@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index 91a34558a..386991a31 100644
+index 7f769114e15826246cf2f194185e71e56d566f0b..0fd4a92fa9dc682ad468e894239c0baf3009d560 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
 @@ -178,9 +178,9 @@ static void* load_wrapper(const char* path) {
@@ -39,6 +39,3 @@ index 91a34558a..386991a31 100644
  
      LOG_ALWAYS_FATAL_IF(!cnx->libEgl,
              "couldn't load system EGL wrapper libraries");
--- 
-2.17.1
-
