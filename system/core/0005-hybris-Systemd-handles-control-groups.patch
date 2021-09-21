@@ -9,10 +9,10 @@ Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
  1 file changed, 8 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 897d392dcc38c7a36673f46ba70e734a74148a4d..10d11146a465e70dfb6bbde9f550b66b647bee46 100644
+index 68c3f01a2748d6b6c8a865d3b36760278b1d5905..00901b61bc1f8a0a12005916b38e8b0d72c11519 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -24,14 +24,6 @@ on early-init
+@@ -35,14 +35,6 @@ on early-init
  
      mkdir /acct/uid
  
@@ -24,6 +24,6 @@ index 897d392dcc38c7a36673f46ba70e734a74148a4d..10d11146a465e70dfb6bbde9f550b66b
 -    # cgroup for system_server and surfaceflinger
 -    mkdir /dev/memcg/system 0550 system system
 -
-     start ueventd
- 
-     # Run apexd-bootstrap so that APEXes that provide critical libraries
+     # symlink the Android specific /dev/tun to Linux expected /dev/net/tun
+     mkdir /dev/net 0755 root root
+     symlink ../tun /dev/net/tun

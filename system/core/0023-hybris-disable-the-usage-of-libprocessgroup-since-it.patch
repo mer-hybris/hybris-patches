@@ -1,0 +1,123 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Wed, 6 Jun 2018 09:33:03 +0200
+Subject: [PATCH] (hybris) disable the usage of libprocessgroup, since it is
+ incompatible.
+
+Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
+---
+ init/Android.bp  |  4 ----
+ init/init.cpp    |  2 --
+ init/service.cpp | 15 +++++++++++++--
+ 3 files changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/init/Android.bp b/init/Android.bp
+index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab4888ae2e 100644
+--- a/init/Android.bp
++++ b/init/Android.bp
+@@ -146,8 +146,6 @@ cc_defaults {
+         "liblog",
+         "liblogwrap",
+         "liblp",
+-        "libprocessgroup",
+-        "libprocessgroup_setup",
+         "libselinux",
+         "libutils",
+     ],
+@@ -280,7 +278,6 @@ cc_defaults {
+         "libselinux",
+         "libhidl-gen-utils",
+         "liblog",
+-        "libprocessgroup",
+         "libprotobuf-cpp-lite",
+     ],
+ }
+@@ -339,7 +336,6 @@ cc_binary {
+         "libhidl-gen-utils",
+         "libhidlmetadata",
+         "liblog",
+-        "libprocessgroup",
+         "libprotobuf-cpp-lite",
+     ],
+     srcs: init_common_sources + init_host_sources,
+diff --git a/init/init.cpp b/init/init.cpp
+index 60157b78755dcdfed623b268045900b00549ee90..110db059fa3364792fea5347a17faa33d46131bc 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -51,8 +51,6 @@
+ #include <keyutils.h>
+ #include <libavb/libavb.h>
+ #include <libgsi/libgsi.h>
+-#include <processgroup/processgroup.h>
+-#include <processgroup/setup.h>
+ #include <selinux/android.h>
+ 
+ #include "action_parser.h"
+diff --git a/init/service.cpp b/init/service.cpp
+index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b332b50f90 100644
+--- a/init/service.cpp
++++ b/init/service.cpp
+@@ -33,7 +33,6 @@
+ #include <android-base/stringprintf.h>
+ #include <android-base/strings.h>
+ #include <cutils/sockets.h>
+-#include <processgroup/processgroup.h>
+ #include <selinux/selinux.h>
+ 
+ #include "lmkd_service.h"
+@@ -198,7 +197,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+     // These functions handle their own logging, so no additional logging is needed.
+     if (!process_cgroup_empty_) {
+         LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
+-                  << ") process group...";
++                  << ") process group... HYBRIS: killing PID instead of process group.";
++
++        kill(pid_, signal);
++
++// hybris: TODO?
++#if DISABLED_FOR_HYBRIS_SUPPORT
++
+         int max_processes = 0;
+         int r;
+         if (signal == SIGTERM) {
+@@ -216,6 +221,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+         }
+ 
+         if (r == 0) process_cgroup_empty_ = true;
++#endif
++        process_cgroup_empty_ = true;
+     }
+ 
+     if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
+@@ -520,6 +527,7 @@ Result<void> Service::Start() {
+             descriptor.Publish();
+         }
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+         if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
+             LOG(ERROR) << "failed to write pid to files: " << result.error();
+         }
+@@ -537,6 +545,7 @@ Result<void> Service::Start() {
+                         << "'). See the 'Debugging init' section of init's README.md for tips";
+         }
+ 
++#endif
+         _exit(127);
+     }
+ 
+@@ -559,6 +568,7 @@ Result<void> Service::Start() {
+     start_order_ = next_start_order_++;
+     process_cgroup_empty_ = false;
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
+                       limit_percent_ != -1 || !limit_property_.empty();
+     errno = -createProcessGroup(proc_attr_.uid, pid_, use_memcg);
+@@ -609,6 +619,7 @@ Result<void> Service::Start() {
+     if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
+         LmkdRegister(name_, proc_attr_.uid, pid_, oom_score_adjust_);
+     }
++#endif
+ 
+     NotifyStateChange("running");
+     reboot_on_failure.Disable();

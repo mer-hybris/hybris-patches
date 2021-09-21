@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Juho=20H=C3=A4m=C3=A4l=C3=A4inen?=
+ <juho.hamalainen@jolla.com>
+Date: Tue, 24 Mar 2020 14:07:40 +0200
+Subject: [PATCH] (hybris) Allow input group to use old vibrator.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Juho Hämäläinen <juho.hamalainen@jolla.com>
+Change-Id: I279b97beb82a5de51d40535221a2b71d3468a91f
+---
+ rootdir/init.rc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 70398dedc7a733aa8670e09a956fb12a608c2773..b7757fb20789bbbc369f6b79e67579d95481c40b 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -912,7 +912,8 @@ on boot
+     chown system system /sys/class/leds/vibrator/trigger
+     chown system system /sys/class/leds/vibrator/brightness
+     chown system system /sys/class/leds/vibrator/state
+-    chown system system /sys/class/timed_output/vibrator/enable
++    # SailfishOS: allow input group to use vibrator
++    chown system input /sys/class/timed_output/vibrator/enable
+     chown system system /sys/class/leds/keyboard-backlight/brightness
+     chown system system /sys/class/leds/lcd-backlight/brightness
+     chown system system /sys/class/leds/button-backlight/brightness

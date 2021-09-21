@@ -1,0 +1,78 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: TheKit <nekit1000@gmail.com>
+Date: Mon, 30 Aug 2021 00:03:52 +0300
+Subject: [PATCH] (halium) disable GWP-ASan and use emulated TLS in libc by
+ default
+
+Building locale.cpp with platform TLS and disabled direct TLS slot
+usage in earlier patch breaks linker compiled as static binary.
+
+Change-Id: Ic63b814917913ba6055aa9ba2c8e70c098b428af
+---
+ libc/Android.bp                   |  6 ++++--
+ libc/bionic/gwp_asan_wrappers.cpp | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index dce7a77f2ff721698184c5414a6718edc28d9aff..87d4760c0d3431ac2e02e13f03f2f42bd9570395 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -50,7 +50,8 @@ libc_common_flags = [
+     "-Wexit-time-destructors",
+ 
+     // GWP-ASan requires platform TLS.
+-    "-fno-emulated-tls",
++    // Halium: ELF TLS currently breaks libhybris, so disable it
++    "-femulated-tls",
+ ]
+ 
+ // Define some common cflags
+@@ -1605,6 +1606,7 @@ cc_library {
+             "libc_common_shared",
+         ],
+     },
++    // cflags: ["-fno-emulated-tls"], - disabled for Halium
+ 
+     required: [
+         "tzdata",
+@@ -2450,7 +2452,7 @@ cc_defaults {
+     ],
+     cflags: [
+         "-DUSE_SCUDO",
+-        "-fno-emulated-tls", // Required for GWP-ASan.
++        // "-fno-emulated-tls", // Required for GWP-ASan. - disabled for Halium
+     ],
+     shared_libs: ["libscudo_wrapper"],
+ 
+diff --git a/libc/bionic/gwp_asan_wrappers.cpp b/libc/bionic/gwp_asan_wrappers.cpp
+index d3e6a14cee6774297ccdb1a883e66fd11a690c95..51d498c23e66726445a92737bcba1ef3c88a65b4 100644
+--- a/libc/bionic/gwp_asan_wrappers.cpp
++++ b/libc/bionic/gwp_asan_wrappers.cpp
+@@ -47,6 +47,7 @@
+ #include "bionic/malloc_common_dynamic.h"
+ #endif  // LIBC_STATIC
+ 
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
+ static gwp_asan::GuardedPoolAllocator GuardedAlloc;
+ static const MallocDispatch* prev_dispatch;
+ 
+@@ -278,3 +279,19 @@ bool MaybeInitGwpAsan(libc_globals* globals, bool force_init) {
+ bool DispatchIsGwpAsan(const MallocDispatch* dispatch) {
+   return dispatch == &gwp_asan_dispatch;
+ }
++
++#else // DISABLED_FOR_HYBRIS_SUPPORT
++
++bool MaybeInitGwpAsanFromLibc(libc_globals* /*globals*/) {
++  return false;
++}
++
++bool MaybeInitGwpAsan(libc_globals* /*globals*/, bool /*force_init*/) {
++  return false;
++}
++
++bool DispatchIsGwpAsan(const MallocDispatch* /*dispatch*/) {
++  return false;
++}
++
++#endif // DISABLED_FOR_HYBRIS_SUPPORT

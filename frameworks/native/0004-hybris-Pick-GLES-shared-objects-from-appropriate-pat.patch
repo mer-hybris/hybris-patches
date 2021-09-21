@@ -10,10 +10,10 @@ Change-Id: I71ac1072e68c4d97f2808592ac007f1dc470d69f
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index 426b9d7de5f94475c9b7bad7841a5b511adf6d54..90a30393cfea6ad2107cb0d444a55f6e64ba0e59 100644
+index ac7c147210555ab56f7e86e173902ee50feb4d3d..0f850185cff5390d7ef8db4a9c89215f706a57dd 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
-@@ -140,7 +140,7 @@ static void* load_wrapper(const char* path) {
+@@ -134,7 +134,7 @@ static void* load_wrapper(const char* path) {
  
  #ifndef EGL_WRAPPER_DIR
  #if defined(__LP64__)

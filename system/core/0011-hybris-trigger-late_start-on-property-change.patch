@@ -20,18 +20,18 @@ Conflicts:
  1 file changed, 5 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 37a1174d97cacaa3812198b817c391c309bafaec..c104d72d5514257aa42ee7da987fcc71ae1b99e7 100644
+index 3907f20e6ba06249bdec270b42ede7a41577d40a..093e5a98a11325c287f0ecbde9b7df9cc8a1fcb0 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -758,6 +758,7 @@ on boot
- 
-     class_start core
+@@ -942,6 +942,7 @@ on boot
+     # Requires keystore (currently a core service) to be ready first.
+     exec -- /system/bin/fsverity_init
  
 +# Never gets called, since Mer does its own 'mount_all'
  on nonencrypted
      class_start main
      class_start late_start
-@@ -765,6 +766,10 @@ on nonencrypted
+@@ -949,6 +950,10 @@ on nonencrypted
  on property:sys.init_log_level=*
      loglevel ${sys.init_log_level}
  

@@ -9,10 +9,10 @@ Change-Id: I5b9f59e80760e53636763c89f8f76f350c17b3ec
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 2e9d1b736ca33f07d7dac5382c271c3b5cc5aaf6..8b635876c30d9ebcf9c42421796789d0883ad684 100644
+index 1acefafa7f56afb0b59d5512ce73580cb8584be5..9c60c12f2d753bcac1cc10652ca80b3e590123e2 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -646,8 +646,9 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
+@@ -839,8 +839,9 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
  on boot
      # basic network init
      ifup lo

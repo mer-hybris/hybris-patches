@@ -5,16 +5,17 @@ Subject: [PATCH] (hybris) Use private __get_tls_hooks from bionic
 
 Change-Id: I38a4ea6d8561ab7da5dfedeeba16b84ee493051e
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
+Signed-off-by: Franz-Josef Haider <franz.haider@jolla.com>
 ---
  opengl/libs/EGL/egl.cpp |  2 +-
- opengl/libs/hooks.h     | 12 ++----------
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ opengl/libs/hooks.h     | 13 ++++---------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/opengl/libs/EGL/egl.cpp b/opengl/libs/EGL/egl.cpp
-index 25b1009ba2ef762001cd088e4b126c8f775954d0..51a5582c7f3dfc75158df26779afd0581a92a9ed 100644
+index 43f7a075a7d49c46db064562a94fe007ce47dff8..d73610f87ebc2033b75f052c9d16ace3f9794f78 100644
 --- a/opengl/libs/EGL/egl.cpp
 +++ b/opengl/libs/EGL/egl.cpp
-@@ -241,7 +241,7 @@ void gl_noop() {
+@@ -234,7 +234,7 @@ void gl_noop() {
  // ----------------------------------------------------------------------------
  
  void setGlThreadSpecific(gl_hooks_t const *value) {
@@ -24,7 +25,7 @@ index 25b1009ba2ef762001cd088e4b126c8f775954d0..51a5582c7f3dfc75158df26779afd058
  }
  
 diff --git a/opengl/libs/hooks.h b/opengl/libs/hooks.h
-index 63a0e140ccc1774f91c70b8b27eb408d01109e69..9eac975f1f8ff4968c65d812c7c357e0a967bbc4 100644
+index 86fec21bae5e94f10950cfd8842ca1103c2bd37a..127925383837dce01cc30132bc15b55bc87eeda3 100644
 --- a/opengl/libs/hooks.h
 +++ b/opengl/libs/hooks.h
 @@ -34,7 +34,7 @@
@@ -36,7 +37,7 @@ index 63a0e140ccc1774f91c70b8b27eb408d01109e69..9eac975f1f8ff4968c65d812c7c357e0
  
  #undef NELEM
  #define NELEM(x)            (sizeof(x)/sizeof(*(x)))
-@@ -80,16 +80,8 @@ struct gl_hooks_t {
+@@ -80,16 +80,11 @@ struct gl_hooks_t {
  
  EGLAPI void setGlThreadSpecific(gl_hooks_t const *value);
  
@@ -47,7 +48,9 @@ index 63a0e140ccc1774f91c70b8b27eb408d01109e69..9eac975f1f8ff4968c65d812c7c357e0
 -            reinterpret_cast<gl_hooks_t const * volatile *>(tls_base);
 -    return tls_hooks;
 -}
--
++// hybris modified bionic libc provides this
++extern "C" void **__get_tls_hooks();
+ 
  inline EGLAPI gl_hooks_t const* getGlThreadSpecific() {
 -    gl_hooks_t const * volatile * tls_hooks = get_tls_hooks();
 +    gl_hooks_t const ** tls_hooks = const_cast<gl_hooks_t const**>(reinterpret_cast<gl_hooks_t**>(__get_tls_hooks()));

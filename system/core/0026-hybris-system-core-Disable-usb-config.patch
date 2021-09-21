@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Kosola <matti.kosola@jolla.com>
+Date: Tue, 21 Feb 2017 13:13:26 +0100
+Subject: [PATCH] (hybris)[system/core] Disable usb config.
+
+Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
+---
+ rootdir/init.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 47e67c6f4b3a648d56eb9dabbd8758c0da96921e..7490a83941919401b60cb85dde45b3a254db100d 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -15,7 +15,7 @@ import /init.environ.rc
+ #import /system/etc/init/hw/init.usb.rc
+ import /init.${ro.hardware}.rc
+ import /vendor/etc/init/hw/init.${ro.hardware}.rc
+-import /system/etc/init/hw/init.usb.configfs.rc
++#import /system/etc/init/hw/init.usb.configfs.rc
+ import /usr/libexec/droid-hybris/system/etc/init/hw/init.${ro.zygote}.rc
+ 
+ # Cgroups are mounted right before early-init using list from /etc/cgroups.json

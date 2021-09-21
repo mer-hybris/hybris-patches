@@ -1,0 +1,30 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Date: Sat, 8 Jul 2017 00:27:20 +0300
+Subject: [PATCH] (hybris) Properly handle shutdown from Mer.
+
+Change-Id: I89daebb9559d38f3c639f4634c417252c7a92fe0
+---
+ rootdir/init.rc | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 9cf89c18bde0ef1372ed98e07d8836bd598e9969..2a5937feeb74b28f0544eef21bb59f15028eb78e 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -1114,6 +1114,15 @@ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
+     class mer
+     oneshot
+ 
++# Properly handle shutdown from Mer
++on property:hybris.shutdown=*
++    class_stop late_start
++    class_stop main
++    class_stop charger
++    class_stop hal
++    class_stop early_hal
++    class_stop core
++
+ # update recovery if enabled
+ on property:persist.sys.recovery_update=true
+     start flash_recovery

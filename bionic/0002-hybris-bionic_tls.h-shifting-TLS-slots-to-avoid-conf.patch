@@ -10,15 +10,15 @@ Signed-off-by: Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>
 Conflicts:
 	libc/private/bionic_tls.h
 ---
- libc/private/bionic_asm_tls.h | 12 ++++++------
+ libc/platform/bionic/tls_defines.h | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
-index 92f707aadab0173bd59696d510501f068347b203..40e6a53941a98feaab7059cc33acc4a7fe6a8257 100644
---- a/libc/private/bionic_asm_tls.h
-+++ b/libc/private/bionic_asm_tls.h
+diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
+index 78099b3d41287e7e642682a15a5d2c3440266cf7..e7ada69a86f749ecdadad39e2b2dac19a9795bcd 100644
+--- a/libc/platform/bionic/tls_defines.h
++++ b/libc/platform/bionic/tls_defines.h
 @@ -84,12 +84,12 @@
- #define TLS_SLOT_BIONIC_TLS       -1
+ #define TLS_SLOT_BIONIC_TLS     (-1)
  #define TLS_SLOT_DTV              0
  #define TLS_SLOT_THREAD_ID        1
 -#define TLS_SLOT_APP              2 // was historically used for errno

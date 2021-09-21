@@ -10,10 +10,10 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 2b899408a7d6fe3173b946c015bf36a3ca3645a6..998374a8401eee4b8c22dd71dd4d5425b2d781de 100644
+index 021557697c36fdc08468fe5d61453c1918e97a65..ad37ce8597a9b34113b3d53765d1eb0a3b147c8f 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -117,18 +117,18 @@ int FirstStageMain(int argc, char** argv) {
+@@ -189,20 +189,20 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
      // Get the basic filesystem setup we need put together in the initramdisk
      // on / and then we'll let the rc file figure out the rest.
@@ -30,6 +30,8 @@ index 2b899408a7d6fe3173b946c015bf36a3ca3645a6..998374a8401eee4b8c22dd71dd4d5425
      // Don't expose the raw commandline to unprivileged processes.
 -    CHECKCALL(chmod("/proc/cmdline", 0440));
 +    //CHECKCALL(chmod("/proc/cmdline", 0440));
+     std::string cmdline;
+     android::base::ReadFileToString("/proc/cmdline", &cmdline);
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));
 -    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));

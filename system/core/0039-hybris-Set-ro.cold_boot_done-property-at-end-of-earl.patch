@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Sat, 2 Oct 2021 23:17:17 +0000
+Subject: [PATCH] (hybris) Set ro.cold_boot_done property at end of early init.
+
+Change-Id: I8fb92845d47ef286005944150e2fa3ea366ebcbf
+---
+ rootdir/init.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index b7757fb20789bbbc369f6b79e67579d95481c40b..ef388a63ddf6f46c0704257f27cdd7e0759f937c 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -80,6 +80,8 @@ on early-init
+     # Mount tracefs
+     mount tracefs tracefs /sys/kernel/tracing
+ 
++    setprop ro.cold_boot_done true
++
+ # Run boringssl self test for each ABI so that later processes can skip it. http://b/139348610
+ on early-init && property:ro.product.cpu.abilist32=*
+     exec_start boringssl_self_test32

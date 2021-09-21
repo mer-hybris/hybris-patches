@@ -10,10 +10,10 @@ Change-Id: Ied98ee3f0943ac8a847b36239039aa305140a71b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/opengl/libs/EGL/egl_platform_entries.cpp b/opengl/libs/EGL/egl_platform_entries.cpp
-index a3bb6debe9b69c19fc3936be84d60584186c0621..cd7ed841cd7aa5e83468f0ea66b7769e631dd82f 100644
+index aa24e8ee68bb1bf9c2755ff4ff6585309dde9429..c2513d5f2e223b67e7984b8f583c17393aa177d2 100644
 --- a/opengl/libs/EGL/egl_platform_entries.cpp
 +++ b/opengl/libs/EGL/egl_platform_entries.cpp
-@@ -139,7 +139,7 @@ char const * const gExtensionString  =
+@@ -137,7 +137,7 @@ char const * const gExtensionString  =
  char const * const gClientExtensionString =
          "EGL_EXT_client_extensions "
          "EGL_KHR_platform_android "

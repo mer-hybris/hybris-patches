@@ -1,0 +1,80 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Martin Ghosal <Martin.Ghosal@sky.uk>
+Date: Sun, 8 Jan 2017 16:34:54 +0000
+Subject: [PATCH] (hybris) Disable all zygote variations
+
+Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
+---
+ rootdir/init.rc             | 2 +-
+ rootdir/init.zygote32.rc    | 1 +
+ rootdir/init.zygote32_64.rc | 2 ++
+ rootdir/init.zygote64.rc    | 1 +
+ rootdir/init.zygote64_32.rc | 2 ++
+ 5 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 9c60c12f2d753bcac1cc10652ca80b3e590123e2..068263d77c63f798b3b87e0fe9cde1d29702f406 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -16,7 +16,7 @@ import /init.environ.rc
+ import /init.${ro.hardware}.rc
+ import /vendor/etc/init/hw/init.${ro.hardware}.rc
+ import /system/etc/init/hw/init.usb.configfs.rc
+-import /system/etc/init/hw/init.${ro.zygote}.rc
++import /usr/libexec/droid-hybris/system/etc/init/hw/init.${ro.zygote}.rc
+ 
+ # Cgroups are mounted right before early-init using list from /etc/cgroups.json
+ on early-init
+diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
+index e827cf5573d8e735c270e51ffda2cecff55e6b1b..d6554d6210adf596944fde82d916126b9e563559 100644
+--- a/rootdir/init.zygote32.rc
++++ b/rootdir/init.zygote32.rc
+@@ -13,3 +13,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+\ No newline at end of file
+diff --git a/rootdir/init.zygote32_64.rc b/rootdir/init.zygote32_64.rc
+index fe6dcfa473fa1661e5c940b23ccc13e9ee2942c0..b6d760ee67c1efe398b3266fe8247f2833f2c092 100644
+--- a/rootdir/init.zygote32_64.rc
++++ b/rootdir/init.zygote32_64.rc
+@@ -13,6 +13,7 @@ service zygote /system/bin/app_process32 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+ 
+ service zygote_secondary /system/bin/app_process64 -Xzygote /system/bin --zygote --socket-name=zygote_secondary
+     class main
+@@ -23,3 +24,4 @@ service zygote_secondary /system/bin/app_process64 -Xzygote /system/bin --zygote
+     socket usap_pool_secondary stream 660 root system
+     onrestart restart zygote
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
+index adc703102f5535426686709cf1d45adc837428c8..318d1cadc2d8759e4b48af84df58e15a931f0af5 100644
+--- a/rootdir/init.zygote64.rc
++++ b/rootdir/init.zygote64.rc
+@@ -13,3 +13,4 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     writepid /dev/cpuset/foreground/tasks
++    disabled
+diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
+index fb9e99b691cb0545b62ef8757790218b89c1ad8b..545deb2b67f19b69a023879ebe799684799e2c33 100644
+--- a/rootdir/init.zygote64_32.rc
++++ b/rootdir/init.zygote64_32.rc
+@@ -13,6 +13,7 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
+     onrestart restart netd
+     onrestart restart wificond
+     task_profiles ProcessCapacityHigh MaxPerformance
++    disabled
+ 
+ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary --enable-lazy-preload
+     class main
+@@ -23,3 +24,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
+     socket usap_pool_secondary stream 660 root system
+     onrestart restart zygote
+     task_profiles ProcessCapacityHigh MaxPerformance
++    disabled

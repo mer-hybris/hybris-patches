@@ -11,12 +11,12 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/libc/bionic/locale.cpp b/libc/bionic/locale.cpp
-index 8358fb0abd578b942e4500b591f0134c2cd7be03..8def0e164e3b74575681defc4a53746416e31039 100644
+index 0b7037afe3172dfe84fdb54d9a0ed2a6e2bf2e78..02a75dea81dbb920a36fbe14cc2470460ee887e6 100644
 --- a/libc/bionic/locale.cpp
 +++ b/libc/bionic/locale.cpp
 @@ -37,11 +37,11 @@
  
- #include "private/bionic_macros.h"
+ #include "platform/bionic/macros.h"
  
 -#if defined(__BIONIC_BUILD_FOR_ANDROID_SUPPORT)
 +//#if defined(__BIONIC_BUILD_FOR_ANDROID_SUPPORT)

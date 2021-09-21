@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 12 Oct 2020 15:26:00 +0000
+Subject: [PATCH] (hybris) change /system/bin/init to /sbin/droid-hal-init
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: I29e02a59bb6be56a2aa0bd89e8a0602b9d0b14d6
+---
+ init/first_stage_init.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 4f1c333617158a6ac8b9e8f699fbc73f88739d89..e0c56880b0372fffb55c7dc16e9666c2beeb2935 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -322,7 +322,7 @@ int FirstStageMain(int argc, char** argv) {
+     setenv(kEnvFirstStageStartedAt, std::to_string(start_time.time_since_epoch().count()).c_str(),
+            1);
+ 
+-    const char* path = "/system/bin/init";
++    const char* path = "/sbin/droid-hal-init";
+     const char* args[] = {path, "selinux_setup", nullptr};
+     auto fd = open("/dev/kmsg", O_WRONLY | O_CLOEXEC);
+     dup2(fd, STDOUT_FILENO);

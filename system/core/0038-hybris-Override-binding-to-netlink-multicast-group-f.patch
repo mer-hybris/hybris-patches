@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Dinesh Manajipet <saidinesh5@gmail.com>
+Date: Fri, 16 Dec 2016 15:49:06 +0530
+Subject: [PATCH] (hybris) Override binding to netlink multicast group from env
+
+uevent.c will override the default netlink group "0xffffffff" with the
+value from the environment variable UEVENT_NETLINK_GROUPS, if exists.
+
+Useful to prevent vendor blobs like hvdcp, charger_monitor to prevent
+reading uevents from systemd-udevd etc..
+
+Change-Id: I7a896df61ae37db6f8d66ef3e9a08569b65245e2
+---
+ libcutils/uevent.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/libcutils/uevent.cpp b/libcutils/uevent.cpp
+index bf244d2c7287d78fb3cf14397557b9af4dd0e557..00296c19dc8627a6ddd8aeb7c7b30d298bae3517 100644
+--- a/libcutils/uevent.cpp
++++ b/libcutils/uevent.cpp
+@@ -19,6 +19,7 @@
+ #include <errno.h>
+ #include <stdint.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <strings.h>
+ #include <sys/socket.h>
+@@ -104,6 +105,10 @@ int uevent_open_socket(int buf_sz, bool passcred) {
+     addr.nl_pid = getpid();
+     addr.nl_groups = 0xffffffff;
+ 
++    char* nl_groups_env = getenv("UEVENT_NETLINK_GROUPS");
++    if(nl_groups_env != NULL)
++      addr.nl_groups = strtoul(nl_groups_env, NULL, 0);
++
+     s = socket(PF_NETLINK, SOCK_DGRAM | SOCK_CLOEXEC, NETLINK_KOBJECT_UEVENT);
+     if (s < 0) return -1;
+ 

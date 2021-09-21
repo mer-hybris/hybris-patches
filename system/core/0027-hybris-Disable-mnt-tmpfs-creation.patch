@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Mon, 3 Jun 2019 13:46:44 +0200
+Subject: [PATCH] (hybris) Disable /mnt tmpfs creation
+
+Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
+---
+ init/first_stage_init.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 4319d7a433186964915e632da352253a621490fc..e35831e1f979a64ba32c17def412b2daf362838e 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -227,8 +227,8 @@ int FirstStageMain(int argc, char** argv) {
+     // should be done in rc files.
+     // Mount staging areas for devices managed by vold
+     // See storage config details at http://source.android.com/devices/storage/
+-    CHECKCALL(mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+-                    "mode=0755,uid=0,gid=1000"));
++    //CHECKCALL(mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
++    //                "mode=0755,uid=0,gid=1000"));
+     // /mnt/vendor is used to mount vendor-specific partitions that can not be
+     // part of the vendor partition, e.g. because they are mounted read-write.
+     CHECKCALL(mkdir("/mnt/vendor", 0755));

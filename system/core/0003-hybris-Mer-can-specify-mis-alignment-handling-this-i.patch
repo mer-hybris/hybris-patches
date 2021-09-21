@@ -10,10 +10,10 @@ Change-Id: Ib46c0a0b6d285dbcd05736e7ba9e9fd0a0480984
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e898d4dc975e7065ec5c9f6876346938a1a637a0..3ae5e19443030dc38a93db477a0b8c2f5dd73802 100644
+index 044bea68ba02962a5fc839893d10244f20ec5f33..7dd6712151f9997c6398d3abc87d7d74a8ae30e6 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -129,13 +129,15 @@ on init
+@@ -232,13 +232,15 @@ on init
  
      write /proc/sys/kernel/panic_on_oops 1
      write /proc/sys/kernel/hung_task_timeout_secs 0

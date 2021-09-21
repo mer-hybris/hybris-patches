@@ -1,0 +1,429 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Date: Thu, 9 Feb 2017 21:48:19 +0200
+Subject: [PATCH] (hybris) Disable SELinux
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: I0511b2a0de1b20996f4fb8e9f3569acb41e2cf0f
+
+(hybris) more SELinux disablement
+
+Change-Id: Ic1bc474e993f2b66ab9114e88d7ec4f718a99d5c
+Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
+
+(hybris) disable remnants of SELinux which currently break
+
+Change-Id: I252a8399c9853d993fc17d769bfbb2e4c722cfe8
+
+(hybris) disable some more selinux functionality.
+
+Change-Id: Ie63eb13b73d626668b32041fec4400cf2edd2fe5
+
+(hybris) Disable SELinux init.
+
+Sailfish OS SELinux initialization is done by systemd.
+Conflicting init has been resolved by disabling SELinux
+initialization from droid hal init.
+
+Change-Id: I8a2a729671d224c4cc266a8219bee357611ded51
+Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
+Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
+
+(hybris) Disable unused code that was disabled by previous patches.
+
+Change-Id: I2a78d91094495fad7b3cf514dd437d72a0718706
+Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
+
+(hybris) allow second stage init previously disabled by selinux work
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: I1089428e88e7d94457f76745b23f44728dba8f6e
+---
+ init/first_stage_init.cpp |  4 ++++
+ init/init.cpp             | 10 ++++++++++
+ init/property_service.cpp |  5 +++++
+ init/selinux.cpp          | 25 ++++++++++++++++++++++---
+ init/service.cpp          | 15 ++++++++++++++-
+ init/service_utils.cpp    |  2 ++
+ init/subcontext.cpp       |  2 ++
+ init/util.cpp             |  8 ++++++++
+ 8 files changed, 67 insertions(+), 4 deletions(-)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index ad37ce8597a9b34113b3d53765d1eb0a3b147c8f..4319d7a433186964915e632da352253a621490fc 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -50,6 +50,8 @@ using namespace std::literals;
+ 
+ namespace fs = std::filesystem;
+ 
++#define SYSTEMD_SELINUX
++
+ namespace android {
+ namespace init {
+ 
+@@ -203,7 +205,9 @@ int FirstStageMain(int argc, char** argv) {
+     gid_t groups[] = {AID_READPROC};
+     CHECKCALL(setgroups(arraysize(groups), groups));
+     //CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
++#ifndef SYSTEMD_SELINUX
+     CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
++#endif
+ 
+     CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
+ 
+diff --git a/init/init.cpp b/init/init.cpp
+index af0d9bcccfbe681c27d6c2d9ec758883eca13d92..2bda2447111b459ce9eb3341bea43907fea64493 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -92,6 +92,8 @@ using android::base::Timer;
+ using android::base::Trim;
+ using android::fs_mgr::AvbHandle;
+ 
++#define SYSTEMD_SELINUX
++
+ namespace android {
+ namespace init {
+ 
+@@ -475,10 +477,13 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
+ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
+     // Have to create <CGROUPS_RC_DIR> using make_dir function
+     // for appropriate sepolicy to be set for it
++
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     make_dir(android::base::Dirname(CGROUPS_RC_PATH), 0711);
+     if (!CgroupSetup()) {
+         return ErrnoError() << "Failed to setup cgroups";
+     }
++#endif
+ 
+     return {};
+ }
+@@ -673,9 +678,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
+ 
+     SetProperty("ro.boottime.init.first_stage",
+                 std::to_string(selinux_start_time_ns - first_stage_start_time_ns));
++    // Mer: this seems to cause problems
++#if 0
+     SetProperty("ro.boottime.init.selinux",
+                 std::to_string(second_stage_start_time.time_since_epoch().count() -
+                                selinux_start_time_ns));
++#endif
+ }
+ 
+ void SendLoadPersistentPropertiesMessage() {
+@@ -749,10 +757,12 @@ int SecondStageMain(int argc, char** argv) {
+     // Mount extra filesystems required during second stage init
+     MountExtraFilesystems();
+ 
++#ifndef SYSTEMD_SELINUX
+     // Now set up SELinux for second stage.
+     SelinuxSetupKernelLogging();
+     SelabelInitialize();
+     SelinuxRestoreContext();
++#endif
+ 
+     Epoll epoll;
+     if (auto result = epoll.Open(); !result.ok()) {
+diff --git a/init/property_service.cpp b/init/property_service.cpp
+index 0d8425f4acb47daf4298b2ea0cb9174f6337011e..dc234ffbbad60da3b63f74ee6fe7bf2d07be74a0 100644
+--- a/init/property_service.cpp
++++ b/init/property_service.cpp
+@@ -147,6 +147,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
+ 
+ static bool CheckMacPerms(const std::string& name, const char* target_context,
+                           const char* source_context, const ucred& cr) {
++    // Disable permission check in Mer
++    return true;
+     if (!target_context || !source_context) {
+         return false;
+     }
+@@ -296,12 +298,15 @@ class SocketConnection {
+     }
+ 
+     bool GetSourceContext(std::string* source_context) const {
++#if 0
+         char* c_source_context = nullptr;
+         if (getpeercon(socket_, &c_source_context) != 0) {
+             return false;
+         }
+         *source_context = c_source_context;
+         freecon(c_source_context);
++#endif
++        *source_context = "";
+         return true;
+     }
+ 
+diff --git a/init/selinux.cpp b/init/selinux.cpp
+index 5a0255acd238ad872f026e74118a7b6562050adb..f41bd28d1a5f40262aade6737374b52db2b8fd68 100644
+--- a/init/selinux.cpp
++++ b/init/selinux.cpp
+@@ -84,6 +84,8 @@ using android::base::unique_fd;
+ using android::fs_mgr::AvbHandle;
+ using android::snapshot::SnapshotManager;
+ 
++#define SYSTEMD_SELINUX
++
+ namespace android {
+ namespace init {
+ 
+@@ -91,6 +93,8 @@ namespace {
+ 
+ enum EnforcingStatus { SELINUX_PERMISSIVE, SELINUX_ENFORCING };
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
++
+ EnforcingStatus StatusFromCmdline() {
+     EnforcingStatus status = SELINUX_ENFORCING;
+ 
+@@ -200,6 +204,7 @@ bool ForkExecveAndWaitForCompletion(const char* filename, char* const argv[]) {
+         return false;
+     }
+ }
++#endif
+ 
+ bool ReadFirstLine(const char* file, std::string* line) {
+     line->clear();
+@@ -213,6 +218,8 @@ bool ReadFirstLine(const char* file, std::string* line) {
+     return true;
+ }
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
++
+ bool FindPrecompiledSplitPolicy(std::string* file) {
+     file->clear();
+     // If there is an odm partition, precompiled_sepolicy will be in
+@@ -280,6 +287,8 @@ bool FindPrecompiledSplitPolicy(std::string* file) {
+     return true;
+ }
+ 
++#endif
++
+ bool GetVendorMappingVersion(std::string* plat_vers) {
+     if (!ReadFirstLine("/vendor/etc/selinux/plat_sepolicy_vers.txt", plat_vers)) {
+         PLOG(ERROR) << "Failed to read /vendor/etc/selinux/plat_sepolicy_vers.txt";
+@@ -298,6 +307,8 @@ bool IsSplitPolicyDevice() {
+     return access(plat_policy_cil_file, R_OK) != -1;
+ }
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
++
+ bool LoadSplitPolicy() {
+     // IMPLEMENTATION NOTE: Split policy consists of three CIL files:
+     // * platform -- policy needed due to logic contained in the system image,
+@@ -333,7 +344,7 @@ bool LoadSplitPolicy() {
+         }
+     }
+     // No suitable precompiled policy could be loaded
+-
++/*
+     LOG(INFO) << "Compiling SELinux policy";
+ 
+     // We store the output of the compilation on /dev because this is the most convenient tmpfs
+@@ -451,7 +462,7 @@ bool LoadSplitPolicy() {
+         LOG(ERROR) << "Failed to load SELinux policy from " << compiled_sepolicy;
+         return false;
+     }
+-
++*/
+     return true;
+ }
+ 
+@@ -467,8 +478,13 @@ bool LoadMonolithicPolicy() {
+ bool LoadPolicy() {
+     return IsSplitPolicyDevice() ? LoadSplitPolicy() : LoadMonolithicPolicy();
+ }
++#endif
+ 
++/*
+ void SelinuxInitialize() {
++    // Disable in Mer
++    return;
++
+     LOG(INFO) << "Loading SELinux policy";
+     if (!LoadPolicy()) {
+         LOG(FATAL) << "Unable to load SELinux policy";
+@@ -487,6 +503,7 @@ void SelinuxInitialize() {
+         LOG(FATAL) << "Unable to write to /sys/fs/selinux/checkreqprot: " << result.error();
+     }
+ }
++*/
+ 
+ constexpr size_t kKlogMessageSize = 1024;
+ 
+@@ -670,6 +687,7 @@ void MountMissingSystemPartitions() {
+ }
+ 
+ int SetupSelinux(char** argv) {
++#ifndef SYSTEMD_SELINUX
+     SetStdioToDevNull(argv);
+     InitKernelLogging(argv);
+ 
+@@ -694,8 +712,9 @@ int SetupSelinux(char** argv) {
+     }
+ 
+     setenv(kEnvSelinuxStartedAt, std::to_string(start_time.time_since_epoch().count()).c_str(), 1);
++#endif
+ 
+-    const char* path = "/system/bin/init";
++    const char* path = "/sbin/droid-hal-init";
+     const char* args[] = {path, "second_stage", nullptr};
+     execv(path, const_cast<char**>(args));
+ 
+diff --git a/init/service.cpp b/init/service.cpp
+index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299f511f9ba 100644
+--- a/init/service.cpp
++++ b/init/service.cpp
+@@ -62,6 +62,9 @@ using android::base::WriteStringToFile;
+ namespace android {
+ namespace init {
+ 
++// Disable SELinux
++/*
++
+ static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
+     std::string computed_context;
+ 
+@@ -97,7 +100,9 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+     }
+     return computed_context;
+ }
++*/
+ 
++/*
+ static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
+     std::vector<std::string> expanded_args;
+     std::vector<char*> c_strings;
+@@ -126,6 +131,7 @@ static bool AreRuntimeApexesReady() {
+     return stat("/apex/com.android.art/", &buf) == 0 &&
+            stat("/apex/com.android.runtime/", &buf) == 0;
+ }
++*/
+ 
+ unsigned long Service::next_start_order_ = 1;
+ bool Service::is_exec_service_running_ = false;
+@@ -236,11 +242,15 @@ void Service::SetProcessAttributesAndCaps() {
+         LOG(FATAL) << "cannot set attribute for " << name_ << ": " << result.error();
+     }
+ 
++// Disable SELinux
++/*
++
+     if (!seclabel_.empty()) {
+         if (setexeccon(seclabel_.c_str()) < 0) {
+             PLOG(FATAL) << "cannot setexeccon('" << seclabel_ << "') for " << name_;
+         }
+     }
++*/
+ 
+     if (capabilities_) {
+         if (!SetCapsForExec(*capabilities_)) {
+@@ -445,6 +455,9 @@ Result<void> Service::Start() {
+     }
+ 
+     std::string scon;
++// Disable SELinux
++/*
++
+     if (!seclabel_.empty()) {
+         scon = seclabel_;
+     } else {
+@@ -464,7 +477,7 @@ Result<void> Service::Start() {
+     }
+ 
+     post_data_ = ServiceList::GetInstance().IsPostData();
+-
++*/
+     LOG(INFO) << "starting service '" << name_ << "'...";
+ 
+     std::vector<Descriptor> descriptors;
+diff --git a/init/service_utils.cpp b/init/service_utils.cpp
+index 484c2c89f15b4ebc3d9813869fa746c631350aa3..55a762d442aa7582559d01b6f01075521d829856 100644
+--- a/init/service_utils.cpp
++++ b/init/service_utils.cpp
+@@ -276,6 +276,7 @@ Result<void> SetProcessAttributes(const ProcessAttributes& attr) {
+     return {};
+ }
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+ Result<void> WritePidToFiles(std::vector<std::string>* files) {
+     // See if there were "writepid" instructions to write to files under cpuset path.
+     std::string cpuset_path;
+@@ -312,6 +313,7 @@ Result<void> WritePidToFiles(std::vector<std::string>* files) {
+     }
+     return {};
+ }
++#endif
+ 
+ }  // namespace init
+ }  // namespace android
+diff --git a/init/subcontext.cpp b/init/subcontext.cpp
+index f3dd53826988eb451b063e8e387feaa9c38a55b6..5bc1b3e3a2b059687ac16cc04cd42c8c9b1cf62f 100644
+--- a/init/subcontext.cpp
++++ b/init/subcontext.cpp
+@@ -209,9 +209,11 @@ void Subcontext::Fork() {
+         // We don't switch contexts if we're running the unit tests.  We don't use std::optional,
+         // since we still need a real context string to pass to the builtin functions.
+         if (context_ != kTestContext) {
++#if 0
+             if (setexeccon(context_.c_str()) < 0) {
+                 PLOG(FATAL) << "Could not set execcon for '" << context_ << "'";
+             }
++#endif
+         }
+ 
+         auto init_path = GetExecutablePath();
+diff --git a/init/util.cpp b/init/util.cpp
+index 255434a1b5ca02c144c228f73ebd9183aebe6633..5a9af7cc8463dfbe0d9790442a4ba1ddf52e012a 100644
+--- a/init/util.cpp
++++ b/init/util.cpp
+@@ -88,18 +88,22 @@ Result<uid_t> DecodeUid(const std::string& name) {
+  */
+ Result<int> CreateSocket(const std::string& name, int type, bool passcred, mode_t perm, uid_t uid,
+                          gid_t gid, const std::string& socketcon) {
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (!socketcon.empty()) {
+         if (setsockcreatecon(socketcon.c_str()) == -1) {
+             return ErrnoError() << "setsockcreatecon(\"" << socketcon << "\") failed";
+         }
+     }
++#endif
+ 
+     android::base::unique_fd fd(socket(PF_UNIX, type, 0));
+     if (fd < 0) {
+         return ErrnoError() << "Failed to open socket '" << name << "'";
+     }
+ 
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (!socketcon.empty()) setsockcreatecon(nullptr);
++#endif
+ 
+     struct sockaddr_un addr;
+     memset(&addr, 0 , sizeof(addr));
+@@ -110,10 +114,12 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, mode_
+         return ErrnoError() << "Failed to unlink old socket '" << name << "'";
+     }
+ 
++#if 0
+     std::string secontext;
+     if (SelabelLookupFileContext(addr.sun_path, S_IFSOCK, &secontext) && !secontext.empty()) {
+         setfscreatecon(secontext.c_str());
+     }
++#endif
+ 
+     if (passcred) {
+         int on = 1;
+@@ -125,9 +131,11 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, mode_
+     int ret = bind(fd, (struct sockaddr *) &addr, sizeof (addr));
+     int savederrno = errno;
+ 
++#if 0
+     if (!secontext.empty()) {
+         setfscreatecon(nullptr);
+     }
++#endif
+ 
+     auto guard = android::base::make_scope_guard([&addr] { unlink(addr.sun_path); });
+ 

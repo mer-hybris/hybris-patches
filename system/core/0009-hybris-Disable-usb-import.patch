@@ -10,16 +10,16 @@ Signed-off-by: David Greaves <david@dgreaves.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8df3c1f171ae1db0afc09d63188b1558179109af..1fb018783089c7a0d226f204df67e4df2f7362f8 100644
+index 2a74da045c99d55065b13b5c5bdc14de3e2a42c0..c575373965125f191c9723c506be0171a728bc39 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -5,7 +5,8 @@
- #
+@@ -11,7 +11,8 @@
+ import /init.extraenv.${ro.product.cpu.abi}.rc
  
  import /init.environ.rc
--import /init.usb.rc
+-import /system/etc/init/hw/init.usb.rc
 +# Mer handles usb stuff
-+#import /init.usb.rc
++#import /system/etc/init/hw/init.usb.rc
  import /init.${ro.hardware}.rc
  import /vendor/etc/init/hw/init.${ro.hardware}.rc
- import /init.usb.configfs.rc
+ import /system/etc/init/hw/init.usb.configfs.rc

@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B6rn=20Bidar?= <bjorn.bidar@jolla.com>
+Date: Tue, 3 Nov 2020 19:47:26 +0200
+Subject: [PATCH] (hybris) build_shared_vars: Add option to set build_directory
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Björn Bidar <bjorn.bidar@jolla.com>
+---
+ build_shared.sh      | 4 ++--
+ build_shared_vars.sh | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/build_shared.sh b/build_shared.sh
+index 17d26f1a13446d7b6e1d3ca032ef7ccea756d52a..c5d7efae996d178d831272623078cf198a071a39 100644
+--- a/build_shared.sh
++++ b/build_shared.sh
+@@ -29,8 +29,8 @@ for platform in $PLATFORMS; do \
+     for device in $DEVICE; do \
+         (
+             if [ ! $only_build_for ] || [ $device = $only_build_for ] ; then
+-
+-                KERNEL_TMP=$KERNEL_TMP-${device}
++                # Don't override $KERNEL_TMP when set by manually
++                [ ! "$build_directory" ] && KERNEL_TMP=$KERNEL_TMP-${device}
+                 # Keep kernel tmp when building for a specific device or when using keep tmp
+                 [ ! "$keep_kernel_tmp" ] && [ ! "$only_build_for" ] &&rm -rf "${KERNEL_TMP}"
+                 mkdir -p "${KERNEL_TMP}"
+diff --git a/build_shared_vars.sh b/build_shared_vars.sh
+index 2be583769b10af4d1a49f68f5b993cf36e56a799..f1b87b90c4e635d0fee47b3ddec5360be3ac179d 100644
+--- a/build_shared_vars.sh
++++ b/build_shared_vars.sh
+@@ -20,15 +20,17 @@ Usage: ${0##*/} [-k -d <device>]
+ Options:
+ -k              keep kernel tmp after build
+ -d <device>     only build the kernel for <device>
++-O <directory>  build kernel in <directory>
+ EOF
+ }
+ 
+ 
+-arguments=khd:
++arguments=khd:O:
+ while getopts $arguments argument ; do
+     case $argument in
+         k) keep_kernel_tmp=t ;;
+         d) only_build_for=$OPTARG;;
++        O) build_directory=$OPTARG;;
+         h) usage; exit 0;;
+         ?) usage; exit 1;;
+     esac
+@@ -53,7 +55,7 @@ MKDTIMG=$ANDROID_ROOT/out/host/linux-x86/bin/mkdtimg
+ 
+ KERNEL_TOP=$ANDROID_ROOT/kernel/sony/msm-4.19
+ # $KERNEL_TMP sub dir per script
+-KERNEL_TMP=$ANDROID_ROOT/out/${0##*-}/kernel-tmp
++KERNEL_TMP=${build_directory:-$ANDROID_ROOT/out/${0##*-}/kernel-tmp}
+ 
+ export PATH=$PATH:$ANDROID_ROOT/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin
+ export PATH=$PATH:$ANDROID_ROOT/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin

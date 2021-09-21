@@ -9,7 +9,7 @@ Change-Id: I2b0015aa75e1afa849a5563fa92d041c37f88780
  1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/include/hardware/audio.h b/include/hardware/audio.h
-index feebd23e06764667a747b46a42cba872fb8a8985..c0f56c5d557d1849fa4f76c353f826ad3a691ee6 100644
+index b87d3bb3f6d0627b32630da6ef26f8a5f640ae7a..536180de041f39ef218b4b9697927e0060e0b640 100644
 --- a/include/hardware/audio.h
 +++ b/include/hardware/audio.h
 @@ -30,6 +30,12 @@
@@ -25,7 +25,7 @@ index feebd23e06764667a747b46a42cba872fb8a8985..c0f56c5d557d1849fa4f76c353f826ad
  __BEGIN_DECLS
  
  /**
-@@ -250,7 +256,7 @@ struct audio_stream_out {
+@@ -258,7 +264,7 @@ struct audio_stream_out {
       * This method might produce multiple PCM outputs or hardware accelerated
       * codecs, such as MP3 or AAC.
       */
@@ -34,7 +34,7 @@ index feebd23e06764667a747b46a42cba872fb8a8985..c0f56c5d557d1849fa4f76c353f826ad
  
      /**
       * Write audio buffer to driver. Returns number of bytes written, or a
-@@ -434,7 +440,7 @@ struct audio_stream_in {
+@@ -449,7 +455,7 @@ struct audio_stream_in {
  
      /** set the input gain for the audio driver. This method is for
       *  for future use */
@@ -43,7 +43,7 @@ index feebd23e06764667a747b46a42cba872fb8a8985..c0f56c5d557d1849fa4f76c353f826ad
  
      /** Read audio buffer in from audio driver. Returns number of bytes read, or a
       *  negative status_t. If at least one frame was read prior to the error,
-@@ -679,14 +685,14 @@ struct audio_hw_device {
+@@ -694,14 +700,14 @@ struct audio_hw_device {
      int (*init_check)(const struct audio_hw_device *dev);
  
      /** set the audio volume of a voice call. Range is between 0.0 and 1.0 */
@@ -60,7 +60,7 @@ index feebd23e06764667a747b46a42cba872fb8a8985..c0f56c5d557d1849fa4f76c353f826ad
  
      /**
       * Get the current master volume value for the HAL, if the HAL supports
-@@ -695,7 +701,7 @@ struct audio_hw_device {
+@@ -710,7 +716,7 @@ struct audio_hw_device {
       * the initial master volume across all HALs.  HALs which do not support
       * this method may leave it set to NULL.
       */

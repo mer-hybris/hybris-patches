@@ -6,18 +6,17 @@ Subject: [PATCH] (hybris) Notify Mer's systemd that we're done
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
 ---
- rootdir/init.rc | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ rootdir/init.rc | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 02c89ffca45c522a814e775274b8910a0e823b79..8df3c1f171ae1db0afc09d63188b1558179109af 100644
+index 4fab4bc739c2689388d4a326ab46cfcb96930c2d..2a74da045c99d55065b13b5c5bdc14de3e2a42c0 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -851,3 +851,19 @@ on property:ro.debuggable=1
- service flash_recovery /system/bin/install-recovery.sh
-     class main
-     oneshot
-+    disabled
+@@ -1089,3 +1089,18 @@ on userspace-reboot-resume
+ 
+ on property:sys.boot_completed=1 && property:sys.init.userspace_reboot.in_progress=1
+   setprop sys.init.userspace_reboot.in_progress ""
 +
 +# This trigger is run by our modified init after boot has finished
 +on ready

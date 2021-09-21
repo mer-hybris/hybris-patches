@@ -9,12 +9,12 @@ Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 10d11146a465e70dfb6bbde9f550b66b647bee46..02c89ffca45c522a814e775274b8910a0e823b79 100644
+index 00901b61bc1f8a0a12005916b38e8b0d72c11519..4fab4bc739c2689388d4a326ab46cfcb96930c2d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -24,7 +24,7 @@ on early-init
- 
-     mkdir /acct/uid
+@@ -62,7 +62,7 @@ on early-init
+     # Mount bootstrap linker configuration as current
+     mount none /linkerconfig/bootstrap /linkerconfig bind rec
  
 -    start ueventd
 +    #start ueventd

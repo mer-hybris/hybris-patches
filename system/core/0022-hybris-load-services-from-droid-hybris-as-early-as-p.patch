@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Wed, 6 Jun 2018 09:30:01 +0200
+Subject: [PATCH] (hybris) load services from droid-hybris as early as possible
+
+This makes sure our service definitions are loaded first and can be used to
+overwrite service definitions which are slightly different to what we need and
+cannot be fixed otherwise.
+
+Change-Id: I58e86f8b3c65f46c24fc3102a859867bccb6a713
+---
+ init/init.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 226ddef0dcea5034ad109d0304afbbb5c232b6d8..60157b78755dcdfed623b268045900b00549ee90 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -280,6 +280,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+         if (!parser.ParseConfig("/usr/libexec/droid-hybris/system/etc/init")) {
+             late_import_paths.emplace_back("/usr/libexec/droid-hybris/system/etc/init");
+         }
++        if (!parser.ParseConfig("/system/etc/init")) {
++            late_import_paths.emplace_back("/system/etc/init");
++        }
+         // late_import is available only in Q and earlier release. As we don't
+         // have system_ext in those versions, skip late_import for system_ext.
+         parser.ParseConfig("/system_ext/etc/init");

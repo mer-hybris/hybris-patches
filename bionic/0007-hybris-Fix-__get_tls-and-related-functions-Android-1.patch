@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Thu, 8 Oct 2020 14:43:42 +0000
+Subject: [PATCH] (hybris) Fix __get_tls and related functions (>=Android 11)
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Signed-off-by: Franz-Josef Haider <frajo.haider@jolla.com>
+Change-Id: I24486873be638a1a8cd123705ba2e51ec7414b94
+---
+ libc/Android.bp       | 1 +
+ libc/hybris_support.c | 6 ++++++
+ libc/libc.map.txt     | 1 +
+ 3 files changed, 8 insertions(+)
+ create mode 100644 libc/hybris_support.c
+
+diff --git a/libc/Android.bp b/libc/Android.bp
+index d3271ae919c1507ccf5ebf32dcd3546163aa4338..dce7a77f2ff721698184c5414a6718edc28d9aff 100644
+--- a/libc/Android.bp
++++ b/libc/Android.bp
+@@ -18,6 +18,7 @@ libc_common_src_files = [
+     "stdio/vfscanf.cpp",
+     "stdio/vfwscanf.c",
+     "stdlib/exit.c",
++    "hybris_support.c",
+ ]
+ 
+ // off64_t/time64_t support on LP32.
+diff --git a/libc/hybris_support.c b/libc/hybris_support.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..9d86572a878813e1cff444a2cf5567c0b3cdd501
+--- /dev/null
++++ b/libc/hybris_support.c
+@@ -0,0 +1,6 @@
++
++void** __get_tls_hooks(void) {
++#include "platform/bionic/tls.h"
++  return __get_tls();
++}
++
+diff --git a/libc/libc.map.txt b/libc/libc.map.txt
+index 4bfb8a23207e3d3cb1f57139e7798077b5205951..20f0a660a45d11266124852542e0f1c2d270970a 100644
+--- a/libc/libc.map.txt
++++ b/libc/libc.map.txt
+@@ -41,6 +41,7 @@ LIBC {
+     __fstatfs64; # arm x86
+     __fwritable; # introduced=23
+     __get_h_errno;
++    __get_tls_hooks; # arm arm64 x86 introduced=21
+     __getcpu; # arm x86 introduced-arm=12 introduced-x86=12
+     __getcwd; # arm x86
+     __getpid; # arm x86 introduced=21

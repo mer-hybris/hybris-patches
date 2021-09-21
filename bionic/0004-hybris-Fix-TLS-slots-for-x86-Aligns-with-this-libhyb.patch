@@ -6,13 +6,13 @@ Subject: [PATCH] (hybris) Fix TLS slots for x86 Aligns with this libhybris
 
 Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
 ---
- libc/private/bionic_asm_tls.h | 12 ++++++------
+ libc/platform/bionic/tls_defines.h | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/libc/private/bionic_asm_tls.h b/libc/private/bionic_asm_tls.h
-index 40e6a53941a98feaab7059cc33acc4a7fe6a8257..07ded20059c1dbe33db568be80b75666e3cfc14d 100644
---- a/libc/private/bionic_asm_tls.h
-+++ b/libc/private/bionic_asm_tls.h
+diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
+index e7ada69a86f749ecdadad39e2b2dac19a9795bcd..44583694a2b5396bdb4dd9a7072769fc8f71e0fa 100644
+--- a/libc/platform/bionic/tls_defines.h
++++ b/libc/platform/bionic/tls_defines.h
 @@ -104,12 +104,12 @@
  
  #define TLS_SLOT_SELF             0
@@ -28,7 +28,7 @@ index 40e6a53941a98feaab7059cc33acc4a7fe6a8257..07ded20059c1dbe33db568be80b75666
 +#define TLS_SLOT_OPENGL_API       5
 +#define TLS_SLOT_STACK_GUARD      6
 +#define TLS_SLOT_SANITIZER        7 // was historically used for dlerror
-+#define TLS_SLOT_ART_THREAD_SELF  
++#define TLS_SLOT_ART_THREAD_SELF
  #define TLS_SLOT_DTV              8
  #define TLS_SLOT_BIONIC_TLS       9
  #define MAX_TLS_SLOT              9 // update this value when reserving a slot

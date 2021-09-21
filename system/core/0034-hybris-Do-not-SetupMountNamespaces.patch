@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Franz-Josef Haider <franz.haider@jolla.com>
+Date: Tue, 13 Oct 2020 13:29:00 +0000
+Subject: [PATCH] (hybris) Do not SetupMountNamespaces()
+
+Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
+Change-Id: Id2af1396ed2274a3533305722e117786aceb3cd0
+---
+ init/init.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/init/init.cpp b/init/init.cpp
+index 110db059fa3364792fea5347a17faa33d46131bc..2b32a4db33f93a835b123abf287a32a062119670 100644
+--- a/init/init.cpp
++++ b/init/init.cpp
+@@ -791,9 +791,11 @@ int SecondStageMain(int argc, char** argv) {
+     const BuiltinFunctionMap& function_map = GetBuiltinFunctionMap();
+     Action::set_function_map(&function_map);
+ 
++#ifdef DISABLED_FOR_HYBRIS_SUPPORT
+     if (!SetupMountNamespaces()) {
+         PLOG(FATAL) << "SetupMountNamespaces failed";
+     }
++#endif
+ 
+     InitializeSubcontext();
+ 

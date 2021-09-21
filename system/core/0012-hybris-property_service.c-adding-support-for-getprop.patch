@@ -19,14 +19,14 @@ Conflicts:
 	init/property_service.cpp
 ---
  init/init.cpp             |  2 +-
- init/property_service.cpp | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 1 deletion(-)
+ init/property_service.cpp | 61 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index c3a634bc8dd280c5ecc118723fafb8fc17a5137a..c11cdf9872470bdff75e9fbddedcf95de7f65672 100644
+index 5e430df242ae8db85438b0a5a3f5eb82828ea21e..af0d9bcccfbe681c27d6c2d9ec758883eca13d92 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -763,7 +763,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -841,7 +841,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,10 +36,41 @@ index c3a634bc8dd280c5ecc118723fafb8fc17a5137a..c11cdf9872470bdff75e9fbddedcf95d
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index f2c7462abf027d045593d4fa6b70acc64ba51fd2..9821a506c51dbff6a967028de29fb6658cf9c454 100644
+index a89504e59fc6cc5a23b10e6f7861425f029a34f4..0d8425f4acb47daf4298b2ea0cb9174f6337011e 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -516,6 +516,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
+@@ -205,6 +205,12 @@ static uint32_t PropertySet(const std::string& name, const std::string& value, s
+     }
+     return PROP_SUCCESS;
+ }
++// Legacy definition
++typedef struct prop_msg_s {
++    unsigned cmd;
++    char name[PROP_NAME_MAX];
++    char value[PROP_VALUE_MAX];
++} prop_msg_t;
+ 
+ class AsyncRestorecon {
+   public:
+@@ -301,6 +307,17 @@ class SocketConnection {
+ 
+     [[nodiscard]] int Release() { return socket_.release(); }
+ 
++    bool SendLegacyPropMsg(std::string name, std::string value) {
++        int result = 0;
++        prop_msg_t prop_msg;
++        memset(&prop_msg, 0, sizeof(prop_msg_t));
++        prop_msg.cmd = 0;
++        strlcpy(prop_msg.name, name.c_str(), PROP_NAME_MAX);
++        strlcpy(prop_msg.value, value.c_str(), PROP_VALUE_MAX);
++        result = TEMP_FAILURE_RETRY(send(socket_, &prop_msg, sizeof(prop_msg_t), 0));
++        return (result == sizeof(prop_msg_t));
++    }
++
+     const ucred& cred() { return cred_; }
+ 
+   private:
+@@ -513,6 +530,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
  static void handle_property_set_fd() {
      static constexpr uint32_t kDefaultSocketTimeout = 2000; /* ms */
  
@@ -49,20 +80,27 @@ index f2c7462abf027d045593d4fa6b70acc64ba51fd2..9821a506c51dbff6a967028de29fb665
      int s = accept4(property_set_fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -587,7 +590,39 @@ static void handle_property_set_fd() {
+@@ -595,7 +615,48 @@ static void handle_property_set_fd() {
          socket.SendUint32(result);
          break;
        }
 +    case PROP_MSG_GETPROP: {
 +        int ret;
-+        int n;
 +        char prop_name[PROP_NAME_MAX];
 +        char prop_value[PROP_VALUE_MAX];
++
++        /* Need to receive both since libhybris sends prop_msg_t type package. */
++        if (!socket.RecvChars(prop_name, PROP_NAME_MAX, &timeout_ms) ||
++            !socket.RecvChars(prop_value, PROP_VALUE_MAX, &timeout_ms)) {
++            PLOG(ERROR) << "sys_prop(PROP_MSG_GETPROP): error while reading name from the socket";
++            return;
++        }
++
 +        prop_name[PROP_NAME_MAX-1] = 0;
 +        prop_value[PROP_VALUE_MAX-1] = 0;
  
-+        if (!is_legal_property_name(prop_name, strlen(prop_name))) {
-+            ERROR("sys_prop: illegal property name. Got: \"%s\"\n", prop_name);
++        if (!IsLegalPropertyName(prop_name)) {
++            PLOG(ERROR) << "sys_prop(PROP_MSG_GETPROP): illegal property name. Got: " << prop_name;
 +            return;
 +        }
 +
@@ -74,6 +112,7 @@ index f2c7462abf027d045593d4fa6b70acc64ba51fd2..9821a506c51dbff6a967028de29fb665
 +
 +        /* Send the property value back */
 +        //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
++        socket.SendLegacyPropMsg(prop_name, prop_value);
 +        break;
 +      }
 +    case PROP_MSG_LISTPROP: {
@@ -83,6 +122,7 @@ index f2c7462abf027d045593d4fa6b70acc64ba51fd2..9821a506c51dbff6a967028de29fb665
 +            prop_name[0] = prop_value[0] = 0;
 +            __system_property_read(pi, prop_name, prop_value);
 +            //TEMP_FAILURE_RETRY(send(s, &msg, sizeof(msg), 0));
++            socket.SendLegacyPropMsg(prop_name, prop_value);
 +        }
 +        break;
 +      }
