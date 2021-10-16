@@ -12,10 +12,10 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab4888ae2e 100644
+index f292d689fb5cf67fa262b67aa96ffb90346d0dfb..bd1cd384ef2e336b5879a0fc5a72ddcea7497f9d 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -146,8 +146,6 @@ cc_defaults {
+@@ -154,8 +154,6 @@ cc_defaults {
          "liblog",
          "liblogwrap",
          "liblp",
@@ -24,7 +24,7 @@ index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab
          "libselinux",
          "libutils",
      ],
-@@ -280,7 +278,6 @@ cc_defaults {
+@@ -290,7 +288,6 @@ cc_defaults {
          "libselinux",
          "libhidl-gen-utils",
          "liblog",
@@ -32,7 +32,7 @@ index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab
          "libprotobuf-cpp-lite",
      ],
  }
-@@ -339,7 +336,6 @@ cc_binary {
+@@ -349,7 +346,6 @@ cc_binary {
          "libhidl-gen-utils",
          "libhidlmetadata",
          "liblog",
@@ -41,7 +41,7 @@ index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab
      ],
      srcs: init_common_sources + init_host_sources,
 diff --git a/init/init.cpp b/init/init.cpp
-index 60157b78755dcdfed623b268045900b00549ee90..110db059fa3364792fea5347a17faa33d46131bc 100644
+index 20c17f59b544d52d36361dd444aa7b5f1ad492fe..528d3169675f018980dfbf88bb535df279ce4cf7 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -51,8 +51,6 @@
@@ -54,7 +54,7 @@ index 60157b78755dcdfed623b268045900b00549ee90..110db059fa3364792fea5347a17faa33
  
  #include "action_parser.h"
 diff --git a/init/service.cpp b/init/service.cpp
-index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b332b50f90 100644
+index 7f4a184634b8b51bed8c7bc11ba2546dd07e8f01..344ac727b15f4ad7862ea7c3365dde74005cfdc3 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -33,7 +33,6 @@
@@ -65,7 +65,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
  #include <selinux/selinux.h>
  
  #include "lmkd_service.h"
-@@ -198,7 +197,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+@@ -203,7 +202,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
      // These functions handle their own logging, so no additional logging is needed.
      if (!process_cgroup_empty_) {
          LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
@@ -80,7 +80,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
          int max_processes = 0;
          int r;
          if (signal == SIGTERM) {
-@@ -216,6 +221,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+@@ -221,6 +226,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
          }
  
          if (r == 0) process_cgroup_empty_ = true;
@@ -89,7 +89,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
      }
  
      if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-@@ -520,6 +527,7 @@ Result<void> Service::Start() {
+@@ -525,6 +532,7 @@ Result<void> Service::Start() {
              descriptor.Publish();
          }
  
@@ -97,7 +97,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
          if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
              LOG(ERROR) << "failed to write pid to files: " << result.error();
          }
-@@ -537,6 +545,7 @@ Result<void> Service::Start() {
+@@ -542,6 +550,7 @@ Result<void> Service::Start() {
                          << "'). See the 'Debugging init' section of init's README.md for tips";
          }
  
@@ -105,7 +105,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
          _exit(127);
      }
  
-@@ -559,6 +568,7 @@ Result<void> Service::Start() {
+@@ -564,6 +573,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -113,7 +113,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
      bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
                        limit_percent_ != -1 || !limit_property_.empty();
      errno = -createProcessGroup(proc_attr_.uid, pid_, use_memcg);
-@@ -609,6 +619,7 @@ Result<void> Service::Start() {
+@@ -614,6 +624,7 @@ Result<void> Service::Start() {
      if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
          LmkdRegister(name_, proc_attr_.uid, pid_, oom_score_adjust_);
      }

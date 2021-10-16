@@ -10,7 +10,7 @@ Change-Id: Id2af1396ed2274a3533305722e117786aceb3cd0
  1 file changed, 2 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 110db059fa3364792fea5347a17faa33d46131bc..2b32a4db33f93a835b123abf287a32a062119670 100644
+index 528d3169675f018980dfbf88bb535df279ce4cf7..9377f07434e1d732f0429d5f429588d754b13d9b 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -791,9 +791,11 @@ int SecondStageMain(int argc, char** argv) {

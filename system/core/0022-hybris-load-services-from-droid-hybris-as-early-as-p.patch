@@ -13,7 +13,7 @@ Change-Id: I58e86f8b3c65f46c24fc3102a859867bccb6a713
  1 file changed, 3 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 226ddef0dcea5034ad109d0304afbbb5c232b6d8..60157b78755dcdfed623b268045900b00549ee90 100644
+index 33da5f33df27284978363b53451dd822fd1db8d2..20c17f59b544d52d36361dd444aa7b5f1ad492fe 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -280,6 +280,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_

@@ -13,7 +13,7 @@ Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131
  create mode 100644 init/init_parser.cpp
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 2bda2447111b459ce9eb3341bea43907fea64493..226ddef0dcea5034ad109d0304afbbb5c232b6d8 100644
+index 3f2a94cff4164cc110e6e34b040014889faa35e6..33da5f33df27284978363b53451dd822fd1db8d2 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -276,9 +276,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_

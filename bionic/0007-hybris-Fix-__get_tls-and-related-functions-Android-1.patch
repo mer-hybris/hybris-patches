@@ -14,7 +14,7 @@ Change-Id: I24486873be638a1a8cd123705ba2e51ec7414b94
  create mode 100644 libc/hybris_support.c
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index d3271ae919c1507ccf5ebf32dcd3546163aa4338..dce7a77f2ff721698184c5414a6718edc28d9aff 100644
+index ce714054a71e372a448b2e13e47621767d9c000f..ad7f10ad897347e308de7e3a90692d3da61f4e88 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -18,6 +18,7 @@ libc_common_src_files = [

@@ -14,7 +14,7 @@ Change-Id: Ic63b814917913ba6055aa9ba2c8e70c098b428af
  2 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index dce7a77f2ff721698184c5414a6718edc28d9aff..87d4760c0d3431ac2e02e13f03f2f42bd9570395 100644
+index ad7f10ad897347e308de7e3a90692d3da61f4e88..342cce5aab8582099cc44cc329c9307ab79cf337 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -50,7 +50,8 @@ libc_common_flags = [
@@ -27,7 +27,7 @@ index dce7a77f2ff721698184c5414a6718edc28d9aff..87d4760c0d3431ac2e02e13f03f2f42b
  ]
  
  // Define some common cflags
-@@ -1605,6 +1606,7 @@ cc_library {
+@@ -1624,6 +1625,7 @@ cc_library {
              "libc_common_shared",
          ],
      },
@@ -35,7 +35,7 @@ index dce7a77f2ff721698184c5414a6718edc28d9aff..87d4760c0d3431ac2e02e13f03f2f42b
  
      required: [
          "tzdata",
-@@ -2450,7 +2452,7 @@ cc_defaults {
+@@ -2470,7 +2472,7 @@ cc_defaults {
      ],
      cflags: [
          "-DUSE_SCUDO",

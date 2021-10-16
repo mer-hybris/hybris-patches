@@ -13,7 +13,7 @@ Change-Id: Icaea2cd8d145d8205f4a130119aedbd2720c868d
  1 file changed, 5 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 0ac66f2727c13750cdb0606aeaaf600114008b44..6fb23023c02a15f366c466e9adfd3093d7aa7956 100644
+index 78931662120a83547d558eacd75b2a8fd44512c3..993032eb199d53a45513413837b6980f93bf7701 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
 @@ -655,6 +655,7 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
@@ -27,9 +27,9 @@ index 0ac66f2727c13750cdb0606aeaaf600114008b44..6fb23023c02a15f366c466e9adfd3093
 @@ -667,12 +668,16 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
      }
  
-     auto mount_fstab_return_code = fs_mgr_mount_all(&fstab, mount_all->mode);
+     auto mount_fstab_result = fs_mgr_mount_all(&fstab, mount_all->mode);
 +#endif
-+    int mount_fstab_return_code = 0;
++    MountAllResult mount_fstab_result = {0,0};
      SetProperty(prop_name, std::to_string(t.duration().count()));
  
      if (mount_all->import_rc) {
@@ -38,6 +38,6 @@ index 0ac66f2727c13750cdb0606aeaaf600114008b44..6fb23023c02a15f366c466e9adfd3093
  
 +    queue_event = false; // hybris does trigger_late_start.
 +
-     if (queue_event) {
-         /* queue_fs_event will queue event based on mount_fstab return code
-          * and return processed return code*/
+     if (mount_fstab_result.userdata_mounted) {
+         // This call to fs_mgr_mount_all mounted userdata. Keep the result in
+         // order for userspace reboot to correctly remount userdata.

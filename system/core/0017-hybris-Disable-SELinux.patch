@@ -75,7 +75,7 @@ index ad37ce8597a9b34113b3d53765d1eb0a3b147c8f..4319d7a433186964915e632da352253a
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
  
 diff --git a/init/init.cpp b/init/init.cpp
-index af0d9bcccfbe681c27d6c2d9ec758883eca13d92..2bda2447111b459ce9eb3341bea43907fea64493 100644
+index 272c1c174cdbbfac0fcbc35a0deca4fcf9b58732..3f2a94cff4164cc110e6e34b040014889faa35e6 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -92,6 +92,8 @@ using android::base::Timer;
@@ -128,10 +128,10 @@ index af0d9bcccfbe681c27d6c2d9ec758883eca13d92..2bda2447111b459ce9eb3341bea43907
      Epoll epoll;
      if (auto result = epoll.Open(); !result.ok()) {
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 0d8425f4acb47daf4298b2ea0cb9174f6337011e..dc234ffbbad60da3b63f74ee6fe7bf2d07be74a0 100644
+index c8425bbcbbd4a5367281a72741f258ca6552403d..5a72a3f445d53808006f16dd462a37b4900e655b 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -147,6 +147,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
+@@ -148,6 +148,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
  
  static bool CheckMacPerms(const std::string& name, const char* target_context,
                            const char* source_context, const ucred& cr) {
@@ -140,7 +140,7 @@ index 0d8425f4acb47daf4298b2ea0cb9174f6337011e..dc234ffbbad60da3b63f74ee6fe7bf2d
      if (!target_context || !source_context) {
          return false;
      }
-@@ -296,12 +298,15 @@ class SocketConnection {
+@@ -297,12 +299,15 @@ class SocketConnection {
      }
  
      bool GetSourceContext(std::string* source_context) const {
@@ -273,7 +273,7 @@ index 5a0255acd238ad872f026e74118a7b6562050adb..f41bd28d1a5f40262aade6737374b52d
      execv(path, const_cast<char**>(args));
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299f511f9ba 100644
+index d6f913cca52d060c77a26e7398cf4219351eb811..7f4a184634b8b51bed8c7bc11ba2546dd07e8f01 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -62,6 +62,9 @@ using android::base::WriteStringToFile;
@@ -286,7 +286,7 @@ index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299
  static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
      std::string computed_context;
  
-@@ -97,7 +100,9 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+@@ -102,7 +105,9 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
      }
      return computed_context;
  }
@@ -296,7 +296,7 @@ index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299
  static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
      std::vector<std::string> expanded_args;
      std::vector<char*> c_strings;
-@@ -126,6 +131,7 @@ static bool AreRuntimeApexesReady() {
+@@ -131,6 +136,7 @@ static bool AreRuntimeApexesReady() {
      return stat("/apex/com.android.art/", &buf) == 0 &&
             stat("/apex/com.android.runtime/", &buf) == 0;
  }
@@ -304,7 +304,7 @@ index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299
  
  unsigned long Service::next_start_order_ = 1;
  bool Service::is_exec_service_running_ = false;
-@@ -236,11 +242,15 @@ void Service::SetProcessAttributesAndCaps() {
+@@ -241,11 +247,15 @@ void Service::SetProcessAttributesAndCaps() {
          LOG(FATAL) << "cannot set attribute for " << name_ << ": " << result.error();
      }
  
@@ -320,7 +320,7 @@ index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299
  
      if (capabilities_) {
          if (!SetCapsForExec(*capabilities_)) {
-@@ -445,6 +455,9 @@ Result<void> Service::Start() {
+@@ -450,6 +460,9 @@ Result<void> Service::Start() {
      }
  
      std::string scon;
@@ -330,7 +330,7 @@ index 69f944eb209de794935eb3e0b89e724ffd1d06f7..afe7ce7697e902211b5d25302ca28299
      if (!seclabel_.empty()) {
          scon = seclabel_;
      } else {
-@@ -464,7 +477,7 @@ Result<void> Service::Start() {
+@@ -469,7 +482,7 @@ Result<void> Service::Start() {
      }
  
      post_data_ = ServiceList::GetInstance().IsPostData();
@@ -360,10 +360,10 @@ index 484c2c89f15b4ebc3d9813869fa746c631350aa3..55a762d442aa7582559d01b6f0107552
  }  // namespace init
  }  // namespace android
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index f3dd53826988eb451b063e8e387feaa9c38a55b6..5bc1b3e3a2b059687ac16cc04cd42c8c9b1cf62f 100644
+index 9d4ea8cd3c316937aa459ef649eeef5d59fe6396..cad88ee5e303273f841a4f8b3a5b0b126a3b00a9 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -209,9 +209,11 @@ void Subcontext::Fork() {
+@@ -213,9 +213,11 @@ void Subcontext::Fork() {
          // We don't switch contexts if we're running the unit tests.  We don't use std::optional,
          // since we still need a real context string to pass to the builtin functions.
          if (context_ != kTestContext) {

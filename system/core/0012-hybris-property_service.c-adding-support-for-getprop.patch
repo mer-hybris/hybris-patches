@@ -23,7 +23,7 @@ Conflicts:
  2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 5e430df242ae8db85438b0a5a3f5eb82828ea21e..af0d9bcccfbe681c27d6c2d9ec758883eca13d92 100644
+index 063f57f65617b6631f28d0d9b29671d937a04aeb..272c1c174cdbbfac0fcbc35a0deca4fcf9b58732 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -841,7 +841,7 @@ int SecondStageMain(int argc, char** argv) {
@@ -36,10 +36,10 @@ index 5e430df242ae8db85438b0a5a3f5eb82828ea21e..af0d9bcccfbe681c27d6c2d9ec758883
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index a89504e59fc6cc5a23b10e6f7861425f029a34f4..0d8425f4acb47daf4298b2ea0cb9174f6337011e 100644
+index 42dd5afcb2f0b1fffd61379d3d99ec9d055289e9..c8425bbcbbd4a5367281a72741f258ca6552403d 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -205,6 +205,12 @@ static uint32_t PropertySet(const std::string& name, const std::string& value, s
+@@ -206,6 +206,12 @@ static uint32_t PropertySet(const std::string& name, const std::string& value, s
      }
      return PROP_SUCCESS;
  }
@@ -52,7 +52,7 @@ index a89504e59fc6cc5a23b10e6f7861425f029a34f4..0d8425f4acb47daf4298b2ea0cb9174f
  
  class AsyncRestorecon {
    public:
-@@ -301,6 +307,17 @@ class SocketConnection {
+@@ -302,6 +308,17 @@ class SocketConnection {
  
      [[nodiscard]] int Release() { return socket_.release(); }
  
@@ -70,7 +70,7 @@ index a89504e59fc6cc5a23b10e6f7861425f029a34f4..0d8425f4acb47daf4298b2ea0cb9174f
      const ucred& cred() { return cred_; }
  
    private:
-@@ -513,6 +530,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
+@@ -514,6 +531,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
  static void handle_property_set_fd() {
      static constexpr uint32_t kDefaultSocketTimeout = 2000; /* ms */
  
@@ -80,7 +80,7 @@ index a89504e59fc6cc5a23b10e6f7861425f029a34f4..0d8425f4acb47daf4298b2ea0cb9174f
      int s = accept4(property_set_fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -595,7 +615,48 @@ static void handle_property_set_fd() {
+@@ -596,7 +616,48 @@ static void handle_property_set_fd() {
          socket.SendUint32(result);
          break;
        }

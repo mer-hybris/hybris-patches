@@ -16,7 +16,7 @@ Signed-off-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index a9d0ed08a9e31e20567e2673e9c1aefa7686ec90..70c7d298a575cdfff128b072af0616e5d32da08d 100644
+index 7d383f522de1b2202ee4c06ca34dc21eda5a4c4a..4fca7f6858a7d32f20711eaef1a224e2a749b9b7 100644
 --- a/rootdir/Android.mk
 +++ b/rootdir/Android.mk
 @@ -1,5 +1,18 @@
