@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
 Date: Thu, 13 Jul 2017 00:53:55 +0300
-Subject: [PATCH] (hybris) Use mini services and disable starting unneeded
+Subject: [PATCH] (hybris) Disable starting unneeded
  services.
 
 Change-Id: I6e80eb3e2d92ddfbd83f1933971c3f24e9570d28
@@ -13,7 +13,7 @@ diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/service
 index 152ac28ba48bc068a154fac1dc7b873d0e66739b..1f447f9b085886e68411a515812823a5094e28ad 100644
 --- a/cmds/servicemanager/servicemanager.rc
 +++ b/cmds/servicemanager/servicemanager.rc
-@@ -4,15 +4,31 @@ service servicemanager /system/bin/servicemanager
+@@ -4,15 +4,15 @@ service servicemanager /system/bin/servicemanager
      group system readproc
      critical
      onrestart restart healthd
@@ -39,19 +39,3 @@ index 152ac28ba48bc068a154fac1dc7b873d0e66739b..1f447f9b085886e68411a515812823a5
 +    #onrestart restart thermalservice
      writepid /dev/cpuset/system-background/tasks
      shutdown critical
-+
-+service minimedia /usr/libexec/droid-hybris/system/bin/minimediaservice
-+    class main
-+    user media
-+    group audio camera
-+    ioprio rt 4
-+
-+service minisf /usr/libexec/droid-hybris/system/bin/minisfservice
-+    class main
-+    user system
-+    group graphics
-+
-+service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
-+    class main
-+    user system
-+    group audio
