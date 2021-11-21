@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Sun, 21 Nov 2021 19:15:27 +0200
+Subject: [PATCH] (hybris) Add cpio to allowed commands.
+
+Change-Id: I9a1fc5871ddec0e5befe0e8007fbdfb7d2e42261
+---
+ ui/build/paths/config.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ui/build/paths/config.go b/ui/build/paths/config.go
+index ed382a5b6959c75dbbcdbb2c387c456942e2495c..555eaa076b04f762b413f4f715e78cfc1ef8878e 100644
+--- a/ui/build/paths/config.go
++++ b/ui/build/paths/config.go
+@@ -75,6 +75,7 @@ func GetConfig(name string) PathConfig {
+ 
+ var Configuration = map[string]PathConfig{
+ 	"bash":    Allowed,
++	"cpio":    Allowed,
+ 	"dd":      Allowed,
+ 	"diff":    Allowed,
+ 	"dlv":     Allowed,
