@@ -9,7 +9,7 @@ Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
  1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 5b0430fdb629626aef91639554063ecfe74cbb71..db06f967f4fca544106edb5bc02c9215c2968e15 100644
+index b4189463472b6a45ac4efaf3dcad6ee6bc46cb4c..f23c9a3cfb9e0639380ba575f3885b14199ecc3a 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -40,6 +40,7 @@ $(if $(filter true,$(BUILD_BROKEN_VINTF_PRODUCT_COPY_FILES)),, \

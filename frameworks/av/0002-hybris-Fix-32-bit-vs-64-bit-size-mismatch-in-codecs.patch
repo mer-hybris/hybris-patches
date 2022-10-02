@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@jolla.com>
+Date: Thu, 5 Nov 2020 20:46:35 +0200
+Subject: [PATCH] (hybris) Fix 32-bit vs 64-bit size mismatch in codecs.
+
+Change-Id: I50e928113f90eea9d85f79f183c4b74113ab73bf
+---
+ media/libstagefright/ACodec.cpp | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
+index 4a3b32f3eebf7bdaa57642f92aada6c6b813585f..d3c4603d31468e1e036d6a184c25f7e8ca7ed79d 100644
+--- a/media/libstagefright/ACodec.cpp
++++ b/media/libstagefright/ACodec.cpp
+@@ -887,10 +887,11 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
+             // Always allocate VideoNativeMetadata if using ANWBuffer.
+             // OMX might use gralloc source internally, but we don't share
+             // metadata buffer with OMX, OMX has its own headers.
++            // hybris: allocate buffer that can fit 64-bit native handle if compiled in 64-bit mode
+             if (mode == IOMX::kPortModeDynamicANWBuffer) {
+-                bufSize = sizeof(VideoNativeMetadata);
++                bufSize = sizeof(VideoNativeMetadata_ptrSized);
+             } else if (mode == IOMX::kPortModeDynamicNativeHandle) {
+-                bufSize = sizeof(VideoNativeHandleMetadata);
++                bufSize = sizeof(VideoNativeHandleMetadata_ptrSized);
+             }
+ 
+             size_t conversionBufferSize = 0;
+@@ -6298,6 +6299,28 @@ void ACodec::BaseState::onInputBufferFilled(const sp<AMessage> &msg) {
+                             bufferID, graphicBuffer, flags, timeUs, info->mFenceFd);
+                     }
+                     break;
++#else
++                // hybris: convert data from 64-bit camera process to 32-bit OMX if needed
++                case IOMX::kPortModeDynamicNativeHandle:
++                    if (info->mCodecData->size() >= sizeof(VideoNativeHandleMetadata_ptrSized)
++                            && sizeof(VideoNativeHandleMetadata) != sizeof(VideoNativeHandleMetadata_ptrSized)) {
++                        VideoNativeHandleMetadata_ptrSized *vnhmd =
++                            (VideoNativeHandleMetadata_ptrSized*)info->mCodecData->base();
++                        sp<NativeHandle> handle = NativeHandle::create(
++                                (native_handle *)vnhmd->pHandle, false /* ownsHandle */);
++                        err2 = mCodec->mOMXNode->emptyBuffer(
++                            bufferID, handle, flags, timeUs, info->mFenceFd);
++                    }
++                    break;
++                case IOMX::kPortModeDynamicANWBuffer:
++                    if (info->mCodecData->size() >= sizeof(VideoNativeMetadata_ptrSized)
++                            && sizeof(VideoNativeMetadata) != sizeof(VideoNativeMetadata_ptrSized)) {
++                        VideoNativeMetadata_ptrSized *vnmd = (VideoNativeMetadata_ptrSized*)info->mCodecData->base();
++                        sp<GraphicBuffer> graphicBuffer = GraphicBuffer::from(vnmd->pBuffer);
++                        err2 = mCodec->mOMXNode->emptyBuffer(
++                            bufferID, graphicBuffer, flags, timeUs, info->mFenceFd);
++                    }
++                    break;
+ #endif
+                 default:
+                     ALOGW("Can't marshall %s data in %zu sized buffers in %zu-bit mode",
