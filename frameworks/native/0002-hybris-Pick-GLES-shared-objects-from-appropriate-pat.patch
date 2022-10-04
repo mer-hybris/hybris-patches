@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index d66ef2b96925fb61e47087cc0015cb1cbe4d7627..ac7c147210555ab56f7e86e173902ee50feb4d3d 100644
+index 0576a05948b39e4e114af08e8325a9d024350651..fbfd2a1d0657722e6c34dfea039817c67bb04984 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
 @@ -134,9 +134,9 @@ static void* load_wrapper(const char* path) {
