@@ -5,14 +5,29 @@ Subject: [PATCH] (hybris) Add native buffer compat define.
 
 Change-Id: Iaa50a8270fc822fa3aacec07a5dcdfc467752afe
 ---
- headers/media_plugin/media/hardware/HardwareAPI.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../media_plugin/media/hardware/HardwareAPI.h    | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/headers/media_plugin/media/hardware/HardwareAPI.h b/headers/media_plugin/media/hardware/HardwareAPI.h
-index ae0220a5ebfddde1286f59b1d5d6816313195499..5c334138e8c47a309205ef7a56852dd037167001 100644
+index ae0220a5ebfddde1286f59b1d5d6816313195499..9f59a4b5349239aa919d010ada7e7972bea40163 100644
 --- a/headers/media_plugin/media/hardware/HardwareAPI.h
 +++ b/headers/media_plugin/media/hardware/HardwareAPI.h
-@@ -161,6 +161,14 @@ struct VideoNativeHandleMetadata {
+@@ -150,6 +150,14 @@ struct VideoNativeMetadata {
+     int nFenceFd;                           // -1 if unused
+ };
+ 
++// Meta data buffer layout for passing a native_handle to codec
++// mer-hybris: 64-bit version used in conversion code for 32-bit OMX
++struct VideoNativeMetadata_ptrSized {
++    MetadataBufferType eType;               // must be kMetadataBufferTypeANWBuffer
++    struct ANativeWindowBuffer* pBuffer;
++    int nFenceFd;                           // -1 if unused
++};
++
+ // Meta data buffer layout for passing a native_handle to codec
+ struct VideoNativeHandleMetadata {
+     MetadataBufferType eType;               // must be kMetadataBufferTypeNativeHandleSource
+@@ -161,6 +169,14 @@ struct VideoNativeHandleMetadata {
  #endif
  };
  
