@@ -21,10 +21,10 @@ Change-Id: Ide41188b6263a22c371ec28786bbc1ef1ee62df7
  4 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/build/Android.gtest.mk b/build/Android.gtest.mk
-index 03aae07587d9f21ffcb1a0e3707ef32d003a80ee..20e38df7b2d18282fe63acea79097d7bb9e975f4 100644
+index 2249b1b75024864cd597216592f7d631cffa84ea..4b5ec87ca0476df546780486a0294f361001f286 100644
 --- a/build/Android.gtest.mk
 +++ b/build/Android.gtest.mk
-@@ -73,28 +73,28 @@ $(foreach dir,$(GTEST_DEX_DIRECTORIES), $(eval $(call build-art-test-dex,art-gte
+@@ -74,28 +74,28 @@ $(foreach dir,$(GTEST_DEX_DIRECTORIES), $(eval $(call build-art-test-dex,art-gte
  
  # Create rules for MainStripped, a copy of Main with the classes.dex stripped
  # for the oat file assistant tests.
