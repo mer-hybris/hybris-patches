@@ -10,13 +10,13 @@ Change-Id: Ic7415aab65788f37ee5c5a67be1916319e484f77
  1 file changed, 7 insertions(+)
 
 diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
-index 1930612..03803d1 100644
+index c253a5725..4e923570f 100644
 --- a/cmds/servicemanager/servicemanager.rc
 +++ b/cmds/servicemanager/servicemanager.rc
-@@ -34,3 +34,10 @@ service miniaf /usr/libexec/droid-hybris/system/bin/miniafservice
-     class main
-     user system
-     group audio
+@@ -18,3 +18,10 @@ service servicemanager /system/bin/servicemanager
+     onrestart restart minisf
+     writepid /dev/cpuset/system-background/tasks
+     shutdown critical
 +
 +# dummy service to create the (somehow) missing settingsd socket for rild
 +service settingsd_HYBRIS /bin/sleep infinity
