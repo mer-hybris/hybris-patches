@@ -16,10 +16,10 @@ Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 544e139a67d2fe9ed08eea6755c308ddf6db58ee..70398dedc7a733aa8670e09a956fb12a608c2773 100644
+index e00f9a6c6bab1bde301d32fe47eaece90878ee6c..5610db34a0a67b0c56c9cd66de6a676236f2da88 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -906,10 +906,11 @@ on boot
+@@ -1149,10 +1149,11 @@ on boot
      chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
      chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
  

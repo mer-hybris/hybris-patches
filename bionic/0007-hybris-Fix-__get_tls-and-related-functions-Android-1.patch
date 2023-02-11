@@ -8,37 +8,36 @@ Signed-off-by: Franz-Josef Haider <frajo.haider@jolla.com>
 Change-Id: I24486873be638a1a8cd123705ba2e51ec7414b94
 ---
  libc/Android.bp       | 1 +
- libc/hybris_support.c | 6 ++++++
+ libc/hybris_support.c | 5 +++++
  libc/libc.map.txt     | 1 +
- 3 files changed, 8 insertions(+)
+ 3 files changed, 7 insertions(+)
  create mode 100644 libc/hybris_support.c
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index d3271ae919c1507ccf5ebf32dcd3546163aa4338..dce7a77f2ff721698184c5414a6718edc28d9aff 100644
+index 544a1e0b46f58392855c18ca3d349f8041ac3008..df7023867502d6952021d6f54e405106d5b9443d 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -18,6 +18,7 @@ libc_common_src_files = [
-     "stdio/vfscanf.cpp",
-     "stdio/vfwscanf.c",
-     "stdlib/exit.c",
+@@ -24,6 +24,7 @@ libc_common_src_files = [
+     "bionic/ether_aton.c",
+     "bionic/ether_ntoa.c",
+     "bionic/exit.cpp",
 +    "hybris_support.c",
- ]
- 
- // off64_t/time64_t support on LP32.
+     "bionic/initgroups.c",
+     "bionic/isatty.c",
+     "bionic/sched_cpualloc.c",
 diff --git a/libc/hybris_support.c b/libc/hybris_support.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..9d86572a878813e1cff444a2cf5567c0b3cdd501
+index 0000000000000000000000000000000000000000..2188f40005a837d36d7d7d3a97988436f64c2593
 --- /dev/null
 +++ b/libc/hybris_support.c
-@@ -0,0 +1,6 @@
+@@ -0,0 +1,5 @@
 +
 +void** __get_tls_hooks(void) {
 +#include "platform/bionic/tls.h"
 +  return __get_tls();
 +}
-+
 diff --git a/libc/libc.map.txt b/libc/libc.map.txt
-index 4bfb8a23207e3d3cb1f57139e7798077b5205951..20f0a660a45d11266124852542e0f1c2d270970a 100644
+index 7397b687cf2c2aafa11476292c40324e9b3fbda5..9f803516893d9386fbb75c152690b85438389d05 100644
 --- a/libc/libc.map.txt
 +++ b/libc/libc.map.txt
 @@ -41,6 +41,7 @@ LIBC {

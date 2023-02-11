@@ -10,15 +10,15 @@ Change-Id: Ied98ee3f0943ac8a847b36239039aa305140a71b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/opengl/libs/EGL/egl_platform_entries.cpp b/opengl/libs/EGL/egl_platform_entries.cpp
-index aa24e8ee68bb1bf9c2755ff4ff6585309dde9429..c2513d5f2e223b67e7984b8f583c17393aa177d2 100644
+index 8bd2b8378421b26e8d3428e0711863453102418f..ee5797de190ed8ddd0fa49c3f65b513b5869c2fb 100644
 --- a/opengl/libs/EGL/egl_platform_entries.cpp
 +++ b/opengl/libs/EGL/egl_platform_entries.cpp
-@@ -137,7 +137,7 @@ char const * const gExtensionString  =
- char const * const gClientExtensionString =
-         "EGL_EXT_client_extensions "
-         "EGL_KHR_platform_android "
+@@ -135,7 +135,7 @@ const char* const gExtensionString  =
+ 
+ const char* const gClientExtensionString =
+         "EGL_ANDROID_GLES_layers "
 -        "EGL_ANGLE_platform_angle "
 +//        "EGL_ANGLE_platform_angle "
-         "EGL_ANDROID_GLES_layers";
- // clang-format on
- 
+         "EGL_EXT_client_extensions "
+         "EGL_KHR_platform_android "
+         ;

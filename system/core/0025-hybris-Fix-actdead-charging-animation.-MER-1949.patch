@@ -8,15 +8,15 @@ Subject: [PATCH] (hybris) Fix actdead charging animation. MER#1949
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 2a5937feeb74b28f0544eef21bb59f15028eb78e..47e67c6f4b3a648d56eb9dabbd8758c0da96921e 100644
+index 9d011dcefbc4a64f8d9d6b386a2848e6436f910b..161a88952307806737034b96ed00f60bd69f0950 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -958,7 +958,7 @@ on property:droid.late_start=trigger_late_start
+@@ -1201,7 +1201,7 @@ on property:droid.late_start=trigger_late_start
      class_start late_start
  
  on charger
 -    class_start charger
 +    trigger late-init
  
- on property:vold.decrypt=trigger_load_persist_props
-     load_persist_props
+ on property:sys.boot_completed=1
+     bootchart stop

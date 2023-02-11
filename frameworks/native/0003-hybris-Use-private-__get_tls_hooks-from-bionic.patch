@@ -12,15 +12,15 @@ Signed-off-by: Franz-Josef Haider <franz.haider@jolla.com>
  2 files changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/opengl/libs/EGL/egl.cpp b/opengl/libs/EGL/egl.cpp
-index 43f7a075a7d49c46db064562a94fe007ce47dff8..d73610f87ebc2033b75f052c9d16ace3f9794f78 100644
+index e5b9e14bd5fef60e53f2aeba0d2bfc022359b3ec..084fadd5dc22ab2f5fc7796944163eac5653077c 100644
 --- a/opengl/libs/EGL/egl.cpp
 +++ b/opengl/libs/EGL/egl.cpp
-@@ -234,7 +234,7 @@ void gl_noop() {
- // ----------------------------------------------------------------------------
+@@ -184,7 +184,7 @@ void gl_unimplemented() {
+ void gl_noop() {}
  
- void setGlThreadSpecific(gl_hooks_t const *value) {
--    gl_hooks_t const * volatile * tls_hooks = get_tls_hooks();
-+    gl_hooks_t const * volatile * tls_hooks = const_cast<gl_hooks_t const **>(reinterpret_cast<gl_hooks_t**>(__get_tls_hooks()));
+ void setGlThreadSpecific(gl_hooks_t const* value) {
+-    gl_hooks_t const* volatile* tls_hooks = get_tls_hooks();
++    gl_hooks_t const* volatile* tls_hooks = const_cast<gl_hooks_t const **>(reinterpret_cast<gl_hooks_t**>(__get_tls_hooks()));
      tls_hooks[TLS_SLOT_OPENGL_API] = value;
  }
  

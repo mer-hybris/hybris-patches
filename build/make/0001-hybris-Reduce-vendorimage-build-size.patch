@@ -5,43 +5,39 @@ Subject: [PATCH] (hybris) Reduce vendorimage build size.
 
 Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
 ---
- core/Makefile | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ core/Makefile | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 3e748eb2dc801e880b04d30660f7d316cc768a72..ccc4420ca1c2507b507306a6eb234360298921ae 100644
+index c19b0754af5b9ec33e81286de177e4a0f09614ec..ab4b9e0b883d3be1837a2ce1bf6dca3dff19b1f5 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -40,6 +40,7 @@ $(if $(filter true,$(BUILD_BROKEN_VINTF_PRODUCT_COPY_FILES)),, \
- )
- endef
+@@ -63,6 +63,7 @@ check_elf_prebuilt_product_copy_files_hint := \
+     found ELF prebuilt in PRODUCT_COPY_FILES, use cc_prebuilt_binary / cc_prebuilt_library_shared instead.
+ 
  # filter out the duplicate <source file>:<dest file> pairs.
 +ALL_PRODUCT_COPY_FILES :=
  unique_product_copy_files_pairs :=
  $(foreach cf,$(PRODUCT_COPY_FILES), \
      $(if $(filter $(unique_product_copy_files_pairs),$(cf)),,\
-@@ -60,6 +61,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
-                 $(if $(filter init%rc,$(notdir $(_dest)))$(filter %/etc/init,$(dir $(_dest))),\
-                     $(eval $(call copy-init-script-file-checked,$(_src),$(_fulldest))),\
-                     $(eval $(call copy-one-file,$(_src),$(_fulldest)))))) \
+@@ -86,6 +87,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
+                                $(filter bin lib lib64,$(subst /,$(space),$(_dest)))), \
+                         $(eval $(call copy-non-elf-file-checked,$(_src),$(_fulldest),$(check_elf_prebuilt_product_copy_files_hint))), \
+                         $(eval $(call copy-one-file,$(_src),$(_fulldest))))))) \
 +        $(eval ALL_PRODUCT_COPY_FILES += $(_fulldest)) \
          $(eval unique_product_copy_files_destinations += $(_dest))))
  
  # Dump a list of overriden (and ignored PRODUCT_COPY_FILES entries)
-@@ -2838,6 +2840,12 @@ $(pdk_odex_config_mk) :
- PDK_PLATFORM_ZIP_PRODUCT_BINARIES := $(filter-out $(OUT_DIR)/%,$(PDK_PLATFORM_ZIP_PRODUCT_BINARIES))
- INSTALLED_PLATFORM_ZIP := $(PRODUCT_OUT)/platform.zip
+@@ -3578,14 +3580,18 @@ define build-vendorimage-target
+   $(call assert-max-image-size,$(INSTALLED_VENDORIMAGE_TARGET) $(RECOVERY_FROM_BOOT_PATCH),$(BOARD_VENDORIMAGE_PARTITION_SIZE))
+ endef
  
 +INTERNAL_VENDORIMAGE_KERNEL_MODULES := \
-+        $(filter $(TARGET_OUT_VENDOR)/lib/modules/%,\
-+          $(ALL_DEFAULT_INSTALLED_MODULES)\
-+          $(ALL_PDK_FUSION_FILES))
++    $(filter $(TARGET_OUT_VENDOR)/lib/modules/%,\
++      $(ALL_DEFAULT_INSTALLED_MODULES)\
++      $(ALL_PDK_FUSION_FILES))
 +
-+
- $(INSTALLED_PLATFORM_ZIP): PRIVATE_DEX_FILES := $(pdk_classes_dex)
- $(INSTALLED_PLATFORM_ZIP): PRIVATE_ODEX_CONFIG := $(pdk_odex_config_mk)
- $(INSTALLED_PLATFORM_ZIP) : $(SOONG_ZIP)
-@@ -3143,10 +3151,9 @@ endef
+ # We just build this directly to the install location.
  INSTALLED_VENDORIMAGE_TARGET := $(BUILT_VENDORIMAGE_TARGET)
  $(INSTALLED_VENDORIMAGE_TARGET): \
      $(INTERNAL_USERIMAGES_DEPS) \
@@ -52,5 +48,5 @@ index 3e748eb2dc801e880b04d30660f7d316cc768a72..ccc4420ca1c2507b507306a6eb234360
      $(RECOVERY_FROM_BOOT_PATCH)
 -	$(build-vendorimage-target)
  
- .PHONY: vendorimage-nodeps vnod
- vendorimage-nodeps vnod: | $(INTERNAL_USERIMAGES_DEPS)
+ VENDOR_NOTICE_DEPS += $(INSTALLED_VENDORIMAGE_TARGET)
+ 

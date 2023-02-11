@@ -8,14 +8,14 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
  init/Android.bp  |  4 ----
  init/init.cpp    |  2 --
- init/service.cpp | 15 +++++++++++++--
- 3 files changed, 13 insertions(+), 8 deletions(-)
+ init/service.cpp | 18 ++++++++++++++++--
+ 3 files changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab4888ae2e 100644
+index 3df0e917c7ae19a459712a2db9ce2b6a613382e3..c05a09660261bf725bab1d03c9bc5ccafe5d7b50 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -146,8 +146,6 @@ cc_defaults {
+@@ -200,8 +200,6 @@ libinit_cc_defaults {
          "liblog",
          "liblogwrap",
          "liblp",
@@ -23,8 +23,8 @@ index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab
 -        "libprocessgroup_setup",
          "libselinux",
          "libutils",
-     ],
-@@ -280,7 +278,6 @@ cc_defaults {
+         "libziparchive",
+@@ -504,7 +502,6 @@ cc_defaults {
          "libselinux",
          "libhidl-gen-utils",
          "liblog",
@@ -32,29 +32,29 @@ index 827a8293f00a50ab0cedb94f76888900d2136352..d74e75892b1ed2789a80fcc8abd638ab
          "libprotobuf-cpp-lite",
      ],
  }
-@@ -339,7 +336,6 @@ cc_binary {
+@@ -562,7 +559,6 @@ cc_defaults {
          "libhidl-gen-utils",
          "libhidlmetadata",
          "liblog",
 -        "libprocessgroup",
          "libprotobuf-cpp-lite",
      ],
-     srcs: init_common_sources + init_host_sources,
+     proto: {
 diff --git a/init/init.cpp b/init/init.cpp
-index 60157b78755dcdfed623b268045900b00549ee90..110db059fa3364792fea5347a17faa33d46131bc 100644
+index f7d84b7d062426392a1fdd619dd5991eb720083e..53d9158559a753089f08bf80529af81b99999889 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -51,8 +51,6 @@
- #include <keyutils.h>
+@@ -58,8 +58,6 @@
  #include <libavb/libavb.h>
  #include <libgsi/libgsi.h>
+ #include <libsnapshot/snapshot.h>
 -#include <processgroup/processgroup.h>
 -#include <processgroup/setup.h>
  #include <selinux/android.h>
  
  #include "action_parser.h"
 diff --git a/init/service.cpp b/init/service.cpp
-index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b332b50f90 100644
+index a90887eb16521d4cf5cd6684f3ba441e7ca98028..7307959a835bde1acd93a9282480aeb5ad370413 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -33,7 +33,6 @@
@@ -65,7 +65,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
  #include <selinux/selinux.h>
  
  #include "lmkd_service.h"
-@@ -198,7 +197,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+@@ -200,7 +199,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
      // These functions handle their own logging, so no additional logging is needed.
      if (!process_cgroup_empty_) {
          LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
@@ -80,7 +80,7 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
          int max_processes = 0;
          int r;
          if (signal == SIGTERM) {
-@@ -216,6 +221,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+@@ -218,6 +223,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
          }
  
          if (r == 0) process_cgroup_empty_ = true;
@@ -89,23 +89,43 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
      }
  
      if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-@@ -520,6 +527,7 @@ Result<void> Service::Start() {
-             descriptor.Publish();
-         }
+@@ -301,9 +308,11 @@ void Service::Reap(const siginfo_t& siginfo) {
+ 
+     if (flags_ & SVC_EXEC) UnSetExec();
  
 +#if DISABLED_FOR_HYBRIS_SUPPORT
-         if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
-             LOG(ERROR) << "failed to write pid to files: " << result.error();
-         }
-@@ -537,6 +545,7 @@ Result<void> Service::Start() {
-                         << "'). See the 'Debugging init' section of init's README.md for tips";
-         }
- 
+     if (name_ == "zygote" || name_ == "zygote64") {
+         removeAllEmptyProcessGroups();
+     }
 +#endif
-         _exit(127);
+ 
+     if (flags_ & SVC_TEMPORARY) return;
+ 
+@@ -447,6 +456,7 @@ Result<void> Service::CheckConsole() {
+ 
+ // Configures the memory cgroup properties for the service.
+ void Service::ConfigureMemcg() {
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (swappiness_ != -1) {
+         if (!setProcessGroupSwappiness(proc_attr_.uid, pid_, swappiness_)) {
+             PLOG(ERROR) << "setProcessGroupSwappiness failed";
+@@ -485,6 +495,7 @@ void Service::ConfigureMemcg() {
+             PLOG(ERROR) << "setProcessGroupLimit failed";
+         }
+     }
++#endif
+ }
+ 
+ // Enters namespaces, sets environment variables, writes PID files and runs the service executable.
+@@ -503,6 +514,7 @@ void Service::RunService(const std::optional<MountNamespace>& override_mount_nam
+         descriptor.Publish();
      }
  
-@@ -559,6 +568,7 @@ Result<void> Service::Start() {
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
+         LOG(ERROR) << "failed to write pid to files: " << result.error();
+     }
+@@ -673,6 +685,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -113,9 +133,9 @@ index afe7ce7697e902211b5d25302ca28299f511f9ba..f9b857c68cd97fc0535d87a27fedf0b3
      bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
                        limit_percent_ != -1 || !limit_property_.empty();
      errno = -createProcessGroup(proc_attr_.uid, pid_, use_memcg);
-@@ -609,6 +619,7 @@ Result<void> Service::Start() {
-     if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-         LmkdRegister(name_, proc_attr_.uid, pid_, oom_score_adjust_);
+@@ -695,6 +708,7 @@ Result<void> Service::Start() {
+     if (char byte = 1; write((*pipefd)[1], &byte, 1) < 0) {
+         return ErrnoError() << "sending notification failed";
      }
 +#endif
  

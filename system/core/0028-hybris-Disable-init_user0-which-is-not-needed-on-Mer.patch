@@ -8,15 +8,15 @@ Subject: [PATCH] (hybris) Disable init_user0 which is not needed on Mer.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 7490a83941919401b60cb85dde45b3a254db100d..044ce75ee3eec578885e79dc0cf082fdb5128edc 100644
+index feb94a7093aea0df37869971e263f08f75d937c6..e8dd0dab9fd128496d718ef5270f2bfdd90e8137 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -761,7 +761,7 @@ on post-fs-data
+@@ -986,7 +986,7 @@ on post-fs-data
  
      exec_start derive_sdk
  
 -    init_user0
 +    #init_user0
  
-     # Allow apexd to snapshot and restore device encrypted apex data in the case
-     # of a rollback. This should be done immediately after DE_user data keys
+     # Set SELinux security contexts on upgrade or policy update.
+     restorecon --recursive --skip-ce /data

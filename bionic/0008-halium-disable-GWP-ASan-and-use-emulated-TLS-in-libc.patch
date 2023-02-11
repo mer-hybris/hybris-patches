@@ -9,46 +9,29 @@ usage in earlier patch breaks linker compiled as static binary.
 
 Change-Id: Ic63b814917913ba6055aa9ba2c8e70c098b428af
 ---
- libc/Android.bp                   |  6 ++++--
- libc/bionic/gwp_asan_wrappers.cpp | 17 +++++++++++++++++
- 2 files changed, 21 insertions(+), 2 deletions(-)
+ libc/Android.bp                   |  3 ++-
+ libc/bionic/gwp_asan_wrappers.cpp | 21 +++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index dce7a77f2ff721698184c5414a6718edc28d9aff..87d4760c0d3431ac2e02e13f03f2f42bd9570395 100644
+index df7023867502d6952021d6f54e405106d5b9443d..4ed8b5159e6da16a7986228279cad34be9fc26bd 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -50,7 +50,8 @@ libc_common_flags = [
+@@ -68,7 +68,8 @@ libc_common_flags = [
      "-Wexit-time-destructors",
  
      // GWP-ASan requires platform TLS.
 -    "-fno-emulated-tls",
 +    // Halium: ELF TLS currently breaks libhybris, so disable it
 +    "-femulated-tls",
- ]
  
- // Define some common cflags
-@@ -1605,6 +1606,7 @@ cc_library {
-             "libc_common_shared",
-         ],
-     },
-+    // cflags: ["-fno-emulated-tls"], - disabled for Halium
- 
-     required: [
-         "tzdata",
-@@ -2450,7 +2452,7 @@ cc_defaults {
-     ],
-     cflags: [
-         "-DUSE_SCUDO",
--        "-fno-emulated-tls", // Required for GWP-ASan.
-+        // "-fno-emulated-tls", // Required for GWP-ASan. - disabled for Halium
-     ],
-     shared_libs: ["libscudo_wrapper"],
- 
+     // We know clang does a lot of harm by rewriting what we've said, and sadly
+     // never see any good it does, so let's just ask it to do what we say...
 diff --git a/libc/bionic/gwp_asan_wrappers.cpp b/libc/bionic/gwp_asan_wrappers.cpp
-index d3e6a14cee6774297ccdb1a883e66fd11a690c95..51d498c23e66726445a92737bcba1ef3c88a65b4 100644
+index fc59c888207e09fdc4103d934c2187a85756dbdf..777d0ae8894e5fce5b404d2393f408ea48a5e8a8 100644
 --- a/libc/bionic/gwp_asan_wrappers.cpp
 +++ b/libc/bionic/gwp_asan_wrappers.cpp
-@@ -47,6 +47,7 @@
+@@ -53,6 +53,7 @@
  #include "bionic/malloc_common_dynamic.h"
  #endif  // LIBC_STATIC
  
@@ -56,12 +39,16 @@ index d3e6a14cee6774297ccdb1a883e66fd11a690c95..51d498c23e66726445a92737bcba1ef3
  static gwp_asan::GuardedPoolAllocator GuardedAlloc;
  static const MallocDispatch* prev_dispatch;
  
-@@ -278,3 +279,19 @@ bool MaybeInitGwpAsan(libc_globals* globals, bool force_init) {
- bool DispatchIsGwpAsan(const MallocDispatch* dispatch) {
-   return dispatch == &gwp_asan_dispatch;
+@@ -433,3 +434,23 @@ bool EnableGwpAsan(const android_mallopt_gwp_asan_options_t& options) {
+       [&](libc_globals* globals) { ret_value = MaybeInitGwpAsan(globals, options); });
+   return ret_value;
  }
 +
 +#else // DISABLED_FOR_HYBRIS_SUPPORT
++
++bool EnableGwpAsan(const android_mallopt_gwp_asan_options_t& /*options*/) {
++  return false;
++}
 +
 +bool MaybeInitGwpAsanFromLibc(libc_globals* /*globals*/) {
 +  return false;

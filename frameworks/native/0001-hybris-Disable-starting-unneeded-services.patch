@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@gmail.com>
+Date: Thu, 13 Jul 2017 00:53:55 +0300
+Subject: [PATCH] (hybris) Disable starting unneeded services.
+
+Change-Id: I6e80eb3e2d92ddfbd83f1933971c3f24e9570d28
+---
+ cmds/servicemanager/servicemanager.rc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
+index e5d689ff911ed04c4774690834c67d2b0e1ae073..6673ea88b5f51111ad24018cbf247c8952894672 100644
+--- a/cmds/servicemanager/servicemanager.rc
++++ b/cmds/servicemanager/servicemanager.rc
+@@ -4,8 +4,8 @@ service servicemanager /system/bin/servicemanager
+     group system readproc
+     critical
+     onrestart restart apexd
+-    onrestart restart audioserver
+-    onrestart restart gatekeeperd
++    #onrestart restart audioserver
++    #onrestart restart gatekeeperd
+     onrestart class_restart --only-enabled main
+     onrestart class_restart --only-enabled hal
+     onrestart class_restart --only-enabled early_hal
