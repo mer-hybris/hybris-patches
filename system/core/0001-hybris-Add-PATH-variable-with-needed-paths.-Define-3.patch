@@ -16,11 +16,12 @@ Signed-off-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index a9d0ed08a9e31e20567e2673e9c1aefa7686ec90..70c7d298a575cdfff128b072af0616e5d32da08d 100644
+index fe23b6206408a234352149922db01a3fad5df6e2..090c3a2b27785de240419582a1b48dfd3926fd04 100644
 --- a/rootdir/Android.mk
 +++ b/rootdir/Android.mk
-@@ -1,5 +1,18 @@
- LOCAL_PATH:= $(call my-dir)
+@@ -2,6 +2,19 @@ LOCAL_PATH:= $(call my-dir)
+ 
+ $(eval $(call declare-1p-copy-files,system/core/rootdir,))
  
 +#######################################
 +# init.extraenv.armeabi-v7a.rc
@@ -39,7 +40,7 @@ index a9d0ed08a9e31e20567e2673e9c1aefa7686ec90..70c7d298a575cdfff128b072af0616e5
  # init-debug.rc
  include $(CLEAR_VARS)
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index fdaaf1abe11c8acd82ead7a53d27962faefd6676..6c90ef65710e0f13dd8b7afc0313c6d8fbd91986 100644
+index bf6e986c475864b5ddfb0cc7740da1c3a26120aa..7a299b614dd06975f9b2d8d9ecd0682c3dc1611e 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
 @@ -1,5 +1,9 @@
@@ -61,7 +62,7 @@ index 0000000000000000000000000000000000000000..c96e2c65da45ca08ae4edb3dec42cc8c
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index a9af0b094da4e7bbdde03fbe98ca200566e1289e..044bea68ba02962a5fc839893d10244f20ec5f33 100644
+index 2b53d883eadec1e7d60f8c47f595ddbab3f215b5..f22606e33770c137cfa98081aa95b5dba6b0631e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,12 @@

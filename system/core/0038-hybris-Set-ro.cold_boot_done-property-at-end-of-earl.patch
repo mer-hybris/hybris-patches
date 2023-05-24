@@ -9,15 +9,15 @@ Change-Id: I8fb92845d47ef286005944150e2fa3ea366ebcbf
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index b7757fb20789bbbc369f6b79e67579d95481c40b..ef388a63ddf6f46c0704257f27cdd7e0759f937c 100644
+index 9bbf9ee7a368a0f24889885c9d0b4dfcded05d0f..574ff695e260130c7657e34946cafe21b0d68efe 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -80,6 +80,8 @@ on early-init
-     # Mount tracefs
-     mount tracefs tracefs /sys/kernel/tracing
+@@ -85,6 +85,8 @@ on early-init
+     mkdir /dev/sys/fs 0755 system system
+     mkdir /dev/sys/block 0755 system system
  
 +    setprop ro.cold_boot_done true
 +
- # Run boringssl self test for each ABI so that later processes can skip it. http://b/139348610
- on early-init && property:ro.product.cpu.abilist32=*
-     exec_start boringssl_self_test32
+ on init
+     sysclktz 0
+ 

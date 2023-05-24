@@ -13,10 +13,10 @@ Change-Id: Icaea2cd8d145d8205f4a130119aedbd2720c868d
  1 file changed, 5 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 0ac66f2727c13750cdb0606aeaaf600114008b44..6fb23023c02a15f366c466e9adfd3093d7aa7956 100644
+index 01db4f5dabd858434250f34ad8d8faf05ed3031a..2c922a86266a98487892af8b16173ddb37b09032 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
-@@ -655,6 +655,7 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+@@ -650,6 +650,7 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
      std::string prop_name = "ro.boottime.init.mount_all."s + prop_post_fix;
      android::base::Timer t;
  
@@ -24,16 +24,17 @@ index 0ac66f2727c13750cdb0606aeaaf600114008b44..6fb23023c02a15f366c466e9adfd3093
      Fstab fstab;
      if (mount_all->fstab_path.empty()) {
          if (!ReadDefaultFstab(&fstab)) {
-@@ -667,12 +668,16 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+@@ -662,6 +663,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
      }
  
-     auto mount_fstab_return_code = fs_mgr_mount_all(&fstab, mount_all->mode);
+     auto mount_fstab_result = fs_mgr_mount_all(&fstab, mount_all->mode);
 +#endif
-+    int mount_fstab_return_code = 0;
++    MountAllResult mount_fstab_result = {0,0};
      SetProperty(prop_name, std::to_string(t.duration().count()));
  
      if (mount_all->import_rc) {
-         import_late(mount_all->rc_paths);
+@@ -677,6 +680,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+         initial_mount_fstab_return_code = mount_fstab_result.code;
      }
  
 +    queue_event = false; // hybris does trigger_late_start.

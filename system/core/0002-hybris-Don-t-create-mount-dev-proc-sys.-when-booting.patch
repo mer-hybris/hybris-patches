@@ -10,10 +10,10 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 021557697c36fdc08468fe5d61453c1918e97a65..ad37ce8597a9b34113b3d53765d1eb0a3b147c8f 100644
+index d050ed783580101f1dd39116bf6df0e27c15b3b1..bb8ddbd6ca3ce1f19dfff595b65883e1abc500b4 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -189,20 +189,20 @@ int FirstStageMain(int argc, char** argv) {
+@@ -233,16 +233,16 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
      // Get the basic filesystem setup we need put together in the initramdisk
      // on / and then we'll let the rc file figure out the rest.
@@ -22,6 +22,7 @@ index 021557697c36fdc08468fe5d61453c1918e97a65..ad37ce8597a9b34113b3d53765d1eb0a
 +    //CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
 +    //CHECKCALL(mkdir("/dev/pts", 0755));
      CHECKCALL(mkdir("/dev/socket", 0755));
+     CHECKCALL(mkdir("/dev/dm-user", 0755));
 -    CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
 +    //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
  #define MAKE_STR(x) __STRING(x)
@@ -32,6 +33,9 @@ index 021557697c36fdc08468fe5d61453c1918e97a65..ad37ce8597a9b34113b3d53765d1eb0a
 +    //CHECKCALL(chmod("/proc/cmdline", 0440));
      std::string cmdline;
      android::base::ReadFileToString("/proc/cmdline", &cmdline);
+     // Don't expose the raw bootconfig to unprivileged processes.
+@@ -251,7 +251,7 @@ int FirstStageMain(int argc, char** argv) {
+     android::base::ReadFileToString("/proc/bootconfig", &bootconfig);
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));
 -    CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));

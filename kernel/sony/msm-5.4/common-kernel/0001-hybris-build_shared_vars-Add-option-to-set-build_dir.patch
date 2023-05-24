@@ -1,0 +1,54 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Wed, 13 Sep 2023 15:57:23 +0000
+Subject: [PATCH] (hybris) build_shared_vars: Add option to set build_directory
+
+---
+ build_shared.sh      | 4 +++-
+ build_shared_vars.sh | 6 ++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/build_shared.sh b/build_shared.sh
+index edcde1f32315aafefd2b0f51cf817fa827df7032..163ec4eabd25d13966aee092c2d176d870be7a82 100644
+--- a/build_shared.sh
++++ b/build_shared.sh
+@@ -51,7 +51,9 @@ for platform in $PLATFORMS; do \
+         (
+             if [ ! $only_build_for ] || [ $device = $only_build_for ] ; then
+ 
+-                KERNEL_TMP_DEVICE=$KERNEL_TMP/${device}
++                # Don't override $KERNEL_TMP when set by manually
++                [ ! "$build_directory" ] && KERNEL_TMP_DEVICE=$KERNEL_TMP/${device}
++                [ "$build_directory" ] && KERNEL_TMP_DEVICE=$KERNEL_TMP
+                 # Keep kernel tmp when building for a specific device or when using keep tmp
+                 [ ! "$keep_kernel_tmp" ] && [ ! "$only_build_for" ] && rm -rf "${KERNEL_TMP_DEVICE}"
+                 mkdir -p "${KERNEL_TMP_DEVICE}"
+diff --git a/build_shared_vars.sh b/build_shared_vars.sh
+index 7e37a913fc9939c32a816882d8342294658ec4fb..6746ea3f1aa565dcf131544797c76a945011cb08 100644
+--- a/build_shared_vars.sh
++++ b/build_shared_vars.sh
+@@ -20,15 +20,17 @@ Usage: ${0##*/} [-k -d <device>]
+ Options:
+ -k              keep kernel tmp after build
+ -d <device>     only build the kernel for <device>
++-O <directory>  build kernel in <directory>
+ EOF
+ }
+ 
+ 
+-arguments=khd:
++arguments=khd:O:
+ while getopts $arguments argument ; do
+     case $argument in
+         k) keep_kernel_tmp=t ;;
+         d) only_build_for=$OPTARG;;
++        O) build_directory=$OPTARG;;
+         h) usage; exit 0;;
+         ?) usage; exit 1;;
+     esac
+@@ -55,4 +57,4 @@ MKDTIMG=$ANDROID_ROOT/out/host/linux-x86/bin/mkdtimg
+ KERNEL_TOP=$ANDROID_ROOT/kernel/sony/msm-5.4
+ # $KERNEL_TMP sub dir per script
+ c=${0##*-}
+-KERNEL_TMP=$ANDROID_ROOT/out/kernel-5.4/${c%%.sh}
++KERNEL_TMP=${build_directory:-$ANDROID_ROOT/out/kernel-5.4/${c%%.sh}}

@@ -13,10 +13,10 @@ Change-Id: I58e86f8b3c65f46c24fc3102a859867bccb6a713
  1 file changed, 3 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 226ddef0dcea5034ad109d0304afbbb5c232b6d8..60157b78755dcdfed623b268045900b00549ee90 100644
+index 2debfe87ab4ff5b2ee26b5dd0dc28851510e3e41..f7d84b7d062426392a1fdd619dd5991eb720083e 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -280,6 +280,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+@@ -315,6 +315,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
          if (!parser.ParseConfig("/usr/libexec/droid-hybris/system/etc/init")) {
              late_import_paths.emplace_back("/usr/libexec/droid-hybris/system/etc/init");
          }

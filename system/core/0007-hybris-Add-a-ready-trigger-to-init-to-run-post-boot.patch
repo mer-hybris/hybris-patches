@@ -9,10 +9,10 @@ Change-Id: I9c828463424c0e82c3de0159db08299e7ce6fe06
  1 file changed, 6 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 29859c5f53967c277cf7ab26335346251fdc6796..5e430df242ae8db85438b0a5a3f5eb82828ea21e 100644
+index 29f643ebd025da016f93c262a5b325d5abb76e39..2d516885cc08a5b82a088ab9488b6737815bc544 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -840,6 +840,12 @@ int SecondStageMain(int argc, char** argv) {
+@@ -985,6 +985,12 @@ int SecondStageMain(int argc, char** argv) {
      // Run all property triggers based on current state of the properties.
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
@@ -22,6 +22,6 @@ index 29859c5f53967c277cf7ab26335346251fdc6796..5e430df242ae8db85438b0a5a3f5eb82
 +    /* Run actions when all boot up is done and init is ready */
 +    am.QueueEventTrigger("ready");
 +
+     // Restore prio before main loop
+     setpriority(PRIO_PROCESS, 0, 0);
      while (true) {
-         // By default, sleep until something happens.
-         auto epoll_timeout = std::optional<std::chrono::milliseconds>{};

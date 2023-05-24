@@ -12,23 +12,24 @@ Content-Transfer-Encoding: 8bit
 Signed-off-by: Juho Hämäläinen <juho.hamalainen@jolla.com>
 Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
 ---
- rootdir/init.rc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ rootdir/init.rc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 544e139a67d2fe9ed08eea6755c308ddf6db58ee..70398dedc7a733aa8670e09a956fb12a608c2773 100644
+index ac587f97dd77c79565a7544be37a0129e19b3f19..97970bef65035db39351b4383680a29f6e3b3365 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -906,10 +906,11 @@ on boot
+@@ -1149,10 +1149,11 @@ on boot
      chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
      chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
  
 +    # SailfishOS: allow input group to use vibrator
 +    chown system input /sys/class/leds/vibrator/activate
 +    chown system input /sys/class/leds/vibrator/duration
++    chown system input /sys/class/leds/vibrator/brightness
      chown system system /sys/class/leds/vibrator/trigger
 -    chown system system /sys/class/leds/vibrator/activate
-     chown system system /sys/class/leds/vibrator/brightness
+-    chown system system /sys/class/leds/vibrator/brightness
 -    chown system system /sys/class/leds/vibrator/duration
      chown system system /sys/class/leds/vibrator/state
      chown system system /sys/class/timed_output/vibrator/enable

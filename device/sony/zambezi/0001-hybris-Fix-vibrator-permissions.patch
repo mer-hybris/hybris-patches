@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Wed, 13 Sep 2023 15:03:37 +0000
+Subject: [PATCH] (hybris) Fix vibrator permissions
+
+---
+ rootdir/vendor/ueventd.rc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/rootdir/vendor/ueventd.rc b/rootdir/vendor/ueventd.rc
+index 2ffe205584c9ae6a0f07a49136826d77e8b267c7..43dcb2a0c16bf67aee59cbc1d1f6d90178ec4421 100644
+--- a/rootdir/vendor/ueventd.rc
++++ b/rootdir/vendor/ueventd.rc
+@@ -175,12 +175,12 @@ firmware_directories /vendor/firmware_mnt/image/
+ /sys/class/leds/blue     brightness   0644    system    system
+ /sys/class/leds/blue     trigger      0644    system    system
+ 
+-/sys/class/leds/vibrator activate         0644    system    system
+-/sys/class/leds/vibrator brightness       0644    system    system
+-/sys/class/leds/vibrator max_brightness   0644    system    system
+-/sys/class/leds/vibrator duration         0644    system    system
+-/sys/class/leds/vibrator state            0644    system    system
+-/sys/class/leds/vibrator trigger          0644    system    system
++/sys/class/leds/vibrator activate         0664    system    input
++/sys/class/leds/vibrator brightness       0664    system    input
++/sys/class/leds/vibrator max_brightness   0664    system    input
++/sys/class/leds/vibrator duration         0664    system    input
++/sys/class/leds/vibrator state            0664    system    input
++/sys/class/leds/vibrator trigger          0664    system    input
+ 
+ /sys/class/backlight/panel0-backlight max_brightness 0644 root system
+ /sys/class/backlight/panel0-backlight brightness     0664 system system

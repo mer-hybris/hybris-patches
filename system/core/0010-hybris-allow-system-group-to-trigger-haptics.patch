@@ -14,12 +14,12 @@ Change-Id: I9f1af094fa8a4ef48f4c3ea0ec35cb66d3c083d8
  1 file changed, 3 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c575373965125f191c9723c506be0171a728bc39..3907f20e6ba06249bdec270b42ede7a41577d40a 100644
+index 29b2db7c732a9e81b4d60a51704fa7a5b88cb312..63ab95d47d752576a71c0d2c5725b79920d94c6c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -931,6 +931,9 @@ on boot
-     # Define default initial receive window size in segments.
-     setprop net.tcp.default_init_rwnd 60
+@@ -1177,6 +1177,9 @@ on boot
+     # Update dm-verity state and set partition.*.verified properties.
+     verity_update_state
  
 +    # Allow system group to trigger vibrator
 +    chmod 0664 /sys/class/timed_output/vibrator/enable

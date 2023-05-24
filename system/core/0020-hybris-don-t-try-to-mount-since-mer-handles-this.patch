@@ -9,21 +9,21 @@ Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
  1 file changed, 3 insertions(+)
 
 diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
-index 8eb2f97489a9b3c5245f2e68ec1adc1d1e70f1b6..c5f9e97ca40d2cfb35c05ba556b488deb0e0c647 100644
+index 042988eff889fef0aed26b49b79c5118997eefd8..f81de2baba65925fc0421d68c61592f9fe3a508e 100644
 --- a/init/first_stage_mount.cpp
 +++ b/init/first_stage_mount.cpp
-@@ -798,6 +798,7 @@ bool FirstStageMountVBootV2::InitAvbHandle() {
- // ----------------
+@@ -812,6 +812,7 @@ bool DoCreateDevices() {
+ 
  // Mounts partitions specified by fstab in device tree.
- bool DoFirstStageMount() {
+ bool DoFirstStageMount(bool create_devices) {
 +#if DISABLED_FOR_HYBRIS_SUPPORT
      // Skips first stage mount if we're in recovery mode.
      if (IsRecoveryMode()) {
          LOG(INFO) << "First stage mount skipped (recovery mode)";
-@@ -810,6 +811,8 @@ bool DoFirstStageMount() {
-         return false;
+@@ -829,6 +830,8 @@ bool DoFirstStageMount(bool create_devices) {
      }
-     return handle->DoFirstStageMount();
+ 
+     return (*fsm)->DoFirstStageMount();
 +#endif
 +    return true;
  }

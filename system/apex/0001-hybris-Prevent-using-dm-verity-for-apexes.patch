@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Wed, 11 Oct 2023 15:43:59 +0000
+Subject: [PATCH] (hybris) Prevent using dm-verity for apexes
+
+Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
+---
+ apexd/apexd.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
+index 5cf19ad7f4b37123615164e97be6716b42b256e6..f70840830f3a5ebdf017adb1ada7a62b056689d7 100644
+--- a/apexd/apexd.cpp
++++ b/apexd/apexd.cpp
+@@ -558,7 +558,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+   // dm-verity because they are already in the dm-verity protected partition;
+   // system. However, note that we don't skip verification to ensure that APEXes
+   // are correctly signed.
+-  const bool mount_on_verity = !instance.IsPreInstalledApex(apex) ||
++  bool mount_on_verity = !instance.IsPreInstalledApex(apex) ||
+                                // decompressed apexes are on /data
+                                instance.IsDecompressedApex(apex) ||
+                                // block apexes are from host
+@@ -566,6 +566,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+ 
+   DmVerityDevice verity_dev;
+   loop::LoopbackDeviceUniqueFd loop_for_hash;
++  mount_on_verity = false;
+   if (mount_on_verity) {
+     std::string hash_device = loopback_device.name;
+     if (verity_data->desc->tree_size == 0) {

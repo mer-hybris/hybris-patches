@@ -6,17 +6,17 @@ Subject: [PATCH] (hybris) Notify Mer's systemd that we're done
 Change-Id: If6a16f43397f00c8e579af79ae6cf8459786e7b3
 Signed-off-by: David Greaves <david.greaves@jollamobile.com>
 ---
- rootdir/init.rc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ rootdir/init.rc | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 4fab4bc739c2689388d4a326ab46cfcb96930c2d..2a74da045c99d55065b13b5c5bdc14de3e2a42c0 100644
+index ac3d280f2ef39f49176e2a6777b3bcf3e24bbbdf..8cdcb4101d8284d50e09fd55003b5cd11c767b95 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1089,3 +1089,18 @@ on userspace-reboot-resume
- 
- on property:sys.boot_completed=1 && property:sys.init.userspace_reboot.in_progress=1
-   setprop sys.init.userspace_reboot.in_progress ""
+@@ -1332,3 +1332,17 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
+   write /sys/kernel/mm/lru_gen/enabled 5
+ on property:persist.device_config.mglru_native.lru_gen_config=all
+   write /sys/kernel/mm/lru_gen/enabled 7
 +
 +# This trigger is run by our modified init after boot has finished
 +on ready
@@ -31,4 +31,3 @@ index 4fab4bc739c2689388d4a326ab46cfcb96930c2d..2a74da045c99d55065b13b5c5bdc14de
 +# update recovery if enabled
 +on property:persist.sys.recovery_update=true
 +    start flash_recovery
-+

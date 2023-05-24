@@ -6,14 +6,14 @@ Subject: [PATCH] (hybris) Do not launch /system/bin/vdc
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
 ---
- rootdir/init.rc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ rootdir/init.rc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 044ce75ee3eec578885e79dc0cf082fdb5128edc..544e139a67d2fe9ed08eea6755c308ddf6db58ee 100644
+index ee30642164fb742f5e6d0ac638187956720e91a1..ac587f97dd77c79565a7544be37a0129e19b3f19 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -454,7 +454,7 @@ on early-fs
+@@ -553,7 +553,7 @@ on early-fs
      #start vold
  
  on post-fs
@@ -22,7 +22,7 @@ index 044ce75ee3eec578885e79dc0cf082fdb5128edc..544e139a67d2fe9ed08eea6755c308dd
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
-@@ -530,7 +530,7 @@ on post-fs-data
+@@ -666,7 +666,7 @@ on post-fs-data
      mark_post_data
  
      # Start checkpoint before we touch data
@@ -31,7 +31,16 @@ index 044ce75ee3eec578885e79dc0cf082fdb5128edc..544e139a67d2fe9ed08eea6755c308dd
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
-@@ -1083,8 +1083,8 @@ on userspace-reboot-fs-remount
+@@ -719,7 +719,7 @@ on post-fs-data
+     # we can tell keystore to stop allowing use of early-boot keys,
+     # and access its database for the first time to support creation and
+     # use of MAX_BOOT_LEVEL keys.
+-    exec - system system -- /system/bin/vdc keymaster earlyBootEnded
++    #exec - system system -- /system/bin/vdc keymaster earlyBootEnded
+ 
+     # Multi-installed APEXes are selected using persist props.
+     # Load persist properties and override properties (if enabled) from /data,
+@@ -1314,8 +1314,8 @@ on userspace-reboot-fs-remount
    # This is mostly a precaution measure in case vold for some reason wasn't running when
    # userspace reboot was initiated.
    #start vold

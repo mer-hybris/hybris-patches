@@ -6,15 +6,15 @@ Subject: [PATCH] (hybris) Don't create/mount proc, apex, dev/null, random, ...
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: I3040e7e1ddf6d30644d8dc249ed3f0a6d6633615
 ---
- init/first_stage_init.cpp | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ init/first_stage_init.cpp | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index e35831e1f979a64ba32c17def412b2daf362838e..4f1c333617158a6ac8b9e8f699fbc73f88739d89 100644
+index 1d67b9928664ac0205536522197ee79b0917e674..14b37543618b76a106c60e524fe77a3c98fc73b4 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -196,7 +196,7 @@ int FirstStageMain(int argc, char** argv) {
-     CHECKCALL(mkdir("/dev/socket", 0755));
+@@ -241,7 +241,7 @@ int FirstStageMain(int argc, char** argv) {
+     CHECKCALL(mkdir("/dev/dm-user", 0755));
      //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
  #define MAKE_STR(x) __STRING(x)
 -    CHECKCALL(mount("proc", "/proc", "proc", 0, "hidepid=2,gid=" MAKE_STR(AID_READPROC)));
@@ -22,7 +22,7 @@ index e35831e1f979a64ba32c17def412b2daf362838e..4f1c333617158a6ac8b9e8f699fbc73f
  #undef MAKE_STR
      // Don't expose the raw commandline to unprivileged processes.
      //CHECKCALL(chmod("/proc/cmdline", 0440));
-@@ -209,18 +209,18 @@ int FirstStageMain(int argc, char** argv) {
+@@ -258,18 +258,18 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
  #endif
  
@@ -46,7 +46,7 @@ index e35831e1f979a64ba32c17def412b2daf362838e..4f1c333617158a6ac8b9e8f699fbc73f
  
      // These below mounts are done in first stage init so that first stage mount can mount
      // subdirectories of /mnt/{vendor,product}/.  Other mounts, not required by first stage mount,
-@@ -231,14 +231,14 @@ int FirstStageMain(int argc, char** argv) {
+@@ -280,22 +280,22 @@ int FirstStageMain(int argc, char** argv) {
      //                "mode=0755,uid=0,gid=1000"));
      // /mnt/vendor is used to mount vendor-specific partitions that can not be
      // part of the vendor partition, e.g. because they are mounted read-write.
@@ -62,6 +62,17 @@ index e35831e1f979a64ba32c17def412b2daf362838e..4f1c333617158a6ac8b9e8f699fbc73f
 -                    "mode=0755,uid=0,gid=0"));
 +    //CHECKCALL(mount("tmpfs", "/debug_ramdisk", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
 +    //                "mode=0755,uid=0,gid=0"));
+ 
+     // /second_stage_resources is used to preserve files from first to second
+     // stage init
+-    CHECKCALL(mount("tmpfs", kSecondStageRes, "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+-                    "mode=0755,uid=0,gid=0"))
++    //CHECKCALL(mount("tmpfs", kSecondStageRes, "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
++    //                "mode=0755,uid=0,gid=0"))
+ 
+     // First stage init stores Mainline sepolicy here.
+-    CHECKCALL(mkdir("/dev/selinux", 0744));
++    //CHECKCALL(mkdir("/dev/selinux", 0744));
  #undef CHECKCALL
  
      SetStdioToDevNull(argv);

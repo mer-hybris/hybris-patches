@@ -16,27 +16,28 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
 Conflicts:
 	rootdir/init.rc
 ---
- rootdir/init.rc | 5 +++++
- 1 file changed, 5 insertions(+)
+ rootdir/init.rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 3907f20e6ba06249bdec270b42ede7a41577d40a..093e5a98a11325c287f0ecbde9b7df9cc8a1fcb0 100644
+index 63ab95d47d752576a71c0d2c5725b79920d94c6c..d6c9227501a90c81eed6287b237a879270a7f9d6 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -942,6 +942,7 @@ on boot
-     # Requires keystore (currently a core service) to be ready first.
-     exec -- /system/bin/fsverity_init
+@@ -1185,6 +1185,7 @@ on boot
+ 
+     class_start core
  
 +# Never gets called, since Mer does its own 'mount_all'
  on nonencrypted
      class_start main
      class_start late_start
-@@ -949,6 +950,10 @@ on nonencrypted
+@@ -1192,6 +1193,11 @@ on nonencrypted
  on property:sys.init_log_level=*
      loglevel ${sys.init_log_level}
  
 +# Mer needs to set this property when fs units are mounted
 +on property:droid.late_start=trigger_late_start
++    class_start main
 +    class_start late_start
 +
  on charger

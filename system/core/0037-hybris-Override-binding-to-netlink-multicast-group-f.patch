@@ -15,7 +15,7 @@ Change-Id: I7a896df61ae37db6f8d66ef3e9a08569b65245e2
  1 file changed, 5 insertions(+)
 
 diff --git a/libcutils/uevent.cpp b/libcutils/uevent.cpp
-index bf244d2c7287d78fb3cf14397557b9af4dd0e557..00296c19dc8627a6ddd8aeb7c7b30d298bae3517 100644
+index 40bbd5c8fdbcd1bd0a6bd1d8fcf4aa6979e7e377..8ab817419149bfab30353ae6d8c95af72906ad47 100644
 --- a/libcutils/uevent.cpp
 +++ b/libcutils/uevent.cpp
 @@ -19,6 +19,7 @@
@@ -27,7 +27,7 @@ index bf244d2c7287d78fb3cf14397557b9af4dd0e557..00296c19dc8627a6ddd8aeb7c7b30d29
  #include <strings.h>
  #include <sys/socket.h>
 @@ -104,6 +105,10 @@ int uevent_open_socket(int buf_sz, bool passcred) {
-     addr.nl_pid = getpid();
+     addr.nl_pid = 0;
      addr.nl_groups = 0xffffffff;
  
 +    char* nl_groups_env = getenv("UEVENT_NETLINK_GROUPS");
