@@ -16,10 +16,10 @@ Signed-off-by: Björn Bidar <theodorstormgrade@gmail.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
-index a6cd5cdb1792cf798eb79d83d1838761b86936fa..2159e817be67111d77702a1cde32f08499d65f26 100644
+index 6acf0b6cae5fabbe363036494b6f891d45b5ec00..8292860487d79d2158da450b1bf2d77ef9933836 100644
 --- a/services/camera/libcameraservice/CameraService.cpp
 +++ b/services/camera/libcameraservice/CameraService.cpp
-@@ -3247,9 +3247,15 @@ void CameraService::increaseSoundRef() {
+@@ -3876,9 +3876,15 @@ void CameraService::increaseSoundRef() {
      mSoundRef++;
  }
  
@@ -35,7 +35,7 @@ index a6cd5cdb1792cf798eb79d83d1838761b86936fa..2159e817be67111d77702a1cde32f084
      LOG1("CameraService::loadSoundLocked ref=%d", mSoundRef);
      if (SOUND_SHUTTER == kind && mSoundPlayer[SOUND_SHUTTER] == NULL) {
          mSoundPlayer[SOUND_SHUTTER] = newMediaPlayer("/product/media/audio/ui/camera_click.ogg");
-@@ -3268,6 +3274,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
+@@ -3897,6 +3903,7 @@ void CameraService::loadSoundLocked(sound_kind kind) {
              mSoundPlayer[SOUND_RECORDING_STOP] = newMediaPlayer("/system/media/audio/ui/VideoStop.ogg");
          }
      }

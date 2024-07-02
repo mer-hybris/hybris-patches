@@ -5,13 +5,13 @@ Subject: [PATCH] (hybris) Add aapcs float handling to audio api headers
 
 Change-Id: I2b0015aa75e1afa849a5563fa92d041c37f88780
 ---
- include/hardware/audio.h | 16 +++++++++++-----
+ include_all/hardware/audio.h | 16 +++++++++++-----
  1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/include/hardware/audio.h b/include/hardware/audio.h
+diff --git a/include_all/hardware/audio.h b/include_all/hardware/audio.h
 index daaa16f1eb037d12af6b170e9ad28eede9428c63..66bb19366d5f510377a426fada5999975544de65 100644
---- a/include/hardware/audio.h
-+++ b/include/hardware/audio.h
+--- a/include_all/hardware/audio.h
++++ b/include_all/hardware/audio.h
 @@ -30,6 +30,12 @@
  #include <system/audio.h>
  #include <hardware/audio_effect.h>

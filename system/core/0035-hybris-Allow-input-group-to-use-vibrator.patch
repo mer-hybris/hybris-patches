@@ -16,12 +16,12 @@ Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
  1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index ac587f97dd77c79565a7544be37a0129e19b3f19..6a23451458c9b7cd7d267d894a0aa9474abcbcad 100644
+index 524cade3486dfad576ba30ea71d66fe8e43cf9f1..a0e1f13e7cc30f384a9cc83e3c0426b88cebbb54 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1149,11 +1149,12 @@ on boot
-     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+@@ -1159,11 +1159,12 @@ on boot
+     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
  
 -    chown system system /sys/class/leds/vibrator/trigger
 -    chown system system /sys/class/leds/vibrator/activate

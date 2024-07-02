@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Thu, 11 Jul 2024 18:42:00 +0000
+Subject: [PATCH] (hybris) Fix build with gcc
+
+Change-Id: If871874420cbe36c533b67f524fb5819676c4b3a
+---
+ libs/nativewindow/include/android/data_space.h    | 2 +-
+ libs/nativewindow/include/android/native_window.h | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
+index be6623ee75..18b4f00926 100644
+--- a/libs/nativewindow/include/android/native_window.h
++++ b/libs/nativewindow/include/android/native_window.h
+@@ -373,7 +373,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
+  * \return 0 for success, -EINVAL if the window value is invalid.
+  */
+ inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window)
+-        __INTRODUCED_IN(__ANDROID_API_U__) {
++        __INTRODUCED_IN(__ANDROID_API_U__);
++
++inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) {
+     return ANativeWindow_setFrameRateWithChangeStrategy(window, 0,
+             ANATIVEWINDOW_FRAME_RATE_COMPATIBILITY_DEFAULT,
+             ANATIVEWINDOW_CHANGE_FRAME_RATE_ONLY_IF_SEAMLESS);

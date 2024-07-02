@@ -12,10 +12,10 @@ Change-Id: I4701723d55032e35228a84bff81b20cc93424c32
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index f2d6c8ace224ecb690ddfd636d3cbca232f2b2b0..5e485238dcc0f59bc4befd3c2fbe05f2deae43a7 100644
+index 099dacec73218c195e99efbe350e9f650b6792c6..c415e97c27944108e2bc2b47a323c7e76bfc38bb 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -237,7 +237,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -333,7 +333,7 @@ int FirstStageMain(int argc, char** argv) {
      // on / and then we'll let the rc file figure out the rest.
      //CHECKCALL(mount("tmpfs", "/dev", "tmpfs", MS_NOSUID, "mode=0755"));
      //CHECKCALL(mkdir("/dev/pts", 0755));

@@ -5,13 +5,13 @@ Subject: [PATCH] (hybris) gps.h Use proper aapcs attribute with functions with
  float arguments
 
 ---
- include/hardware/gps.h | 10 ++++++++--
+ include_all/hardware/gps.h | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/include/hardware/gps.h b/include/hardware/gps.h
+diff --git a/include_all/hardware/gps.h b/include_all/hardware/gps.h
 index 4e108b3f230d88283e5d309b960e86a1aca48f6d..e461aa1d8ca7771d808772973962a77a171c7c37 100644
---- a/include/hardware/gps.h
-+++ b/include/hardware/gps.h
+--- a/include_all/hardware/gps.h
++++ b/include_all/hardware/gps.h
 @@ -28,6 +28,12 @@
  
  #include "gnss-base.h"

@@ -10,10 +10,10 @@ Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
-index e7ada69a86f749ecdadad39e2b2dac19a9795bcd..44583694a2b5396bdb4dd9a7072769fc8f71e0fa 100644
+index abbe259e12440b1c22c8b7df25c76b2229b92fdd..af6dfe4c5cddcd3963af22b35ee9dfb6343d94fb 100644
 --- a/libc/platform/bionic/tls_defines.h
 +++ b/libc/platform/bionic/tls_defines.h
-@@ -104,12 +104,12 @@
+@@ -110,12 +110,12 @@
  
  #define TLS_SLOT_SELF             0
  #define TLS_SLOT_THREAD_ID        1
@@ -31,4 +31,4 @@ index e7ada69a86f749ecdadad39e2b2dac19a9795bcd..44583694a2b5396bdb4dd9a7072769fc
 +#define TLS_SLOT_ART_THREAD_SELF
  #define TLS_SLOT_DTV              8
  #define TLS_SLOT_BIONIC_TLS       9
- #define MAX_TLS_SLOT              9 // update this value when reserving a slot
+ #define TLS_SLOT_NATIVE_BRIDGE_GUEST_STATE 10

@@ -10,10 +10,10 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index d050ed783580101f1dd39116bf6df0e27c15b3b1..bb8ddbd6ca3ce1f19dfff595b65883e1abc500b4 100644
+index e48fa155420f68ea07e943ab75527dc2871151d2..1192e155bd4d686984c668233d2d2192f2cfa00a 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -233,16 +233,16 @@ int FirstStageMain(int argc, char** argv) {
+@@ -329,16 +329,16 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
      // Get the basic filesystem setup we need put together in the initramdisk
      // on / and then we'll let the rc file figure out the rest.
@@ -34,7 +34,7 @@ index d050ed783580101f1dd39116bf6df0e27c15b3b1..bb8ddbd6ca3ce1f19dfff595b65883e1
      std::string cmdline;
      android::base::ReadFileToString("/proc/cmdline", &cmdline);
      // Don't expose the raw bootconfig to unprivileged processes.
-@@ -251,7 +251,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -347,7 +347,7 @@ int FirstStageMain(int argc, char** argv) {
      android::base::ReadFileToString("/proc/bootconfig", &bootconfig);
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));

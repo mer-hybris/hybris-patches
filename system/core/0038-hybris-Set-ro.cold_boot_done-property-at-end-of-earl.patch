@@ -9,12 +9,12 @@ Change-Id: I8fb92845d47ef286005944150e2fa3ea366ebcbf
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index efea3424bb46763fa260d3a564a6c1db6409264b..deb3507267881c70d44edb90723f97ab58595543 100644
+index 7f0b9fe6dacc371b0b6220019e3978a5da903690..5999f8d3b5aa780375d87281fbe27f6119346f31 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -85,6 +85,8 @@ on early-init
-     mkdir /dev/sys/fs 0755 system system
-     mkdir /dev/sys/block 0755 system system
+@@ -91,6 +91,8 @@ on early-init
+     # checker programs.
+     mkdir /dev/fscklogs 0770 root system
  
 +    setprop ro.cold_boot_done true
 +

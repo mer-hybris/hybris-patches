@@ -23,10 +23,10 @@ Conflicts:
  2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 2d516885cc08a5b82a088ab9488b6737815bc544..5697eb0dfaf8b4a0315245c286842e3b50022cf4 100644
+index 54c5192db89372ae4f05361871bfc7ce09984605..df703fe6a6a9f4c7c54e784d84df1d225f308fa6 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -986,7 +986,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1105,7 +1105,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,12 +36,12 @@ index 2d516885cc08a5b82a088ab9488b6737815bc544..5697eb0dfaf8b4a0315245c286842e3b
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 26341b19670e0f54fea946a6af2e9f51e1e78616..75b30d8d51228bcaaf3325bea05e9ea6aaf3721f 100644
+index 013924778b8af4e883fd2ae7b454a5cefbc80f6b..b27e4f19fe73033acacb2257b26fc6a17a69e389 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -216,6 +216,12 @@ static uint32_t PropertySet(const std::string& name, const std::string& value, s
+@@ -197,6 +197,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
+         PropertyChanged(name, value);
      }
-     return PROP_SUCCESS;
  }
 +// Legacy definition
 +typedef struct prop_msg_s {
@@ -52,7 +52,7 @@ index 26341b19670e0f54fea946a6af2e9f51e1e78616..75b30d8d51228bcaaf3325bea05e9ea6
  
  class AsyncRestorecon {
    public:
-@@ -312,6 +318,17 @@ class SocketConnection {
+@@ -295,6 +301,17 @@ class SocketConnection {
  
      [[nodiscard]] int Release() { return socket_.release(); }
  
@@ -63,25 +63,25 @@ index 26341b19670e0f54fea946a6af2e9f51e1e78616..75b30d8d51228bcaaf3325bea05e9ea6
 +        prop_msg.cmd = 0;
 +        strlcpy(prop_msg.name, name.c_str(), PROP_NAME_MAX);
 +        strlcpy(prop_msg.value, value.c_str(), PROP_VALUE_MAX);
-+        result = TEMP_FAILURE_RETRY(send(socket_, &prop_msg, sizeof(prop_msg_t), 0));
++        result = TEMP_FAILURE_RETRY(send(socket_.get(), &prop_msg, sizeof(prop_msg_t), 0));
 +        return (result == sizeof(prop_msg_t));
 +    }
 +
      const ucred& cred() { return cred_; }
  
-   private:
-@@ -527,6 +544,9 @@ uint32_t HandlePropertySet(const std::string& name, const std::string& value,
- static void handle_property_set_fd() {
+     SocketConnection& operator=(SocketConnection&&) = default;
+@@ -596,6 +613,9 @@ uint32_t HandlePropertySetNoSocket(const std::string& name, const std::string& v
+ static void handle_property_set_fd(int fd) {
      static constexpr uint32_t kDefaultSocketTimeout = 2000; /* ms */
  
 +    char rproperty[PROP_VALUE_MAX];
 +    const prop_info *pi;
 +
-     int s = accept4(property_set_fd, nullptr, nullptr, SOCK_CLOEXEC);
+     int s = accept4(fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -609,7 +629,48 @@ static void handle_property_set_fd() {
-         socket.SendUint32(result);
+@@ -682,7 +702,48 @@ static void handle_property_set_fd(int fd) {
+         socket.SendUint32(*result);
          break;
        }
 +    case PROP_MSG_GETPROP: {

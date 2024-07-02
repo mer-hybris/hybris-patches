@@ -6,16 +6,16 @@ Subject: [PATCH] (hybris) Revert "Returns a service parse error on overrides
 
 This reverts commit f597fa5d1dca3b79b30d5b66e15e23b0bd91b560.
 ---
- init/host_init_verifier.cpp | 86 +++++++------------------------------
+ init/host_init_verifier.cpp | 88 +++++++------------------------------
  init/service.cpp            |  1 -
  init/service.h              |  2 -
  init/service_parser.cpp     |  8 ----
  init/subcontext.cpp         |  3 --
  init/subcontext.h           |  7 +--
- 6 files changed, 18 insertions(+), 89 deletions(-)
+ 6 files changed, 18 insertions(+), 91 deletions(-)
 
 diff --git a/init/host_init_verifier.cpp b/init/host_init_verifier.cpp
-index db127d3f2b27c23f9007c8ef72045de97ac54f3a..ef9a4514c4241c40fb6508a9bfaa0f180ad2f7c0 100644
+index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77a57bb0c9 100644
 --- a/init/host_init_verifier.cpp
 +++ b/init/host_init_verifier.cpp
 @@ -25,8 +25,6 @@
@@ -125,7 +125,7 @@ index db127d3f2b27c23f9007c8ef72045de97ac54f3a..ef9a4514c4241c40fb6508a9bfaa0f18
          PrintUsage();
          return EXIT_FAILURE;
      }
-@@ -298,42 +262,24 @@ int main(int argc, char** argv) {
+@@ -298,44 +262,24 @@ int main(int argc, char** argv) {
  
      property_info_area = reinterpret_cast<const PropertyInfoArea*>(serialized_contexts.c_str());
  
@@ -160,11 +160,13 @@ index db127d3f2b27c23f9007c8ef72045de97ac54f3a..ef9a4514c4241c40fb6508a9bfaa0f18
 -            }
 -        }
 -    } else {
--        if (!parser.ParseConfigFileInsecure(*argv)) {
+-        if (!parser.ParseConfigFileInsecure(*argv, true /* follow_symlinks */)) {
+-          // Follow symlinks as inputs during build execution in Bazel's
+-          // execution root are symlinks, unlike Soong or Make.
 -            LOG(ERROR) << "Failed to open init rc script '" << *argv << "'";
 -            return EXIT_FAILURE;
 -        }
-+    if (!parser.ParseConfigFileInsecure(*argv)) {
++    if (!parser.ParseConfigFileInsecure(*argv, true /* follow_symlinks */)) {
 +        LOG(ERROR) << "Failed to open init rc script '" << *argv << "'";
 +        return EXIT_FAILURE;
      }
@@ -177,10 +179,10 @@ index db127d3f2b27c23f9007c8ef72045de97ac54f3a..ef9a4514c4241c40fb6508a9bfaa0f18
      }
      return EXIT_SUCCESS;
 diff --git a/init/service.cpp b/init/service.cpp
-index c5d89752ff2d0e06e32992db19ad1881d63763ad..dabba70e14482166082bc60432f489344e2a821e 100644
+index 2f01aa8b142d18a38efd589e897b771ac31ecb2d..9205bae5a1922a626d162bd3e567999edd93f963 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -154,7 +154,6 @@ Service::Service(const std::string& name, unsigned flags, uid_t uid, gid_t gid,
+@@ -164,7 +164,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
                   .priority = 0},
        namespaces_{.flags = namespace_flags},
        seclabel_(seclabel),
@@ -189,30 +191,30 @@ index c5d89752ff2d0e06e32992db19ad1881d63763ad..dabba70e14482166082bc60432f48934
                   "onrestart", {}),
        oom_score_adjust_(DEFAULT_OOM_SCORE_ADJUST),
 diff --git a/init/service.h b/init/service.h
-index c314aa1c6cb8383d93d9a4acb2dd878e8dc1be47..b774433617b77badb5087fb3f2a9acc0bba328dd 100644
+index 5e9af25db64c3830931a57cee005b6f5696f3410..834641ec13823b6d268dda2193c8600102c61e5a 100644
 --- a/init/service.h
 +++ b/init/service.h
-@@ -141,7 +141,6 @@ class Service {
+@@ -153,7 +153,6 @@ class Service {
              flags_ &= ~SVC_ONESHOT;
          }
      }
--    Subcontext* subcontext() const { return subcontext_; }
+-    const Subcontext* subcontext() const { return subcontext_; }
+     const std::string& filename() const { return filename_; }
+     void set_filename(const std::string& name) { filename_ = name; }
+     static int GetSigchldFd() {
+@@ -203,7 +202,6 @@ class Service {
+     // Environment variables that only get applied to the next run.
+     std::vector<std::pair<std::string, std::string>> once_environment_vars_;
  
-   private:
-     void NotifyStateChange(const std::string& new_state) const;
-@@ -182,7 +181,6 @@ class Service {
-     std::vector<FileDescriptor> files_;
-     std::vector<std::pair<std::string, std::string>> environment_vars_;
- 
--    Subcontext* subcontext_;
+-    const Subcontext* const subcontext_;
      Action onrestart_;  // Commands to execute on restart.
  
      std::vector<std::string> writepid_files_;
 diff --git a/init/service_parser.cpp b/init/service_parser.cpp
-index 1ee309d98b758c3aefb56de65ccf8b9fd5792a08..b36c6688354462210abc09db7735d0039255eba3 100644
+index 92e350be607c647f14f33c9e8a4d301413960f9a..93614b2b1837aa9e14ef4b1d22e596e66d296994 100644
 --- a/init/service_parser.cpp
 +++ b/init/service_parser.cpp
-@@ -698,14 +698,6 @@ Result<void> ServiceParser::EndSection() {
+@@ -716,14 +716,6 @@ Result<void> ServiceParser::EndSection() {
                             << "' with a config in APEX";
          }
  
@@ -228,10 +230,10 @@ index 1ee309d98b758c3aefb56de65ccf8b9fd5792a08..b36c6688354462210abc09db7735d003
          old_service = nullptr;
      }
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index 4e573854eda7c52b47bcebc897e6f0d2e3cc745a..cac91f9b19b838079ae5f81b7e33bb21f636cbf7 100644
+index 7d6f05b1ce2d90e0ec9072c671cac0a49bc5bb25..1f2b186cb5613ca9a5b61e57ece26d695d4c532c 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -350,9 +350,6 @@ void InitializeSubcontext() {
+@@ -358,9 +358,6 @@ void InitializeSubcontext() {
                  new Subcontext(std::vector<std::string>{"/vendor", "/odm"}, kVendorContext));
      }
  }
@@ -242,16 +244,18 @@ index 4e573854eda7c52b47bcebc897e6f0d2e3cc745a..cac91f9b19b838079ae5f81b7e33bb21
  Subcontext* GetSubcontext() {
      return subcontext.get();
 diff --git a/init/subcontext.h b/init/subcontext.h
-index cb4138e69f3880af184e1f1a4960c58b37ddebf1..788d3be6cfe5c8ba4f638abed0b0dbfd62ec02da 100644
+index 93ebacea27c0af8c97fc269511dbb9a17c90b850..1a4a6cb4acc82323d4d1f91ab729e0f5ca34d3f7 100644
 --- a/init/subcontext.h
 +++ b/init/subcontext.h
-@@ -36,11 +36,9 @@ static constexpr const char kTestContext[] = "test-test-test";
+@@ -36,13 +36,11 @@ static constexpr const char kTestContext[] = "test-test-test";
  
  class Subcontext {
    public:
--    Subcontext(std::vector<std::string> path_prefixes, std::string context, bool host = false)
-+    Subcontext(std::vector<std::string> path_prefixes, std::string context)
-         : path_prefixes_(std::move(path_prefixes)), context_(std::move(context)), pid_(0) {
+-    Subcontext(std::vector<std::string> path_prefixes, std::string_view context, bool host = false)
++    Subcontext(std::vector<std::string> path_prefixes, std::string_view context)
+         : path_prefixes_(std::move(path_prefixes)),
+           context_(context.begin(), context.end()),
+           pid_(0) {
 -        if (!host) {
 -            Fork();
 -        }
@@ -259,7 +263,7 @@ index cb4138e69f3880af184e1f1a4960c58b37ddebf1..788d3be6cfe5c8ba4f638abed0b0dbfd
      }
  
      Result<void> Execute(const std::vector<std::string>& args);
-@@ -63,7 +61,6 @@ class Subcontext {
+@@ -67,7 +65,6 @@ class Subcontext {
  
  int SubcontextMain(int argc, char** argv, const BuiltinFunctionMap* function_map);
  void InitializeSubcontext();

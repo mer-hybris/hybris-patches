@@ -5,14 +5,14 @@ Subject: [PATCH] (hybris) Disable all zygote variations
 
 Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
 ---
- rootdir/init.rc             | 2 +-
+ rootdir/init.rc             | 6 +++---
  rootdir/init.zygote32.rc    | 1 +
  rootdir/init.zygote64.rc    | 1 +
- rootdir/init.zygote64_32.rc | 2 ++
- 4 files changed, 5 insertions(+), 1 deletion(-)
+ rootdir/init.zygote64_32.rc | 3 ++-
+ 4 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 10a9e261962ccb985961f8b05384afe9d0f7c72b..3a3e2a7e34abc5e7394908eb8e1b6072b701711d 100644
+index ca1375233703e8e82b6480817fe1dc8c61bc802a..bf38c8d5cf64e64a793afb8013660ba102ba5340 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc
@@ -24,8 +24,26 @@ index 10a9e261962ccb985961f8b05384afe9d0f7c72b..3a3e2a7e34abc5e7394908eb8e1b6072
  
  # Cgroups are mounted right before early-init using list from /etc/cgroups.json
  on early-init
+@@ -546,7 +546,7 @@ on late-init
+     trigger load_bpf_programs
+ 
+     # Now we can start zygote.
+-    trigger zygote-start
++    #trigger zygote-start
+ 
+     # Remove a file to wake up anything waiting for firmware.
+     trigger firmware_mounts_complete
+@@ -1337,7 +1337,7 @@ on userspace-reboot-fs-remount
+ on userspace-reboot-resume
+   trigger userspace-reboot-fs-remount
+   trigger post-fs-data
+-  trigger zygote-start
++  #trigger zygote-start
+   trigger early-boot
+   trigger boot
+ 
 diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
-index 2f0ec8a17d4c38a27a57ec7f12ed47fbdb343d99..e8a96d6b97f9c152427d01e4b3d1dafe0d817400 100644
+index 442bd153f5dbda0592db6451a500c8318c281c6c..0fbfb6ab09e439890b71d40fdf64d988118d4120 100644
 --- a/rootdir/init.zygote32.rc
 +++ b/rootdir/init.zygote32.rc
 @@ -18,3 +18,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
@@ -35,27 +53,25 @@ index 2f0ec8a17d4c38a27a57ec7f12ed47fbdb343d99..e8a96d6b97f9c152427d01e4b3d1dafe
 +    disabled
 \ No newline at end of file
 diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
-index 805267d1dd2bfd727880aef5a7dd785c1adebbd8..de89dbe18e5989a80702248d6591d5151f1e2cf2 100644
+index 342212123de59bebaf3eb4d4c3dca7147affe5c4..d770078794d7407d547607b6d274af5e9afb95bf 100644
 --- a/rootdir/init.zygote64.rc
 +++ b/rootdir/init.zygote64.rc
 @@ -18,3 +18,4 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
      onrestart restart wificond
-     task_profiles ProcessCapacityHigh
-     critical window=${zygote.critical_window.minute:-off} target=zygote-fatal
-+    disabled
-diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
-index efb30d664a7d4d556a2c9106eb7d40c499d757e8..c76b8d96b9179546a2825c8233701f9efeec1f19 100644
---- a/rootdir/init.zygote64_32.rc
-+++ b/rootdir/init.zygote64_32.rc
-@@ -15,6 +15,7 @@ service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-s
-     onrestart restart wificond
      task_profiles ProcessCapacityHigh MaxPerformance
      critical window=${zygote.critical_window.minute:-off} target=zygote-fatal
 +    disabled
+diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
+index 109bf6c65cb22d3706e6a5c6b20daa307611cc7d..8eb6eb0b8b1558ac3db6455e654887c11f10e487 100644
+--- a/rootdir/init.zygote64_32.rc
++++ b/rootdir/init.zygote64_32.rc
+@@ -1,4 +1,4 @@
+-import /system/etc/init/hw/init.zygote64.rc
++import /usr/libexec/droid-hybris/system/etc/init/hw/init.zygote64.rc
  
  service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary --enable-lazy-preload
      class main
-@@ -25,3 +26,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
+@@ -9,3 +9,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
      socket usap_pool_secondary stream 660 root system
      onrestart restart zygote
      task_profiles ProcessCapacityHigh MaxPerformance

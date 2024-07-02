@@ -10,7 +10,7 @@ Signed-off-by: David Greaves <david@dgreaves.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8cdcb4101d8284d50e09fd55003b5cd11c767b95..29b2db7c732a9e81b4d60a51704fa7a5b88cb312 100644
+index 17e94fe8c22114100b4751be2521701c94b03ed9..ea4dd3de33c6c489ef93ed768cb4bbc26c4c2d0f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -11,7 +11,8 @@

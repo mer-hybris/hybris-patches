@@ -9,13 +9,13 @@ Change-Id: I6e80eb3e2d92ddfbd83f1933971c3f24e9570d28
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/cmds/servicemanager/servicemanager.rc b/cmds/servicemanager/servicemanager.rc
-index e5d689ff911ed04c4774690834c67d2b0e1ae073..6673ea88b5f51111ad24018cbf247c8952894672 100644
+index 4f92b3a374ff0007fddbbfb498b5625a2aab1811..cc59f1d8117a4a10c6f8b2cb6a2fbed78a563ade 100644
 --- a/cmds/servicemanager/servicemanager.rc
 +++ b/cmds/servicemanager/servicemanager.rc
-@@ -4,8 +4,8 @@ service servicemanager /system/bin/servicemanager
-     group system readproc
-     critical
-     onrestart restart apexd
+@@ -6,8 +6,8 @@ service servicemanager /system/bin/servicemanager
+     file /dev/kmsg w
+     onrestart setprop servicemanager.ready false
+     onrestart restart --only-if-running apexd
 -    onrestart restart audioserver
 -    onrestart restart gatekeeperd
 +    #onrestart restart audioserver

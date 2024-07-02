@@ -8,11 +8,11 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
  init/Android.bp  |  4 ----
  init/init.cpp    |  2 --
- init/service.cpp | 18 ++++++++++++++++--
- 3 files changed, 16 insertions(+), 8 deletions(-)
+ init/service.cpp | 19 +++++++++++++++++--
+ 3 files changed, 17 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index dd67d04c0309fa00076a572edeb8ead5a181faf9..f2faaa2c2b1615ca8812360462f1d6d831618625 100644
+index e5512e62652c1a63041d249ddf86679800c56a8a..be1e30cbbefaf819be14bf7fb9a4dfc3c302a728 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
 @@ -192,8 +192,6 @@ libinit_cc_defaults {
@@ -22,17 +22,17 @@ index dd67d04c0309fa00076a572edeb8ead5a181faf9..f2faaa2c2b1615ca8812360462f1d6d8
 -        "libprocessgroup",
 -        "libprocessgroup_setup",
          "libselinux",
+         "libunwindstack",
          "libutils",
-         "libziparchive",
-@@ -495,7 +493,6 @@ cc_defaults {
+@@ -528,7 +526,6 @@ cc_defaults {
+         "libcutils",
          "libselinux",
-         "libhidl-gen-utils",
          "liblog",
 -        "libprocessgroup",
          "libprotobuf-cpp-lite",
      ],
- }
-@@ -553,7 +550,6 @@ cc_defaults {
+     static_libs: [
+@@ -591,7 +588,6 @@ cc_defaults {
          "libhidl-gen-utils",
          "libhidlmetadata",
          "liblog",
@@ -41,33 +41,33 @@ index dd67d04c0309fa00076a572edeb8ead5a181faf9..f2faaa2c2b1615ca8812360462f1d6d8
      ],
      proto: {
 diff --git a/init/init.cpp b/init/init.cpp
-index f7d84b7d062426392a1fdd619dd5991eb720083e..53d9158559a753089f08bf80529af81b99999889 100644
+index 9309d001c6d7e7937c39415a7cd4fd21be06ace9..8418801928c1ac3fdcc1eb62ee2ed52e525a90e4 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -58,8 +58,6 @@
- #include <libavb/libavb.h>
+@@ -59,8 +59,6 @@
  #include <libgsi/libgsi.h>
  #include <libsnapshot/snapshot.h>
+ #include <logwrap/logwrap.h>
 -#include <processgroup/processgroup.h>
 -#include <processgroup/setup.h>
  #include <selinux/android.h>
+ #include <unwindstack/AndroidUnwinder.h>
  
- #include "action_parser.h"
 diff --git a/init/service.cpp b/init/service.cpp
-index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881d63763ad 100644
+index bd6643ea99692298eb3732f792846f4f88b1edc6..2f01aa8b142d18a38efd589e897b771ac31ecb2d 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -33,7 +33,6 @@
+@@ -35,7 +35,6 @@
  #include <android-base/stringprintf.h>
  #include <android-base/strings.h>
  #include <cutils/sockets.h>
 -#include <processgroup/processgroup.h>
  #include <selinux/selinux.h>
+ #include <sys/signalfd.h>
  
- #include "lmkd_service.h"
-@@ -197,7 +196,13 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
-     // These functions handle their own logging, so no additional logging is needed.
-     if (!process_cgroup_empty_) {
+@@ -208,7 +207,13 @@ void Service::KillProcessGroup(int signal) {
+     // These signals must be sent for a successful shutdown.
+     if (!process_cgroup_empty_ || IsRunning()) {
          LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
 -                  << ") process group...";
 +                  << ") process group... HYBRIS: killing PID instead of process group.";
@@ -77,10 +77,10 @@ index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881
 +// hybris: TODO?
 +#if DISABLED_FOR_HYBRIS_SUPPORT
 +
-         int max_processes = 0;
          int r;
          if (signal == SIGTERM) {
-@@ -215,6 +220,8 @@ void Service::KillProcessGroup(int signal, bool report_oneshot) {
+             r = killProcessGroupOnce(uid(), pid_, signal);
+@@ -217,6 +222,8 @@ void Service::KillProcessGroup(int signal) {
          }
  
          if (r == 0) process_cgroup_empty_ = true;
@@ -89,7 +89,7 @@ index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881
      }
  
      if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-@@ -297,9 +304,11 @@ void Service::Reap(const siginfo_t& siginfo) {
+@@ -300,9 +307,11 @@ void Service::Reap(const siginfo_t& siginfo) {
  
      if (flags_ & SVC_EXEC) UnSetExec();
  
@@ -101,15 +101,15 @@ index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881
  
      if (flags_ & SVC_TEMPORARY) return;
  
-@@ -443,6 +452,7 @@ Result<void> Service::CheckConsole() {
+@@ -478,6 +487,7 @@ Result<void> Service::CheckConsole() {
  
  // Configures the memory cgroup properties for the service.
  void Service::ConfigureMemcg() {
 +#if DISABLED_FOR_HYBRIS_SUPPORT
      if (swappiness_ != -1) {
-         if (!setProcessGroupSwappiness(proc_attr_.uid, pid_, swappiness_)) {
+         if (!setProcessGroupSwappiness(uid(), pid_, swappiness_)) {
              PLOG(ERROR) << "setProcessGroupSwappiness failed";
-@@ -481,6 +491,7 @@ void Service::ConfigureMemcg() {
+@@ -516,6 +526,7 @@ void Service::ConfigureMemcg() {
              PLOG(ERROR) << "setProcessGroupLimit failed";
          }
      }
@@ -117,7 +117,7 @@ index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881
  }
  
  // Enters namespaces, sets environment variables, writes PID files and runs the service executable.
-@@ -499,6 +510,7 @@ void Service::RunService(const std::optional<MountNamespace>& override_mount_nam
+@@ -536,6 +547,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
          descriptor.Publish();
      }
  
@@ -125,18 +125,26 @@ index f45f2b8a16ea0ae974101ca7121fe85044936ca4..c5d89752ff2d0e06e32992db19ad1881
      if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
          LOG(ERROR) << "failed to write pid to files: " << result.error();
      }
-@@ -669,6 +681,7 @@ Result<void> Service::Start() {
+@@ -565,6 +577,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+             LOG(ERROR) << "failed to set task profiles";
+         }
+     }
++#endif
+ 
+     // As requested, set our gid, supplemental gids, uid, context, and
+     // priority. Aborts on failure.
+@@ -708,6 +721,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
 +#if DISABLED_FOR_HYBRIS_SUPPORT
-     bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
-                       limit_percent_ != -1 || !limit_property_.empty();
-     errno = -createProcessGroup(proc_attr_.uid, pid_, use_memcg);
-@@ -691,6 +704,7 @@ Result<void> Service::Start() {
-     if (char byte = 1; write((*pipefd)[1], &byte, 1) < 0) {
-         return ErrnoError() << "sending notification failed";
+     if (CgroupsAvailable()) {
+         bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
+                          limit_percent_ != -1 || !limit_property_.empty();
+@@ -767,6 +781,7 @@ Result<void> Service::Start() {
      }
+ 
+     setsid_finished.Close();
 +#endif
  
      NotifyStateChange("running");

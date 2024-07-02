@@ -11,7 +11,7 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@meramo.co.uk>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/libc/bionic/locale.cpp b/libc/bionic/locale.cpp
-index 0b7037afe3172dfe84fdb54d9a0ed2a6e2bf2e78..02a75dea81dbb920a36fbe14cc2470460ee887e6 100644
+index 2f4d20634f7db8cec156d6f9eb7ff9c280f621cf..feb4e45bc4d7fad0a41428138425c202e6e4ee4c 100644
 --- a/libc/bionic/locale.cpp
 +++ b/libc/bionic/locale.cpp
 @@ -37,11 +37,11 @@
