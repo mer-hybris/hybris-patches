@@ -1,0 +1,46 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Wed, 13 Sep 2023 15:01:24 +0000
+Subject: [PATCH] (hybris) Prevent first stage switch root
+
+Change-Id: If102b6d1ebec84a3994e2db366e413a943dc86bd
+---
+ init/first_stage_init.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
+index 4993a13271476bd38c2ab820df5b407919ee6931..286b50dfab785cd243d08188c10d5677073730fa 100644
+--- a/init/first_stage_init.cpp
++++ b/init/first_stage_init.cpp
+@@ -118,6 +118,7 @@ bool ForceNormalBoot(const std::string& cmdline, const std::string& bootconfig)
+            cmdline.find("androidboot.force_normal_boot=1") != std::string::npos;
+ }
+ 
++#ifndef SYSTEMD_SELINUX
+ static void Copy(const char* src, const char* dst) {
+     if (link(src, dst) == 0) {
+         LOG(INFO) << "hard linking " << src << " to " << dst << " succeeded";
+@@ -157,6 +158,7 @@ void PrepareSwitchRoot() {
+         Copy(snapuserd, dst);
+     }
+ }
++#endif
+ 
+ std::string GetPageSizeSuffix() {
+     static const size_t page_size = sysconf(_SC_PAGE_SIZE);
+@@ -502,6 +504,7 @@ int FirstStageMain(int argc, char** argv) {
+         setenv("INIT_FORCE_DEBUGGABLE", "true", 1);
+     }
+ 
++#ifndef SYSTEMD_SELINUX
+     if (ForceNormalBoot(cmdline, bootconfig)) {
+         mkdir("/first_stage_ramdisk", 0755);
+         PrepareSwitchRoot();
+@@ -531,6 +534,7 @@ int FirstStageMain(int argc, char** argv) {
+             LOG(FATAL) << "Failed to mount required partitions early ...";
+         }
+     }
++#endif
+ 
+     struct stat new_root_info {};
+     if (stat("/", &new_root_info) != 0) {

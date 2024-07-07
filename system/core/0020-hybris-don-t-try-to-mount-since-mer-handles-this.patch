@@ -5,27 +5,26 @@ Subject: [PATCH] (hybris) don't try to mount since mer handles this
 
 Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
 ---
- init/first_stage_mount.cpp | 3 +++
- 1 file changed, 3 insertions(+)
+ init/first_stage_mount.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
-index 50a92c8617621a08578d1fbc1d444725f8fdd568..b67b7e6e40936ce109733822784f6f33be77aca9 100644
+index 69acb0075d311ae16720c82b69a6fecb83bc5b23..8437f6c362bab10cf5b562640fba1dd0f00af283 100644
 --- a/init/first_stage_mount.cpp
 +++ b/init/first_stage_mount.cpp
-@@ -817,6 +817,7 @@ bool DoCreateDevices() {
- 
- // Mounts partitions specified by fstab in device tree.
- bool DoFirstStageMount(bool create_devices) {
-+#if DISABLED_FOR_HYBRIS_SUPPORT
-     // Skips first stage mount if we're in recovery mode.
-     if (IsRecoveryMode()) {
-         LOG(INFO) << "First stage mount skipped (recovery mode)";
-@@ -834,6 +835,8 @@ bool DoFirstStageMount(bool create_devices) {
-     }
- 
-     return (*fsm)->DoFirstStageMount();
-+#endif
-+    return true;
+@@ -261,6 +261,7 @@ bool FirstStageMountVBootV2::DoCreateDevices() {
  }
  
- void SetInitAvbVersionInRecovery() {
+ bool FirstStageMountVBootV2::DoFirstStageMount() {
++#if DISABLED_FOR_HYBRIS_SUPPORT
+     if (!IsDmLinearEnabled() && fstab_.empty()) {
+         // Nothing to mount.
+         LOG(INFO) << "First stage mount skipped (missing/incompatible/empty fstab in device tree)";
+@@ -269,6 +270,7 @@ bool FirstStageMountVBootV2::DoFirstStageMount() {
+ 
+     if (!MountPartitions()) return false;
+ 
++#endif
+     return true;
+ }
+ 

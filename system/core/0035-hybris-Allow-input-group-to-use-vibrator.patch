@@ -12,24 +12,28 @@ Content-Transfer-Encoding: 8bit
 Signed-off-by: Juho Hämäläinen <juho.hamalainen@jolla.com>
 Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
 ---
- rootdir/init.rc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ rootdir/init.rc | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e00f9a6c6bab1bde301d32fe47eaece90878ee6c..5610db34a0a67b0c56c9cd66de6a676236f2da88 100644
+index 9e854fbff4dc657fb9d2bb7cd8dfecdaa6386ff0..392df0636d8a2748ef8bab370d119730dd13415e 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1149,10 +1149,11 @@ on boot
-     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+@@ -1175,11 +1175,12 @@ on boot
+     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
  
+-    chown system system /sys/class/leds/vibrator/trigger
+-    chown system system /sys/class/leds/vibrator/activate
+-    chown system system /sys/class/leds/vibrator/brightness
+-    chown system system /sys/class/leds/vibrator/duration
+-    chown system system /sys/class/leds/vibrator/state
 +    # SailfishOS: allow input group to use vibrator
++    chown system input /sys/class/leds/vibrator/trigger
 +    chown system input /sys/class/leds/vibrator/activate
 +    chown system input /sys/class/leds/vibrator/duration
-     chown system system /sys/class/leds/vibrator/trigger
--    chown system system /sys/class/leds/vibrator/activate
-     chown system system /sys/class/leds/vibrator/brightness
--    chown system system /sys/class/leds/vibrator/duration
-     chown system system /sys/class/leds/vibrator/state
++    chown system input /sys/class/leds/vibrator/brightness
++    chown system input /sys/class/leds/vibrator/state
      chown system system /sys/class/timed_output/vibrator/enable
      chown system system /sys/class/leds/keyboard-backlight/brightness
+     chown system system /sys/class/leds/lcd-backlight/brightness

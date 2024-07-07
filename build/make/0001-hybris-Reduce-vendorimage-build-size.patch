@@ -9,10 +9,10 @@ Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index c19b0754af5b9ec33e81286de177e4a0f09614ec..ab4b9e0b883d3be1837a2ce1bf6dca3dff19b1f5 100644
+index 68179f76ffc29c16a326664002a70dc43824a962..5bc057976507bfa2ea932cfcc987ed8e5a92376c 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -63,6 +63,7 @@ check_elf_prebuilt_product_copy_files_hint := \
+@@ -152,6 +152,7 @@ check_elf_prebuilt_product_copy_files_hint := \
      found ELF prebuilt in PRODUCT_COPY_FILES, use cc_prebuilt_binary / cc_prebuilt_library_shared instead.
  
  # filter out the duplicate <source file>:<dest file> pairs.
@@ -20,7 +20,7 @@ index c19b0754af5b9ec33e81286de177e4a0f09614ec..ab4b9e0b883d3be1837a2ce1bf6dca3d
  unique_product_copy_files_pairs :=
  $(foreach cf,$(PRODUCT_COPY_FILES), \
      $(if $(filter $(unique_product_copy_files_pairs),$(cf)),,\
-@@ -86,6 +87,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
+@@ -175,6 +176,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
                                 $(filter bin lib lib64,$(subst /,$(space),$(_dest)))), \
                          $(eval $(call copy-non-elf-file-checked,$(_src),$(_fulldest),$(check_elf_prebuilt_product_copy_files_hint))), \
                          $(eval $(call copy-one-file,$(_src),$(_fulldest))))))) \
@@ -28,9 +28,9 @@ index c19b0754af5b9ec33e81286de177e4a0f09614ec..ab4b9e0b883d3be1837a2ce1bf6dca3d
          $(eval unique_product_copy_files_destinations += $(_dest))))
  
  # Dump a list of overriden (and ignored PRODUCT_COPY_FILES entries)
-@@ -3578,14 +3580,18 @@ define build-vendorimage-target
-   $(call assert-max-image-size,$(INSTALLED_VENDORIMAGE_TARGET) $(RECOVERY_FROM_BOOT_PATCH),$(BOARD_VENDORIMAGE_PARTITION_SIZE))
- endef
+@@ -3869,15 +3871,19 @@ endef
+ 
+ $(eval $(call write-file-lines,$(vendorimage_intermediates)/file_list.txt,$(subst $(TARGET_OUT_VENDOR)/,,$(filter $(TARGET_OUT_VENDOR)/%,$(INTERNAL_VENDORIMAGE_FILES)))))
  
 +INTERNAL_VENDORIMAGE_KERNEL_MODULES := \
 +    $(filter $(TARGET_OUT_VENDOR)/lib/modules/%,\
@@ -45,7 +45,8 @@ index c19b0754af5b9ec33e81286de177e4a0f09614ec..ab4b9e0b883d3be1837a2ce1bf6dca3d
 -    $(INSTALLED_FILES_FILE_VENDOR) \
 +    $(ALL_PRODUCT_COPY_FILES) \
 +    $(INTERNAL_VENDORIMAGE_KERNEL_MODULES) \
-     $(RECOVERY_FROM_BOOT_PATCH)
+     $(RECOVERY_FROM_BOOT_PATCH) \
+     $(vendorimage_intermediates)/file_list.txt
 -	$(build-vendorimage-target)
  
  VENDOR_NOTICE_DEPS += $(INSTALLED_VENDORIMAGE_TARGET)

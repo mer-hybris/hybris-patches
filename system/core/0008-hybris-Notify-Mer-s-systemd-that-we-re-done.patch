@@ -10,10 +10,10 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index ac3d280f2ef39f49176e2a6777b3bcf3e24bbbdf..8cdcb4101d8284d50e09fd55003b5cd11c767b95 100644
+index 86c4ab89d0fcefb35c4efb8d3a5a888287aaf727..bd39e3fec8a3084a5592d0f61eb59bb84f40a8d3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1332,3 +1332,17 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
+@@ -1358,3 +1358,17 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
    write /sys/kernel/mm/lru_gen/enabled 5
  on property:persist.device_config.mglru_native.lru_gen_config=all
    write /sys/kernel/mm/lru_gen/enabled 7

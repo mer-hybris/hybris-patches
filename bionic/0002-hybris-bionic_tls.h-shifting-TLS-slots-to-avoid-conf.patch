@@ -14,10 +14,10 @@ Conflicts:
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
-index 78099b3d41287e7e642682a15a5d2c3440266cf7..e7ada69a86f749ecdadad39e2b2dac19a9795bcd 100644
+index 8fe8701af229d1c790db358ab72f5b6717fb1b0a..abbe259e12440b1c22c8b7df25c76b2229b92fdd 100644
 --- a/libc/platform/bionic/tls_defines.h
 +++ b/libc/platform/bionic/tls_defines.h
-@@ -84,12 +84,12 @@
+@@ -90,12 +90,12 @@
  #define TLS_SLOT_BIONIC_TLS     (-1)
  #define TLS_SLOT_DTV              0
  #define TLS_SLOT_THREAD_ID        1

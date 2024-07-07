@@ -16,14 +16,14 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
 Conflicts:
 	rootdir/init.rc
 ---
- rootdir/init.rc | 5 +++++
- 1 file changed, 5 insertions(+)
+ rootdir/init.rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 63ab95d47d752576a71c0d2c5725b79920d94c6c..c629894be85588285ed4a2a5deff112a1cae8f61 100644
+index 8ed5a899ee8abc3c1ddc171c28662f4fedbd1814..2e16751f9a3239bf162be70b89e57103b985fa17 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1185,6 +1185,7 @@ on boot
+@@ -1209,6 +1209,7 @@ on boot
  
      class_start core
  
@@ -31,7 +31,7 @@ index 63ab95d47d752576a71c0d2c5725b79920d94c6c..c629894be85588285ed4a2a5deff112a
  on nonencrypted
      class_start main
      class_start late_start
-@@ -1192,6 +1193,11 @@ on nonencrypted
+@@ -1216,6 +1217,11 @@ on nonencrypted
  on property:sys.init_log_level=*
      loglevel ${sys.init_log_level}
  

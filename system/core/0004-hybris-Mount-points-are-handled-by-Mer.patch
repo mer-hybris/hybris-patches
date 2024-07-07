@@ -9,10 +9,10 @@ Change-Id: I295b30a47b6e147b037275032a00b304085fe711
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 565f357f7f537fc88251ea1023c9ec9e5392ab17..4a13bfc461bd79fb5d9eb93225174c0ee6c90df0 100644
+index 4983f2b4c9ad3a5b540db1efe4384332d0c0463c..aa746e6d82e6153f8181df804c22c7fea3263722 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -564,7 +564,7 @@ on post-fs
+@@ -580,7 +580,7 @@ on post-fs
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.

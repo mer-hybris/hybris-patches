@@ -9,10 +9,10 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index c629894be85588285ed4a2a5deff112a1cae8f61..31a9e78c460d0335e2951527274f25af0fa51145 100644
+index 2e16751f9a3239bf162be70b89e57103b985fa17..e6004720b1ff16a4550bb6d75ce25153ee82e301 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -550,7 +550,7 @@ on late-init
+@@ -566,7 +566,7 @@ on late-init
  
  on early-fs
      # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
@@ -21,7 +21,7 @@ index c629894be85588285ed4a2a5deff112a1cae8f61..31a9e78c460d0335e2951527274f25af
  
  on post-fs
      exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-@@ -675,6 +675,8 @@ on post-fs-data
+@@ -695,6 +695,8 @@ on post-fs-data
      restorecon /data
  
      # Make sure we have the device encryption key.
@@ -30,7 +30,7 @@ index c629894be85588285ed4a2a5deff112a1cae8f61..31a9e78c460d0335e2951527274f25af
      installkey /data
  
      # Start bootcharting as soon as possible after the data partition is
-@@ -1307,7 +1309,7 @@ on userspace-reboot-fs-remount
+@@ -1334,7 +1336,7 @@ on userspace-reboot-fs-remount
    # Make sure that vold is running.
    # This is mostly a precaution measure in case vold for some reason wasn't running when
    # userspace reboot was initiated.

@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Thu, 11 Jul 2024 21:44:45 +0300
+Subject: [PATCH] (hybris) Fix build with gcc
+
+Change-Id: I4ab6398977d58dc19794fe085d0b2687f399aa53
+---
+ libs/nativewindow/include/android/data_space.h    | 2 +-
+ libs/nativewindow/include/android/native_window.h | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libs/nativewindow/include/android/data_space.h b/libs/nativewindow/include/android/data_space.h
+index 8056d9ac4fd56e534772f6af3efda25e1947d87e..918b01e9c9d11c0266f1b11418e763715c136194 100644
+--- a/libs/nativewindow/include/android/data_space.h
++++ b/libs/nativewindow/include/android/data_space.h
+@@ -38,7 +38,7 @@ __BEGIN_DECLS
+ /**
+  * ADataSpace.
+  */
+-enum ADataSpace : int32_t {
++enum ADataSpace {
+     /**
+      * Default-assumption data space, when not explicitly specified.
+      *
+diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
+index be6623ee75f0f61c23917488cca6762d6e3ec191..18b4f00926796a54bd13e8481a25b52f5fda1963 100644
+--- a/libs/nativewindow/include/android/native_window.h
++++ b/libs/nativewindow/include/android/native_window.h
+@@ -373,7 +373,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
+  * \return 0 for success, -EINVAL if the window value is invalid.
+  */
+ inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window)
+-        __INTRODUCED_IN(__ANDROID_API_U__) {
++        __INTRODUCED_IN(__ANDROID_API_U__);
++
++inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) {
+     return ANativeWindow_setFrameRateWithChangeStrategy(window, 0,
+             ANATIVEWINDOW_FRAME_RATE_COMPATIBILITY_DEFAULT,
+             ANATIVEWINDOW_CHANGE_FRAME_RATE_ONLY_IF_SEAMLESS);

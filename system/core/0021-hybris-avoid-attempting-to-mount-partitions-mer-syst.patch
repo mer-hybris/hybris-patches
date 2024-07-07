@@ -13,10 +13,10 @@ Change-Id: Icaea2cd8d145d8205f4a130119aedbd2720c868d
  1 file changed, 5 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 01db4f5dabd858434250f34ad8d8faf05ed3031a..2c922a86266a98487892af8b16173ddb37b09032 100644
+index a95a4a315b64afc1b87b40dca0ee20b8d732d744..c859cea33d4616934d82e4ca42af3102d61cb66f 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
-@@ -650,6 +650,7 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+@@ -633,6 +633,7 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
      std::string prop_name = "ro.boottime.init.mount_all."s + prop_post_fix;
      android::base::Timer t;
  
@@ -24,7 +24,7 @@ index 01db4f5dabd858434250f34ad8d8faf05ed3031a..2c922a86266a98487892af8b16173ddb
      Fstab fstab;
      if (mount_all->fstab_path.empty()) {
          if (!ReadDefaultFstab(&fstab)) {
-@@ -662,6 +663,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+@@ -645,6 +646,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
      }
  
      auto mount_fstab_result = fs_mgr_mount_all(&fstab, mount_all->mode);
@@ -33,7 +33,7 @@ index 01db4f5dabd858434250f34ad8d8faf05ed3031a..2c922a86266a98487892af8b16173ddb
      SetProperty(prop_name, std::to_string(t.duration().count()));
  
      if (mount_all->import_rc) {
-@@ -677,6 +680,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
+@@ -660,6 +663,8 @@ static Result<void> do_mount_all(const BuiltinArguments& args) {
          initial_mount_fstab_return_code = mount_fstab_result.code;
      }
  

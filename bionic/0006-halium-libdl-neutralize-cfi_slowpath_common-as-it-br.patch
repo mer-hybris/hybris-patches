@@ -10,7 +10,7 @@ Change-Id: I90b4af9d9e6b23cccafb659931a8e85b8bae091a
  1 file changed, 1 insertion(+)
 
 diff --git a/libdl/libdl_cfi.cpp b/libdl/libdl_cfi.cpp
-index 3b68fc7d37743e681210b23d24a87d1189b023e6..5c09f609d76e5dd1d5f099356aa80aa177d20f68 100644
+index 23cd7f53afc63d1f4924515d7923d60da0c8866b..91c195637ee63311251f723167d3e81e093e4738 100644
 --- a/libdl/libdl_cfi.cpp
 +++ b/libdl/libdl_cfi.cpp
 @@ -67,6 +67,7 @@ static uintptr_t cfi_check_addr(uint16_t v, void* Ptr) {

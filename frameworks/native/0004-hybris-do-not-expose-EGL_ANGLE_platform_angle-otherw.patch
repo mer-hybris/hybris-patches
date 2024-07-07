@@ -10,10 +10,10 @@ Change-Id: Ied98ee3f0943ac8a847b36239039aa305140a71b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/opengl/libs/EGL/egl_platform_entries.cpp b/opengl/libs/EGL/egl_platform_entries.cpp
-index 8bd2b8378421b26e8d3428e0711863453102418f..ee5797de190ed8ddd0fa49c3f65b513b5869c2fb 100644
+index 16beb9b377c95770fa9f0a9a0740f273e3e498ff..db6480b4e01e6d4005f9eea749e1c733ad7d3a24 100644
 --- a/opengl/libs/EGL/egl_platform_entries.cpp
 +++ b/opengl/libs/EGL/egl_platform_entries.cpp
-@@ -135,7 +135,7 @@ const char* const gExtensionString  =
+@@ -137,7 +137,7 @@ const char* const gExtensionString  =
  
  const char* const gClientExtensionString =
          "EGL_ANDROID_GLES_layers "

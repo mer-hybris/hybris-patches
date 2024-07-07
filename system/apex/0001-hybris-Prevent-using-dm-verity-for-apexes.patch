@@ -1,18 +1,22 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
-Date: Fri, 5 Jan 2024 23:24:10 +0200
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Wed, 11 Oct 2023 15:43:59 +0000
 Subject: [PATCH] (hybris) Prevent using dm-verity for apexes
 
-Change-Id: Ic46d251422a236ec8d35ebb64d5f55406c207d3d
+Patch apexd.rc to use apexd from /usr/libexec/droid-hybris/system/bin/.
+Disable the forced reboot to make shutdown work.
+
+Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
 ---
  apexd/apexd.cpp | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ apexd/apexd.rc  | 9 +++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index 73cf5c592c779ba5f61f18449ad6e10c96c90157..70697f08faaf2fe6e6ab15a99b3f40a5838a8ec0 100644
+index 8e539cfd6b07c788ccbb5ca781aab10bf17b7c84..597fb2829ad25ef261f877b48b0ea7c7e65d2795 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
-@@ -558,7 +558,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -537,7 +537,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
    // dm-verity because they are already in the dm-verity protected partition;
    // system. However, note that we don't skip verification to ensure that APEXes
    // are correctly signed.
@@ -21,7 +25,7 @@ index 73cf5c592c779ba5f61f18449ad6e10c96c90157..70697f08faaf2fe6e6ab15a99b3f40a5
                                 // decompressed apexes are on /data
                                 instance.IsDecompressedApex(apex) ||
                                 // block apexes are from host
-@@ -566,6 +566,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -545,6 +545,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
  
    DmVerityDevice verity_dev;
    loop::LoopbackDeviceUniqueFd loop_for_hash;
@@ -29,3 +33,37 @@ index 73cf5c592c779ba5f61f18449ad6e10c96c90157..70697f08faaf2fe6e6ab15a99b3f40a5
    if (mount_on_verity) {
      std::string hash_device = loopback_device.name;
      if (verity_data->desc->tree_size == 0) {
+diff --git a/apexd/apexd.rc b/apexd/apexd.rc
+index af07a1b6206c5478db7e6d3694bd2fc60536b659..d7af0cfd582dd602d411caab829d34c22b418fbc 100644
+--- a/apexd/apexd.rc
++++ b/apexd/apexd.rc
+@@ -1,16 +1,17 @@
+-service apexd /system/bin/apexd
++service apexd /usr/libexec/droid-hybris/system/bin/apexd
+     interface aidl apexservice
+     class core
+     user root
+     group system
+     oneshot
+     disabled # does not start with the core class
+-    reboot_on_failure reboot,apexd-failed
++    # Disabled for hybris shutdown to work correctly
++    #reboot_on_failure reboot,apexd-failed
+     # CAP_CHOWN, CAP_DAC_OVERRIDE, CAP_DAC_READ_SEARCH required for apexdata snapshot & restore
+     # CAP_SYS_ADMIN is required to access device-mapper and to use mount syscall
+     capabilities CHOWN DAC_OVERRIDE DAC_READ_SEARCH FOWNER SYS_ADMIN
+ 
+-service apexd-bootstrap /system/bin/apexd --bootstrap
++service apexd-bootstrap /usr/libexec/droid-hybris/system/bin/apexd --bootstrap
+     user root
+     group system
+     oneshot
+@@ -20,7 +21,7 @@ service apexd-bootstrap /system/bin/apexd --bootstrap
+     # apexd-bootstrap doesn't manage apexdata snapshot & restore, hence no need for other capabilities.
+     capabilities SYS_ADMIN
+ 
+-service apexd-snapshotde /system/bin/apexd --snapshotde
++service apexd-snapshotde /usr/libexec/droid-hybris/system/bin/apexd --snapshotde
+     user root
+     group system
+     oneshot

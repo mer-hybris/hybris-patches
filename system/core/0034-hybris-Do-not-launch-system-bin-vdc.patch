@@ -10,10 +10,10 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece90878ee6c 100644
+index 5913772354cb8480c6376b6211639e3610086569..9e854fbff4dc657fb9d2bb7cd8dfecdaa6386ff0 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -553,7 +553,7 @@ on early-fs
+@@ -569,7 +569,7 @@ on early-fs
      #start vold
  
  on post-fs
@@ -22,7 +22,7 @@ index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece9
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
-@@ -666,7 +666,7 @@ on post-fs-data
+@@ -686,7 +686,7 @@ on post-fs-data
      mark_post_data
  
      # Start checkpoint before we touch data
@@ -31,7 +31,7 @@ index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece9
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
-@@ -719,7 +719,7 @@ on post-fs-data
+@@ -737,7 +737,7 @@ on post-fs-data
      # we can tell keystore to stop allowing use of early-boot keys,
      # and access its database for the first time to support creation and
      # use of MAX_BOOT_LEVEL keys.
@@ -40,7 +40,7 @@ index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece9
  
      # Multi-installed APEXes are selected using persist props.
      # Load persist properties and override properties (if enabled) from /data,
-@@ -1313,8 +1313,8 @@ on userspace-reboot-fs-remount
+@@ -1340,8 +1340,8 @@ on userspace-reboot-fs-remount
    # This is mostly a precaution measure in case vold for some reason wasn't running when
    # userspace reboot was initiated.
    #start vold
