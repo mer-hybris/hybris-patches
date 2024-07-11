@@ -15,10 +15,10 @@ This reverts commit f597fa5d1dca3b79b30d5b66e15e23b0bd91b560.
  6 files changed, 18 insertions(+), 91 deletions(-)
 
 diff --git a/init/host_init_verifier.cpp b/init/host_init_verifier.cpp
-index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77a57bb0c9 100644
+index f746ab954e3aa7be751f38131c67f7c11447e981..b1284107695777b5add62effa1f09cb46bf65e3c 100644
 --- a/init/host_init_verifier.cpp
 +++ b/init/host_init_verifier.cpp
-@@ -25,8 +25,6 @@
+@@ -23,8 +23,6 @@
  #include <fstream>
  #include <iostream>
  #include <iterator>
@@ -27,7 +27,7 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
  #include <string>
  #include <vector>
  
-@@ -53,7 +51,6 @@
+@@ -52,7 +50,6 @@
  
  using namespace std::literals;
  
@@ -35,7 +35,7 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
  using android::base::ParseInt;
  using android::base::ReadFileToString;
  using android::base::Split;
-@@ -64,10 +61,6 @@ using android::properties::PropertyInfoEntry;
+@@ -61,10 +58,6 @@ using android::properties::PropertyInfoEntry;
  
  static std::vector<std::string> passwd_files;
  
@@ -46,8 +46,8 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
  static std::vector<std::pair<std::string, int>> GetVendorPasswd(const std::string& passwd_file) {
      std::string passwd;
      if (!ReadFileToString(passwd_file, &passwd)) {
-@@ -155,24 +148,13 @@ static Result<void> check_stub(const BuiltinArguments& args) {
- #include "generated_stub_builtin_function_map.h"
+@@ -146,24 +139,13 @@ namespace android {
+ namespace init {
  
  void PrintUsage() {
 -    fprintf(stdout, R"(usage: host_init_verifier [options]
@@ -78,7 +78,7 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
  }
  
  Result<InterfaceInheritanceHierarchyMap> ReadInterfaceInheritanceHierarchy() {
-@@ -221,18 +203,12 @@ int main(int argc, char** argv) {
+@@ -210,18 +192,12 @@ int main(int argc, char** argv) {
      android::base::SetMinimumLogSeverity(android::base::ERROR);
  
      auto property_infos = std::vector<PropertyInfoEntry>();
@@ -97,7 +97,7 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
                  {nullptr, 0, nullptr, 0},
          };
  
-@@ -248,16 +224,6 @@ int main(int argc, char** argv) {
+@@ -237,16 +213,6 @@ int main(int argc, char** argv) {
                  if (long_options[option_index].name == kPropertyContexts) {
                      HandlePropertyContexts(optarg, &property_infos);
                  }
@@ -114,7 +114,7 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
                  break;
              case 'h':
                  PrintUsage();
-@@ -274,9 +240,7 @@ int main(int argc, char** argv) {
+@@ -263,9 +229,7 @@ int main(int argc, char** argv) {
      argc -= optind;
      argv += optind;
  
@@ -125,9 +125,9 @@ index 662185c4474519c2145647e62f1798052be6a16f..04e39c21c1ce462d71f608884a5add77
          PrintUsage();
          return EXIT_FAILURE;
      }
-@@ -298,44 +262,24 @@ int main(int argc, char** argv) {
- 
-     property_info_area = reinterpret_cast<const PropertyInfoArea*>(serialized_contexts.c_str());
+@@ -282,44 +246,24 @@ int main(int argc, char** argv) {
+         return EXIT_FAILURE;
+     }
  
 -    if (!partition_map.empty()) {
 -        std::vector<std::string> vendor_prefixes;

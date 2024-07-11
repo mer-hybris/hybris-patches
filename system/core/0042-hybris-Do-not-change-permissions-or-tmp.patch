@@ -1,0 +1,28 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Sun, 17 Nov 2024 05:47:36 +0200
+Subject: [PATCH] (hybris) Do not change permissions or /tmp
+
+Change-Id: Ib4fd846ba003a66acb88c34bd33a6f3e3e2335b4
+---
+ rootdir/init.rc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index ddca588a3789aed4140a40cbbbff2645d9a2032c..0eecbefd0564fec8cc40be77707de02fc7ac711e 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -93,9 +93,10 @@ on early-init
+ 
+     # Create tmpfs for use by the shell user.
+     mount tmpfs tmpfs /tmp
+-    restorecon /tmp
+-    chown shell shell /tmp
+-    chmod 0771 /tmp
++    # hybris handles /tmp
++    #restorecon /tmp
++    #chown shell shell /tmp
++    #chmod 0771 /tmp
+ 
+     setprop ro.cold_boot_done true
+ 

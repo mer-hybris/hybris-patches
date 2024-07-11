@@ -10,10 +10,10 @@ Change-Id: Id2af1396ed2274a3533305722e117786aceb3cd0
  1 file changed, 2 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 8418801928c1ac3fdcc1eb62ee2ed52e525a90e4..376db20ab1a4539f28ce96d6466a5263e0400ec0 100644
+index 80cc8a25c82b2d174a9abc1076fd19428353f678..4a8763c1b2c96431d1723eb53e17258ba034edd5 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -1054,9 +1054,11 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1048,9 +1048,11 @@ int SecondStageMain(int argc, char** argv) {
      const BuiltinFunctionMap& function_map = GetBuiltinFunctionMap();
      Action::set_function_map(&function_map);
  

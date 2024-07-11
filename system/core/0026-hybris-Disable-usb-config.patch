@@ -9,7 +9,7 @@ Signed-off-by: Matti Kosola <matti.kosola@jolla.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 493b7e670f83c252b6ec53c3fa2dc4fe26e0fda4..a43143fbb2e715666edf7278e3d51f2f5e40d750 100644
+index 31c80442c67f91833d4546f5834c682105956bc8..e4d248cc5ee9cb95cc88186b5bcaba0cc522107f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -15,7 +15,7 @@ import /init.environ.rc

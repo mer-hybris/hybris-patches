@@ -16,7 +16,7 @@ Signed-off-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index 7deb17324ea9fa0534f3a3c0d4994e31e44885d4..c6341ac8189197d2bfaf603154c9f03c18a4f506 100644
+index 7444f963fd0cc965b9de93b9820daa7a2b79b243..2511e52acd763cec6fbc4c29b0f722633b0f7284 100644
 --- a/rootdir/Android.mk
 +++ b/rootdir/Android.mk
 @@ -2,6 +2,19 @@ LOCAL_PATH:= $(call my-dir)
@@ -62,7 +62,7 @@ index 0000000000000000000000000000000000000000..c96e2c65da45ca08ae4edb3dec42cc8c
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 317f809083506ba1f3536de7845cfcdc1bcd330b..9cdad97da7970d2481226624042df4f4146831a5 100644
+index 8a2ed9fac1014c74ba873922c0498be8bb4507c8..3add36ca859c5085671bb91dbebdd7f69df4e977 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,12 @@

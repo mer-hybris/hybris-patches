@@ -9,10 +9,10 @@ Change-Id: I5016f22cbd500114d8c8b5beb9d784b06a300242
  1 file changed, 1 insertion(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5999f8d3b5aa780375d87281fbe27f6119346f31..d910c44530321898a8a6c957061579caa00706b8 100644
+index d3e3bb76c1f30ff6643c07731a2091c7e160ded0..ddca588a3789aed4140a40cbbbff2645d9a2032c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -685,6 +685,7 @@ on post-fs-data
+@@ -700,6 +700,7 @@ on post-fs-data
      # hybris continue bootup properly
      setprop vold.decrypt trigger_restart_min_framework
      installkey /data

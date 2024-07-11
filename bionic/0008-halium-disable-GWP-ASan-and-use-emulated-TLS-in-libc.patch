@@ -9,24 +9,24 @@ usage in earlier patch breaks linker compiled as static binary.
 
 Change-Id: Ic63b814917913ba6055aa9ba2c8e70c098b428af
 ---
- libc/Android.bp                   |  3 ++-
+ libc/Android.bp                   |  3 +++
  libc/bionic/gwp_asan_wrappers.cpp | 21 +++++++++++++++++++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ 2 files changed, 24 insertions(+)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index 448d266526c4a2c573a666ba22b245a0ffc9b8a5..ee5ff169e372819359e097a3e95de9847d092973 100644
+index 537c954e2c9f74b8551849c28dc8ba3f2d0992c7..1377f7f5661526148dcc6d5edbe46a0b47406ce7 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
-@@ -68,7 +68,8 @@ libc_common_flags = [
+@@ -42,6 +42,9 @@ libc_common_flags = [
+     // __dso_handle needs to have default visibility on ARM32. See b/73485611.
      "-Wexit-time-destructors",
  
-     // GWP-ASan requires platform TLS.
--    "-fno-emulated-tls",
 +    // Halium: ELF TLS currently breaks libhybris, so disable it
 +    "-femulated-tls",
- 
++
      // We know clang does a lot of harm by rewriting what we've said, and sadly
      // never see any good it does, so let's just ask it to do what we say...
+     // (The specific motivating example was clang turning a loop that would only
 diff --git a/libc/bionic/gwp_asan_wrappers.cpp b/libc/bionic/gwp_asan_wrappers.cpp
 index 251633d786505f01b6d9654f82592a74d73e179f..65696b945ddd0641ff64e7637ac6f2875857a780 100644
 --- a/libc/bionic/gwp_asan_wrappers.cpp

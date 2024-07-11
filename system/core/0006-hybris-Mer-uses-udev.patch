@@ -9,7 +9,7 @@ Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 461842eb329de63f9b35d8ccb7bddfc4a2d0d90c..9d43b0f5b9c6d98b6bf4a7d1c7f30a8c9f8148e7 100644
+index 3b0b13c59355bae1aa3edc216873152b5eca91d3..432fe7c697e16a3ec5f82bd3aaa726c789fd07e3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -66,7 +66,7 @@ on early-init
