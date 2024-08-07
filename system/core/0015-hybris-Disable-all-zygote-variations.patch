@@ -12,7 +12,7 @@ Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
  4 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 389fc239723604f9cc7c79ae9b452f5f0b1df9b3..5e123859dc2db3dfcd7f8da702563742f6e0d27d 100644
+index 10a9e261962ccb985961f8b05384afe9d0f7c72b..3a3e2a7e34abc5e7394908eb8e1b6072b701711d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc

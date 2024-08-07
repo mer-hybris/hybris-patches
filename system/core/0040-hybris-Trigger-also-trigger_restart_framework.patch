@@ -9,7 +9,7 @@ Change-Id: I5016f22cbd500114d8c8b5beb9d784b06a300242
  1 file changed, 1 insertion(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index bc23c9f69e1285cc3d5873dd1f6a4037e035fdad..ec56cc58a4e8903ab46175644a3ebb7081512520 100644
+index a45359bb27c7c7e3b6c62ddd8cc30d5cd328b8b9..047516eba40947c8ec9cc0255eda38055cecf79a 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -680,6 +680,7 @@ on post-fs-data

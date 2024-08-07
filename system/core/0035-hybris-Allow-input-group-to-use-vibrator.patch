@@ -16,7 +16,7 @@ Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e00f9a6c6bab1bde301d32fe47eaece90878ee6c..5610db34a0a67b0c56c9cd66de6a676236f2da88 100644
+index ac587f97dd77c79565a7544be37a0129e19b3f19..ae4a20625c414c98561a63c616981a963618ce0b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -1149,10 +1149,11 @@ on boot

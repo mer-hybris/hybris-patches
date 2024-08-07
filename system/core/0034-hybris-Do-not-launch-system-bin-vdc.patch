@@ -10,7 +10,7 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece90878ee6c 100644
+index ee30642164fb742f5e6d0ac638187956720e91a1..ac587f97dd77c79565a7544be37a0129e19b3f19 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -553,7 +553,7 @@ on early-fs
@@ -40,7 +40,7 @@ index e8dd0dab9fd128496d718ef5270f2bfdd90e8137..e00f9a6c6bab1bde301d32fe47eaece9
  
      # Multi-installed APEXes are selected using persist props.
      # Load persist properties and override properties (if enabled) from /data,
-@@ -1313,8 +1313,8 @@ on userspace-reboot-fs-remount
+@@ -1314,8 +1314,8 @@ on userspace-reboot-fs-remount
    # This is mostly a precaution measure in case vold for some reason wasn't running when
    # userspace reboot was initiated.
    #start vold

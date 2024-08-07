@@ -5,8 +5,9 @@ Subject: [PATCH] (hybris) Prevent using dm-verity for apexes
 
 Change-Id: Ic46d251422a236ec8d35ebb64d5f55406c207d3d
 ---
- apexd/apexd.cpp | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ apexd/apexd.cpp |  3 ++-
+ apexd/apexd.rc  | 12 +++++++-----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
 index 73cf5c592c779ba5f61f18449ad6e10c96c90157..70697f08faaf2fe6e6ab15a99b3f40a5838a8ec0 100644
@@ -29,3 +30,35 @@ index 73cf5c592c779ba5f61f18449ad6e10c96c90157..70697f08faaf2fe6e6ab15a99b3f40a5
    if (mount_on_verity) {
      std::string hash_device = loopback_device.name;
      if (verity_data->desc->tree_size == 0) {
+diff --git a/apexd/apexd.rc b/apexd/apexd.rc
+index f64688fbf0a4c4e63c522d187658721fce99c5b2..ec2e657217b241d878fa990e47f74490fb3dad1b 100644
+--- a/apexd/apexd.rc
++++ b/apexd/apexd.rc
+@@ -1,20 +1,22 @@
+-service apexd /system/bin/apexd
++service apexd /usr/libexec/droid-hybris/system/bin/apexd
+     interface aidl apexservice
+     class core
+     user root
+     group system
+     oneshot
+     disabled # does not start with the core class
+-    reboot_on_failure reboot,apexd-failed
++    # Disabled for hybris shutdown to work correctly
++    #reboot_on_failure reboot,apexd-failed
+ 
+-service apexd-bootstrap /system/bin/apexd --bootstrap
++service apexd-bootstrap /usr/libexec/droid-hybris/system/bin/apexd --bootstrap
+     user root
+     group system
+     oneshot
+     disabled
+-    reboot_on_failure reboot,bootloader,bootstrap-apexd-failed
++    # Disabled for hybris shutdown to work correctly
++    #reboot_on_failure reboot,bootloader,bootstrap-apexd-failed
+ 
+-service apexd-snapshotde /system/bin/apexd --snapshotde
++service apexd-snapshotde /usr/libexec/droid-hybris/system/bin/apexd --snapshotde
+     user root
+     group system
+     oneshot

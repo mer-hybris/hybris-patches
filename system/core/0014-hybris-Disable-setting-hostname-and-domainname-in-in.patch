@@ -9,7 +9,7 @@ Change-Id: I5b9f59e80760e53636763c89f8f76f350c17b3ec
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 31a9e78c460d0335e2951527274f25af0fa51145..389fc239723604f9cc7c79ae9b452f5f0b1df9b3 100644
+index 87960d8db38b6eb4fe3471e760638f4d5c84a762..10a9e261962ccb985961f8b05384afe9d0f7c72b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -1072,8 +1072,9 @@ on boot && property:ro.config.low_ram=true
