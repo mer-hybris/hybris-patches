@@ -12,7 +12,7 @@ Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
  4 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index ca1375233703e8e82b6480817fe1dc8c61bc802a..bf38c8d5cf64e64a793afb8013660ba102ba5340 100644
+index fe9ff096abebdec34681ce068a7b82ef4eaf7449..a22bfafdcdc6d612a1a7fc05915281aa551e6839 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc
@@ -24,7 +24,7 @@ index ca1375233703e8e82b6480817fe1dc8c61bc802a..bf38c8d5cf64e64a793afb8013660ba1
  
  # Cgroups are mounted right before early-init using list from /etc/cgroups.json
  on early-init
-@@ -546,7 +546,7 @@ on late-init
+@@ -556,7 +556,7 @@ on late-init
      trigger load_bpf_programs
  
      # Now we can start zygote.
@@ -33,7 +33,7 @@ index ca1375233703e8e82b6480817fe1dc8c61bc802a..bf38c8d5cf64e64a793afb8013660ba1
  
      # Remove a file to wake up anything waiting for firmware.
      trigger firmware_mounts_complete
-@@ -1337,7 +1337,7 @@ on userspace-reboot-fs-remount
+@@ -1353,7 +1353,7 @@ on userspace-reboot-fs-remount
  on userspace-reboot-resume
    trigger userspace-reboot-fs-remount
    trigger post-fs-data

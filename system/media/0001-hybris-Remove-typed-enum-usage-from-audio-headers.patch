@@ -113,10 +113,10 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
  } audio_encapsulation_type_t;
  
 diff --git a/audio/include/system/audio.h b/audio/include/system/audio.h
-index c2c80bb596a2c512c166fd8feb65795be279cc9e..885b71424dc77bad428c98a9218b551e58f74d62 100644
+index 154aaaca8a41f1d683343ae52156adb0fcfc134d..383c666ae2aafc1f3085ca8665f5226261f907cc 100644
 --- a/audio/include/system/audio.h
 +++ b/audio/include/system/audio.h
-@@ -202,7 +202,7 @@ static inline audio_unique_id_use_t audio_unique_id_get_use(audio_unique_id_t id
+@@ -206,7 +206,7 @@ static inline audio_unique_id_use_t audio_unique_id_get_use(audio_unique_id_t id
      return (audio_unique_id_use_t) (id & AUDIO_UNIQUE_ID_USE_MASK);
  }
  
@@ -125,7 +125,7 @@ index c2c80bb596a2c512c166fd8feb65795be279cc9e..885b71424dc77bad428c98a9218b551e
      AUDIO_SESSION_DEVICE = HAL_AUDIO_SESSION_DEVICE,
      AUDIO_SESSION_OUTPUT_STAGE = HAL_AUDIO_SESSION_OUTPUT_STAGE,
      AUDIO_SESSION_OUTPUT_MIX = HAL_AUDIO_SESSION_OUTPUT_MIX,
-@@ -745,7 +745,7 @@ struct audio_port {
+@@ -767,7 +767,7 @@ struct audio_port {
      } ext;
  };
  
@@ -134,7 +134,7 @@ index c2c80bb596a2c512c166fd8feb65795be279cc9e..885b71424dc77bad428c98a9218b551e
      AUDIO_STANDARD_NONE = 0,
      AUDIO_STANDARD_EDID = 1,
      AUDIO_STANDARD_SADB = 2,
-@@ -2248,7 +2248,7 @@ typedef enum {
+@@ -2270,7 +2270,7 @@ typedef enum {
  } audio_offload_mode_t;
  #endif // AUDIO_NO_SYSTEM_DECLARATIONS
  

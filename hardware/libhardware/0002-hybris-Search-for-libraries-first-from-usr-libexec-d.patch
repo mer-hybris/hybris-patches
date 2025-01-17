@@ -10,7 +10,7 @@ Change-Id: I7496d961f8218b6077b9d628dd350ac20550b5d2
  1 file changed, 6 insertions(+)
 
 diff --git a/hardware.c b/hardware.c
-index 7907331271876937b15acfaa61b3a910b7a08c65..85bc9b63a0425639b996a8c4ff7572d94db2eec6 100644
+index 94b5d5d33ea2190a75d6627e5586606c315da0b5..da0c184a88801c53234a7a18f126da261a1d541e 100644
 --- a/hardware.c
 +++ b/hardware.c
 @@ -48,6 +48,7 @@
@@ -22,8 +22,8 @@ index 7907331271876937b15acfaa61b3a910b7a08c65..85bc9b63a0425639b996a8c4ff7572d9
  /**
   * There are a set of variant filename for modules. The form of the filename
 @@ -194,6 +195,11 @@ static int hw_module_exists(char *path, size_t path_len, const char *name,
-         ALOGE("hw_module_exists: libapexsupport is not supported in %d.", __ANDROID_API__);
-     }
+     ALOGE("hw_module_exists: libapexsupport is not supported in %d.", __ANDROID_VENDOR_API__);
+ #endif // __ANDROID_VENDOR_API__
  #else // __ANDROID_APEX__
 +    snprintf(path, path_len, "%s/%s.%s.so",
 +             HAL_LIBRARY_PATH4, name, subname);

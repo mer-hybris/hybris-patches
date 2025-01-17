@@ -13,7 +13,7 @@ Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index 3fb244b651b1fb2a0e698aefd836cf76e7467373..84f63161879fde0b42ecf4fc17e0f6605d5e6ed1 100644
+index 8e539cfd6b07c788ccbb5ca781aab10bf17b7c84..597fb2829ad25ef261f877b48b0ea7c7e65d2795 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
 @@ -537,7 +537,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,

@@ -4,13 +4,13 @@ Date: Wed, 13 Sep 2023 15:03:15 +0000
 Subject: [PATCH] (hybris) Fix vibrator permissions
 
 ---
- rootdir/vendor/ueventd.rc | 12 ++++++------
+ rootdir/vendor/etc/ueventd.rc | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/rootdir/vendor/ueventd.rc b/rootdir/vendor/ueventd.rc
+diff --git a/rootdir/vendor/etc/ueventd.rc b/rootdir/vendor/etc/ueventd.rc
 index 2ffe205584c9ae6a0f07a49136826d77e8b267c7..43dcb2a0c16bf67aee59cbc1d1f6d90178ec4421 100644
---- a/rootdir/vendor/ueventd.rc
-+++ b/rootdir/vendor/ueventd.rc
+--- a/rootdir/vendor/etc/ueventd.rc
++++ b/rootdir/vendor/etc/ueventd.rc
 @@ -175,12 +175,12 @@ firmware_directories /vendor/firmware_mnt/image/
  /sys/class/leds/blue     brightness   0644    system    system
  /sys/class/leds/blue     trigger      0644    system    system

@@ -12,10 +12,10 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 17 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index e5512e62652c1a63041d249ddf86679800c56a8a..be1e30cbbefaf819be14bf7fb9a4dfc3c302a728 100644
+index c3abefe14955aa47bb3d29948ac22af774d1e137..384ce48c2b85ea8242e31e09933c8981e9b4922d 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -192,8 +192,6 @@ libinit_cc_defaults {
+@@ -190,8 +190,6 @@ libinit_cc_defaults {
          "liblog",
          "liblogwrap",
          "liblp",
@@ -24,7 +24,7 @@ index e5512e62652c1a63041d249ddf86679800c56a8a..be1e30cbbefaf819be14bf7fb9a4dfc3
          "libselinux",
          "libunwindstack",
          "libutils",
-@@ -528,7 +526,6 @@ cc_defaults {
+@@ -526,7 +524,6 @@ cc_defaults {
          "libcutils",
          "libselinux",
          "liblog",
@@ -32,7 +32,7 @@ index e5512e62652c1a63041d249ddf86679800c56a8a..be1e30cbbefaf819be14bf7fb9a4dfc3
          "libprotobuf-cpp-lite",
      ],
      static_libs: [
-@@ -591,7 +588,6 @@ cc_defaults {
+@@ -589,7 +586,6 @@ cc_defaults {
          "libhidl-gen-utils",
          "libhidlmetadata",
          "liblog",
@@ -41,10 +41,10 @@ index e5512e62652c1a63041d249ddf86679800c56a8a..be1e30cbbefaf819be14bf7fb9a4dfc3
      ],
      proto: {
 diff --git a/init/init.cpp b/init/init.cpp
-index 9309d001c6d7e7937c39415a7cd4fd21be06ace9..8418801928c1ac3fdcc1eb62ee2ed52e525a90e4 100644
+index 390b31cf8abbd50d3a385a08261227dae7d751a3..80cc8a25c82b2d174a9abc1076fd19428353f678 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -59,8 +59,6 @@
+@@ -58,8 +58,6 @@
  #include <libgsi/libgsi.h>
  #include <libsnapshot/snapshot.h>
  #include <logwrap/logwrap.h>

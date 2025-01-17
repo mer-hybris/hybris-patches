@@ -57,10 +57,10 @@ Change-Id: I2efa4048bc2e4da848a61e24d8ef8b1824a81f06
  8 files changed, 60 insertions(+), 3 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 1192e155bd4d686984c668233d2d2192f2cfa00a..cf157a3f359e776eab00be224d7d9eb5cac78a75 100644
+index fff0a7f7032b4577749e104dd0ff5b7ac21198fa..f687bf505612a2d44f7d60819abdc25e647dbeaf 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -54,6 +54,8 @@ using namespace std::literals;
+@@ -55,6 +55,8 @@ using namespace std::literals;
  
  namespace fs = std::filesystem;
  
@@ -69,7 +69,7 @@ index 1192e155bd4d686984c668233d2d2192f2cfa00a..cf157a3f359e776eab00be224d7d9eb5
  namespace android {
  namespace init {
  
-@@ -348,7 +350,9 @@ int FirstStageMain(int argc, char** argv) {
+@@ -349,7 +351,9 @@ int FirstStageMain(int argc, char** argv) {
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));
      //CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
@@ -80,10 +80,10 @@ index 1192e155bd4d686984c668233d2d2192f2cfa00a..cf157a3f359e776eab00be224d7d9eb5
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
  
 diff --git a/init/init.cpp b/init/init.cpp
-index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccaeee38c294 100644
+index 94fc72060c4a18a5e3a7702cc5c474054855f5fc..0ce4ed4531fec302d8811b72fd95cfb8e4080b9a 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -112,6 +112,8 @@ using android::base::unique_fd;
+@@ -111,6 +111,8 @@ using android::base::unique_fd;
  using android::fs_mgr::AvbHandle;
  using android::snapshot::SnapshotManager;
  
@@ -92,7 +92,7 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
  namespace android {
  namespace init {
  
-@@ -637,6 +639,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
+@@ -636,6 +638,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
  }
  
  static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
@@ -100,7 +100,7 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
      if (!CgroupsAvailable()) {
          LOG(INFO) << "Cgroups support in kernel is not enabled";
          return {};
-@@ -647,6 +650,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
+@@ -646,6 +649,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
      if (!CgroupSetup()) {
          return ErrnoError() << "Failed to setup cgroups";
      }
@@ -108,7 +108,7 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
  
      return {};
  }
-@@ -877,9 +881,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
+@@ -876,9 +880,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
  
      SetProperty("ro.boottime.init.first_stage",
                  std::to_string(selinux_start_time_ns - first_stage_start_time_ns));
@@ -121,7 +121,7 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
      if (auto init_module_time_str = getenv(kEnvInitModuleDurationMs); init_module_time_str) {
          SetProperty("ro.boottime.init.modules", init_module_time_str);
          unsetenv(kEnvInitModuleDurationMs);
-@@ -945,7 +952,9 @@ int SecondStageMain(int argc, char** argv) {
+@@ -944,7 +951,9 @@ int SecondStageMain(int argc, char** argv) {
      InitKernelLogging(argv);
      LOG(INFO) << "init second stage started!";
  
@@ -131,7 +131,7 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
  
      // Update $PATH in the case the second stage init is newer than first stage init, where it is
      // first set.
-@@ -1006,9 +1015,11 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1000,9 +1009,11 @@ int SecondStageMain(int argc, char** argv) {
      // Mount extra filesystems required during second stage init
      MountExtraFilesystems();
  
@@ -144,10 +144,10 @@ index df703fe6a6a9f4c7c54e784d84df1d225f308fa6..729c7eeb0e41966a01cf2bb9071cccae
      Epoll epoll;
      if (auto result = epoll.Open(); !result.ok()) {
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index b27e4f19fe73033acacb2257b26fc6a17a69e389..2d4e90eeb32ce45a1c04b4a7948fd502b0872340 100644
+index c7f880c02f6d5159a9b38e43e121790bb2ee6b54..4c85a0e62386c4245a5eb16aa3e0d7130bf54b1c 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -175,6 +175,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
+@@ -176,6 +176,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
  
  static bool CheckMacPerms(const std::string& name, const char* target_context,
                            const char* source_context, const ucred& cr) {
@@ -156,7 +156,7 @@ index b27e4f19fe73033acacb2257b26fc6a17a69e389..2d4e90eeb32ce45a1c04b4a7948fd502
      if (!target_context || !source_context) {
          return false;
      }
-@@ -290,12 +292,15 @@ class SocketConnection {
+@@ -291,12 +293,15 @@ class SocketConnection {
      }
  
      bool GetSourceContext(std::string* source_context) const {

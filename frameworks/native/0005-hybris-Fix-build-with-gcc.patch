@@ -9,8 +9,21 @@ Change-Id: If871874420cbe36c533b67f524fb5819676c4b3a
  libs/nativewindow/include/android/native_window.h | 4 +++-
  2 files changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/libs/nativewindow/include/android/data_space.h b/libs/nativewindow/include/android/data_space.h
+index 8056d9ac4fd56e534772f6af3efda25e1947d87e..918b01e9c9d11c0266f1b11418e763715c136194 100644
+--- a/libs/nativewindow/include/android/data_space.h
++++ b/libs/nativewindow/include/android/data_space.h
+@@ -38,7 +38,7 @@ __BEGIN_DECLS
+ /**
+  * ADataSpace.
+  */
+-enum ADataSpace : int32_t {
++enum ADataSpace {
+     /**
+      * Default-assumption data space, when not explicitly specified.
+      *
 diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
-index be6623ee75..18b4f00926 100644
+index be6623ee75f0f61c23917488cca6762d6e3ec191..18b4f00926796a54bd13e8481a25b52f5fda1963 100644
 --- a/libs/nativewindow/include/android/native_window.h
 +++ b/libs/nativewindow/include/android/native_window.h
 @@ -373,7 +373,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa

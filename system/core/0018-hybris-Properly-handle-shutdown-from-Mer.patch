@@ -9,10 +9,10 @@ Change-Id: I89daebb9559d38f3c639f4634c417252c7a92fe0
  1 file changed, 9 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 0f9a2e123e708b53f01b0befe9d219b3d602af28..98a88e5d4734dd6140d94bcc667d179d511fbda1 100644
+index 70b32e17fd7e24202093ad6b809e1f97de71c2ea..e6c1ffed26d4fb05417597c8f42a98a028e98557 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1368,6 +1368,15 @@ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
+@@ -1384,6 +1384,15 @@ service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
      class mer
      oneshot
  
