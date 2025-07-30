@@ -9,12 +9,12 @@ Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
  1 file changed, 8 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 66ff01581c66304d7e065c43c64816d877d568cd..f848c220ab64d3b78ec077b55623592925627df1 100644
+index bdc6d574f03f3ef551bcbc7ef30318280018c11e..1c5f0d94efc5b69ae97ee002fee5033d94a26152 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -35,14 +35,6 @@ on early-init
- 
-     mkdir /acct/uid
+@@ -33,14 +33,6 @@ on early-init
+     # Set the security context of /postinstall if present.
+     restorecon /postinstall
  
 -    # memory.pressure_level used by lmkd
 -    chown root system /dev/memcg/memory.pressure_level

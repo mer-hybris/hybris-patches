@@ -13,10 +13,10 @@ Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index ed4cbafd5d0b90616c82f73c31dda3006a183d3b..14fbf74080f2944102b98e0245d2ea701f56b583 100644
+index 6e985eab285379d805f56c0dcb62cd2ab0fe5683..bc4a2aa0ef9fcdc5a651e73f16fce847f4d3974c 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
-@@ -430,13 +430,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -445,13 +445,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
    // dm-verity because they are already in the dm-verity protected partition;
    // system. However, note that we don't skip verification to ensure that APEXes
    // are correctly signed.

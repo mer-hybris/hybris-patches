@@ -10,7 +10,7 @@ Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
-index 9d7e3655d8112d3ba5766a342880c8f7be0bb86f..b7b4fbbb8e779bf785496da65e93e66ad5f9bf51 100644
+index 59ac06bf93cf012ae75de604e5b8855223ee887e..58167bcd88ef25f00aeb3bc0530c3af49212f424 100644
 --- a/libc/platform/bionic/tls_defines.h
 +++ b/libc/platform/bionic/tls_defines.h
 @@ -111,12 +111,12 @@

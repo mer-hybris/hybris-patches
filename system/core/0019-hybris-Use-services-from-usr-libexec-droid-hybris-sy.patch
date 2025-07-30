@@ -13,10 +13,10 @@ Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131
  create mode 100644 init/init_parser.cpp
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 6468f3253992d9344666ca0ece85103f513f6606..6214295b2937baa6d89c1a44d47c6dadba2e802a 100644
+index 63a3c63afbd08f2022c6b96f8ad9bbd9c8420b2b..a773b86a3f2d008bbcb998c432824f2b9d8d90ea 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -337,9 +337,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+@@ -342,9 +342,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
  
      std::string bootscript = GetProperty("ro.boot.init_rc", "");
      if (bootscript.empty()) {

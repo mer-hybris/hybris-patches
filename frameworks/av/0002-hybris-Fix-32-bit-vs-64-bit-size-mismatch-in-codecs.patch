@@ -9,7 +9,7 @@ Change-Id: I50e928113f90eea9d85f79f183c4b74113ab73bf
  1 file changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index e06efac6df2c91e2917adb5dcc9a288eabe00679..3146c2adbaeb7f5a0bfc03ffbe84d69074508973 100644
+index bacf7581ab38a742a8e18bd47f2d797030523cff..3d1369122b1c6f97be41079a5614a7686b4869be 100644
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
 @@ -914,10 +914,11 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {

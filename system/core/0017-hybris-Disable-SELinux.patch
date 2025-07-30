@@ -49,12 +49,12 @@ Change-Id: I2efa4048bc2e4da848a61e24d8ef8b1824a81f06
  init/first_stage_init.cpp |  4 ++++
  init/init.cpp             | 11 +++++++++++
  init/property_service.cpp |  5 +++++
- init/selinux.cpp          | 15 ++++++++++++++-
+ init/selinux.cpp          | 16 +++++++++++++++-
  init/service.cpp          | 11 +++++++++++
  init/service_utils.cpp    |  2 ++
  init/subcontext.cpp       |  2 ++
  init/util.cpp             |  8 ++++++++
- 8 files changed, 57 insertions(+), 1 deletion(-)
+ 8 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
 index 97a5772cbe38f07713adc7589d259c413cc31e2e..d4f2ed0c0fbad4d767230ea6689bdb9c7dec6da6 100644
@@ -80,19 +80,19 @@ index 97a5772cbe38f07713adc7589d259c413cc31e2e..d4f2ed0c0fbad4d767230ea6689bdb9c
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
  
 diff --git a/init/init.cpp b/init/init.cpp
-index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f513f6606 100644
+index 57d8995344781be479f33f37bc6f78af2ec3c97b..63a3c63afbd08f2022c6b96f8ad9bbd9c8420b2b 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -110,6 +110,8 @@ using android::base::unique_fd;
- using android::fs_mgr::AvbHandle;
- using android::snapshot::SnapshotManager;
+@@ -115,6 +115,8 @@ using android::snapshot::SnapshotManager;
+ using android::base::WaitForProperty;
+ using android::base::WriteStringToFile;
  
 +#define SYSTEMD_SELINUX
 +
  namespace android {
  namespace init {
  
-@@ -632,6 +634,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
+@@ -637,6 +639,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
  }
  
  static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
@@ -100,7 +100,7 @@ index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f
      if (!CgroupsAvailable()) {
          LOG(INFO) << "Cgroups support in kernel is not enabled";
          return {};
-@@ -639,6 +642,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
+@@ -644,6 +647,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
      if (!CgroupSetup()) {
          return ErrnoError() << "Failed to setup cgroups";
      }
@@ -108,7 +108,7 @@ index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f
  
      return {};
  }
-@@ -869,9 +873,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
+@@ -874,9 +878,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
  
      SetProperty("ro.boottime.init.first_stage",
                  std::to_string(selinux_start_time_ns - first_stage_start_time_ns));
@@ -121,7 +121,7 @@ index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f
      if (auto init_module_time_str = getenv(kEnvInitModuleDurationMs); init_module_time_str) {
          SetProperty("ro.boottime.init.modules", init_module_time_str);
          unsetenv(kEnvInitModuleDurationMs);
-@@ -937,7 +944,9 @@ int SecondStageMain(int argc, char** argv) {
+@@ -975,7 +982,9 @@ int SecondStageMain(int argc, char** argv) {
      InitKernelLogging(argv);
      LOG(INFO) << "init second stage started!";
  
@@ -131,7 +131,7 @@ index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f
  
      // Update $PATH in the case the second stage init is newer than first stage init, where it is
      // first set.
-@@ -998,9 +1007,11 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1036,9 +1045,11 @@ int SecondStageMain(int argc, char** argv) {
      // Mount extra filesystems required during second stage init
      MountExtraFilesystems();
  
@@ -144,10 +144,10 @@ index 2ad871c2bcf10e48eb59df656a61df1c57110042..6468f3253992d9344666ca0ece85103f
      Epoll epoll;
      if (auto result = epoll.Open(); !result.ok()) {
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index d8af49c0dd25246476d24e44d7c81bcbcadb5bb6..54767b27c7ad29e319c2b5c40c67c7697aaf7b9c 100644
+index d7e4a1058db3f8d8771670062beab077389209c7..b853dfcdd9e7502d8a0dde3032d5ed2f0bb19d6f 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -173,6 +173,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
+@@ -169,6 +169,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
  
  static bool CheckMacPerms(const std::string& name, const char* target_context,
                            const char* source_context, const ucred& cr) {
@@ -156,7 +156,7 @@ index d8af49c0dd25246476d24e44d7c81bcbcadb5bb6..54767b27c7ad29e319c2b5c40c67c769
      if (!target_context || !source_context) {
          return false;
      }
-@@ -288,12 +290,15 @@ class SocketConnection {
+@@ -284,12 +286,15 @@ class SocketConnection {
      }
  
      bool GetSourceContext(std::string* source_context) const {
@@ -173,10 +173,10 @@ index d8af49c0dd25246476d24e44d7c81bcbcadb5bb6..54767b27c7ad29e319c2b5c40c67c769
      }
  
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440b347b4e8 100644
+index 03fd2d2bf1a06ec9bed0f63e1cac277653ecee11..23b719910e9209fc24398efbb5219cfb2056013b 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
-@@ -88,6 +88,8 @@ using android::base::unique_fd;
+@@ -91,6 +91,8 @@ using android::base::unique_fd;
  using android::fs_mgr::AvbHandle;
  using android::snapshot::SnapshotManager;
  
@@ -185,7 +185,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  namespace android {
  namespace init {
  
-@@ -95,6 +97,8 @@ namespace {
+@@ -98,6 +100,8 @@ namespace {
  
  enum EnforcingStatus { SELINUX_PERMISSIVE, SELINUX_ENFORCING };
  
@@ -194,7 +194,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  EnforcingStatus StatusFromProperty() {
      std::string value;
      if (android::fs_mgr::GetKernelCmdline("androidboot.selinux", &value) && value == "permissive") {
-@@ -112,6 +116,7 @@ bool IsEnforcing() {
+@@ -115,6 +119,7 @@ bool IsEnforcing() {
      }
      return true;
  }
@@ -202,7 +202,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  
  bool ReadFirstLine(const char* file, std::string* line) {
      line->clear();
-@@ -125,6 +130,7 @@ bool ReadFirstLine(const char* file, std::string* line) {
+@@ -128,6 +133,7 @@ bool ReadFirstLine(const char* file, std::string* line) {
      return true;
  }
  
@@ -210,7 +210,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  Result<std::string> FindPrecompiledSplitPolicy() {
      std::string precompiled_sepolicy;
      // If there is an odm partition, precompiled_sepolicy will be in
-@@ -178,6 +184,7 @@ Result<std::string> FindPrecompiledSplitPolicy() {
+@@ -181,6 +187,7 @@ Result<std::string> FindPrecompiledSplitPolicy() {
  
      return precompiled_sepolicy;
  }
@@ -218,7 +218,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  
  bool GetVendorMappingVersion(std::string* plat_vers) {
      if (!ReadFirstLine("/vendor/etc/selinux/plat_sepolicy_vers.txt", plat_vers)) {
-@@ -197,6 +204,7 @@ bool IsSplitPolicyDevice() {
+@@ -200,6 +207,7 @@ bool IsSplitPolicyDevice() {
      return access(plat_policy_cil_file, R_OK) != -1;
  }
  
@@ -226,7 +226,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  std::optional<const char*> GetUserdebugPlatformPolicyFile() {
      // See if we need to load userdebug_plat_sepolicy.cil instead of plat_sepolicy.cil.
      const char* force_debuggable_env = getenv("INIT_FORCE_DEBUGGABLE");
-@@ -430,6 +438,7 @@ void SelinuxSetEnforcement() {
+@@ -433,6 +441,7 @@ void SelinuxSetEnforcement() {
          }
      }
  }
@@ -234,7 +234,7 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  
  constexpr size_t kKlogMessageSize = 1024;
  
-@@ -559,6 +568,7 @@ int SelinuxGetVendorAndroidVersion() {
+@@ -562,6 +571,7 @@ int SelinuxGetVendorAndroidVersion() {
      return vendor_android_version;
  }
  
@@ -242,21 +242,21 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
  // This is for R system.img/system_ext.img to work on old vendor.img as system_ext.img
  // is introduced in R. We mount system_ext in second stage init because the first-stage
  // init in boot.img won't be updated in the system-only OTA scenario.
-@@ -697,8 +707,10 @@ void LoadSelinuxPolicyAndroid() {
-         snapuserd_helper = nullptr;
-     }
- }
-+#endif
+@@ -770,7 +780,10 @@ bool EarlySetupOverlays() {
+ void SetupOverlays() {}
+ #endif
  
++#endif
++
  int SetupSelinux(char** argv) {
 +#ifndef SYSTEMD_SELINUX
      SetStdioToDevNull(argv);
      InitKernelLogging(argv);
  
-@@ -737,8 +749,9 @@ int SetupSelinux(char** argv) {
-     }
- 
-     setenv(kEnvSelinuxStartedAt, std::to_string(start_time.time_since_epoch().count()).c_str(), 1);
+@@ -816,8 +829,9 @@ int SetupSelinux(char** argv) {
+     // SetupOverlays does not return if overlays exist, instead it execs overlay_remounter
+     // which then execs second stage init
+     if (use_overlays) SetupOverlays();
 +#endif
  
 -    const char* path = "/system/bin/init";
@@ -265,10 +265,10 @@ index 6316b4deb3b5c6f9c21e38b23c69cc2258e8c1ec..1c27dc04e817f15594ddf16fa2cdc440
      execv(path, const_cast<char**>(args));
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c764394d61567f 100644
+index cae415aa40a09d061700e22abae7f93f6a8ef44f..89b9b952aaeaa013267a84f885cd6fa2d662afd9 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -75,6 +75,9 @@ using android::base::WriteStringToFile;
+@@ -76,6 +76,9 @@ using android::base::WriteStringToFile;
  namespace android {
  namespace init {
  
@@ -278,7 +278,7 @@ index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c76439
  static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
      std::string computed_context;
  
-@@ -115,6 +118,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+@@ -116,6 +119,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
      }
      return computed_context;
  }
@@ -286,7 +286,7 @@ index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c76439
  
  static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
      std::vector<std::string> expanded_args;
-@@ -242,11 +246,15 @@ void Service::SetProcessAttributesAndCaps(InterprocessFifo setsid_finished) {
+@@ -243,11 +247,15 @@ void Service::SetProcessAttributesAndCaps(InterprocessFifo setsid_finished) {
          LOG(FATAL) << "cannot set attribute for " << name_ << ": " << result.error();
      }
  
@@ -302,7 +302,7 @@ index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c76439
  
      if (capabilities_) {
          if (!SetCapsForExec(*capabilities_)) {
-@@ -641,6 +649,8 @@ Result<void> Service::Start() {
+@@ -642,6 +650,8 @@ Result<void> Service::Start() {
      }
  
      std::string scon;
@@ -311,7 +311,7 @@ index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c76439
      if (!seclabel_.empty()) {
          scon = seclabel_;
      } else {
-@@ -650,6 +660,7 @@ Result<void> Service::Start() {
+@@ -651,6 +661,7 @@ Result<void> Service::Start() {
          }
          scon = *result;
      }
@@ -320,10 +320,10 @@ index 102423a65f8602b447b9bb3e289db2b6d272a670..4e6b06654719678b63645e1d47c76439
      if (!mount_namespace_.has_value()) {
          // remember from which mount namespace the service should start
 diff --git a/init/service_utils.cpp b/init/service_utils.cpp
-index 0e19bcc58c258c3fe29a40785dda1182fee815a8..a6aa83bcd7f5493567f65e315b7a86f9fcd3c815 100644
+index 8d9a046a304340d94649305021fa68870482c395..fc1da0c6eebb0cb5cc2b5ef578025d60013a44d1 100644
 --- a/init/service_utils.cpp
 +++ b/init/service_utils.cpp
-@@ -285,6 +285,7 @@ Result<void> SetProcessAttributes(const ProcessAttributes& attr, InterprocessFif
+@@ -313,6 +313,7 @@ Result<void> SetProcessAttributes(const ProcessAttributes& attr, InterprocessFif
      return {};
  }
  
@@ -331,7 +331,7 @@ index 0e19bcc58c258c3fe29a40785dda1182fee815a8..a6aa83bcd7f5493567f65e315b7a86f9
  Result<void> WritePidToFiles(std::vector<std::string>* files) {
      if (files->empty()) {
          // No files to write pid to, exit early.
-@@ -340,6 +341,7 @@ Result<void> WritePidToFiles(std::vector<std::string>* files) {
+@@ -368,6 +369,7 @@ Result<void> WritePidToFiles(std::vector<std::string>* files) {
      }
      return {};
  }

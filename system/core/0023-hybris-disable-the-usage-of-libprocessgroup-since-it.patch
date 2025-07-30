@@ -12,10 +12,10 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 17 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index cde3a051733c1e73c93a996fcdd45237637941e6..17b84495c74474ea91555f30abe9b19e0febdca7 100644
+index 6a924e6d3b84b468c1780f30134dafe635428b25..a112fd317bf64590bc5769f780373f6f4f8f0ce2 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -190,8 +190,6 @@ libinit_cc_defaults {
+@@ -193,8 +193,6 @@ libinit_cc_defaults {
          "liblog",
          "liblogwrap",
          "liblp",
@@ -24,7 +24,7 @@ index cde3a051733c1e73c93a996fcdd45237637941e6..17b84495c74474ea91555f30abe9b19e
          "libselinux",
          "libunwindstack",
          "libutils",
-@@ -541,7 +539,6 @@ cc_defaults {
+@@ -547,7 +545,6 @@ cc_defaults {
          "libcutils",
          "libselinux",
          "liblog",
@@ -32,7 +32,7 @@ index cde3a051733c1e73c93a996fcdd45237637941e6..17b84495c74474ea91555f30abe9b19e
          "libprotobuf-cpp-lite",
      ],
      static_libs: [
-@@ -607,7 +604,6 @@ cc_defaults {
+@@ -614,7 +611,6 @@ cc_defaults {
      shared_libs: [
          "libcutils",
          "liblog",
@@ -41,7 +41,7 @@ index cde3a051733c1e73c93a996fcdd45237637941e6..17b84495c74474ea91555f30abe9b19e
      ],
      proto: {
 diff --git a/init/init.cpp b/init/init.cpp
-index c4de17f8f60a852f2b2d54cabf208f5accc48687..b86e5420acb166b6d5a183480c16ef9553c8dc9b 100644
+index 6ce402397742cdb03273150c7ea026c812cb2690..1457a40d2b074b1ba86ecc430061fe3976101650 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
 @@ -57,8 +57,6 @@
@@ -54,18 +54,18 @@ index c4de17f8f60a852f2b2d54cabf208f5accc48687..b86e5420acb166b6d5a183480c16ef95
  #include <unwindstack/AndroidUnwinder.h>
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b232aa131 100644
+index 89b9b952aaeaa013267a84f885cd6fa2d662afd9..4d3cadbaefd5b4bb39afd1785c7c3c6fc4e84d52 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -35,7 +35,6 @@
- #include <android-base/stringprintf.h>
+@@ -36,7 +36,6 @@
  #include <android-base/strings.h>
+ #include <cutils/android_get_control_file.h>
  #include <cutils/sockets.h>
 -#include <processgroup/processgroup.h>
  #include <selinux/selinux.h>
  #include <sys/signalfd.h>
  
-@@ -211,7 +210,13 @@ void Service::KillProcessGroup(int signal) {
+@@ -212,7 +211,13 @@ void Service::KillProcessGroup(int signal) {
      // These signals must be sent for a successful shutdown.
      if (!process_cgroup_empty_ || IsRunning()) {
          LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
@@ -80,7 +80,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
          int r;
          if (signal == SIGTERM) {
              r = killProcessGroupOnce(uid(), pid_, signal);
-@@ -220,6 +225,8 @@ void Service::KillProcessGroup(int signal) {
+@@ -221,6 +226,8 @@ void Service::KillProcessGroup(int signal) {
          }
  
          if (r == 0) process_cgroup_empty_ = true;
@@ -89,7 +89,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
      }
  
      if (oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-@@ -303,9 +310,11 @@ void Service::Reap(const siginfo_t& siginfo) {
+@@ -304,9 +311,11 @@ void Service::Reap(const siginfo_t& siginfo) {
  
      if (flags_ & SVC_EXEC) UnSetExec();
  
@@ -101,7 +101,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
  
      if (flags_ & SVC_TEMPORARY) return;
  
-@@ -496,6 +505,7 @@ Result<void> Service::CheckConsole() {
+@@ -497,6 +506,7 @@ Result<void> Service::CheckConsole() {
  
  // Configures the memory cgroup properties for the service.
  void Service::ConfigureMemcg() {
@@ -109,7 +109,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
      if (swappiness_ != -1) {
          if (!setProcessGroupSwappiness(uid(), pid_, swappiness_)) {
              PLOG(ERROR) << "setProcessGroupSwappiness failed";
-@@ -534,6 +544,7 @@ void Service::ConfigureMemcg() {
+@@ -535,6 +545,7 @@ void Service::ConfigureMemcg() {
              PLOG(ERROR) << "setProcessGroupLimit failed";
          }
      }
@@ -117,7 +117,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
  }
  
  // Enters namespaces, sets environment variables, writes PID files and runs the service executable.
-@@ -554,6 +565,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -555,6 +566,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
          descriptor.Publish();
      }
  
@@ -125,7 +125,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
      if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
          LOG(ERROR) << "failed to write pid to files: " << result.error();
      }
-@@ -583,6 +595,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -584,6 +596,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
              LOG(ERROR) << "failed to set task profiles";
          }
      }
@@ -133,7 +133,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
  
      // As requested, set our gid, supplemental gids, uid, context, and
      // priority. Aborts on failure.
-@@ -725,6 +738,7 @@ Result<void> Service::Start() {
+@@ -734,6 +747,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -141,7 +141,7 @@ index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b
      if (CgroupsAvailable()) {
          bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
                           limit_percent_ != -1 || !limit_property_.empty();
-@@ -784,6 +798,7 @@ Result<void> Service::Start() {
+@@ -793,6 +807,7 @@ Result<void> Service::Start() {
      }
  
      setsid_finished.Close();

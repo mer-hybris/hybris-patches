@@ -9,10 +9,10 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 58e40dd7c27ca0a3e81af0628fbf0b98b9cc1cb4..3bd67dfc8b8d765fed3535b2a9dac192235d3f9f 100644
+index 9759a8cf52f0b7553df668f6ce0828f73c152211..e1a0e762a705ea12ff672e8a9d8f9232ecd030fb 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -586,7 +586,7 @@ on late-init
+@@ -584,7 +584,7 @@ on late-init
  
  on early-fs
      # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
@@ -21,7 +21,7 @@ index 58e40dd7c27ca0a3e81af0628fbf0b98b9cc1cb4..3bd67dfc8b8d765fed3535b2a9dac192
  
  on post-fs
      exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-@@ -706,6 +706,8 @@ on post-fs-data
+@@ -704,6 +704,8 @@ on post-fs-data
      restorecon /data
  
      # Make sure we have the device encryption key.

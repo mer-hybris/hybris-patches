@@ -8,7 +8,7 @@ Android prevents suspend using its internal service in addition to kernel wakelo
 wakelock reflecting the status of Android service and preventing suspend in kernel autosuspend
 mode
 
-Change-Id: Icd72fdfa503e0f88d0a0c5557f83aed4648173d3
+Change-Id: If4fd37c837ff449d1abb10614b7431183bdebbd8
 ---
  suspend/1.0/default/SystemSuspend.cpp         | 19 ++++++++++++++-----
  .../default/android.system.suspend-service.rc |  2 +-

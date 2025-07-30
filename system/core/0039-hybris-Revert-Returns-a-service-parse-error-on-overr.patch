@@ -177,10 +177,10 @@ index 287857a5cd5a6729440f3b52fc9077e4e62cb3b1..e5fea7854c7c15db0f09fdd1ca47cdef
      }
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 946acb30272ae14fb5220a5ae7600d4b232aa131..7838c0b2707f2d6bf79f14ac138e26d4910c0233 100644
+index 4d3cadbaefd5b4bb39afd1785c7c3c6fc4e84d52..a805cfdec063fe1231c38eaced97962484fd21c2 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -167,7 +167,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
+@@ -168,7 +168,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
                   .priority = 0},
        namespaces_{.flags = namespace_flags},
        seclabel_(seclabel),
@@ -189,7 +189,7 @@ index 946acb30272ae14fb5220a5ae7600d4b232aa131..7838c0b2707f2d6bf79f14ac138e26d4
                   "onrestart", {}),
        oom_score_adjust_(DEFAULT_OOM_SCORE_ADJUST),
 diff --git a/init/service.h b/init/service.h
-index ae75553d3213ad0d5c8e960b384d1d644d432c7d..84af351eb1ec3433dbf612b9b5494b3766e9669d 100644
+index 7193d7eb1b33ae996a7e8bd6cbf52fb5d2d8c3d8..764667668317a72308a185471e5293272f7bf9e3 100644
 --- a/init/service.h
 +++ b/init/service.h
 @@ -151,7 +151,6 @@ class Service {
@@ -200,7 +200,7 @@ index ae75553d3213ad0d5c8e960b384d1d644d432c7d..84af351eb1ec3433dbf612b9b5494b37
      const std::string& filename() const { return filename_; }
      void set_filename(const std::string& name) { filename_ = name; }
      static int GetSigchldFd() {
-@@ -201,7 +200,6 @@ class Service {
+@@ -204,7 +203,6 @@ class Service {
      // Environment variables that only get applied to the next run.
      std::vector<std::pair<std::string, std::string>> once_environment_vars_;
  
@@ -209,10 +209,10 @@ index ae75553d3213ad0d5c8e960b384d1d644d432c7d..84af351eb1ec3433dbf612b9b5494b37
  
      std::vector<std::string> writepid_files_;
 diff --git a/init/service_parser.cpp b/init/service_parser.cpp
-index adf97683e379d8b7d21ef37ae590fc4bdc8a4213..ff9652346441d2b129048d17fd6a6a20b620b3fd 100644
+index 4264e4b33248bcd32052b5737b916ad997491baf..98c083d5e6426ab8e6f83c7995c641bb041c4c89 100644
 --- a/init/service_parser.cpp
 +++ b/init/service_parser.cpp
-@@ -705,14 +705,6 @@ Result<void> ServiceParser::EndSection() {
+@@ -712,14 +712,6 @@ Result<void> ServiceParser::EndSection() {
                             << "' with a config in APEX";
          }
  

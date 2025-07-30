@@ -10,10 +10,10 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index ec9cce0fcce16ec725a549cf73405ced92f6f5f3..08d39ffbe8fe8b7e4ec1d3dcd87f01aa182d7a24 100644
+index 4278c7cab0789d065a06023094a0f58942245c28..96813cbabc2fd5c5b4b4200f44bc774e5608b02c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -589,7 +589,7 @@ on early-fs
+@@ -587,7 +587,7 @@ on early-fs
      #start vold
  
  on post-fs
@@ -22,7 +22,7 @@ index ec9cce0fcce16ec725a549cf73405ced92f6f5f3..08d39ffbe8fe8b7e4ec1d3dcd87f01aa
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
-@@ -697,7 +697,7 @@ on property:ro.product.cpu.abilist64=* && property:bootreceiver.enable=1
+@@ -695,7 +695,7 @@ on property:ro.product.cpu.abilist64=* && property:bootreceiver.enable=1
  on post-fs-data
  
      # Start checkpoint before we touch data
@@ -31,7 +31,7 @@ index ec9cce0fcce16ec725a549cf73405ced92f6f5f3..08d39ffbe8fe8b7e4ec1d3dcd87f01aa
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
-@@ -748,7 +748,7 @@ on post-fs-data
+@@ -746,7 +746,7 @@ on post-fs-data
      # we can tell keystore to stop allowing use of early-boot keys,
      # and access its database for the first time to support creation and
      # use of MAX_BOOT_LEVEL keys.

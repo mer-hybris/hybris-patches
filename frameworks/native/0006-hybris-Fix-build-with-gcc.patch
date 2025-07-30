@@ -24,7 +24,7 @@ index 295a307c3cf8c7e8030b36bb2c869f7caa06d185..c54fe548d87e9aca48f496d9a7c616ef
       * Default-assumption data space, when not explicitly specified.
       *
 diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
-index ed3e8c1a62c0c664c5fc35bb13dc07e5b83c02e3..562e2837ba219b1016d8e5be6e87da2a11ff3ebd 100644
+index 10abb7c927937689f0188a883276310a92713c0d..b63e7cf7b4487e377429e82b05679c0fc64b81b4 100644
 --- a/libs/nativewindow/include/android/native_window.h
 +++ b/libs/nativewindow/include/android/native_window.h
 @@ -378,7 +378,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
