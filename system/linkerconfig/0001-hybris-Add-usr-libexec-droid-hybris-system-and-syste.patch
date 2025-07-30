@@ -13,10 +13,10 @@ Change-Id: I6bf8112741be83a3f6ae7c2893cf2b367f3cc305
  4 files changed, 6 insertions(+)
 
 diff --git a/contents/configuration/baseconfig.cc b/contents/configuration/baseconfig.cc
-index 7f6a9c838c848f1843e2e60aa33511ea9e5374da..2b92e31674fcbfe8eb4c9bd51e0b1b8f4ef4f962 100644
+index b3b103e8f5ca19450f36f897b44dec1ab8923dea..d19feb80ca5056921d67b7d45088091b6f7c4574 100644
 --- a/contents/configuration/baseconfig.cc
 +++ b/contents/configuration/baseconfig.cc
-@@ -93,6 +93,7 @@ android::linkerconfig::modules::Configuration CreateBaseConfiguration(
+@@ -92,6 +92,7 @@ android::linkerconfig::modules::Configuration CreateBaseConfiguration(
        // TODO(b/168556887): Remove this when we have a dedicated section for
        // binaries in APKs
        {Var("PRODUCT") + "/app/", "system"},

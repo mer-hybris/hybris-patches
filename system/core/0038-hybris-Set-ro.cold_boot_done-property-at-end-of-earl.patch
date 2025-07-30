@@ -9,10 +9,10 @@ Change-Id: I8fb92845d47ef286005944150e2fa3ea366ebcbf
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index ff795ad162eabe19de7efd77bbb2a399f5ef2aff..872ef902f94178bea694fc780f11d1666ffdb124 100644
+index 6a5ef5903c17c8578377296f63755588edb0e3f8..c183d1c497ef1c3d278a0fcb1468c52d9b3b52e3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -97,6 +97,8 @@ on early-init
+@@ -101,6 +101,8 @@ on early-init
      chown shell shell /tmp
      chmod 0771 /tmp
  

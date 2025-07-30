@@ -9,10 +9,10 @@ Change-Id: I50e928113f90eea9d85f79f183c4b74113ab73bf
  1 file changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index f9ceef24e27852316ad9fc929bb81e3d0d6ac5a7..2a88e6b987fc4217f013e1970ae4d1c089108cc1 100644
+index e06efac6df2c91e2917adb5dcc9a288eabe00679..3146c2adbaeb7f5a0bfc03ffbe84d69074508973 100644
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
-@@ -912,10 +912,11 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
+@@ -914,10 +914,11 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
              // Always allocate VideoNativeMetadata if using ANWBuffer.
              // OMX might use gralloc source internally, but we don't share
              // metadata buffer with OMX, OMX has its own headers.
@@ -26,7 +26,7 @@ index f9ceef24e27852316ad9fc929bb81e3d0d6ac5a7..2a88e6b987fc4217f013e1970ae4d1c0
              }
  
              size_t conversionBufferSize = 0;
-@@ -6465,6 +6466,28 @@ void ACodec::BaseState::onInputBufferFilled(const sp<AMessage> &msg) {
+@@ -6467,6 +6468,28 @@ void ACodec::BaseState::onInputBufferFilled(const sp<AMessage> &msg) {
                              bufferID, graphicBuffer, flags, timeUs, info->mFenceFd);
                      }
                      break;

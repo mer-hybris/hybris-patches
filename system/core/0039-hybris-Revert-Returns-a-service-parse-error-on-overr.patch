@@ -6,16 +6,16 @@ Subject: [PATCH] (hybris) Revert "Returns a service parse error on overrides
 
 This reverts commit f597fa5d1dca3b79b30d5b66e15e23b0bd91b560.
 ---
- init/host_init_verifier.cpp | 88 +++++++------------------------------
+ init/host_init_verifier.cpp | 85 +++++++------------------------------
  init/service.cpp            |  1 -
  init/service.h              |  2 -
  init/service_parser.cpp     |  8 ----
- init/subcontext.cpp         |  3 --
+ init/subcontext.cpp         |  4 --
  init/subcontext.h           |  7 +--
- 6 files changed, 18 insertions(+), 91 deletions(-)
+ 6 files changed, 17 insertions(+), 90 deletions(-)
 
 diff --git a/init/host_init_verifier.cpp b/init/host_init_verifier.cpp
-index f746ab954e3aa7be751f38131c67f7c11447e981..b1284107695777b5add62effa1f09cb46bf65e3c 100644
+index 287857a5cd5a6729440f3b52fc9077e4e62cb3b1..e5fea7854c7c15db0f09fdd1ca47cdef5be59edf 100644
 --- a/init/host_init_verifier.cpp
 +++ b/init/host_init_verifier.cpp
 @@ -23,8 +23,6 @@
@@ -125,7 +125,7 @@ index f746ab954e3aa7be751f38131c67f7c11447e981..b1284107695777b5add62effa1f09cb4
          PrintUsage();
          return EXIT_FAILURE;
      }
-@@ -282,44 +246,24 @@ int main(int argc, char** argv) {
+@@ -282,43 +246,24 @@ int main(int argc, char** argv) {
          return EXIT_FAILURE;
      }
  
@@ -144,12 +144,9 @@ index f746ab954e3aa7be751f38131c67f7c11447e981..b1284107695777b5add62effa1f09cb4
      ActionManager& am = ActionManager::GetInstance();
      ServiceList& sl = ServiceList::GetInstance();
      Parser parser;
--    parser.AddSectionParser("service",
--                            std::make_unique<ServiceParser>(&sl, GetSubcontext(),
--                                                            *interface_inheritance_hierarchy_map));
+-    parser.AddSectionParser("service", std::make_unique<ServiceParser>(&sl, GetSubcontext()));
 -    parser.AddSectionParser("on", std::make_unique<ActionParser>(&am, GetSubcontext()));
-+    parser.AddSectionParser("service", std::make_unique<ServiceParser>(
-+                                               &sl, nullptr, *interface_inheritance_hierarchy_map));
++    parser.AddSectionParser("service", std::make_unique<ServiceParser>(&sl, nullptr));
 +    parser.AddSectionParser("on", std::make_unique<ActionParser>(&am, nullptr));
      parser.AddSectionParser("import", std::make_unique<HostImportParser>());
  
@@ -170,16 +167,17 @@ index f746ab954e3aa7be751f38131c67f7c11447e981..b1284107695777b5add62effa1f09cb4
 +        LOG(ERROR) << "Failed to open init rc script '" << *argv << "'";
 +        return EXIT_FAILURE;
      }
+ 
      size_t failures = parser.parse_error_count() + am.CheckAllCommands() + sl.CheckAllCommands();
      if (failures > 0) {
 -        LOG(ERROR) << "Failed to parse init scripts with " << failures << " error(s).";
 +        LOG(ERROR) << "Failed to parse init script '" << *argv << "' with " << failures
-+                   << " errors";
++                   << " error(s).";
          return EXIT_FAILURE;
      }
-     return EXIT_SUCCESS;
+ 
 diff --git a/init/service.cpp b/init/service.cpp
-index 8134056d7648a8010a0808e8c21c8cf38cc7d2b1..8240f3516e4dcd1cf3405389350fce4ea1146dc6 100644
+index 946acb30272ae14fb5220a5ae7600d4b232aa131..7838c0b2707f2d6bf79f14ac138e26d4910c0233 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -167,7 +167,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
@@ -191,10 +189,10 @@ index 8134056d7648a8010a0808e8c21c8cf38cc7d2b1..8240f3516e4dcd1cf3405389350fce4e
                   "onrestart", {}),
        oom_score_adjust_(DEFAULT_OOM_SCORE_ADJUST),
 diff --git a/init/service.h b/init/service.h
-index 5e9af25db64c3830931a57cee005b6f5696f3410..834641ec13823b6d268dda2193c8600102c61e5a 100644
+index ae75553d3213ad0d5c8e960b384d1d644d432c7d..84af351eb1ec3433dbf612b9b5494b3766e9669d 100644
 --- a/init/service.h
 +++ b/init/service.h
-@@ -153,7 +153,6 @@ class Service {
+@@ -151,7 +151,6 @@ class Service {
              flags_ &= ~SVC_ONESHOT;
          }
      }
@@ -202,7 +200,7 @@ index 5e9af25db64c3830931a57cee005b6f5696f3410..834641ec13823b6d268dda2193c86001
      const std::string& filename() const { return filename_; }
      void set_filename(const std::string& name) { filename_ = name; }
      static int GetSigchldFd() {
-@@ -203,7 +202,6 @@ class Service {
+@@ -201,7 +200,6 @@ class Service {
      // Environment variables that only get applied to the next run.
      std::vector<std::pair<std::string, std::string>> once_environment_vars_;
  
@@ -211,10 +209,10 @@ index 5e9af25db64c3830931a57cee005b6f5696f3410..834641ec13823b6d268dda2193c86001
  
      std::vector<std::string> writepid_files_;
 diff --git a/init/service_parser.cpp b/init/service_parser.cpp
-index 92e350be607c647f14f33c9e8a4d301413960f9a..93614b2b1837aa9e14ef4b1d22e596e66d296994 100644
+index adf97683e379d8b7d21ef37ae590fc4bdc8a4213..ff9652346441d2b129048d17fd6a6a20b620b3fd 100644
 --- a/init/service_parser.cpp
 +++ b/init/service_parser.cpp
-@@ -716,14 +716,6 @@ Result<void> ServiceParser::EndSection() {
+@@ -705,14 +705,6 @@ Result<void> ServiceParser::EndSection() {
                             << "' with a config in APEX";
          }
  
@@ -230,30 +228,32 @@ index 92e350be607c647f14f33c9e8a4d301413960f9a..93614b2b1837aa9e14ef4b1d22e596e6
          old_service = nullptr;
      }
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index 7d6f05b1ce2d90e0ec9072c671cac0a49bc5bb25..1f2b186cb5613ca9a5b61e57ece26d695d4c532c 100644
+index 636f8b92cfa1d1f38ebc15de0f278e12475dbc05..bf697d0eb9caf39233edf96e5ee7569b0af3d0de 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -358,9 +358,6 @@ void InitializeSubcontext() {
-                 new Subcontext(std::vector<std::string>{"/vendor", "/odm"}, kVendorContext));
+@@ -363,10 +363,6 @@ void InitializeSubcontext() {
      }
  }
--void InitializeHostSubcontext(std::vector<std::string> vendor_prefixes) {
--    subcontext.reset(new Subcontext(vendor_prefixes, kVendorContext, /*host=*/true));
--}
  
+-void InitializeHostSubcontext(std::vector<std::string> vendor_prefixes) {
+-    subcontext.reset(new Subcontext(vendor_prefixes, {}, kVendorContext, /*host=*/true));
+-}
+-
  Subcontext* GetSubcontext() {
      return subcontext.get();
+ }
 diff --git a/init/subcontext.h b/init/subcontext.h
-index 93ebacea27c0af8c97fc269511dbb9a17c90b850..1a4a6cb4acc82323d4d1f91ab729e0f5ca34d3f7 100644
+index 23c4a241c98f5623ce68700399ceb8815d6acc99..2fe7770e0b11129064df83258f037efb861cf9e6 100644
 --- a/init/subcontext.h
 +++ b/init/subcontext.h
-@@ -36,13 +36,11 @@ static constexpr const char kTestContext[] = "test-test-test";
- 
+@@ -37,14 +37,12 @@ static constexpr const char kTestContext[] = "test-test-test";
  class Subcontext {
    public:
--    Subcontext(std::vector<std::string> path_prefixes, std::string_view context, bool host = false)
-+    Subcontext(std::vector<std::string> path_prefixes, std::string_view context)
+     Subcontext(std::vector<std::string> path_prefixes, std::vector<std::string> partitions,
+-               std::string_view context, bool host = false)
++               std::string_view context)
          : path_prefixes_(std::move(path_prefixes)),
+           partitions_(std::move(partitions)),
            context_(context.begin(), context.end()),
            pid_(0) {
 -        if (!host) {
@@ -263,7 +263,7 @@ index 93ebacea27c0af8c97fc269511dbb9a17c90b850..1a4a6cb4acc82323d4d1f91ab729e0f5
      }
  
      Result<void> Execute(const std::vector<std::string>& args);
-@@ -67,7 +65,6 @@ class Subcontext {
+@@ -71,7 +69,6 @@ class Subcontext {
  
  int SubcontextMain(int argc, char** argv, const BuiltinFunctionMap* function_map);
  void InitializeSubcontext();

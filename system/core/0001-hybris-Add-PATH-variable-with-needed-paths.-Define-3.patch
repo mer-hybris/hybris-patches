@@ -8,39 +8,40 @@ Signed-off-by: David Greaves <david@dgreaves.com>
 Signed-off-by: Franz-Josef Haider <franz.haider@jollamobile.com>
 Signed-off-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
 ---
- rootdir/Android.mk                   | 13 +++++++++++++
- rootdir/init.environ.rc.in           |  4 ++++
- rootdir/init.extraenv.armeabi-v7a.rc |  2 ++
- rootdir/init.rc                      |  6 ++++++
- 4 files changed, 25 insertions(+)
+ rootdir/Android.bp                   | 7 +++++++
+ rootdir/init.environ.rc.in           | 4 ++++
+ rootdir/init.extraenv.armeabi-v7a.rc | 2 ++
+ rootdir/init.rc                      | 6 ++++++
+ 4 files changed, 19 insertions(+)
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
-diff --git a/rootdir/Android.mk b/rootdir/Android.mk
-index 7444f963fd0cc965b9de93b9820daa7a2b79b243..2511e52acd763cec6fbc4c29b0f722633b0f7284 100644
---- a/rootdir/Android.mk
-+++ b/rootdir/Android.mk
-@@ -2,6 +2,19 @@ LOCAL_PATH:= $(call my-dir)
+diff --git a/rootdir/Android.bp b/rootdir/Android.bp
+index 44acbbae4b4df1ed27bdd916b524c5e5eaceea4b..3ea7834b420d11e12efe9c4b22681335e89745b4 100644
+--- a/rootdir/Android.bp
++++ b/rootdir/Android.bp
+@@ -32,6 +32,12 @@ prebuilt_etc {
+     sub_dir: "init/hw",
+ }
  
- $(eval $(call declare-1p-copy-files,system/core/rootdir,))
++prebuilt_etc {
++    name: "init.extraenv.armeabi-v7a.rc",
++    src: "init.extraenv.armeabi-v7a.rc",
++    sub_dir: "init",
++}
++
+ prebuilt_etc {
+     name: "init.rc",
+     src: "init.rc",
+@@ -41,6 +47,7 @@ prebuilt_etc {
+         "platform-bootclasspath",
+         "init.boringssl.zygote64.rc",
+         "init.boringssl.zygote64_32.rc",
++        "init.extraenv.armeabi-v7a.rc",
+     ],
+ }
  
-+#######################################
-+# init.extraenv.armeabi-v7a.rc
-+include $(CLEAR_VARS)
-+
-+LOCAL_MODULE := init.extraenv.armeabi-v7a.rc
-+LOCAL_SRC_FILES := $(LOCAL_MODULE)
-+LOCAL_MODULE_CLASS := ETC
-+LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT)
-+
-+include $(BUILD_PREBUILT)
-+
-+LOCAL_REQUIRED_MODULES := init.extraenv.armeabi-v7a.rc
-+
- #######################################
- # init-debug.rc
- include $(CLEAR_VARS)
 diff --git a/rootdir/init.environ.rc.in b/rootdir/init.environ.rc.in
-index 7ba1f46e7a7f3f7e8cb22218a9e56c6f73eff189..3c255f4da25f2315d660d66ea4b6658e42eee7e7 100644
+index 9249270b39fcfdcfa614b743b08016150c10bc3d..8a17a6b62eee77b73d4febd97d527e8d6cd129f2 100644
 --- a/rootdir/init.environ.rc.in
 +++ b/rootdir/init.environ.rc.in
 @@ -1,5 +1,9 @@
@@ -62,7 +63,7 @@ index 0000000000000000000000000000000000000000..c96e2c65da45ca08ae4edb3dec42cc8c
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 92e8f27ba8ca6cdd3b49fa3d4fb7a9d5a1af86cb..395545e7a17a91fb589f66cf8b4afc2db2a89e3d 100644
+index 0cc1297078c08ac8230abac4f43161eb195d47f9..71745dd0e6c7d83c1d9a5d9d03d5ca9401b5b23b 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,12 @@

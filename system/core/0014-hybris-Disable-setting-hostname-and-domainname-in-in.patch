@@ -9,10 +9,10 @@ Change-Id: I5b9f59e80760e53636763c89f8f76f350c17b3ec
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index e6004720b1ff16a4550bb6d75ce25153ee82e301..d251d4cfeeb571165f2cfead79912ee7d0327922 100644
+index 3bd67dfc8b8d765fed3535b2a9dac192235d3f9f..8fd141ce31d16372c8a259448bc942f3adb87a16 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1101,8 +1101,9 @@ on boot && property:suspend.disable_sync_on_suspend=true
+@@ -1155,8 +1155,9 @@ on boot && property:suspend.disable_sync_on_suspend=true
  on boot
      # basic network init
      ifup lo

@@ -11,11 +11,11 @@ reading uevents from systemd-udevd etc..
 
 Change-Id: I7a896df61ae37db6f8d66ef3e9a08569b65245e2
 ---
- libcutils/uevent.cpp | 5 +++++
- 1 file changed, 5 insertions(+)
+ libcutils/uevent.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/libcutils/uevent.cpp b/libcutils/uevent.cpp
-index 40bbd5c8fdbcd1bd0a6bd1d8fcf4aa6979e7e377..8ab817419149bfab30353ae6d8c95af72906ad47 100644
+index f01a479cd8f58415e7b65ab3cbd406cb3dd10019..c87264f1234cf2d93cae704723a341245a5b9ab3 100644
 --- a/libcutils/uevent.cpp
 +++ b/libcutils/uevent.cpp
 @@ -19,6 +19,7 @@
@@ -26,14 +26,15 @@ index 40bbd5c8fdbcd1bd0a6bd1d8fcf4aa6979e7e377..8ab817419149bfab30353ae6d8c95af7
  #include <string.h>
  #include <strings.h>
  #include <sys/socket.h>
-@@ -104,6 +105,10 @@ int uevent_open_socket(int buf_sz, bool passcred) {
-     addr.nl_pid = 0;
-     addr.nl_groups = 0xffffffff;
- 
-+    char* nl_groups_env = getenv("UEVENT_NETLINK_GROUPS");
-+    if(nl_groups_env != NULL)
-+      addr.nl_groups = strtoul(nl_groups_env, NULL, 0);
+@@ -144,6 +145,11 @@ int uevent_bind(int socket) {
+             .nl_pid = 0,
+             .nl_groups = 0xffffffff,
+     };
 +
-     s = socket(PF_NETLINK, SOCK_DGRAM | SOCK_CLOEXEC, NETLINK_KOBJECT_UEVENT);
-     if (s < 0) return -1;
++    char* nl_groups_env = getenv("UEVENT_NETLINK_GROUPS");
++    if (nl_groups_env != NULL)
++       addr.nl_groups = strtoul(nl_groups_env, NULL, 0);
++
+     return bind(socket, (struct sockaddr*)&addr, sizeof(addr));
+ }
  

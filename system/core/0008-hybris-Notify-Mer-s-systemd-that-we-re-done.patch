@@ -10,13 +10,13 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 86c4ab89d0fcefb35c4efb8d3a5a888287aaf727..bd39e3fec8a3084a5592d0f61eb59bb84f40a8d3 100644
+index d4ef7bfc5919be50bf66ca93d7615ec25572f671..6fb182b0cfdbb2f54c5776efd028d317939f888d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1358,3 +1358,17 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
-   write /sys/kernel/mm/lru_gen/enabled 5
- on property:persist.device_config.mglru_native.lru_gen_config=all
-   write /sys/kernel/mm/lru_gen/enabled 7
+@@ -1390,3 +1390,17 @@ on property:sys.snapshotctl.map=requested
+ on property:sys.snapshotctl.unmap=requested
+     exec - root root system -- /system/bin/snapshotctl unmap
+     setprop sys.snapshotctl.unmap "finished"
 +
 +# This trigger is run by our modified init after boot has finished
 +on ready

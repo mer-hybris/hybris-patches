@@ -12,10 +12,10 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
  3 files changed, 17 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
-index 327c56e9c5d2dc5bedad429c47bce092c2df1b4c..f33a8194672efee1e56e9e48519feddb63b857b7 100644
+index cde3a051733c1e73c93a996fcdd45237637941e6..17b84495c74474ea91555f30abe9b19e0febdca7 100644
 --- a/init/Android.bp
 +++ b/init/Android.bp
-@@ -199,8 +199,6 @@ libinit_cc_defaults {
+@@ -190,8 +190,6 @@ libinit_cc_defaults {
          "liblog",
          "liblogwrap",
          "liblp",
@@ -24,7 +24,7 @@ index 327c56e9c5d2dc5bedad429c47bce092c2df1b4c..f33a8194672efee1e56e9e48519feddb
          "libselinux",
          "libunwindstack",
          "libutils",
-@@ -536,7 +534,6 @@ cc_defaults {
+@@ -541,7 +539,6 @@ cc_defaults {
          "libcutils",
          "libselinux",
          "liblog",
@@ -32,19 +32,19 @@ index 327c56e9c5d2dc5bedad429c47bce092c2df1b4c..f33a8194672efee1e56e9e48519feddb
          "libprotobuf-cpp-lite",
      ],
      static_libs: [
-@@ -599,7 +596,6 @@ cc_defaults {
-         "libhidl-gen-utils",
-         "libhidlmetadata",
+@@ -607,7 +604,6 @@ cc_defaults {
+     shared_libs: [
+         "libcutils",
          "liblog",
 -        "libprocessgroup",
          "libprotobuf-cpp-lite",
      ],
      proto: {
 diff --git a/init/init.cpp b/init/init.cpp
-index 9309d001c6d7e7937c39415a7cd4fd21be06ace9..8418801928c1ac3fdcc1eb62ee2ed52e525a90e4 100644
+index c4de17f8f60a852f2b2d54cabf208f5accc48687..b86e5420acb166b6d5a183480c16ef9553c8dc9b 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -59,8 +59,6 @@
+@@ -57,8 +57,6 @@
  #include <libgsi/libgsi.h>
  #include <libsnapshot/snapshot.h>
  #include <logwrap/logwrap.h>
@@ -54,7 +54,7 @@ index 9309d001c6d7e7937c39415a7cd4fd21be06ace9..8418801928c1ac3fdcc1eb62ee2ed52e
  #include <unwindstack/AndroidUnwinder.h>
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf38cc7d2b1 100644
+index 4e6b06654719678b63645e1d47c764394d61567f..946acb30272ae14fb5220a5ae7600d4b232aa131 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -35,7 +35,6 @@
@@ -101,7 +101,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
  
      if (flags_ & SVC_TEMPORARY) return;
  
-@@ -481,6 +490,7 @@ Result<void> Service::CheckConsole() {
+@@ -496,6 +505,7 @@ Result<void> Service::CheckConsole() {
  
  // Configures the memory cgroup properties for the service.
  void Service::ConfigureMemcg() {
@@ -109,7 +109,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
      if (swappiness_ != -1) {
          if (!setProcessGroupSwappiness(uid(), pid_, swappiness_)) {
              PLOG(ERROR) << "setProcessGroupSwappiness failed";
-@@ -519,6 +529,7 @@ void Service::ConfigureMemcg() {
+@@ -534,6 +544,7 @@ void Service::ConfigureMemcg() {
              PLOG(ERROR) << "setProcessGroupLimit failed";
          }
      }
@@ -117,7 +117,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
  }
  
  // Enters namespaces, sets environment variables, writes PID files and runs the service executable.
-@@ -539,6 +550,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -554,6 +565,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
          descriptor.Publish();
      }
  
@@ -125,7 +125,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
      if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
          LOG(ERROR) << "failed to write pid to files: " << result.error();
      }
-@@ -568,6 +580,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -583,6 +595,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
              LOG(ERROR) << "failed to set task profiles";
          }
      }
@@ -133,7 +133,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
  
      // As requested, set our gid, supplemental gids, uid, context, and
      // priority. Aborts on failure.
-@@ -711,6 +724,7 @@ Result<void> Service::Start() {
+@@ -725,6 +738,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -141,7 +141,7 @@ index 9f3502da8ec6bd343795ea70307e3838604307e9..8134056d7648a8010a0808e8c21c8cf3
      if (CgroupsAvailable()) {
          bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
                           limit_percent_ != -1 || !limit_property_.empty();
-@@ -770,6 +784,7 @@ Result<void> Service::Start() {
+@@ -784,6 +798,7 @@ Result<void> Service::Start() {
      }
  
      setsid_finished.Close();

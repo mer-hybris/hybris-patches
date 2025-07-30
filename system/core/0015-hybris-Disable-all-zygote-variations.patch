@@ -5,14 +5,14 @@ Subject: [PATCH] (hybris) Disable all zygote variations
 
 Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
 ---
- rootdir/init.rc             | 6 +++---
+ rootdir/init.rc             | 4 ++--
  rootdir/init.zygote32.rc    | 1 +
  rootdir/init.zygote64.rc    | 1 +
  rootdir/init.zygote64_32.rc | 3 ++-
- 4 files changed, 7 insertions(+), 4 deletions(-)
+ 4 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index d251d4cfeeb571165f2cfead79912ee7d0327922..650b347dcc90d591e86920ff716aa80df4af0452 100644
+index 8fd141ce31d16372c8a259448bc942f3adb87a16..bc6890b0cda7f0f8719f56775a617d87470f918a 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc
@@ -24,8 +24,8 @@ index d251d4cfeeb571165f2cfead79912ee7d0327922..650b347dcc90d591e86920ff716aa80d
  
  # Cgroups are mounted right before early-init using list from /etc/cgroups.json
  on early-init
-@@ -556,7 +556,7 @@ on late-init
-     trigger load_bpf_programs
+@@ -576,7 +576,7 @@ on late-init
+     trigger bpf-progs-loaded
  
      # Now we can start zygote.
 -    trigger zygote-start
@@ -33,25 +33,15 @@ index d251d4cfeeb571165f2cfead79912ee7d0327922..650b347dcc90d591e86920ff716aa80d
  
      # Remove a file to wake up anything waiting for firmware.
      trigger firmware_mounts_complete
-@@ -1353,7 +1353,7 @@ on userspace-reboot-fs-remount
- on userspace-reboot-resume
-   trigger userspace-reboot-fs-remount
-   trigger post-fs-data
--  trigger zygote-start
-+  #trigger zygote-start
-   trigger early-boot
-   trigger boot
- 
 diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
-index 442bd153f5dbda0592db6451a500c8318c281c6c..0fbfb6ab09e439890b71d40fdf64d988118d4120 100644
+index 862afb6848c44aeb05dcbccd1b27c4bb3e2092fd..a05bde3de63ebb8dc8b2dd9d846625f3fa9d9af3 100644
 --- a/rootdir/init.zygote32.rc
 +++ b/rootdir/init.zygote32.rc
 @@ -18,3 +18,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
      onrestart restart wificond
-     task_profiles ProcessCapacityHigh
+     task_profiles ProcessCapacityHigh MaxPerformance
      critical window=${zygote.critical_window.minute:-off} target=zygote-fatal
 +    disabled
-\ No newline at end of file
 diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
 index 342212123de59bebaf3eb4d4c3dca7147affe5c4..d770078794d7407d547607b6d274af5e9afb95bf 100644
 --- a/rootdir/init.zygote64.rc

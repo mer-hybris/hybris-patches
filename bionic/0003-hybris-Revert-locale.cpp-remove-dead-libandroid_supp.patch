@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Sun, 29 Jun 2025 15:04:03 +0300
+Subject: [PATCH] (hybris) Revert "locale.cpp: remove dead libandroid_support
+ support."
+
+This reverts commit 57d4f6b70814830843e92bc667203509f6b87147.
+
+Change-Id: Icd731c853e17a73a4662cefb583e14f808395ad1
+---
+ libc/bionic/locale.cpp | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/libc/bionic/locale.cpp b/libc/bionic/locale.cpp
+index a1d690965272910b77a37d4807b308c50395a696..2f4d20634f7db8cec156d6f9eb7ff9c280f621cf 100644
+--- a/libc/bionic/locale.cpp
++++ b/libc/bionic/locale.cpp
+@@ -35,9 +35,18 @@
+ #include <time.h>
+ #include <wchar.h>
+ 
+-#include "bionic/pthread_internal.h"
+ #include "platform/bionic/macros.h"
+ 
++#if defined(__BIONIC_BUILD_FOR_ANDROID_SUPPORT)
++#define USE_TLS_SLOT 0
++#else
++#define USE_TLS_SLOT 1
++#endif
++
++#if USE_TLS_SLOT
++#include "bionic/pthread_internal.h"
++#endif
++
+ // We only support two locales, the "C" locale (also known as "POSIX"),
+ // and the "C.UTF-8" locale (also known as "en_US.UTF-8").
+ 
+@@ -73,6 +82,10 @@ size_t __ctype_get_mb_cur_max() {
+   return get_locale_mb_cur_max(uselocale(nullptr));
+ }
+ 
++#if !USE_TLS_SLOT
++static thread_local locale_t g_current_locale;
++#endif
++
+ static pthread_once_t g_locale_once = PTHREAD_ONCE_INIT;
+ static lconv g_locale;
+ 
+@@ -167,7 +180,11 @@ char* setlocale(int category, const char* locale_name) {
+ }
+ 
+ static locale_t* get_current_locale_ptr() {
++#if USE_TLS_SLOT
+   return &__get_bionic_tls().locale;
++#else
++  return &g_current_locale;
++#endif
+ }
+ 
+ locale_t uselocale(locale_t new_locale) {

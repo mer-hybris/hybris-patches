@@ -5,14 +5,14 @@ Subject: [PATCH] (hybris) reach main init state
 
 Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
 ---
- rootdir/init.rc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ rootdir/init.rc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 2e16751f9a3239bf162be70b89e57103b985fa17..e6004720b1ff16a4550bb6d75ce25153ee82e301 100644
+index 58e40dd7c27ca0a3e81af0628fbf0b98b9cc1cb4..3bd67dfc8b8d765fed3535b2a9dac192235d3f9f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -566,7 +566,7 @@ on late-init
+@@ -586,7 +586,7 @@ on late-init
  
  on early-fs
      # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
@@ -21,7 +21,7 @@ index 2e16751f9a3239bf162be70b89e57103b985fa17..e6004720b1ff16a4550bb6d75ce25153
  
  on post-fs
      exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-@@ -695,6 +695,8 @@ on post-fs-data
+@@ -706,6 +706,8 @@ on post-fs-data
      restorecon /data
  
      # Make sure we have the device encryption key.
@@ -30,12 +30,3 @@ index 2e16751f9a3239bf162be70b89e57103b985fa17..e6004720b1ff16a4550bb6d75ce25153
      installkey /data
  
      # Start bootcharting as soon as possible after the data partition is
-@@ -1334,7 +1336,7 @@ on userspace-reboot-fs-remount
-   # Make sure that vold is running.
-   # This is mostly a precaution measure in case vold for some reason wasn't running when
-   # userspace reboot was initiated.
--  start vold
-+  #start vold
-   exec - system system -- /system/bin/vdc checkpoint resetCheckpoint
-   exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-   # Unmount /data_mirror mounts in the reverse order of corresponding mounts.

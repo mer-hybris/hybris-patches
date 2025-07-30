@@ -6,14 +6,14 @@ Subject: [PATCH] (hybris) Do not launch /system/bin/vdc
 Signed-off-by: Simonas Leleiva <simonas.leleiva@jolla.com>
 Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
 ---
- rootdir/init.rc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ rootdir/init.rc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 5913772354cb8480c6376b6211639e3610086569..9e854fbff4dc657fb9d2bb7cd8dfecdaa6386ff0 100644
+index ec9cce0fcce16ec725a549cf73405ced92f6f5f3..08d39ffbe8fe8b7e4ec1d3dcd87f01aa182d7a24 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -569,7 +569,7 @@ on early-fs
+@@ -589,7 +589,7 @@ on early-fs
      #start vold
  
  on post-fs
@@ -22,8 +22,8 @@ index 5913772354cb8480c6376b6211639e3610086569..9e854fbff4dc657fb9d2bb7cd8dfecda
  
      # Once everything is setup, no need to modify /.
      # The bind+remount combination allows this to work in containers.
-@@ -686,7 +686,7 @@ on post-fs-data
-     mark_post_data
+@@ -697,7 +697,7 @@ on property:ro.product.cpu.abilist64=* && property:bootreceiver.enable=1
+ on post-fs-data
  
      # Start checkpoint before we touch data
 -    exec - system system -- /system/bin/vdc checkpoint prepareCheckpoint
@@ -31,7 +31,7 @@ index 5913772354cb8480c6376b6211639e3610086569..9e854fbff4dc657fb9d2bb7cd8dfecda
  
      # We chown/chmod /data again so because mount is run as root + defaults
      chown system system /data
-@@ -737,7 +737,7 @@ on post-fs-data
+@@ -748,7 +748,7 @@ on post-fs-data
      # we can tell keystore to stop allowing use of early-boot keys,
      # and access its database for the first time to support creation and
      # use of MAX_BOOT_LEVEL keys.
@@ -40,14 +40,3 @@ index 5913772354cb8480c6376b6211639e3610086569..9e854fbff4dc657fb9d2bb7cd8dfecda
  
      # Multi-installed APEXes are selected using persist props.
      # Load persist properties and override properties (if enabled) from /data,
-@@ -1340,8 +1340,8 @@ on userspace-reboot-fs-remount
-   # This is mostly a precaution measure in case vold for some reason wasn't running when
-   # userspace reboot was initiated.
-   #start vold
--  exec - system system -- /system/bin/vdc checkpoint resetCheckpoint
--  exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-+  #exec - system system -- /system/bin/vdc checkpoint resetCheckpoint
-+  #exec - system system -- /system/bin/vdc checkpoint markBootAttempt
-   # Unmount /data_mirror mounts in the reverse order of corresponding mounts.
-   umount /data_mirror/data_ce/null/0
-   umount /data_mirror/data_ce/null

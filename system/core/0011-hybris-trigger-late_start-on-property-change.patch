@@ -20,10 +20,10 @@ Conflicts:
  1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8ed5a899ee8abc3c1ddc171c28662f4fedbd1814..2e16751f9a3239bf162be70b89e57103b985fa17 100644
+index 6f5f67a1319c329f6551024ab623841c9b58139f..58e40dd7c27ca0a3e81af0628fbf0b98b9cc1cb4 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1209,6 +1209,7 @@ on boot
+@@ -1266,6 +1266,7 @@ on boot
  
      class_start core
  
@@ -31,7 +31,7 @@ index 8ed5a899ee8abc3c1ddc171c28662f4fedbd1814..2e16751f9a3239bf162be70b89e57103
  on nonencrypted
      class_start main
      class_start late_start
-@@ -1216,6 +1217,11 @@ on nonencrypted
+@@ -1273,6 +1274,11 @@ on nonencrypted
  on property:sys.init_log_level=*
      loglevel ${sys.init_log_level}
  

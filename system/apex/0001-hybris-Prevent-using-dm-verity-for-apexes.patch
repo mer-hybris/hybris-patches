@@ -13,10 +13,10 @@ Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index 8e539cfd6b07c788ccbb5ca781aab10bf17b7c84..597fb2829ad25ef261f877b48b0ea7c7e65d2795 100644
+index ed4cbafd5d0b90616c82f73c31dda3006a183d3b..14fbf74080f2944102b98e0245d2ea701f56b583 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
-@@ -537,7 +537,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -430,13 +430,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
    // dm-verity because they are already in the dm-verity protected partition;
    // system. However, note that we don't skip verification to ensure that APEXes
    // are correctly signed.
@@ -25,14 +25,13 @@ index 8e539cfd6b07c788ccbb5ca781aab10bf17b7c84..597fb2829ad25ef261f877b48b0ea7c7
                                 // decompressed apexes are on /data
                                 instance.IsDecompressedApex(apex) ||
                                 // block apexes are from host
-@@ -545,6 +545,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+                                instance.IsBlockApex(apex);
  
-   DmVerityDevice verity_dev;
-   loop::LoopbackDeviceUniqueFd loop_for_hash;
+   DmDevice verity_dev;
 +  mount_on_verity = false;
    if (mount_on_verity) {
-     std::string hash_device = loopback_device.name;
-     if (verity_data->desc->tree_size == 0) {
+     auto verity_table =
+         CreateVerityTable(*verity_data, loopback_device.name,
 diff --git a/apexd/apexd.rc b/apexd/apexd.rc
 index af07a1b6206c5478db7e6d3694bd2fc60536b659..d7af0cfd582dd602d411caab829d34c22b418fbc 100644
 --- a/apexd/apexd.rc

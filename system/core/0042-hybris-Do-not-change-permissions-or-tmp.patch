@@ -9,10 +9,10 @@ Change-Id: Ib4fd846ba003a66acb88c34bd33a6f3e3e2335b4
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 69b8ff32c0218f2df42ca380f876d5158fa1b94a..1d120340770a63c6f05ce1ce1a364bee9536d080 100644
+index 4942f5914e71adebb6e522fd9df3b53d6d5980e9..070f3e143fdd32112cf57fab0311d0607494b5a5 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -93,9 +93,10 @@ on early-init
+@@ -97,9 +97,10 @@ on early-init
  
      # Create tmpfs for use by the shell user.
      mount tmpfs tmpfs /tmp

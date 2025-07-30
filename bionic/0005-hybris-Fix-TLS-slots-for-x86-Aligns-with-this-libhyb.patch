@@ -10,10 +10,10 @@ Change-Id: Ibdbfa1c1672cbac5a687afdedbb1d8ff05861f4f
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/libc/platform/bionic/tls_defines.h b/libc/platform/bionic/tls_defines.h
-index abbe259e12440b1c22c8b7df25c76b2229b92fdd..af6dfe4c5cddcd3963af22b35ee9dfb6343d94fb 100644
+index 9d7e3655d8112d3ba5766a342880c8f7be0bb86f..b7b4fbbb8e779bf785496da65e93e66ad5f9bf51 100644
 --- a/libc/platform/bionic/tls_defines.h
 +++ b/libc/platform/bionic/tls_defines.h
-@@ -110,12 +110,12 @@
+@@ -111,12 +111,12 @@
  
  #define TLS_SLOT_SELF             0
  #define TLS_SLOT_THREAD_ID        1

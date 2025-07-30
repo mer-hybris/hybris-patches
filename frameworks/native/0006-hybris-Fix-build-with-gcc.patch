@@ -7,10 +7,11 @@ Change-Id: I4ab6398977d58dc19794fe085d0b2687f399aa53
 ---
  libs/nativewindow/include/android/data_space.h    | 2 +-
  libs/nativewindow/include/android/native_window.h | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ libs/nativewindow/include/vndk/hardware_buffer.h  | 2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/libs/nativewindow/include/android/data_space.h b/libs/nativewindow/include/android/data_space.h
-index 8056d9ac4fd56e534772f6af3efda25e1947d87e..918b01e9c9d11c0266f1b11418e763715c136194 100644
+index 295a307c3cf8c7e8030b36bb2c869f7caa06d185..c54fe548d87e9aca48f496d9a7c616efb995539c 100644
 --- a/libs/nativewindow/include/android/data_space.h
 +++ b/libs/nativewindow/include/android/data_space.h
 @@ -38,7 +38,7 @@ __BEGIN_DECLS
@@ -23,17 +24,30 @@ index 8056d9ac4fd56e534772f6af3efda25e1947d87e..918b01e9c9d11c0266f1b11418e76371
       * Default-assumption data space, when not explicitly specified.
       *
 diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
-index be6623ee75f0f61c23917488cca6762d6e3ec191..18b4f00926796a54bd13e8481a25b52f5fda1963 100644
+index ed3e8c1a62c0c664c5fc35bb13dc07e5b83c02e3..562e2837ba219b1016d8e5be6e87da2a11ff3ebd 100644
 --- a/libs/nativewindow/include/android/native_window.h
 +++ b/libs/nativewindow/include/android/native_window.h
-@@ -373,7 +373,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
+@@ -378,7 +378,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
+  *
   * \return 0 for success, -EINVAL if the window value is invalid.
   */
- inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window)
--        __INTRODUCED_IN(__ANDROID_API_U__) {
-+        __INTRODUCED_IN(__ANDROID_API_U__);
+-inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) __INTRODUCED_IN(31) {
++inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) __INTRODUCED_IN(31);
 +
 +inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) {
      return ANativeWindow_setFrameRateWithChangeStrategy(window, 0,
              ANATIVEWINDOW_FRAME_RATE_COMPATIBILITY_DEFAULT,
              ANATIVEWINDOW_CHANGE_FRAME_RATE_ONLY_IF_SEAMLESS);
+diff --git a/libs/nativewindow/include/vndk/hardware_buffer.h b/libs/nativewindow/include/vndk/hardware_buffer.h
+index 48fb02f69d0028fcb191dccfd7bd3ae3f2d3cda9..6381d805b2319ba63b46e321332b68691d106ee1 100644
+--- a/libs/nativewindow/include/vndk/hardware_buffer.h
++++ b/libs/nativewindow/include/vndk/hardware_buffer.h
+@@ -115,7 +115,7 @@ typedef struct {
+     int64_t value;
+ } AHardwareBufferLongOptions;
+ 
+-enum AHardwareBufferStatus : int32_t {
++enum AHardwareBufferStatus {
+     /* Success, no error */
+     AHARDWAREBUFFER_STATUS_OK = 0,
+     /* There's insufficient memory to satisfy the request */

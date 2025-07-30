@@ -9,15 +9,15 @@ Change-Id: I7588a80db2c77879fb56d5decfd055224f20ab54
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 959db7c5e9c8216c795749c75109f783f340c363..86c4ab89d0fcefb35c4efb8d3a5a888287aaf727 100644
+index f848c220ab64d3b78ec077b55623592925627df1..d4ef7bfc5919be50bf66ca93d7615ec25572f671 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -66,7 +66,7 @@ on early-init
+@@ -70,7 +70,7 @@ on early-init
      # Mount bootstrap linker configuration as current
      mount none /linkerconfig/bootstrap /linkerconfig bind rec
  
 -    start ueventd
 +    #start ueventd
  
-     # Run apexd-bootstrap so that APEXes that provide critical libraries
-     # become available. Note that this is executed as exec_start to ensure that
+     # Mount tracefs (with GID=AID_READTRACEFS)
+     mount tracefs tracefs /sys/kernel/tracing gid=3012

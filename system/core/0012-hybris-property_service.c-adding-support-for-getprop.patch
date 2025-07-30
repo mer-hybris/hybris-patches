@@ -23,10 +23,10 @@ Conflicts:
  2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 54c5192db89372ae4f05361871bfc7ce09984605..df703fe6a6a9f4c7c54e784d84df1d225f308fa6 100644
+index d2b023239b1adca58f9d3ec85364c184e16e4c90..2ad871c2bcf10e48eb59df656a61df1c57110042 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -1105,7 +1105,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1097,7 +1097,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,10 +36,10 @@ index 54c5192db89372ae4f05361871bfc7ce09984605..df703fe6a6a9f4c7c54e784d84df1d22
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index b3985f89ea78df7b3894ea50fb08906badae82e6..3f85536184a287ddd11afcc93acd0951515e0c25 100644
+index f2db68b21fb7e96ff030c22228c8d78554b49235..d8af49c0dd25246476d24e44d7c81bcbcadb5bb6 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -199,6 +199,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
+@@ -195,6 +195,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
          PropertyChanged(name, value);
      }
  }
@@ -52,7 +52,7 @@ index b3985f89ea78df7b3894ea50fb08906badae82e6..3f85536184a287ddd11afcc93acd0951
  
  class AsyncRestorecon {
    public:
-@@ -297,6 +303,17 @@ class SocketConnection {
+@@ -293,6 +299,17 @@ class SocketConnection {
  
      [[nodiscard]] int Release() { return socket_.release(); }
  

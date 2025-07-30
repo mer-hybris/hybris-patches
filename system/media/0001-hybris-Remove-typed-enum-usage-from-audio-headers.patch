@@ -10,7 +10,7 @@ Change-Id: I7825b92bff77045d3c923760eefbb35afb1eecea
  2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/audio/include/system/audio-hal-enums.h b/audio/include/system/audio-hal-enums.h
-index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6a812184b 100644
+index d8e8e3b5b7ea245fb42e9af0e3694cf633100640..d3c396c181b9ea9dad6b8e9004068b716eeb9c54 100644
 --- a/audio/include/system/audio-hal-enums.h
 +++ b/audio/include/system/audio-hal-enums.h
 @@ -237,7 +237,7 @@ enum {
@@ -31,7 +31,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_CONTENT_TYPE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_content_type_t;
  
-@@ -410,7 +410,7 @@ enum {
+@@ -411,7 +411,7 @@ enum {
      V(AUDIO_DEVICE_IN_AUX_DIGITAL, AUDIO_DEVICE_IN_HDMI) \
      V(AUDIO_DEVICE_IN_STUB, AUDIO_DEVICE_IN_DEFAULT)
  
@@ -40,7 +40,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_DEVICE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_devices_t;
  
-@@ -452,7 +452,7 @@ inline bool audio_device_from_string(const char* s, audio_devices_t* t) {
+@@ -453,7 +453,7 @@ inline bool audio_device_from_string(const char* s, audio_devices_t* t) {
      V(AUDIO_OUTPUT_FLAG_ULTRASOUND, 0x80000) \
      V(AUDIO_OUTPUT_FLAG_BIT_PERFECT, 0x100000)
  
@@ -49,7 +49,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_OUTPUT_FLAG_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_output_flags_t;
  
-@@ -485,7 +485,7 @@ inline bool audio_output_flag_from_string(const char* s, audio_output_flags_t* t
+@@ -486,7 +486,7 @@ inline bool audio_output_flag_from_string(const char* s, audio_output_flags_t* t
      V(AUDIO_INPUT_FLAG_HOTWORD_TAP, 0x200) \
      V(AUDIO_INPUT_FLAG_HW_LOOKBACK, 0x400) \
  
@@ -58,7 +58,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_INPUT_FLAG_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_input_flags_t;
  
-@@ -638,7 +638,7 @@ enum {
+@@ -666,7 +666,7 @@ enum {
      AUDIO_FORMAT_LIST_UNIQUE_DEF(V) \
      V(VX_AUDIO_FORMAT_LC3, AUDIO_FORMAT_LC3)
  
@@ -67,7 +67,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_FORMAT_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
      // These values must be part of the enum, but they are not valid formats,
      // and thus don't participate in to/from string conversions.
-@@ -667,7 +667,7 @@ inline bool audio_format_from_string(const char* s, audio_format_t* t) {
+@@ -695,7 +695,7 @@ inline bool audio_format_from_string(const char* s, audio_format_t* t) {
      V(AUDIO_GAIN_MODE_CHANNELS, 2) \
      V(AUDIO_GAIN_MODE_RAMP, 4)
  
@@ -76,7 +76,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_GAIN_MODE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_gain_mode_t;
  
-@@ -710,7 +710,7 @@ inline bool audio_gain_mode_from_string(const char* s, audio_gain_mode_t* t) {
+@@ -738,7 +738,7 @@ inline bool audio_gain_mode_from_string(const char* s, audio_gain_mode_t* t) {
      V(AUDIO_SOURCE_INVALID, -1)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -85,7 +85,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_SOURCE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_source_t;
  
-@@ -753,7 +753,7 @@ inline bool audio_source_from_string(const char* s, audio_source_t* t) {
+@@ -781,7 +781,7 @@ inline bool audio_source_from_string(const char* s, audio_source_t* t) {
      V(AUDIO_STREAM_DEFAULT, -1)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -94,7 +94,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_STREAM_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_stream_type_t;
  
-@@ -803,7 +803,7 @@ inline bool audio_stream_type_from_string(const char* s, audio_stream_type_t* t)
+@@ -832,7 +832,7 @@ inline bool audio_stream_type_from_string(const char* s, audio_stream_type_t* t)
      V(AUDIO_USAGE_NOTIFICATION_COMMUNICATION_DELAYED, 9)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -103,7 +103,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
      AUDIO_USAGE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_usage_t;
  
-@@ -827,7 +827,7 @@ inline bool audio_usage_from_string(const char* s, audio_usage_t* t) {
+@@ -856,7 +856,7 @@ inline bool audio_usage_from_string(const char* s, audio_usage_t* t) {
      V(AUDIO_ENCAPSULATION_TYPE_IEC61937, 1) \
      V(AUDIO_ENCAPSULATION_TYPE_PCM, 2)
  
@@ -113,7 +113,7 @@ index bb2f955910d6b09e98d32d55a25a5b26cdcd7142..d16f477b21c22d8e4fd9ae130a14fec6
  } audio_encapsulation_type_t;
  
 diff --git a/audio/include/system/audio.h b/audio/include/system/audio.h
-index 154aaaca8a41f1d683343ae52156adb0fcfc134d..383c666ae2aafc1f3085ca8665f5226261f907cc 100644
+index b0d5ba96a1b88145b263f93e98ca3005aa3faa5d..e34041a2fae672869bcc986d63faecec9e4446d9 100644
 --- a/audio/include/system/audio.h
 +++ b/audio/include/system/audio.h
 @@ -206,7 +206,7 @@ static inline audio_unique_id_use_t audio_unique_id_get_use(audio_unique_id_t id
@@ -125,7 +125,7 @@ index 154aaaca8a41f1d683343ae52156adb0fcfc134d..383c666ae2aafc1f3085ca8665f52262
      AUDIO_SESSION_DEVICE = HAL_AUDIO_SESSION_DEVICE,
      AUDIO_SESSION_OUTPUT_STAGE = HAL_AUDIO_SESSION_OUTPUT_STAGE,
      AUDIO_SESSION_OUTPUT_MIX = HAL_AUDIO_SESSION_OUTPUT_MIX,
-@@ -767,7 +767,7 @@ struct audio_port {
+@@ -768,7 +768,7 @@ struct audio_port {
      } ext;
  };
  
@@ -134,7 +134,7 @@ index 154aaaca8a41f1d683343ae52156adb0fcfc134d..383c666ae2aafc1f3085ca8665f52262
      AUDIO_STANDARD_NONE = 0,
      AUDIO_STANDARD_EDID = 1,
      AUDIO_STANDARD_SADB = 2,
-@@ -2270,7 +2270,7 @@ typedef enum {
+@@ -2302,7 +2302,7 @@ typedef enum {
  } audio_offload_mode_t;
  #endif // AUDIO_NO_SYSTEM_DECLARATIONS
  
