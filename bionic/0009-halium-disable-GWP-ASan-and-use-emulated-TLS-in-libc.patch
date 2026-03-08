@@ -14,7 +14,7 @@ Change-Id: Ic63b814917913ba6055aa9ba2c8e70c098b428af
  2 files changed, 24 insertions(+)
 
 diff --git a/libc/Android.bp b/libc/Android.bp
-index c7fb6cc0be05b0948f1962b6e0e89cbac80ef07b..cd1d927396ef430e62e55c59b94178f7dc3c327a 100644
+index 95377033a4672465c08d29db54b75d9c5efcd536..067173b823ca21b0b7099d60ec14b158467fa363 100644
 --- a/libc/Android.bp
 +++ b/libc/Android.bp
 @@ -40,6 +40,9 @@ libc_common_flags = [
@@ -28,10 +28,10 @@ index c7fb6cc0be05b0948f1962b6e0e89cbac80ef07b..cd1d927396ef430e62e55c59b94178f7
      // never see any good it does, so let's just ask it to do what we say...
      // (The specific motivating example was clang turning a loop that would only
 diff --git a/libc/bionic/gwp_asan_wrappers.cpp b/libc/bionic/gwp_asan_wrappers.cpp
-index 2124f515d921b1329f84a6233b3d1812467d9099..d7f198efa70d484367c671e192908adfbd1d8e01 100644
+index d416775fa066f70733bbea3bcd04fe9adb3dc115..48162ef4494efb3e4bdb8a2c636d5b0a0a80cbf6 100644
 --- a/libc/bionic/gwp_asan_wrappers.cpp
 +++ b/libc/bionic/gwp_asan_wrappers.cpp
-@@ -54,6 +54,7 @@
+@@ -55,6 +55,7 @@
  #include "bionic/malloc_common_dynamic.h"
  #endif  // LIBC_STATIC
  
@@ -39,7 +39,7 @@ index 2124f515d921b1329f84a6233b3d1812467d9099..d7f198efa70d484367c671e192908adf
  static gwp_asan::GuardedPoolAllocator GuardedAlloc;
  static const MallocDispatch* prev_dispatch;
  
-@@ -511,3 +512,23 @@ bool EnableGwpAsan(const android_mallopt_gwp_asan_options_t& options) {
+@@ -507,3 +508,23 @@ bool EnableGwpAsan(const android_mallopt_gwp_asan_options_t& options) {
        [&](libc_globals* globals) { ret_value = MaybeInitGwpAsan(globals, options); });
    return ret_value;
  }

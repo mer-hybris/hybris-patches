@@ -12,7 +12,7 @@ Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
  4 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 87c2f44b1f5ba5230bf4af529871c671ba835c6d..7b80254e2e353a88b09993e89bef95db15a020a9 100644
+index be2a4618f83fb76c609bff2cdf57826a27fc2fb2..61501223c30a21a618182c46584ffd970c7368aa 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc
@@ -24,7 +24,7 @@ index 87c2f44b1f5ba5230bf4af529871c671ba835c6d..7b80254e2e353a88b09993e89bef95db
  
  # Cgroups are mounted right before early-init using list from /etc/cgroups.json
  on early-init
-@@ -574,7 +574,7 @@ on late-init
+@@ -581,7 +581,7 @@ on late-init
      trigger bpf-progs-loaded
  
      # Now we can start zygote.

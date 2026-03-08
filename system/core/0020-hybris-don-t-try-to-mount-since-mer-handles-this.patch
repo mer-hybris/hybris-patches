@@ -9,7 +9,7 @@ Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
  1 file changed, 2 insertions(+)
 
 diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
-index 0647ef7c11567dd26876679347a2a818660da9d5..6110158ca7416c3c357d6d6859448af8fad9838d 100644
+index 0148a5a29899e72106b84923ce0dd8475c3cefa4..1dc08d8e359c05eadf7a3cb88b5c15bc30b9796b 100644
 --- a/init/first_stage_mount.cpp
 +++ b/init/first_stage_mount.cpp
 @@ -263,6 +263,7 @@ bool FirstStageMountVBootV2::DoCreateDevices() {

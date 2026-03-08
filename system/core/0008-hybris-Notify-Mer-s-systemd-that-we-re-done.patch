@@ -10,7 +10,7 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 114ff0c0e07f8be1f2aed9d5efe9fb22a80b0b4d..2024b659ba91e738a157bdd2e2a68f95240b8f1a 100644
+index a15a376d15dfb2b786f9dce6a08e250a6f369e97..7460a6414002db013d69e78a97f6a9b2e5b53d03 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -1391,3 +1391,17 @@ on property:sys.snapshotctl.map=requested

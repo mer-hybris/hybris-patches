@@ -10,13 +10,13 @@ Change-Id: If69be57d5f16be804822f7694f7ae0bf547c39dc
  1 file changed, 3 insertions(+)
 
 diff --git a/ui/build/androidmk_denylist.go b/ui/build/androidmk_denylist.go
-index cf97f1c2f6b61741c4363753446f1e8fad78a22b..02226a6e1a985a506679e87ab39f5ac305d2afcb 100644
+index ea4c65c9dd0106c749ae9dde9861796ecdb86ae2..1ac4afb076a1d5dc9c5197e916f22c09a2674393 100644
 --- a/ui/build/androidmk_denylist.go
 +++ b/ui/build/androidmk_denylist.go
-@@ -64,6 +64,9 @@ var androidmk_allowlist []string = []string{
+@@ -62,6 +62,9 @@ var androidmk_denylist []string = []string{
+ var androidmk_allowlist []string = []string{
  	"bootable/deprecated-ota/updater/Android.mk",
  	"external/mesa/android/Android.mk",
- 	"tools/vendor/google_prebuilts/arc/Android.mk",
 +	"external/droidmedia/Android.mk",
 +	"external/busybox/Android.mk",
 +	"external/selinux_stubs/Android.mk",

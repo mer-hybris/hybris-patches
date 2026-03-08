@@ -10,10 +10,10 @@ Change-Id: I90b4af9d9e6b23cccafb659931a8e85b8bae091a
  1 file changed, 1 insertion(+)
 
 diff --git a/libdl/libdl_cfi.cpp b/libdl/libdl_cfi.cpp
-index e096f9ab7c66d8b19277e88e06f715bc40585e00..163095cfbcd990f8040d48e6a53904134fd6858b 100644
+index 5b25e3bdc688ad74ff8616c5bd9e7aa9a5e4c496..51e10a32e3015358dfb6d5dc8b599798cdd318d2 100644
 --- a/libdl/libdl_cfi.cpp
 +++ b/libdl/libdl_cfi.cpp
-@@ -67,6 +67,7 @@ static uintptr_t cfi_check_addr(uint16_t v, void* Ptr) {
+@@ -71,6 +71,7 @@ static uintptr_t cfi_check_addr(uint16_t v, void* Ptr) {
  }
  
  static inline void cfi_slowpath_common(uint64_t CallSiteTypeId, void* Ptr, void* DiagData) {

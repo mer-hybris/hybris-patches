@@ -9,10 +9,10 @@ Change-Id: I9dd23bc56340e54a53a9f0e873b05aa35f7c0873
  1 file changed, 2 insertions(+)
 
 diff --git a/tools/host_apex_verifier.cc b/tools/host_apex_verifier.cc
-index 1c6704ca0b18f08dd86a2bbebbbbc56c1ed19745..5be3620fe5991e04e1c93e76317c00c5cedf151c 100644
+index 81667e3f4d6c9059d6c749e9e3741b6ffd2b1651..5d21c8fd3b13f01e02d2af1a44d27108bda4af5c 100644
 --- a/tools/host_apex_verifier.cc
 +++ b/tools/host_apex_verifier.cc
-@@ -100,9 +100,11 @@ class NotAvailableParser : public init::SectionParser {
+@@ -93,9 +93,11 @@ class NotAvailableParser : public init::SectionParser {
  void CheckInitRc(const std::string& apex_dir, const ApexManifest& manifest,
                   int sdk_version, bool is_vendor) {
    init::Parser parser;

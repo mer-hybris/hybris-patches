@@ -9,15 +9,15 @@ Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 7b80254e2e353a88b09993e89bef95db15a020a9..68956a7f188048f7723beb1f265f37378f38dfbc 100644
+index 61501223c30a21a618182c46584ffd970c7368aa..aeb1bd73219b645415a351a6fa5823927b51b015 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1355,6 +1355,8 @@ service ueventd /system/bin/ueventd
+@@ -1343,6 +1343,8 @@ service ueventd /system/bin/ueventd
      seclabel u:r:ueventd:s0
      user root
      shutdown critical
 +#Not used by Mer
 +    disabled
  
- service console /system/bin/sh
-     class core
+ # This service takes care of early initialization of device configuration at
+ # runtime, like per-SKU settings or sysprops. The service runs before apexd

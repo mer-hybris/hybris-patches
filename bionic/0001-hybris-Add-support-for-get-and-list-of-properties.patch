@@ -9,10 +9,10 @@ Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
  1 file changed, 2 insertions(+)
 
 diff --git a/libc/include/sys/system_properties.h b/libc/include/sys/system_properties.h
-index 1303079f0b773576ecc8771cb5cc29e8cbdfee69..7bbcf0bc6a312affe6988b425f9b3b4fbb0175db 100644
+index d850b1e2887cfe5912f6bfff03173a3d50cfa1d3..4e39015595a2fac0a2c6179f083d09aeb79a65a1 100644
 --- a/libc/include/sys/system_properties.h
 +++ b/libc/include/sys/system_properties.h
-@@ -185,6 +185,8 @@ int __system_properties_init(void);
+@@ -182,6 +182,8 @@ int __system_properties_init(void);
  
  // Messages sent to init.
  #define PROP_MSG_SETPROP 1

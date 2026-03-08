@@ -16,7 +16,7 @@ Signed-off-by: Jussi Laakkonen <jussi.laakkonen@jolla.com>
  create mode 100644 rootdir/init.extraenv.armeabi-v7a.rc
 
 diff --git a/rootdir/Android.bp b/rootdir/Android.bp
-index c0d31d964a5e81bef16175275dd3828e7c5a0676..0d4efba49710be6031011f75d1bd09bf9e12d034 100644
+index 45287775d09ceec24d1c739427d0d8112f14acec..2f1455bb140c31c6ee6462d8730df8fae5a62077 100644
 --- a/rootdir/Android.bp
 +++ b/rootdir/Android.bp
 @@ -32,6 +32,12 @@ prebuilt_etc {
@@ -32,10 +32,10 @@ index c0d31d964a5e81bef16175275dd3828e7c5a0676..0d4efba49710be6031011f75d1bd09bf
  prebuilt_etc {
      name: "init.rc",
      src: "init.rc",
-@@ -40,6 +46,7 @@ prebuilt_etc {
-         "platform-bootclasspath",
+@@ -41,6 +47,7 @@ prebuilt_etc {
          "init.boringssl.zygote64.rc",
          "init.boringssl.zygote64_32.rc",
+         "init-perfetto.rc",
 +        "init.extraenv.armeabi-v7a.rc",
      ],
  }
@@ -63,7 +63,7 @@ index 0000000000000000000000000000000000000000..c96e2c65da45ca08ae4edb3dec42cc8c
 +on init
 +    export LD_LIBRARY_PATH /usr/libexec/droid-hybris/lib-dev-alog:/vendor/lib:/system/lib
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index cf198cb064a961eed6e521a3980dc507d34efec3..f8fb72a6ff621b1e2a8534eb04adfa249b062837 100644
+index 92dcdd0131a4cc3d41ed917389acf7fc7feca611..98ddc66e9e3bbc1b33d2c400eaa91210087d9eeb 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -4,6 +4,12 @@

@@ -9,10 +9,10 @@ Change-Id: I9c828463424c0e82c3de0159db08299e7ce6fe06
  1 file changed, 6 insertions(+)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index de80807e01b274c330886a2d8e34ec6403e56e87..570cb1c5dbcc39ed99b06bcf04784d735b4fa472 100644
+index 7de53f99940c9006eafbe29bd3e4a31ce078ca2a..aa2da94523ed3dbbbb1ce754ecc6f10c86cdd69d 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -1151,6 +1151,12 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1247,6 +1247,12 @@ int SecondStageMain(int argc, char** argv) {
      // Run all property triggers based on current state of the properties.
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  

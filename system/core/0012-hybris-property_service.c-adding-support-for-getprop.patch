@@ -23,10 +23,10 @@ Conflicts:
  2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 570cb1c5dbcc39ed99b06bcf04784d735b4fa472..57d8995344781be479f33f37bc6f78af2ec3c97b 100644
+index aa2da94523ed3dbbbb1ce754ecc6f10c86cdd69d..ad4be6ec25f994f16182926b052fdf3f67655441 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -1152,7 +1152,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1248,7 +1248,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,10 +36,10 @@ index 570cb1c5dbcc39ed99b06bcf04784d735b4fa472..57d8995344781be479f33f37bc6f78af
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index eac6f821d30217824685c378308d1abd34691dcb..d7e4a1058db3f8d8771670062beab077389209c7 100644
+index 3c78e761ad62e57b6633a62880271032274f6339..0d7a0ac0a62f7c6cd96628a5666268a57cbd01f8 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -191,6 +191,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
+@@ -184,6 +184,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
          PropertyChanged(name, value);
      }
  }
@@ -52,7 +52,7 @@ index eac6f821d30217824685c378308d1abd34691dcb..d7e4a1058db3f8d8771670062beab077
  
  class AsyncRestorecon {
    public:
-@@ -289,6 +295,17 @@ class SocketConnection {
+@@ -282,6 +288,17 @@ class SocketConnection {
  
      [[nodiscard]] int Release() { return socket_.release(); }
  
@@ -70,7 +70,7 @@ index eac6f821d30217824685c378308d1abd34691dcb..d7e4a1058db3f8d8771670062beab077
      const ucred& cred() { return cred_; }
  
      SocketConnection& operator=(SocketConnection&&) = default;
-@@ -596,6 +613,9 @@ uint32_t HandlePropertySetNoSocket(const std::string& name, const std::string& v
+@@ -589,6 +606,9 @@ uint32_t HandlePropertySetNoSocket(const std::string& name, const std::string& v
  static void handle_property_set_fd(int fd) {
      static constexpr uint32_t kDefaultSocketTimeout = 5000; /* ms */
  
@@ -80,7 +80,7 @@ index eac6f821d30217824685c378308d1abd34691dcb..d7e4a1058db3f8d8771670062beab077
      int s = accept4(fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -682,7 +702,48 @@ static void handle_property_set_fd(int fd) {
+@@ -675,7 +695,48 @@ static void handle_property_set_fd(int fd) {
          socket.SendUint32(*result);
          break;
        }

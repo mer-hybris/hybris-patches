@@ -9,10 +9,10 @@ Change-Id: If102b6d1ebec84a3994e2db366e413a943dc86bd
  1 file changed, 4 insertions(+)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 53855e2bc5eb1ee8e12ae61d6782fd070237994f..27248515380a4819b1aed3c6e1215cd793506f04 100644
+index 7d7d1b7b75d70874c8f5a497211d9cb7f34e2f62..ce6e0d57025038578576424431fdbb80d5436903 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -120,6 +120,7 @@ bool ForceNormalBoot(const std::string& cmdline, const std::string& bootconfig)
+@@ -121,6 +121,7 @@ bool ForceNormalBoot(const std::string& cmdline, const std::string& bootconfig)
             cmdline.find("androidboot.force_normal_boot=1") != std::string::npos;
  }
  
@@ -20,7 +20,7 @@ index 53855e2bc5eb1ee8e12ae61d6782fd070237994f..27248515380a4819b1aed3c6e1215cd7
  static void Copy(const char* src, const char* dst) {
      if (link(src, dst) == 0) {
          LOG(INFO) << "hard linking " << src << " to " << dst << " succeeded";
-@@ -159,6 +160,7 @@ void PrepareSwitchRoot() {
+@@ -160,6 +161,7 @@ void PrepareSwitchRoot() {
          Copy(snapuserd, dst);
      }
  }
@@ -28,7 +28,7 @@ index 53855e2bc5eb1ee8e12ae61d6782fd070237994f..27248515380a4819b1aed3c6e1215cd7
  
  std::string GetPageSizeSuffix() {
      static const size_t page_size = sysconf(_SC_PAGE_SIZE);
-@@ -515,6 +517,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -513,6 +515,7 @@ int FirstStageMain(int argc, char** argv) {
          setenv("INIT_FORCE_DEBUGGABLE", "true", 1);
      }
  
@@ -36,7 +36,7 @@ index 53855e2bc5eb1ee8e12ae61d6782fd070237994f..27248515380a4819b1aed3c6e1215cd7
      if (ForceNormalBoot(cmdline, bootconfig)) {
          mkdir("/first_stage_ramdisk", 0755);
          PrepareSwitchRoot();
-@@ -544,6 +547,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -542,6 +545,7 @@ int FirstStageMain(int argc, char** argv) {
              LOG(FATAL) << "Failed to mount required partitions early ...";
          }
      }

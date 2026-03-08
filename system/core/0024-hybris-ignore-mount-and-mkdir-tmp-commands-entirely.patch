@@ -20,7 +20,7 @@ Change-Id: Iba637613c6a927098c947536e11348e269e1bef3
  1 file changed, 16 insertions(+)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index ba4a8210348d99cd90e935e01e36428ec41147e1..b3de896eb53ce85c00808dc6132f5e406aa764a9 100644
+index 20e825cc8af1975f587bb669dcef3ad5e39e91d2..3e1f16f2caccbcaf1fa65eeab47812ef7bf566be 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
 @@ -440,6 +440,13 @@ static Result<void> make_dir_with_options(const MkdirOptions& options) {

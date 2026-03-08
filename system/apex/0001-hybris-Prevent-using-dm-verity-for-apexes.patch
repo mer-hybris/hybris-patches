@@ -13,10 +13,10 @@ Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index 6e985eab285379d805f56c0dcb62cd2ab0fe5683..bc4a2aa0ef9fcdc5a651e73f16fce847f4d3974c 100644
+index 3a877ac20a9350105484fcb3ebb0479c01d3008c..4c86a9965821a87d59612f0ab5b520f5393fb95e 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
-@@ -445,13 +445,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -488,13 +488,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
    // dm-verity because they are already in the dm-verity protected partition;
    // system. However, note that we don't skip verification to ensure that APEXes
    // are correctly signed.
@@ -31,9 +31,9 @@ index 6e985eab285379d805f56c0dcb62cd2ab0fe5683..bc4a2aa0ef9fcdc5a651e73f16fce847
 +  mount_on_verity = false;
    if (mount_on_verity) {
      auto verity_table =
-         CreateVerityTable(*verity_data, loopback_device.name,
+         CreateVerityTable(*verity_data, block_device,
 diff --git a/apexd/apexd.rc b/apexd/apexd.rc
-index af07a1b6206c5478db7e6d3694bd2fc60536b659..d7af0cfd582dd602d411caab829d34c22b418fbc 100644
+index 0724ee175fffa88102e88f421f7c2697081eb7bc..8a58ab5a44c41feda800f15dd27943e1ec7eca44 100644
 --- a/apexd/apexd.rc
 +++ b/apexd/apexd.rc
 @@ -1,16 +1,17 @@

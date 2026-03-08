@@ -14,10 +14,10 @@ Change-Id: I9f1af094fa8a4ef48f4c3ea0ec35cb66d3c083d8
  1 file changed, 3 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 1d2596232ecde9c2e28ca6ca865be0ba13651caa..fed433d3bfbea2daa8b4e60096a7a406cfad5669 100644
+index 0adbc5fe1d6aa727f621daae7962d3b3df7473eb..35b7d0740e118f455e0b7f126424cb89374a2c82 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1259,6 +1259,9 @@ on boot
+@@ -1281,6 +1281,9 @@ on boot
      # Define default initial receive window size in segments.
      setprop net.tcp_def_init_rwnd 60
  

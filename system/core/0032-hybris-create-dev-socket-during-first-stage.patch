@@ -12,7 +12,7 @@ Change-Id: I4701723d55032e35228a84bff81b20cc93424c32
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 87c3fe31507a43329ecfeba3bd64bb3b842391d4..53855e2bc5eb1ee8e12ae61d6782fd070237994f 100644
+index 9320f9e12f5b75480fc1fe2670e1f4e09e6a126e..7d7d1b7b75d70874c8f5a497211d9cb7f34e2f62 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
 @@ -352,7 +352,7 @@ int FirstStageMain(int argc, char** argv) {

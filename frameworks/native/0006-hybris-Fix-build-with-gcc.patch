@@ -24,17 +24,17 @@ index 295a307c3cf8c7e8030b36bb2c869f7caa06d185..c54fe548d87e9aca48f496d9a7c616ef
       * Default-assumption data space, when not explicitly specified.
       *
 diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
-index 10abb7c927937689f0188a883276310a92713c0d..b63e7cf7b4487e377429e82b05679c0fc64b81b4 100644
+index 96b2f8ea53607b7dad7a6306421475b1f370ec14..c22668c122ff76bc293478dcf7d8f0aa68313d39 100644
 --- a/libs/nativewindow/include/android/native_window.h
 +++ b/libs/nativewindow/include/android/native_window.h
-@@ -378,7 +378,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* window, floa
+@@ -378,7 +378,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* _Nonnull win
   *
   * \return 0 for success, -EINVAL if the window value is invalid.
   */
--inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) __INTRODUCED_IN(31) {
-+inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) __INTRODUCED_IN(31);
+-inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* _Nonnull window) __INTRODUCED_IN(31) {
++inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* _Nonnull window) __INTRODUCED_IN(31);
 +
-+inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* window) {
++inline int32_t ANativeWindow_clearFrameRate(ANativeWindow* _Nonnull window) {
      return ANativeWindow_setFrameRateWithChangeStrategy(window, 0,
              ANATIVEWINDOW_FRAME_RATE_COMPATIBILITY_DEFAULT,
              ANATIVEWINDOW_CHANGE_FRAME_RATE_ONLY_IF_SEAMLESS);

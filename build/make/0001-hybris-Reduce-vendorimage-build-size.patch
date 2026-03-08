@@ -9,10 +9,10 @@ Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 35c885d08df0840dc88f81434443f22b960f3332..5e6e74b42a3e043ec0dd28bad782a7279101a591 100644
+index 65a1efe8a4d8ea0d2a7638fd6e7d12a6e6d05702..e68704091d41f985df127ec5acfd2df353a0058f 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -137,6 +137,7 @@ check_elf_prebuilt_product_copy_files_hint := \
+@@ -139,6 +139,7 @@ check_elf_prebuilt_product_copy_files_hint := \
      found ELF prebuilt in PRODUCT_COPY_FILES, use cc_prebuilt_binary / cc_prebuilt_library_shared instead.
  
  # filter out the duplicate <source file>:<dest file> pairs.
@@ -20,7 +20,7 @@ index 35c885d08df0840dc88f81434443f22b960f3332..5e6e74b42a3e043ec0dd28bad782a727
  unique_product_copy_files_pairs :=
  $(foreach cf,$(PRODUCT_COPY_FILES), \
      $(if $(filter $(unique_product_copy_files_pairs),$(cf)),,\
-@@ -160,6 +161,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
+@@ -162,6 +163,7 @@ $(foreach cf,$(unique_product_copy_files_pairs), \
                                 $(filter bin lib lib64,$(subst /,$(space),$(_dest)))), \
                          $(eval $(call copy-non-elf-file-checked,$(_src),$(_fulldest),$(check_elf_prebuilt_product_copy_files_hint))), \
                          $(eval $(call copy-one-file,$(_src),$(_fulldest))))))) \
@@ -28,7 +28,7 @@ index 35c885d08df0840dc88f81434443f22b960f3332..5e6e74b42a3e043ec0dd28bad782a727
          $(eval unique_product_copy_files_destinations += $(_dest))))
  
  # Dump a list of overriden (and ignored PRODUCT_COPY_FILES entries)
-@@ -3990,15 +3992,19 @@ $(eval $(call write-partition-file-list,$(vendorimage_intermediates)/file_list.t
+@@ -4121,15 +4123,19 @@ $(eval $(call write-partition-file-list,$(vendorimage_intermediates)/file_list.t
  $(vendorimage_intermediates)/staging_dir.stamp: $(filter $(TARGET_OUT_VENDOR)/%,$(INTERNAL_VENDORIMAGE_FILES))
  	touch $@
  

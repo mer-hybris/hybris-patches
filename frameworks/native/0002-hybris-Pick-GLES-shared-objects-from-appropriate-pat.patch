@@ -11,10 +11,10 @@ Signed-off-by: Simonas Leleiva <simonas.leleiva@jollamobile.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/opengl/libs/EGL/Loader.cpp b/opengl/libs/EGL/Loader.cpp
-index a397d5589c1b346e984995c8bcc8503f9c9c27a8..f089a9f0d86d131c406e68a28533467538c6c554 100644
+index 567022c12fe8b461463a0cb60983d250d2dd387d..70f0d947a339450e4025443c4f2b28fbd919dba4 100644
 --- a/opengl/libs/EGL/Loader.cpp
 +++ b/opengl/libs/EGL/Loader.cpp
-@@ -57,9 +57,9 @@ namespace android {
+@@ -58,9 +58,9 @@ namespace android {
  
  #ifndef SYSTEM_LIB_PATH
  #if defined(__LP64__)
@@ -26,7 +26,7 @@ index a397d5589c1b346e984995c8bcc8503f9c9c27a8..f089a9f0d86d131c406e68a285334675
  #endif
  #endif
  
-@@ -346,13 +346,13 @@ void* Loader::open(egl_connection_t* cnx) {
+@@ -347,13 +347,13 @@ void* Loader::open(egl_connection_t* cnx) {
                          HAL_SUBNAME_KEY_PROPERTIES[2]);
  
      if (!cnx->libEgl) {

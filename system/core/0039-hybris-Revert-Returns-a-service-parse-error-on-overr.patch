@@ -15,7 +15,7 @@ This reverts commit f597fa5d1dca3b79b30d5b66e15e23b0bd91b560.
  6 files changed, 17 insertions(+), 90 deletions(-)
 
 diff --git a/init/host_init_verifier.cpp b/init/host_init_verifier.cpp
-index 287857a5cd5a6729440f3b52fc9077e4e62cb3b1..e5fea7854c7c15db0f09fdd1ca47cdef5be59edf 100644
+index 7b8ca91efb6f1ec2d6c3857dec957a5380690d95..3823892e94907f81feb8c100144c8cecc6c86452 100644
 --- a/init/host_init_verifier.cpp
 +++ b/init/host_init_verifier.cpp
 @@ -23,8 +23,6 @@
@@ -37,10 +37,10 @@ index 287857a5cd5a6729440f3b52fc9077e4e62cb3b1..e5fea7854c7c15db0f09fdd1ca47cdef
  using android::base::Split;
 @@ -61,10 +58,6 @@ using android::properties::PropertyInfoEntry;
  
- static std::vector<std::string> passwd_files;
+ [[clang::no_destroy]] static std::vector<std::string> passwd_files;
  
 -// NOTE: Keep this in sync with the order used by init.cpp LoadBootScripts()
--static const std::vector<std::string> partition_search_order =
+-[[clang::no_destroy]] static const std::vector<std::string> partition_search_order =
 -        std::vector<std::string>({"system", "system_ext", "odm", "vendor", "product"});
 -
  static std::vector<std::pair<std::string, int>> GetVendorPasswd(const std::string& passwd_file) {
@@ -177,7 +177,7 @@ index 287857a5cd5a6729440f3b52fc9077e4e62cb3b1..e5fea7854c7c15db0f09fdd1ca47cdef
      }
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 4d3cadbaefd5b4bb39afd1785c7c3c6fc4e84d52..a805cfdec063fe1231c38eaced97962484fd21c2 100644
+index 3c7b0f6405749c6379e4908e5a95939924e4dd14..0295a8c06568662cfabbd4e20203f565165d9d94 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -168,7 +168,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
@@ -189,7 +189,7 @@ index 4d3cadbaefd5b4bb39afd1785c7c3c6fc4e84d52..a805cfdec063fe1231c38eaced979624
                   "onrestart", {}),
        oom_score_adjust_(DEFAULT_OOM_SCORE_ADJUST),
 diff --git a/init/service.h b/init/service.h
-index 7193d7eb1b33ae996a7e8bd6cbf52fb5d2d8c3d8..764667668317a72308a185471e5293272f7bf9e3 100644
+index 0095c827062a32260cf7c285973594c9a9b6f33f..1612412734d8920f0d6f784f1559a9ca41e30e66 100644
 --- a/init/service.h
 +++ b/init/service.h
 @@ -151,7 +151,6 @@ class Service {
@@ -209,7 +209,7 @@ index 7193d7eb1b33ae996a7e8bd6cbf52fb5d2d8c3d8..764667668317a72308a185471e529327
  
      std::vector<std::string> writepid_files_;
 diff --git a/init/service_parser.cpp b/init/service_parser.cpp
-index 4264e4b33248bcd32052b5737b916ad997491baf..98c083d5e6426ab8e6f83c7995c641bb041c4c89 100644
+index 57abbae24bbb4728b8218c7c04fea61e1c3466f6..2971aee1fdfc6cc12d2b4c4baa3af601b278d47d 100644
 --- a/init/service_parser.cpp
 +++ b/init/service_parser.cpp
 @@ -712,14 +712,6 @@ Result<void> ServiceParser::EndSection() {
@@ -228,7 +228,7 @@ index 4264e4b33248bcd32052b5737b916ad997491baf..98c083d5e6426ab8e6f83c7995c641bb
          old_service = nullptr;
      }
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index 636f8b92cfa1d1f38ebc15de0f278e12475dbc05..bf697d0eb9caf39233edf96e5ee7569b0af3d0de 100644
+index 1b33d3468970b664e5231fe702a3bb202b46f362..ce52502f1572b34b6140f20660bc13d4e027d186 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
 @@ -363,10 +363,6 @@ void InitializeSubcontext() {

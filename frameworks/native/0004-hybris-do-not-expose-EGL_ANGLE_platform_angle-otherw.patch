@@ -10,7 +10,7 @@ Change-Id: Ied98ee3f0943ac8a847b36239039aa305140a71b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/opengl/libs/EGL/egl_platform_entries.cpp b/opengl/libs/EGL/egl_platform_entries.cpp
-index 1a88deda5600a4d101019c1f4bd35f3d52ea5422..7b18418d70d22b987662c9e5d8b08061b449e641 100644
+index f453fb8d33891cdf628277eec73d4b795803f59e..69b813cc995f75b2ad521dbbdbae367c12616ad5 100644
 --- a/opengl/libs/EGL/egl_platform_entries.cpp
 +++ b/opengl/libs/EGL/egl_platform_entries.cpp
 @@ -137,7 +137,7 @@ const char* const gExtensionString  =

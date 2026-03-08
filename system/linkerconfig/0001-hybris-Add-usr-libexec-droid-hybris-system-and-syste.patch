@@ -13,10 +13,10 @@ Change-Id: I6bf8112741be83a3f6ae7c2893cf2b367f3cc305
  4 files changed, 6 insertions(+)
 
 diff --git a/contents/configuration/baseconfig.cc b/contents/configuration/baseconfig.cc
-index b3b103e8f5ca19450f36f897b44dec1ab8923dea..d19feb80ca5056921d67b7d45088091b6f7c4574 100644
+index 62049210a0a04d3226aad0af9584f24109f3c176..468e653f9c0c1e7e1203089668f43b82c2656991 100644
 --- a/contents/configuration/baseconfig.cc
 +++ b/contents/configuration/baseconfig.cc
-@@ -92,6 +92,7 @@ android::linkerconfig::modules::Configuration CreateBaseConfiguration(
+@@ -81,6 +81,7 @@ android::linkerconfig::modules::Configuration CreateBaseConfiguration(
        // TODO(b/168556887): Remove this when we have a dedicated section for
        // binaries in APKs
        {Var("PRODUCT") + "/app/", "system"},
@@ -25,7 +25,7 @@ index b3b103e8f5ca19450f36f897b44dec1ab8923dea..d19feb80ca5056921d67b7d45088091b
  
    sections.emplace_back(BuildSystemSection(ctx));
 diff --git a/contents/namespace/sphal.cc b/contents/namespace/sphal.cc
-index 22a00035e0a76074aac82b1d627f90030fec0e8d..8ecb530b0b54454dd1560586b4e3aa68b83a7754 100644
+index c91eefa65549239755bf0a1ebd884c14b1f9befe..05e4c095863f2059dd3c3e76b5f895b8bba83b84 100644
 --- a/contents/namespace/sphal.cc
 +++ b/contents/namespace/sphal.cc
 @@ -50,6 +50,7 @@ Namespace BuildSphalNamespace([[maybe_unused]] const Context& ctx) {
@@ -37,7 +37,7 @@ index 22a00035e0a76074aac82b1d627f90030fec0e8d..8ecb530b0b54454dd1560586b4e3aa68
    // TODO(b/326839235) Remove access to data once renderscript is deprecated.
    if (!android::linkerconfig::modules::IsVendorVndkVersionDefined()) {
 diff --git a/contents/namespace/systemdefault.cc b/contents/namespace/systemdefault.cc
-index 88af8ebb094b93af0846b7b15b0d6cc257d7eb37..b60c0759290dd9c18fb68535046ebd02771423e2 100644
+index 2ae0ad63ef24746eb3ee48ddbec15bcb60b9c07e..ed821db001a9dc536e970503181c43a960cbf149 100644
 --- a/contents/namespace/systemdefault.cc
 +++ b/contents/namespace/systemdefault.cc
 @@ -44,6 +44,7 @@ void SetupSystemPermittedPaths(Namespace* ns) {

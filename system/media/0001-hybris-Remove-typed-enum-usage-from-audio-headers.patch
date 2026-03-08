@@ -10,7 +10,7 @@ Change-Id: I7825b92bff77045d3c923760eefbb35afb1eecea
  2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/audio/include/system/audio-hal-enums.h b/audio/include/system/audio-hal-enums.h
-index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0980a4777 100644
+index d2b1a670708c26a385fd6891e511757f8b404a2b..488ac9bd12ff693592ed9276d983410e7a19fb0d 100644
 --- a/audio/include/system/audio-hal-enums.h
 +++ b/audio/include/system/audio-hal-enums.h
 @@ -238,7 +238,7 @@ enum {
@@ -58,7 +58,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_INPUT_FLAG_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_input_flags_t;
  
-@@ -667,7 +667,7 @@ enum {
+@@ -670,7 +670,7 @@ enum {
      AUDIO_FORMAT_LIST_UNIQUE_DEF(V) \
      V(VX_AUDIO_FORMAT_LC3, AUDIO_FORMAT_LC3)
  
@@ -67,7 +67,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_FORMAT_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
      // These values must be part of the enum, but they are not valid formats,
      // and thus don't participate in to/from string conversions.
-@@ -696,7 +696,7 @@ inline bool audio_format_from_string(const char* s, audio_format_t* t) {
+@@ -699,7 +699,7 @@ inline bool audio_format_from_string(const char* s, audio_format_t* t) {
      V(AUDIO_GAIN_MODE_CHANNELS, 2) \
      V(AUDIO_GAIN_MODE_RAMP, 4)
  
@@ -76,7 +76,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_GAIN_MODE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_gain_mode_t;
  
-@@ -739,7 +739,7 @@ inline bool audio_gain_mode_from_string(const char* s, audio_gain_mode_t* t) {
+@@ -742,7 +742,7 @@ inline bool audio_gain_mode_from_string(const char* s, audio_gain_mode_t* t) {
      V(AUDIO_SOURCE_INVALID, -1)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -85,7 +85,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_SOURCE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_source_t;
  
-@@ -782,7 +782,7 @@ inline bool audio_source_from_string(const char* s, audio_source_t* t) {
+@@ -785,7 +785,7 @@ inline bool audio_source_from_string(const char* s, audio_source_t* t) {
      V(AUDIO_STREAM_DEFAULT, -1)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -94,7 +94,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_STREAM_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_stream_type_t;
  
-@@ -833,7 +833,7 @@ inline bool audio_stream_type_from_string(const char* s, audio_stream_type_t* t)
+@@ -836,7 +836,7 @@ inline bool audio_stream_type_from_string(const char* s, audio_stream_type_t* t)
      V(AUDIO_USAGE_NOTIFICATION_COMMUNICATION_DELAYED, 9)
  #endif  // AUDIO_NO_SYSTEM_DECLARATIONS
  
@@ -103,7 +103,7 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
      AUDIO_USAGE_LIST_DEF(AUDIO_DEFINE_ENUM_SYMBOL_V)
  } audio_usage_t;
  
-@@ -857,7 +857,7 @@ inline bool audio_usage_from_string(const char* s, audio_usage_t* t) {
+@@ -860,7 +860,7 @@ inline bool audio_usage_from_string(const char* s, audio_usage_t* t) {
      V(AUDIO_ENCAPSULATION_TYPE_IEC61937, 1) \
      V(AUDIO_ENCAPSULATION_TYPE_PCM, 2)
  
@@ -113,10 +113,10 @@ index e258b450ab53d8d65ec1fb1a6a4d3bf46a2041c0..5d1f482e937e92b3635d0193f05885b0
  } audio_encapsulation_type_t;
  
 diff --git a/audio/include/system/audio.h b/audio/include/system/audio.h
-index 277ab23d343bee1e313f56c54c2441091871e9f9..18fdbc1a41142e9532451456bad8ed599b0ea5b0 100644
+index 6f4fa0ecac358c77073982f733986fb8965bb70d..27cdf30b06b2406924a1344ac7a8580275441c38 100644
 --- a/audio/include/system/audio.h
 +++ b/audio/include/system/audio.h
-@@ -208,7 +208,7 @@ static inline audio_unique_id_use_t audio_unique_id_get_use(audio_unique_id_t id
+@@ -209,7 +209,7 @@ static inline audio_unique_id_use_t audio_unique_id_get_use(audio_unique_id_t id
      return (audio_unique_id_use_t) (id & AUDIO_UNIQUE_ID_USE_MASK);
  }
  
@@ -125,7 +125,7 @@ index 277ab23d343bee1e313f56c54c2441091871e9f9..18fdbc1a41142e9532451456bad8ed59
      AUDIO_SESSION_DEVICE = HAL_AUDIO_SESSION_DEVICE,
      AUDIO_SESSION_OUTPUT_STAGE = HAL_AUDIO_SESSION_OUTPUT_STAGE,
      AUDIO_SESSION_OUTPUT_MIX = HAL_AUDIO_SESSION_OUTPUT_MIX,
-@@ -772,7 +772,7 @@ struct audio_port {
+@@ -773,7 +773,7 @@ struct audio_port {
      } ext;
  };
  
@@ -134,7 +134,7 @@ index 277ab23d343bee1e313f56c54c2441091871e9f9..18fdbc1a41142e9532451456bad8ed59
      AUDIO_STANDARD_NONE = 0,
      AUDIO_STANDARD_EDID = 1,
      AUDIO_STANDARD_SADB = 2,
-@@ -2308,7 +2308,7 @@ typedef enum {
+@@ -2309,7 +2309,7 @@ typedef enum {
  } audio_offload_mode_t;
  #endif // AUDIO_NO_SYSTEM_DECLARATIONS
  

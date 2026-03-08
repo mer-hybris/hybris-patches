@@ -9,7 +9,7 @@ Change-Id: I4d765ff401d6b4f12da0305416cb751eb0c9e96b
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libc/system_properties/prop_area.cpp b/libc/system_properties/prop_area.cpp
-index faa3edf0052fa7830d33df06a85e5c3bc1e76c3e..25e500149b00007a35ca689fce0662f7a405b31d 100644
+index 58b997021fdbeb139dc4649410b56e025e75ada7..0c8c1454da51f27aa59cab122089c6b6c7422394 100644
 --- a/libc/system_properties/prop_area.cpp
 +++ b/libc/system_properties/prop_area.cpp
 @@ -83,7 +83,7 @@ prop_area* prop_area::map_prop_area_rw(const char* filename, const char* context

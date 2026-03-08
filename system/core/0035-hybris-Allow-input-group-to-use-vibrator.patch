@@ -16,10 +16,10 @@ Change-Id: I2b86d9eec1b20301a128a4f9f83b5edb4b2da234
  1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 96813cbabc2fd5c5b4b4200f44bc774e5608b02c..49091378c6ae850a460a4628ef35194bb6c0b66f 100644
+index 6629535f6ecd6e45acdec94e0901f645620e217a..6e9034cc6fbe937e4edee38b86aae916d60e1c71 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1230,11 +1230,12 @@ on boot
+@@ -1252,11 +1252,12 @@ on boot
      chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
      chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
  
