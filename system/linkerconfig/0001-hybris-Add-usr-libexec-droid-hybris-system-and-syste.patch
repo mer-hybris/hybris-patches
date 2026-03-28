@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Matti Lehtimaki <matti.lehtimaki@gmail.com>
+Date: Sun, 21 Dec 2025 03:14:37 +0200
+Subject: [PATCH] (hybris) Add /usr/libexec/droid-hybris/system/ and
+ /system_ext paths to permitted paths
+
+Change-Id: I6bf8112741be83a3f6ae7c2893cf2b367f3cc305
+---
+ contents/configuration/baseconfig.cc | 1 +
+ contents/namespace/sphal.cc          | 1 +
+ contents/namespace/systemdefault.cc  | 1 +
+ contents/namespace/vendordefault.cc  | 3 +++
+ 4 files changed, 6 insertions(+)
+
+diff --git a/contents/configuration/baseconfig.cc b/contents/configuration/baseconfig.cc
+index 7f6a9c838c848f1843e2e60aa33511ea9e5374da..2b92e31674fcbfe8eb4c9bd51e0b1b8f4ef4f962 100644
+--- a/contents/configuration/baseconfig.cc
++++ b/contents/configuration/baseconfig.cc
+@@ -93,6 +93,7 @@ android::linkerconfig::modules::Configuration CreateBaseConfiguration(
+       // TODO(b/168556887): Remove this when we have a dedicated section for
+       // binaries in APKs
+       {Var("PRODUCT") + "/app/", "system"},
++      {"/usr/libexec/droid-hybris/system/bin", "system"},
+   };
+ 
+   sections.emplace_back(BuildSystemSection(ctx));
+diff --git a/contents/namespace/sphal.cc b/contents/namespace/sphal.cc
+index 22a00035e0a76074aac82b1d627f90030fec0e8d..8ecb530b0b54454dd1560586b4e3aa68b83a7754 100644
+--- a/contents/namespace/sphal.cc
++++ b/contents/namespace/sphal.cc
+@@ -50,6 +50,7 @@ Namespace BuildSphalNamespace([[maybe_unused]] const Context& ctx) {
+   ns.AddPermittedPath("/vendor/${LIB}");
+   ns.AddPermittedPath("/vendor/odm/${LIB}");
+   ns.AddPermittedPath("/system/vendor/${LIB}");
++  ns.AddPermittedPath("/usr/libexec/droid-hybris/system/${LIB}");
+ 
+   // TODO(b/326839235) Remove access to data once renderscript is deprecated.
+   if (!android::linkerconfig::modules::IsVendorVndkVersionDefined()) {
+diff --git a/contents/namespace/systemdefault.cc b/contents/namespace/systemdefault.cc
+index 88af8ebb094b93af0846b7b15b0d6cc257d7eb37..b60c0759290dd9c18fb68535046ebd02771423e2 100644
+--- a/contents/namespace/systemdefault.cc
++++ b/contents/namespace/systemdefault.cc
+@@ -44,6 +44,7 @@ void SetupSystemPermittedPaths(Namespace* ns) {
+       "/system/${LIB}/extractors",
+       "/system/${LIB}/hw",
+       system_ext + "/${LIB}",
++      "/usr/libexec/droid-hybris/system/${LIB}",
+ 
+       // These are where odex files are located. libart has to be able to dlopen
+       // the files
+diff --git a/contents/namespace/vendordefault.cc b/contents/namespace/vendordefault.cc
+index a866839fb77c18c5de94df569c4f10d742b3a05c..6b3cbb2dc3d100f7f126f0a8c3d55b83e3507760 100644
+--- a/contents/namespace/vendordefault.cc
++++ b/contents/namespace/vendordefault.cc
+@@ -44,10 +44,13 @@ Namespace BuildVendorNamespace([[maybe_unused]] const Context& ctx,
+   ns.AddSearchPath("/vendor/${LIB}");
+   ns.AddSearchPath("/vendor/${LIB}/hw");
+   ns.AddSearchPath("/vendor/${LIB}/egl");
++  ns.AddSearchPath("/system_ext/${LIB}");
+ 
+   ns.AddPermittedPath("/odm");
+   ns.AddPermittedPath("/vendor");
+   ns.AddPermittedPath("/system/vendor");
++  ns.AddPermittedPath("/usr/libexec/droid-hybris/system");
++  ns.AddPermittedPath("/system_ext");
+ 
+   ns.GetLink("rs").AddSharedLib("libRS_internal.so");
+   ns.AddRequires(base::Split(Var("LLNDK_LIBRARIES_VENDOR", ""), ":"));

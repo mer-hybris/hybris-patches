@@ -9,7 +9,7 @@ Change-Id: Id025a7d7c81cb19c2881ff6619084b638ce983fb
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index 68179f76ffc29c16a326664002a70dc43824a962..5bc057976507bfa2ea932cfcc987ed8e5a92376c 100644
+index 849dac707443f7e00a2d5067d8238cf3236d2a7a..b53c2f0eabc6ef548088f4b5844d2e00ecebf562 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -152,6 +152,7 @@ check_elf_prebuilt_product_copy_files_hint := \
@@ -28,7 +28,7 @@ index 68179f76ffc29c16a326664002a70dc43824a962..5bc057976507bfa2ea932cfcc987ed8e
          $(eval unique_product_copy_files_destinations += $(_dest))))
  
  # Dump a list of overriden (and ignored PRODUCT_COPY_FILES entries)
-@@ -3869,15 +3871,19 @@ endef
+@@ -3867,15 +3869,19 @@ endef
  
  $(eval $(call write-file-lines,$(vendorimage_intermediates)/file_list.txt,$(subst $(TARGET_OUT_VENDOR)/,,$(filter $(TARGET_OUT_VENDOR)/%,$(INTERNAL_VENDORIMAGE_FILES)))))
  
