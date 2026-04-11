@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Rinigus <rinigus.git@gmail.com>
+Date: Wed, 15 Oct 2025 20:43:17 +0300
+Subject: [PATCH] (hybris) Add kernel wakelock to reflect Android wakelock
+ requests
+
+Android prevents suspend using its internal service in addition to kernel wakelocks. Add
+wakelock reflecting the status of Android service and preventing suspend in kernel autosuspend
+mode
+
+Change-Id: Icd72fdfa503e0f88d0a0c5557f83aed4648173d3
+---
+ suspend/1.0/default/SystemSuspend.cpp         | 19 ++++++++++++++-----
+ .../default/android.system.suspend-service.rc |  2 +-
+ 2 files changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/suspend/1.0/default/SystemSuspend.cpp b/suspend/1.0/default/SystemSuspend.cpp
+index 760aea8f11d988c74a36614bdfd681eeed718dad..3137b375986b74906e1f4d1650a3670355c90d48 100644
+--- a/suspend/1.0/default/SystemSuspend.cpp
++++ b/suspend/1.0/default/SystemSuspend.cpp
+@@ -76,6 +76,9 @@ static constexpr char kUnknownWakeup[] = "unknown";
+ // rootdir/init.zygote64_32.rc
+ static constexpr char kZygoteKernelWakelock[] = "zygote_kwl";
+ 
++// Autosuspend wakelock: locked when counter is higher than zero
++static constexpr char kAndroidSuspendKernelWakelock[] = "android_suspend_service";
++
+ // This function assumes that data in fd is small enough that it can be read in one go.
+ // We use this function instead of the ones available in libbase because it doesn't block
+ // indefinitely when reading from socket streams which are used for testing.
+@@ -167,11 +170,9 @@ SystemSuspend::SystemSuspend(unique_fd wakeupCountFd, unique_fd stateFd, unique_
+       mWakeupReasonsFd(std::move(wakeupReasonsFd)) {
+     mControlServiceInternal->setSuspendService(this);
+ 
+-    if (!mUseSuspendCounter) {
+-        mWakeLockFd.reset(TEMP_FAILURE_RETRY(open(kSysPowerWakeLock, O_CLOEXEC | O_RDWR)));
+-        if (mWakeLockFd < 0) {
+-            PLOG(ERROR) << "error opening " << kSysPowerWakeLock;
+-        }
++    mWakeLockFd.reset(TEMP_FAILURE_RETRY(open(kSysPowerWakeLock, O_CLOEXEC | O_RDWR)));
++    if (mWakeLockFd < 0) {
++        PLOG(ERROR) << "error opening " << kSysPowerWakeLock;
+     }
+ 
+     mWakeUnlockFd.reset(TEMP_FAILURE_RETRY(open(kSysPowerWakeUnlock, O_CLOEXEC | O_RDWR)));
+@@ -275,6 +276,11 @@ bool SystemSuspend::forceSuspend() {
+ void SystemSuspend::incSuspendCounter(const string& name) {
+     auto l = std::lock_guard(mAutosuspendLock);
+     if (mUseSuspendCounter) {
++        if (mSuspendCounter == 0) {
++            if (!WriteStringToFd(kAndroidSuspendKernelWakelock, mWakeLockFd)) {
++                PLOG(ERROR) << "error writing " << kAndroidSuspendKernelWakelock << " to " << kSysPowerWakeLock;
++            }
++        }
+         mSuspendCounter++;
+     } else {
+         if (!WriteStringToFd(name, mWakeLockFd)) {
+@@ -287,6 +293,9 @@ void SystemSuspend::decSuspendCounter(const string& name) {
+     auto l = std::lock_guard(mAutosuspendLock);
+     if (mUseSuspendCounter) {
+         if (--mSuspendCounter == 0) {
++            if (!WriteStringToFd(kAndroidSuspendKernelWakelock, mWakeUnlockFd)) {
++                PLOG(ERROR) << "error writing " << kAndroidSuspendKernelWakelock << " to " << kSysPowerWakeUnlock;
++            }
+             mAutosuspendCondVar.notify_one();
+         }
+     } else {
+diff --git a/suspend/1.0/default/android.system.suspend-service.rc b/suspend/1.0/default/android.system.suspend-service.rc
+index cafba78ef6ec2a3f2318d30fac5d5c792bb19e23..8c68214892428c9f7e8c490a575bda72c22513a6 100644
+--- a/suspend/1.0/default/android.system.suspend-service.rc
++++ b/suspend/1.0/default/android.system.suspend-service.rc
+@@ -1,4 +1,4 @@
+-service system_suspend /system/bin/hw/android.system.suspend-service
++service system_suspend /usr/libexec/droid-hybris/system/bin/hw/android.system.suspend-service
+     class early_hal
+     user system
+     group system wakelock
