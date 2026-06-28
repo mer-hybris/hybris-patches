@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Mon, 29 Jun 2026 01:58:57 +0300
+Subject: [PATCH] (hybris) Don't look for vold in apexd
+
+Change-Id: I2ed7ff950b1591b473a3f7859b3eb74604a7bf07
+---
+ apexd/apexd_main.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/apexd/apexd_main.cpp b/apexd/apexd_main.cpp
+index 18f95ee15a4f867d183c03da168a53459da9f4cc..3a7886e3a6a736377b3e6d0171be509fc2bf2073 100644
+--- a/apexd/apexd_main.cpp
++++ b/apexd/apexd_main.cpp
+@@ -61,6 +61,7 @@ int HandleSubcommand(int argc, char** argv) {
+     SetDefaultTag("apexd-snapshotde");
+     // Need to know if checkpointing is enabled so that a prerestore snapshot
+     // can be taken if it's not.
++/* HYBRIS
+     android::base::Result<android::apex::VoldCheckpointInterface>
+         vold_service_st = android::apex::VoldCheckpointInterface::Create();
+     if (!vold_service_st.ok()) {
+@@ -69,6 +70,7 @@ int HandleSubcommand(int argc, char** argv) {
+     } else {
+       android::apex::InitializeVold(&*vold_service_st);
+     }
++*/
+ 
+     int result = android::apex::SnapshotOrRestoreDeUserData();
+ 
+@@ -170,6 +172,7 @@ int main(int argc, char** argv) {
+     return HandleSubcommand(argc, argv);
+   }
+ 
++/* HYBRIS
+   android::base::Result<android::apex::VoldCheckpointInterface>
+       vold_service_st = android::apex::VoldCheckpointInterface::Create();
+   android::apex::VoldCheckpointInterface* vold_service = nullptr;
+@@ -180,6 +183,8 @@ int main(int argc, char** argv) {
+     vold_service = &*vold_service_st;
+   }
+   android::apex::Initialize(vold_service);
++*/
++  android::apex::Initialize(nullptr);
+   android::apex::InitMetrics(std::make_unique<android::apex::StatsLog>());
+ 
+   if (booting) {
