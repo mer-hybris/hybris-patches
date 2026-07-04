@@ -1,0 +1,75 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Matti=20Lehtim=C3=A4ki?= <matti.lehtimaki@jolla.com>
+Date: Sat, 4 Jul 2026 13:56:30 +0000
+Subject: [PATCH] (hybris) Don't look for vold in apexd
+
+Change-Id: I3c0f943c2584e6acbc19a969242ee18009974f62
+---
+ apexd/apexd.rc       | 6 +++---
+ apexd/apexd_main.cpp | 5 +++++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/apexd/apexd.rc b/apexd/apexd.rc
+index f64688fbf0a4c4e63c522d187658721fce99c5b2..4854018d406a5e76d1b06a94b0be45951a7412c8 100644
+--- a/apexd/apexd.rc
++++ b/apexd/apexd.rc
+@@ -1,4 +1,4 @@
+-service apexd /system/bin/apexd
++service apexd /usr/libexec/droid-hybris/system/bin/apexd
+     interface aidl apexservice
+     class core
+     user root
+@@ -7,14 +7,14 @@ service apexd /system/bin/apexd
+     disabled # does not start with the core class
+     reboot_on_failure reboot,apexd-failed
+ 
+-service apexd-bootstrap /system/bin/apexd --bootstrap
++service apexd-bootstrap /usr/libexec/droid-hybris/system/bin/apexd --bootstrap
+     user root
+     group system
+     oneshot
+     disabled
+     reboot_on_failure reboot,bootloader,bootstrap-apexd-failed
+ 
+-service apexd-snapshotde /system/bin/apexd --snapshotde
++service apexd-snapshotde /usr/libexec/droid-hybris/system/bin/apexd --snapshotde
+     user root
+     group system
+     oneshot
+diff --git a/apexd/apexd_main.cpp b/apexd/apexd_main.cpp
+index d460150200e27a5a330052eb56fa2d8619e83e44..60da423cee5911e75dd4e3bcfa5c3a74ec7a3105 100644
+--- a/apexd/apexd_main.cpp
++++ b/apexd/apexd_main.cpp
+@@ -56,6 +56,7 @@ int HandleSubcommand(char** argv) {
+     LOG(INFO) << "Snapshot DE subcommand detected";
+     // Need to know if checkpointing is enabled so that a prerestore snapshot
+     // can be taken if it's not.
++/* HYBRIS
+     android::base::Result<android::apex::VoldCheckpointInterface>
+         vold_service_st = android::apex::VoldCheckpointInterface::Create();
+     if (!vold_service_st.ok()) {
+@@ -64,6 +65,7 @@ int HandleSubcommand(char** argv) {
+     } else {
+       android::apex::initializeVold(&*vold_service_st);
+     }
++*/
+ 
+     int result = android::apex::snapshotOrRestoreDeUserData();
+ 
+@@ -120,6 +122,7 @@ int main(int /*argc*/, char** argv) {
+     return HandleSubcommand(argv);
+   }
+ 
++/* HYBRIS
+   android::base::Result<android::apex::VoldCheckpointInterface>
+       vold_service_st = android::apex::VoldCheckpointInterface::Create();
+   android::apex::VoldCheckpointInterface* vold_service = nullptr;
+@@ -130,6 +133,8 @@ int main(int /*argc*/, char** argv) {
+     vold_service = &*vold_service_st;
+   }
+   android::apex::initialize(vold_service);
++*/
++  android::apex::initialize(nullptr);
+ 
+   bool booting = android::apex::isBooting();
+   if (booting) {
