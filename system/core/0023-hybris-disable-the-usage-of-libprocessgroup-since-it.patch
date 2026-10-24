@@ -8,8 +8,8 @@ Change-Id: Ie37ac0dcc5cabbf33de55c148009fdfff3e90c64
 ---
  init/Android.bp  |  4 ----
  init/init.cpp    |  2 --
- init/service.cpp | 14 +++++++++++++-
- 3 files changed, 13 insertions(+), 7 deletions(-)
+ init/service.cpp | 18 ++++++++++++++++--
+ 3 files changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/init/Android.bp b/init/Android.bp
 index 3e2fb076b0602ee8be9a0f521c15fa3d064d9767..7d4bf738cf397cefb1f6b9a492346e4dabafed5d 100644
@@ -54,7 +54,7 @@ index 5808bb114a1d4fe65f5b61333747a45691f7ebe7..c27e071e4e7df32400167d9b8725a383
  #include <unwindstack/AndroidUnwinder.h>
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a95939924e4dd14 100644
+index 973b00ed85d948199aa9db5ae4840cc25775a929..2a51dc95f819d2a988847853ab7389cbb593f7ca 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -36,7 +36,6 @@
@@ -65,17 +65,21 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
  #include <selinux/selinux.h>
  #include <sys/signalfd.h>
  
-@@ -213,6 +212,9 @@ void Service::KillProcessGroup(int signal) {
+@@ -212,7 +211,12 @@ void Service::KillProcessGroup(int signal) {
+     // These signals must be sent for a successful shutdown.
      if (!process_cgroup_empty_ || IsRunning()) {
          LOG(INFO) << "Sending " << SignalName(signal) << " to service '" << name_ << "' (pid "
-                   << pid_ << ") process group...";
+-                  << pid_ << ") process group...";
++                  << pid_ << ") process group... HYBRIS: killing PID instead of process group.";
++
++        kill(pid_, signal);
 +
 +// hybris: TODO?
 +#if DISABLED_FOR_HYBRIS_SUPPORT
          int r;
          if (signal == SIGTERM) {
              r = killProcessGroupOnce(uid(), pid_, signal);
-@@ -221,6 +223,8 @@ void Service::KillProcessGroup(int signal) {
+@@ -221,6 +225,8 @@ void Service::KillProcessGroup(int signal) {
          }
  
          if (r == 0) process_cgroup_empty_ = true;
@@ -84,7 +88,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
      }
  
      if (!IsMicrodroid() && oom_score_adjust_ != DEFAULT_OOM_SCORE_ADJUST) {
-@@ -304,9 +308,11 @@ void Service::Reap(const siginfo_t& siginfo) {
+@@ -304,9 +310,11 @@ void Service::Reap(const siginfo_t& siginfo) {
  
      if (flags_ & SVC_EXEC) UnSetExec();
  
@@ -96,7 +100,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
  
      if (flags_ & SVC_TEMPORARY) return;
  
-@@ -497,6 +503,7 @@ Result<void> Service::CheckConsole() {
+@@ -497,6 +505,7 @@ Result<void> Service::CheckConsole() {
  
  // Configures the memory cgroup properties for the service.
  void Service::ConfigureMemcg() {
@@ -104,7 +108,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
      if (swappiness_ != -1) {
          if (!setProcessGroupSwappiness(uid(), pid_, swappiness_)) {
              PLOG(ERROR) << "setProcessGroupSwappiness failed";
-@@ -535,6 +542,7 @@ void Service::ConfigureMemcg() {
+@@ -535,6 +544,7 @@ void Service::ConfigureMemcg() {
              PLOG(ERROR) << "setProcessGroupLimit failed";
          }
      }
@@ -112,7 +116,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
  }
  
  // Enters namespaces, sets environment variables, writes PID files and runs the service executable.
-@@ -555,6 +563,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -555,6 +565,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
          descriptor.Publish();
      }
  
@@ -120,7 +124,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
      if (auto result = WritePidToFiles(&writepid_files_); !result.ok()) {
          LOG(ERROR) << "failed to write pid to files: " << result.error();
      }
-@@ -584,6 +593,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
+@@ -584,6 +595,7 @@ void Service::RunService(const std::vector<Descriptor>& descriptors,
              LOG(ERROR) << "failed to set task profiles";
          }
      }
@@ -128,7 +132,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
  
      // As requested, set our gid, supplemental gids, uid, context, and
      // priority. Aborts on failure.
-@@ -745,6 +755,7 @@ Result<void> Service::Start() {
+@@ -745,6 +757,7 @@ Result<void> Service::Start() {
      start_order_ = next_start_order_++;
      process_cgroup_empty_ = false;
  
@@ -136,7 +140,7 @@ index 973b00ed85d948199aa9db5ae4840cc25775a929..3c7b0f6405749c6379e4908e5a959399
      if (CgroupsAvailable()) {
          bool use_memcg = swappiness_ != -1 || soft_limit_in_bytes_ != -1 || limit_in_bytes_ != -1 ||
                           limit_percent_ != -1 || !limit_property_.empty();
-@@ -808,6 +819,7 @@ Result<void> Service::Start() {
+@@ -808,6 +821,7 @@ Result<void> Service::Start() {
      }
  
      setsid_finished.Close();
