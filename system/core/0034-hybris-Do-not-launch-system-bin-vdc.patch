@@ -10,10 +10,10 @@ Change-Id: Ic786cc3e8734c439309aeea09992a2b8859ad0ca
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index cdaf4c22ab7bf37507fd37cc7f99cde9d2bd64bf..6629535f6ecd6e45acdec94e0901f645620e217a 100644
+index 5c8bada5a1fc55ff6489e14130ca295c293c2f77..847c2345e8d05992f1ab5c8c925fc89aaab666c2 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -594,7 +594,7 @@ on early-fs
+@@ -603,7 +603,7 @@ on early-fs
      #start vold
  
  on post-fs

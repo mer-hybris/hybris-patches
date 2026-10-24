@@ -11,7 +11,7 @@ This reverts commit f597fa5d1dca3b79b30d5b66e15e23b0bd91b560.
  init/service.h              |  2 -
  init/service_parser.cpp     |  8 ----
  init/subcontext.cpp         |  4 --
- init/subcontext.h           |  7 +--
+ init/subcontext_android.h   |  7 +--
  6 files changed, 17 insertions(+), 90 deletions(-)
 
 diff --git a/init/host_init_verifier.cpp b/init/host_init_verifier.cpp
@@ -177,10 +177,10 @@ index 7b8ca91efb6f1ec2d6c3857dec957a5380690d95..3823892e94907f81feb8c100144c8cec
      }
  
 diff --git a/init/service.cpp b/init/service.cpp
-index 2a51dc95f819d2a988847853ab7389cbb593f7ca..0b3bb42794a2a86e904e7c544281ddfc8667cab0 100644
+index d78683b41a43386b741d2ecc11b1441315606805..c23ca50b2eff2a1153737e2297c02f80a14e67de 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -168,7 +168,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
+@@ -187,7 +187,6 @@ Service::Service(const std::string& name, unsigned flags, std::optional<uid_t> u
                   .priority = 0},
        namespaces_{.flags = namespace_flags},
        seclabel_(seclabel),
@@ -228,10 +228,10 @@ index 57abbae24bbb4728b8218c7c04fea61e1c3466f6..2971aee1fdfc6cc12d2b4c4baa3af601
          old_service = nullptr;
      }
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index 1b33d3468970b664e5231fe702a3bb202b46f362..ce52502f1572b34b6140f20660bc13d4e027d186 100644
+index 4b005728868a058db8efa3b4b22359994653fa78..017098bb5e084ae044a14051bb670b9cfe07adcc 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -363,10 +363,6 @@ void InitializeSubcontext() {
+@@ -364,10 +364,6 @@ void InitializeSubcontext() {
      }
  }
  
@@ -242,11 +242,11 @@ index 1b33d3468970b664e5231fe702a3bb202b46f362..ce52502f1572b34b6140f20660bc13d4
  Subcontext* GetSubcontext() {
      return subcontext.get();
  }
-diff --git a/init/subcontext.h b/init/subcontext.h
-index 23c4a241c98f5623ce68700399ceb8815d6acc99..2fe7770e0b11129064df83258f037efb861cf9e6 100644
---- a/init/subcontext.h
-+++ b/init/subcontext.h
-@@ -37,14 +37,12 @@ static constexpr const char kTestContext[] = "test-test-test";
+diff --git a/init/subcontext_android.h b/init/subcontext_android.h
+index b52ef3137cb8ba41014ca52c903fe9215b30127e..ae61a7544b835538b0d81f050e1ae4856f678580 100644
+--- a/init/subcontext_android.h
++++ b/init/subcontext_android.h
+@@ -31,14 +31,12 @@ namespace init {
  class Subcontext {
    public:
      Subcontext(std::vector<std::string> path_prefixes, std::vector<std::string> partitions,
@@ -263,11 +263,11 @@ index 23c4a241c98f5623ce68700399ceb8815d6acc99..2fe7770e0b11129064df83258f037efb
      }
  
      Result<void> Execute(const std::vector<std::string>& args);
-@@ -71,7 +69,6 @@ class Subcontext {
+@@ -64,7 +62,6 @@ class Subcontext {
+ };
  
  int SubcontextMain(int argc, char** argv, const BuiltinFunctionMap* function_map);
- void InitializeSubcontext();
 -void InitializeHostSubcontext(std::vector<std::string> vendor_prefixes);
+ void InitializeSubcontext();
  Subcontext* GetSubcontext();
  bool SubcontextChildReap(pid_t pid);
- void SubcontextTerminate();

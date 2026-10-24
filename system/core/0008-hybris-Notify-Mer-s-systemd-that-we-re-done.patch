@@ -10,10 +10,10 @@ Signed-off-by: David Greaves <david.greaves@jollamobile.com>
  1 file changed, 14 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index a15a376d15dfb2b786f9dce6a08e250a6f369e97..7460a6414002db013d69e78a97f6a9b2e5b53d03 100644
+index c4278039f4e6eac1348c76431001dd0a3d081887..eb2301b045e32967ab2c20c51330546b460260db 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1391,3 +1391,17 @@ on property:sys.snapshotctl.map=requested
+@@ -1362,3 +1362,17 @@ on property:sys.snapshotctl.map=requested
  on property:sys.snapshotctl.unmap=requested
      exec - root root system -- /system/bin/snapshotctl unmap
      setprop sys.snapshotctl.unmap "finished"

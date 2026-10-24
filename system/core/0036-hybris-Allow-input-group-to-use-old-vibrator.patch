@@ -14,10 +14,10 @@ Change-Id: I279b97beb82a5de51d40535221a2b71d3468a91f
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 6e9034cc6fbe937e4edee38b86aae916d60e1c71..e381a4b7fb69955ba5f19dabdc6f06f62307c873 100644
+index a023d22aaf7899878c233e3526bdb475b386bf1b..b06acd66088f143e188b50da8b815d6d4d8e564c 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1258,7 +1258,8 @@ on boot
+@@ -1237,7 +1237,8 @@ on boot
      chown system input /sys/class/leds/vibrator/duration
      chown system input /sys/class/leds/vibrator/brightness
      chown system input /sys/class/leds/vibrator/state

@@ -9,10 +9,10 @@ Change-Id: I7c4fb119475adc345104f6ac5a68b578b6b2d433
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 3281a73db794ca1af47c5e0a6f66a616e8a0df67..829b50c4a24812a4d495358f592c1f6c52dd227c 100644
+index 4a22afd7601060489f49c032a8bf798e4152c4e1..b7d18ef9f670c58a43511c4107640e4eb3cf632d 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -389,8 +389,8 @@ int FirstStageMain(int argc, char** argv) {
+@@ -390,8 +390,8 @@ int FirstStageMain(int argc, char** argv) {
      // should be done in rc files.
      // Mount staging areas for devices managed by vold
      // See storage config details at http://source.android.com/devices/storage/

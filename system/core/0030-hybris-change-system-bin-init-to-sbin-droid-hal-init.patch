@@ -10,10 +10,10 @@ Change-Id: I29e02a59bb6be56a2aa0bd89e8a0602b9d0b14d6
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 2e49186974a28153c7d61ff14d6111339d4ecf23..9320f9e12f5b75480fc1fe2670e1f4e09e6a126e 100644
+index 39f3fcc60b81e6d633a57d8b35e62ca19881b96d..8aaf9b6ab57d19f6df6bb15e89d7158b3eeefb18 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -558,7 +558,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -572,7 +572,7 @@ int FirstStageMain(int argc, char** argv) {
      setenv(kEnvFirstStageStartedAt, std::to_string(start_time.time_since_epoch().count()).c_str(),
             1);
  

@@ -8,10 +8,10 @@ Subject: [PATCH] (hybris) Disable init_user0 which is not needed on Mer.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8d90437a22867dd7136116f86fba2c9f76a16c77..cdaf4c22ab7bf37507fd37cc7f99cde9d2bd64bf 100644
+index 168132ea80d496a2a401483f06da17b62d863c4d..5c8bada5a1fc55ff6489e14130ca295c293c2f77 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1080,7 +1080,7 @@ on post-fs-data
+@@ -1086,7 +1086,7 @@ on post-fs-data
  
      exec_start derive_sdk
  

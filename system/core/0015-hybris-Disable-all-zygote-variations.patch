@@ -12,7 +12,7 @@ Change-Id: Ie1ad26486f47b3bf67134db917b3c9e51536904c
  4 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index be2a4618f83fb76c609bff2cdf57826a27fc2fb2..61501223c30a21a618182c46584ffd970c7368aa 100644
+index ef8243cf7e78d6d0a99d35ffeb6e6cc0bcd02229..8bbf4b7bce26920b26668d9a41dd424722640d23 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -16,7 +16,7 @@ import /init.environ.rc
@@ -24,8 +24,8 @@ index be2a4618f83fb76c609bff2cdf57826a27fc2fb2..61501223c30a21a618182c46584ffd97
  
  # Cgroups are mounted right before early-init using list from /etc/cgroups.json
  on early-init
-@@ -581,7 +581,7 @@ on late-init
-     trigger bpf-progs-loaded
+@@ -590,7 +590,7 @@ on late-init
+     trigger load-bpf-programs
  
      # Now we can start zygote.
 -    trigger zygote-start
@@ -34,13 +34,13 @@ index be2a4618f83fb76c609bff2cdf57826a27fc2fb2..61501223c30a21a618182c46584ffd97
      # Remove a file to wake up anything waiting for firmware.
      trigger firmware_mounts_complete
 diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
-index 862afb6848c44aeb05dcbccd1b27c4bb3e2092fd..a05bde3de63ebb8dc8b2dd9d846625f3fa9d9af3 100644
+index c22d14e0deb92f19542e20750a576a5f8b04441c..58441711fedd795e4eb658699393c437d7122ca5 100644
 --- a/rootdir/init.zygote32.rc
 +++ b/rootdir/init.zygote32.rc
-@@ -18,3 +18,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
-     onrestart restart wificond
-     task_profiles ProcessCapacityHigh MaxPerformance
-     critical window=${zygote.critical_window.minute:-off} target=zygote-fatal
+@@ -21,3 +21,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
+     # The stdio implementation for arm32/x86 stores fds in a short.
+     # This is part of the ABI, so 32Ki is the max for nofile for ilp32.
+     rlimit nofile 32768 32768
 +    disabled
 diff --git a/rootdir/init.zygote64.rc b/rootdir/init.zygote64.rc
 index 342212123de59bebaf3eb4d4c3dca7147affe5c4..d770078794d7407d547607b6d274af5e9afb95bf 100644
@@ -52,7 +52,7 @@ index 342212123de59bebaf3eb4d4c3dca7147affe5c4..d770078794d7407d547607b6d274af5e
      critical window=${zygote.critical_window.minute:-off} target=zygote-fatal
 +    disabled
 diff --git a/rootdir/init.zygote64_32.rc b/rootdir/init.zygote64_32.rc
-index 109bf6c65cb22d3706e6a5c6b20daa307611cc7d..8eb6eb0b8b1558ac3db6455e654887c11f10e487 100644
+index f29545c99bacb716cfeb8d23dd38cbc4d7237c47..071ad4a1f0fd4f0e5f73de8db14941ee40da30ea 100644
 --- a/rootdir/init.zygote64_32.rc
 +++ b/rootdir/init.zygote64_32.rc
 @@ -1,4 +1,4 @@
@@ -61,8 +61,8 @@ index 109bf6c65cb22d3706e6a5c6b20daa307611cc7d..8eb6eb0b8b1558ac3db6455e654887c1
  
  service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary --enable-lazy-preload
      class main
-@@ -9,3 +9,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
-     socket usap_pool_secondary stream 660 root system
-     onrestart restart zygote
-     task_profiles ProcessCapacityHigh MaxPerformance
+@@ -12,3 +12,4 @@ service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote
+     # The stdio implementation for arm32/x86 stores fds in a short.
+     # This is part of the ABI, so 32Ki is the max for nofile for ilp32.
+     rlimit nofile 32768 32768
 +    disabled

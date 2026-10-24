@@ -23,10 +23,10 @@ Conflicts:
  2 files changed, 62 insertions(+), 1 deletion(-)
 
 diff --git a/init/init.cpp b/init/init.cpp
-index aa2da94523ed3dbbbb1ce754ecc6f10c86cdd69d..ad4be6ec25f994f16182926b052fdf3f67655441 100644
+index 1abd2cc3919e9c0b8142807194d2613ed157421c..4caf4f242d6449909127d0f8f358cec34073c4d5 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -1248,7 +1248,7 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1286,7 +1286,7 @@ int SecondStageMain(int argc, char** argv) {
      am.QueueBuiltinAction(queue_property_triggers_action, "queue_property_triggers");
  
      /* run all device triggers based on current state of device nodes in /dev */
@@ -36,7 +36,7 @@ index aa2da94523ed3dbbbb1ce754ecc6f10c86cdd69d..ad4be6ec25f994f16182926b052fdf3f
      /* Run actions when all boot up is done and init is ready */
      am.QueueEventTrigger("ready");
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 3c78e761ad62e57b6633a62880271032274f6339..0d7a0ac0a62f7c6cd96628a5666268a57cbd01f8 100644
+index 89adf3331170a161d922d8b662fe453e5aed2a50..deb4ec805622761c25bd8b955c6926e83c192458 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -184,6 +184,12 @@ void NotifyPropertyChange(const std::string& name, const std::string& value) {
@@ -70,7 +70,7 @@ index 3c78e761ad62e57b6633a62880271032274f6339..0d7a0ac0a62f7c6cd96628a5666268a5
      const ucred& cred() { return cred_; }
  
      SocketConnection& operator=(SocketConnection&&) = default;
-@@ -589,6 +606,9 @@ uint32_t HandlePropertySetNoSocket(const std::string& name, const std::string& v
+@@ -595,6 +612,9 @@ uint32_t HandlePropertySetNoSocket(const std::string& name, const std::string& v
  static void handle_property_set_fd(int fd) {
      static constexpr uint32_t kDefaultSocketTimeout = 5000; /* ms */
  
@@ -80,7 +80,7 @@ index 3c78e761ad62e57b6633a62880271032274f6339..0d7a0ac0a62f7c6cd96628a5666268a5
      int s = accept4(fd, nullptr, nullptr, SOCK_CLOEXEC);
      if (s == -1) {
          return;
-@@ -675,7 +695,48 @@ static void handle_property_set_fd(int fd) {
+@@ -681,7 +701,48 @@ static void handle_property_set_fd(int fd) {
          socket.SendUint32(*result);
          break;
        }

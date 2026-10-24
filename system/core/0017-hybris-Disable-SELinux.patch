@@ -57,10 +57,10 @@ Change-Id: I2efa4048bc2e4da848a61e24d8ef8b1824a81f06
  8 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index f947abfa68225620ad205b5053e7b899b3030194..3281a73db794ca1af47c5e0a6f66a616e8a0df67 100644
+index be0f373832aa094903fb7d2a2bae8aaee6866cd3..4a22afd7601060489f49c032a8bf798e4152c4e1 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -58,6 +58,8 @@ using namespace std::literals;
+@@ -61,6 +61,8 @@ using namespace std::literals;
  
  namespace fs = std::filesystem;
  
@@ -69,7 +69,7 @@ index f947abfa68225620ad205b5053e7b899b3030194..3281a73db794ca1af47c5e0a6f66a616
  namespace android {
  namespace init {
  
-@@ -365,7 +367,9 @@ int FirstStageMain(int argc, char** argv) {
+@@ -366,7 +368,9 @@ int FirstStageMain(int argc, char** argv) {
      gid_t groups[] = {AID_READPROC};
      CHECKCALL(setgroups(arraysize(groups), groups));
      //CHECKCALL(mount("sysfs", "/sys", "sysfs", 0, NULL));
@@ -80,10 +80,10 @@ index f947abfa68225620ad205b5053e7b899b3030194..3281a73db794ca1af47c5e0a6f66a616
      CHECKCALL(mknod("/dev/kmsg", S_IFCHR | 0600, makedev(1, 11)));
  
 diff --git a/init/init.cpp b/init/init.cpp
-index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a9b2a72f2 100644
+index 4caf4f242d6449909127d0f8f358cec34073c4d5..63515c872ffa78f43bc9c07b2d93317a8db95fa6 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -117,6 +117,8 @@ using android::base::WriteStringToFile;
+@@ -119,6 +119,8 @@ using android::base::WriteStringToFile;
  using android::fs_mgr::AvbHandle;
  using android::snapshot::SnapshotManager;
  
@@ -92,7 +92,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
  namespace android {
  namespace init {
  
-@@ -646,6 +648,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
+@@ -657,6 +659,7 @@ static Result<void> wait_for_coldboot_done_action(const BuiltinArguments& args)
  }
  
  static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
@@ -100,7 +100,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
      if (!CgroupsAvailable()) {
          LOG(INFO) << "Cgroups support in kernel is not enabled";
          return {};
-@@ -653,6 +656,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
+@@ -664,6 +667,7 @@ static Result<void> SetupCgroupsAction(const BuiltinArguments&) {
      if (!CgroupSetup()) {
          return ErrnoError() << "Failed to setup cgroups";
      }
@@ -108,7 +108,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
  
      return {};
  }
-@@ -903,9 +907,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
+@@ -921,9 +925,12 @@ static void RecordStageBoottimes(const boot_clock::time_point& second_stage_star
  
      SetProperty("ro.boottime.init.first_stage",
                  std::to_string(selinux_start_time_ns - first_stage_start_time_ns));
@@ -121,7 +121,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
      if (auto init_module_time_str = getenv(kEnvInitModuleDurationMs); init_module_time_str) {
          SetProperty("ro.boottime.init.modules", init_module_time_str);
          unsetenv(kEnvInitModuleDurationMs);
-@@ -1063,7 +1070,9 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1080,7 +1087,9 @@ int SecondStageMain(int argc, char** argv) {
      InitKernelLogging(argv);
      LOG(INFO) << "init second stage started!";
  
@@ -131,7 +131,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
  
      // Update $PATH in the case the second stage init is newer than first stage init, where it is
      // first set.
-@@ -1124,9 +1133,11 @@ int SecondStageMain(int argc, char** argv) {
+@@ -1136,9 +1145,11 @@ int SecondStageMain(int argc, char** argv) {
      // Mount extra filesystems required during second stage init
      MountExtraFilesystems();
  
@@ -144,7 +144,7 @@ index ad4be6ec25f994f16182926b052fdf3f67655441..36ce94ad8569f3f86e100cb12458118a
      Epoll epoll;
      if (auto result = epoll.Open(); !result.ok()) {
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 0d7a0ac0a62f7c6cd96628a5666268a57cbd01f8..cbb5bb88476b548e005133da527b292238661a6e 100644
+index deb4ec805622761c25bd8b955c6926e83c192458..2c95126c1b71f8d1c205995aa3e542b81ebe6594 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
 @@ -162,6 +162,8 @@ bool CanReadProperty(const std::string& source_context, const std::string& name)
@@ -173,10 +173,10 @@ index 0d7a0ac0a62f7c6cd96628a5666268a57cbd01f8..cbb5bb88476b548e005133da527b2922
      }
  
 diff --git a/init/selinux.cpp b/init/selinux.cpp
-index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb5338e9e2 100644
+index 4baf9a4fe6cf71aae844ebd65ab6a9ee4979e521..1d369d46097652724b1c398402fdad247ef77f9a 100644
 --- a/init/selinux.cpp
 +++ b/init/selinux.cpp
-@@ -92,6 +92,8 @@ using android::base::unique_fd;
+@@ -93,6 +93,8 @@ using android::base::unique_fd;
  using android::fs_mgr::AvbHandle;
  using android::snapshot::SnapshotManager;
  
@@ -185,7 +185,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  namespace android {
  namespace init {
  
-@@ -99,6 +101,8 @@ namespace {
+@@ -100,6 +102,8 @@ namespace {
  
  enum EnforcingStatus { SELINUX_PERMISSIVE, SELINUX_ENFORCING };
  
@@ -194,7 +194,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  EnforcingStatus StatusFromProperty() {
      std::string value;
      if (android::fs_mgr::GetKernelCmdline("androidboot.selinux", &value) && value == "permissive") {
-@@ -116,6 +120,7 @@ bool IsEnforcing() {
+@@ -117,6 +121,7 @@ bool IsEnforcing() {
      }
      return true;
  }
@@ -202,7 +202,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  
  bool ReadFirstLine(const char* file, std::string* line) {
      line->clear();
-@@ -129,6 +134,7 @@ bool ReadFirstLine(const char* file, std::string* line) {
+@@ -130,6 +135,7 @@ bool ReadFirstLine(const char* file, std::string* line) {
      return true;
  }
  
@@ -210,7 +210,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  Result<std::string> FindPrecompiledSplitPolicy() {
      std::string precompiled_sepolicy;
      // If there is an odm partition, precompiled_sepolicy will be in
-@@ -182,6 +188,7 @@ Result<std::string> FindPrecompiledSplitPolicy() {
+@@ -183,6 +189,7 @@ Result<std::string> FindPrecompiledSplitPolicy() {
  
      return precompiled_sepolicy;
  }
@@ -218,7 +218,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  
  bool GetVendorMappingVersion(std::string* plat_vers) {
      if (!ReadFirstLine("/vendor/etc/selinux/plat_sepolicy_vers.txt", plat_vers)) {
-@@ -201,6 +208,7 @@ bool IsSplitPolicyDevice() {
+@@ -202,6 +209,7 @@ bool IsSplitPolicyDevice() {
      return access(plat_policy_cil_file, R_OK) != -1;
  }
  
@@ -226,7 +226,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  std::optional<const char*> GetUserdebugPlatformPolicyFile() {
      // See if we need to load userdebug_plat_sepolicy.cil instead of plat_sepolicy.cil.
      const char* force_debuggable_env = getenv("INIT_FORCE_DEBUGGABLE");
-@@ -434,6 +442,7 @@ void SelinuxSetEnforcement() {
+@@ -439,6 +447,7 @@ void SelinuxSetEnforcement() {
          }
      }
  }
@@ -234,7 +234,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  
  constexpr size_t kKlogMessageSize = 1024;
  
-@@ -567,6 +576,7 @@ int SelinuxGetVendorAndroidVersion() {
+@@ -572,6 +581,7 @@ int SelinuxGetVendorAndroidVersion() {
      return vendor_android_version;
  }
  
@@ -242,7 +242,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
  // This is for R system.img/system_ext.img to work on old vendor.img as system_ext.img
  // is introduced in R. We mount system_ext in second stage init because the first-stage
  // init in boot.img won't be updated in the system-only OTA scenario.
-@@ -777,7 +787,10 @@ bool EarlySetupOverlays() {
+@@ -782,7 +792,10 @@ bool EarlySetupOverlays() {
  void SetupOverlays() {}
  #endif
  
@@ -253,7 +253,7 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
      SetStdioToDevNull(argv);
      InitKernelLogging(argv);
  
-@@ -823,8 +836,9 @@ int SetupSelinux(char** argv) {
+@@ -828,8 +841,9 @@ int SetupSelinux(char** argv) {
      // SetupOverlays does not return if overlays exist, instead it execs overlay_remounter
      // which then execs second stage init
      if (use_overlays) SetupOverlays();
@@ -265,10 +265,10 @@ index 93f6312a7b40756ed95152469000fb75c8072768..644329f7a0965515d4dbbacbd9d008eb
      execv(path, const_cast<char**>(args));
  
 diff --git a/init/service.cpp b/init/service.cpp
-index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc25775a929 100644
+index e761285644ece20d726d83439a8492ea9a905612..9e9913374d69ae037015ca9bf062ab2cb1cc88b5 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
-@@ -76,6 +76,9 @@ using android::base::WriteStringToFile;
+@@ -79,6 +79,9 @@ using android::base::WriteStringToFile;
  namespace android {
  namespace init {
  
@@ -278,7 +278,7 @@ index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc2
  static Result<std::string> ComputeContextFromExecutable(const std::string& service_path) {
      std::string computed_context;
  
-@@ -116,6 +119,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
+@@ -119,6 +122,7 @@ static Result<std::string> ComputeContextFromExecutable(const std::string& servi
      }
      return computed_context;
  }
@@ -286,7 +286,7 @@ index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc2
  
  static bool ExpandArgsAndExecv(const std::vector<std::string>& args, bool sigstop) {
      std::vector<std::string> expanded_args;
-@@ -243,11 +247,15 @@ void Service::SetProcessAttributesAndCaps(InterprocessFifo setsid_finished) {
+@@ -262,11 +266,15 @@ void Service::SetProcessAttributesAndCaps(InterprocessFifo setsid_finished) {
          LOG(FATAL) << "cannot set attribute for " << name_ << ": " << result.error();
      }
  
@@ -302,7 +302,7 @@ index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc2
  
      if (capabilities_) {
          if (!SetCapsForExec(*capabilities_)) {
-@@ -653,6 +661,8 @@ Result<void> Service::Start() {
+@@ -672,6 +680,8 @@ Result<void> Service::Start() {
      }
  
      std::string scon;
@@ -311,7 +311,7 @@ index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc2
      if (!seclabel_.empty()) {
          scon = seclabel_;
      } else {
-@@ -662,6 +672,7 @@ Result<void> Service::Start() {
+@@ -681,6 +691,7 @@ Result<void> Service::Start() {
          }
          scon = *result;
      }
@@ -320,7 +320,7 @@ index dbae8a771453a544aeda26767f497339e2b3cb93..973b00ed85d948199aa9db5ae4840cc2
      if (!mount_namespace_.has_value()) {
          // remember from which mount namespace the service should start
 diff --git a/init/service_utils.cpp b/init/service_utils.cpp
-index 8d9a046a304340d94649305021fa68870482c395..fc1da0c6eebb0cb5cc2b5ef578025d60013a44d1 100644
+index 9343962459ed217cd9cb2b10ef810103a7277043..5db4104e5855ee6dcc88536bf2dafca21bdc23ac 100644
 --- a/init/service_utils.cpp
 +++ b/init/service_utils.cpp
 @@ -313,6 +313,7 @@ Result<void> SetProcessAttributes(const ProcessAttributes& attr, InterprocessFif
@@ -340,10 +340,10 @@ index 8d9a046a304340d94649305021fa68870482c395..fc1da0c6eebb0cb5cc2b5ef578025d60
  }  // namespace init
  }  // namespace android
 diff --git a/init/subcontext.cpp b/init/subcontext.cpp
-index e2ec35b53c8968440ece4372c304ca9ebacde420..1b33d3468970b664e5231fe702a3bb202b46f362 100644
+index 37f9fadeaf681535ec3c59bb16b2580937dd5f5b..4b005728868a058db8efa3b4b22359994653fa78 100644
 --- a/init/subcontext.cpp
 +++ b/init/subcontext.cpp
-@@ -215,9 +215,11 @@ void Subcontext::Fork() {
+@@ -216,9 +216,11 @@ void Subcontext::Fork() {
          // We don't switch contexts if we're running the unit tests.  We don't use std::optional,
          // since we still need a real context string to pass to the builtin functions.
          if (context_ != kTestContext) {
@@ -356,10 +356,10 @@ index e2ec35b53c8968440ece4372c304ca9ebacde420..1b33d3468970b664e5231fe702a3bb20
  #if defined(__ANDROID__)
          // subcontext init runs in "default" mount namespace
 diff --git a/init/util.cpp b/init/util.cpp
-index c9d20dbc374e6b5e892f031d7d9403c253d57c4b..ab5958dafa10fa082d95f3bb7471137681851130 100644
+index 6241b6617cb56b03b6b772da33ab0d9ead4d1331..134d6496f3d98a0bff0c23a1b5d6ed1c0b1a31ae 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
-@@ -95,18 +95,22 @@ Result<uid_t> DecodeUid(const std::string& name) {
+@@ -96,18 +96,22 @@ Result<uid_t> DecodeUid(const std::string& name) {
   */
  Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool should_listen,
                           mode_t perm, uid_t uid, gid_t gid, const std::string& socketcon) {
@@ -382,7 +382,7 @@ index c9d20dbc374e6b5e892f031d7d9403c253d57c4b..ab5958dafa10fa082d95f3bb74711376
  
      struct sockaddr_un addr;
      memset(&addr, 0 , sizeof(addr));
-@@ -117,10 +121,12 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
+@@ -118,10 +122,12 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
          return ErrnoError() << "Failed to unlink old socket '" << name << "'";
      }
  
@@ -395,7 +395,7 @@ index c9d20dbc374e6b5e892f031d7d9403c253d57c4b..ab5958dafa10fa082d95f3bb74711376
  
      if (passcred) {
          int on = 1;
-@@ -132,9 +138,11 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
+@@ -133,9 +139,11 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
      int ret = bind(fd.get(), (struct sockaddr*)&addr, sizeof(addr));
      int savederrno = errno;
  

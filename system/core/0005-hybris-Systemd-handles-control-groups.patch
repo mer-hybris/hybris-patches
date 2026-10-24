@@ -9,10 +9,10 @@ Change-Id: I92ef4b2389544906be32169c57176575eb1719ec
  1 file changed, 8 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 6a20a99b882916344f3643218d0749d87578ae26..b3c84fbb9f4adf5798c3c184899e84e6402d2581 100644
+index cc6db1ad10a1ed3daf2ec195b4f1dd9057ac278b..ea909f09917a0206d6111d0c20d79a4e2103f044 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -33,14 +33,6 @@ on early-init
+@@ -37,14 +37,6 @@ on early-init
      # Set the security context of /postinstall if present.
      restorecon /postinstall
  

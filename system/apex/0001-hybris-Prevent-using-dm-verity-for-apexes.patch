@@ -13,10 +13,10 @@ Change-Id: Ie537eb6458022abf581d66dfc6f1445029cbedd9
  2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/apexd/apexd.cpp b/apexd/apexd.cpp
-index 3a877ac20a9350105484fcb3ebb0479c01d3008c..4c86a9965821a87d59612f0ab5b520f5393fb95e 100644
+index 42bac2d1cd7f250a8efb7e98225393e9acbf9da0..53197822e8c6df36e28f799dc440de1dfbe7f02f 100644
 --- a/apexd/apexd.cpp
 +++ b/apexd/apexd.cpp
-@@ -488,13 +488,14 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+@@ -502,7 +502,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
    // dm-verity because they are already in the dm-verity protected partition;
    // system. However, note that we don't skip verification to ensure that APEXes
    // are correctly signed.
@@ -25,15 +25,16 @@ index 3a877ac20a9350105484fcb3ebb0479c01d3008c..4c86a9965821a87d59612f0ab5b520f5
                                 // decompressed apexes are on /data
                                 instance.IsDecompressedApex(apex) ||
                                 // block apexes are from host
-                                instance.IsBlockApex(apex);
- 
-   DmDevice verity_dev;
+@@ -514,6 +514,7 @@ Result<MountedApexData> MountPackageImpl(const ApexFile& apex,
+   std::string mount_device;
+   loop::LoopbackDeviceUniqueFd loop;
+   DmDevice linear_dev;
 +  mount_on_verity = false;
-   if (mount_on_verity) {
-     auto verity_table =
-         CreateVerityTable(*verity_data, block_device,
+   std::string fs_type = apex.GetFsType().value();
+ 
+   if (UsesPinnedApex() && GetImageManager()->IsPinnedApex(apex)) {
 diff --git a/apexd/apexd.rc b/apexd/apexd.rc
-index 0724ee175fffa88102e88f421f7c2697081eb7bc..8a58ab5a44c41feda800f15dd27943e1ec7eca44 100644
+index 2dcc1f50620a617b779e29c70f268238b5113b3a..068953abc91c6a81e2edaa3b0bf84242b33a1f37 100644
 --- a/apexd/apexd.rc
 +++ b/apexd/apexd.rc
 @@ -1,16 +1,17 @@
@@ -50,7 +51,7 @@ index 0724ee175fffa88102e88f421f7c2697081eb7bc..8a58ab5a44c41feda800f15dd27943e1
 +    #reboot_on_failure reboot,apexd-failed
      # CAP_CHOWN, CAP_DAC_OVERRIDE, CAP_DAC_READ_SEARCH required for apexdata snapshot & restore
      # CAP_SYS_ADMIN is required to access device-mapper and to use mount syscall
-     capabilities CHOWN DAC_OVERRIDE DAC_READ_SEARCH FOWNER SYS_ADMIN
+     capabilities CHOWN DAC_OVERRIDE DAC_READ_SEARCH FOWNER SYS_ADMIN MKNOD
  
 -service apexd-bootstrap /system/bin/apexd --bootstrap
 +service apexd-bootstrap /usr/libexec/droid-hybris/system/bin/apexd --bootstrap
@@ -59,7 +60,7 @@ index 0724ee175fffa88102e88f421f7c2697081eb7bc..8a58ab5a44c41feda800f15dd27943e1
      oneshot
 @@ -20,7 +21,7 @@ service apexd-bootstrap /system/bin/apexd --bootstrap
      # apexd-bootstrap doesn't manage apexdata snapshot & restore, hence no need for other capabilities.
-     capabilities SYS_ADMIN
+     capabilities SYS_ADMIN MKNOD
  
 -service apexd-snapshotde /system/bin/apexd --snapshotde
 +service apexd-snapshotde /usr/libexec/droid-hybris/system/bin/apexd --snapshotde

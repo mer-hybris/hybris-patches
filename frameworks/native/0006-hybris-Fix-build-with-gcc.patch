@@ -24,7 +24,7 @@ index 295a307c3cf8c7e8030b36bb2c869f7caa06d185..c54fe548d87e9aca48f496d9a7c616ef
       * Default-assumption data space, when not explicitly specified.
       *
 diff --git a/libs/nativewindow/include/android/native_window.h b/libs/nativewindow/include/android/native_window.h
-index 96b2f8ea53607b7dad7a6306421475b1f370ec14..c22668c122ff76bc293478dcf7d8f0aa68313d39 100644
+index d6620f3b1c029dff4f3f3f3435f812046b3981b2..2c7979b86f73fc0d4bd0be8f5135e5645d898eb7 100644
 --- a/libs/nativewindow/include/android/native_window.h
 +++ b/libs/nativewindow/include/android/native_window.h
 @@ -378,7 +378,9 @@ int32_t ANativeWindow_setFrameRateWithChangeStrategy(ANativeWindow* _Nonnull win
@@ -39,10 +39,10 @@ index 96b2f8ea53607b7dad7a6306421475b1f370ec14..c22668c122ff76bc293478dcf7d8f0aa
              ANATIVEWINDOW_FRAME_RATE_COMPATIBILITY_DEFAULT,
              ANATIVEWINDOW_CHANGE_FRAME_RATE_ONLY_IF_SEAMLESS);
 diff --git a/libs/nativewindow/include/vndk/hardware_buffer.h b/libs/nativewindow/include/vndk/hardware_buffer.h
-index 48fb02f69d0028fcb191dccfd7bd3ae3f2d3cda9..6381d805b2319ba63b46e321332b68691d106ee1 100644
+index eb3fd6e15d53d49d78b330e000f35d2e6bd22526..5ab24ddc0acf8525b6ce2c9755dc4dd6c143846b 100644
 --- a/libs/nativewindow/include/vndk/hardware_buffer.h
 +++ b/libs/nativewindow/include/vndk/hardware_buffer.h
-@@ -115,7 +115,7 @@ typedef struct {
+@@ -117,7 +117,7 @@ typedef struct {
      int64_t value;
  } AHardwareBufferLongOptions;
  

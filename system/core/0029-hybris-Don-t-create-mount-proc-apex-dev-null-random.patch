@@ -10,10 +10,10 @@ Change-Id: I3040e7e1ddf6d30644d8dc249ed3f0a6d6633615
  1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 829b50c4a24812a4d495358f592c1f6c52dd227c..2e49186974a28153c7d61ff14d6111339d4ecf23 100644
+index b7d18ef9f670c58a43511c4107640e4eb3cf632d..39f3fcc60b81e6d633a57d8b35e62ca19881b96d 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -356,7 +356,7 @@ int FirstStageMain(int argc, char** argv) {
+@@ -357,7 +357,7 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(mkdir("/dev/dm-user", 0755));
      //CHECKCALL(mount("devpts", "/dev/pts", "devpts", 0, NULL));
  #define MAKE_STR(x) __STRING(x)
@@ -22,7 +22,7 @@ index 829b50c4a24812a4d495358f592c1f6c52dd227c..2e49186974a28153c7d61ff14d611133
  #undef MAKE_STR
      std::string cmdline;
      android::base::ReadFileToString("/proc/cmdline", &cmdline);
-@@ -371,18 +371,18 @@ int FirstStageMain(int argc, char** argv) {
+@@ -372,18 +372,18 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(mount("selinuxfs", "/sys/fs/selinux", "selinuxfs", 0, NULL));
  #endif
  
@@ -46,7 +46,7 @@ index 829b50c4a24812a4d495358f592c1f6c52dd227c..2e49186974a28153c7d61ff14d611133
  
      // These below mounts are done in first stage init so that first stage mount can mount
      // subdirectories of /mnt/{vendor,product}/.  Other mounts, not required by first stage mount,
-@@ -393,23 +393,23 @@ int FirstStageMain(int argc, char** argv) {
+@@ -394,23 +394,23 @@ int FirstStageMain(int argc, char** argv) {
      //                "mode=0755,uid=0,gid=1000"));
      // /mnt/vendor is used to mount vendor-specific partitions that can not be
      // part of the vendor partition, e.g. because they are mounted read-write.

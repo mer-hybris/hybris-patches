@@ -10,10 +10,10 @@ Change-Id: I16afd5bf56ee3e36f09b3496b80e356ce9269a64
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/init/first_stage_init.cpp b/init/first_stage_init.cpp
-index 3070fae193f31eb7d60ceb1fb540c7ca4061ef0c..f947abfa68225620ad205b5053e7b899b3030194 100644
+index 8b9469906f610c82c5f7e8cda62d5069e8c18c3e..be0f373832aa094903fb7d2a2bae8aaee6866cd3 100644
 --- a/init/first_stage_init.cpp
 +++ b/init/first_stage_init.cpp
-@@ -348,23 +348,23 @@ int FirstStageMain(int argc, char** argv) {
+@@ -349,23 +349,23 @@ int FirstStageMain(int argc, char** argv) {
      CHECKCALL(setenv("PATH", _PATH_DEFPATH, 1));
      // Get the basic filesystem setup we need put together in the initramdisk
      // on / and then we'll let the rc file figure out the rest.

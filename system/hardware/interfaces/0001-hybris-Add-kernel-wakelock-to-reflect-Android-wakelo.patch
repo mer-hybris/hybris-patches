@@ -8,17 +8,17 @@ Android prevents suspend using its internal service in addition to kernel wakelo
 wakelock reflecting the status of Android service and preventing suspend in kernel autosuspend
 mode
 
-Change-Id: I02b4bec8e17351a53c8e309b62137756db3c2592
+Change-Id: I1914acb2d5d152f7c6ee5706c5828af0749866bc
 ---
- suspend/1.0/default/SystemSuspend.cpp                 | 11 +++++++++++
- suspend/1.0/default/android.system.suspend-service.rc |  2 +-
+ suspend/aidl/default/SystemSuspend.cpp                | 11 +++++++++++
+ .../aidl/default/android.system.suspend-service.rc    |  2 +-
  2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/suspend/1.0/default/SystemSuspend.cpp b/suspend/1.0/default/SystemSuspend.cpp
-index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6f1559c25 100644
---- a/suspend/1.0/default/SystemSuspend.cpp
-+++ b/suspend/1.0/default/SystemSuspend.cpp
-@@ -77,6 +77,9 @@ static constexpr char kUserspaceAbort[] = "userspace-abort";
+diff --git a/suspend/aidl/default/SystemSuspend.cpp b/suspend/aidl/default/SystemSuspend.cpp
+index 5e16ebacc494cc68f3919574679e6e5ae7c01e48..9d5870ed30550f0ce5970c28ebb935c4dd4e995c 100644
+--- a/suspend/aidl/default/SystemSuspend.cpp
++++ b/suspend/aidl/default/SystemSuspend.cpp
+@@ -84,6 +84,9 @@ static constexpr char kSysModuleSuspendPmFsAbort[] = "/sys/module/suspend/parame
  // rootdir/init.zygote64_32.rc
  static constexpr char kZygoteKernelWakelock[] = "zygote_kwl";
  
@@ -28,7 +28,7 @@ index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6
  // This function assumes that data in fd is small enough that it can be read in one go.
  // We use this function instead of the ones available in libbase because it doesn't block
  // indefinitely when reading from socket streams which are used for testing.
-@@ -281,6 +284,11 @@ void SystemSuspend::incSuspendCounter(const string& name) {
+@@ -301,6 +304,11 @@ void SystemSuspend::incSuspendCounter(const string& name) {
      WriteStringToFd(kUserspaceAbort, mWakeLockFd);
      auto l = std::lock_guard(mAutosuspendLock);
      if (mUseSuspendCounter) {
@@ -40,7 +40,7 @@ index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6
          mSuspendCounter++;
      } else {
          if (!WriteStringToFd(name, mWakeLockFd)) {
-@@ -298,6 +306,9 @@ void SystemSuspend::decSuspendCounter(const string& name) {
+@@ -318,6 +326,9 @@ void SystemSuspend::decSuspendCounter(const string& name) {
      auto l = std::lock_guard(mAutosuspendLock);
      if (mUseSuspendCounter) {
          if (--mSuspendCounter == 0) {
@@ -50,10 +50,10 @@ index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6
              mAutosuspendCondVar.notify_one();
          }
      } else {
-diff --git a/suspend/1.0/default/android.system.suspend-service.rc b/suspend/1.0/default/android.system.suspend-service.rc
-index cafba78ef6ec2a3f2318d30fac5d5c792bb19e23..8c68214892428c9f7e8c490a575bda72c22513a6 100644
---- a/suspend/1.0/default/android.system.suspend-service.rc
-+++ b/suspend/1.0/default/android.system.suspend-service.rc
+diff --git a/suspend/aidl/default/android.system.suspend-service.rc b/suspend/aidl/default/android.system.suspend-service.rc
+index 6aa9de6c06f918da3e52cad0e74d754ee24c919d..b385d05aeab726928e5ef890c9d3ac73ae574383 100644
+--- a/suspend/aidl/default/android.system.suspend-service.rc
++++ b/suspend/aidl/default/android.system.suspend-service.rc
 @@ -1,4 +1,4 @@
 -service system_suspend /system/bin/hw/android.system.suspend-service
 +service system_suspend /usr/libexec/droid-hybris/system/bin/hw/android.system.suspend-service

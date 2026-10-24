@@ -9,10 +9,10 @@ Change-Id: I8ee7b863a533f4a6ef7658ef1c1ef4bdb95d5d65
  1 file changed, 2 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 61501223c30a21a618182c46584ffd970c7368aa..aeb1bd73219b645415a351a6fa5823927b51b015 100644
+index 8bbf4b7bce26920b26668d9a41dd424722640d23..0ab8ca6608178879e8c4c0f425e09834c941747f 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1343,6 +1343,8 @@ service ueventd /system/bin/ueventd
+@@ -1326,6 +1326,8 @@ service ueventd /system/bin/ueventd
      seclabel u:r:ueventd:s0
      user root
      shutdown critical

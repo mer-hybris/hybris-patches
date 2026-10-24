@@ -20,18 +20,18 @@ Conflicts:
  1 file changed, 6 insertions(+)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 35b7d0740e118f455e0b7f126424cb89374a2c82..299f2833bc4e9691767c9bb211b6f4a229647351 100644
+index 19ba2f80ec45d2aca1cd6d735d32b40354ded9ff..528151b69dbbcef1c73039e8bc2a29b1e7f92c3d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -1289,6 +1289,7 @@ on boot
- 
-     class_start core
+@@ -1272,6 +1272,7 @@ on boot && property:ro.debuggable=1
+     write /dev/sys/fs/by-name/userdata/iostat_period_ms 1000
+     write /dev/sys/fs/by-name/userdata/iostat_enable 1
  
 +# Never gets called, since Mer does its own 'mount_all'
  on nonencrypted
      class_start main
      class_start late_start
-@@ -1296,6 +1297,11 @@ on nonencrypted
+@@ -1279,6 +1280,11 @@ on nonencrypted
  on property:sys.init_log_level=*
      loglevel ${sys.init_log_level}
  

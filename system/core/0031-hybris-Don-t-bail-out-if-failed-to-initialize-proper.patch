@@ -10,10 +10,10 @@ Change-Id: Ie9fe31f9e60510b91fcd857b0715b6fcc253dfee
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index cbb5bb88476b548e005133da527b292238661a6e..538376a6278abdf9257a8b431d55004e8d861aa1 100644
+index 2c95126c1b71f8d1c205995aa3e542b81ebe6594..bf0e2c8f53f2f0776481b822d3f21c88cc5ba6b0 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -1448,7 +1448,7 @@ void PropertyInit() {
+@@ -1480,7 +1480,7 @@ void PropertyInit() {
      mkdir("/dev/__properties__", S_IRWXU | S_IXGRP | S_IXOTH);
      CreateSerializedPropertyInfo();
      if (__system_property_area_init()) {

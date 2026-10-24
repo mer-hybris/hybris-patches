@@ -13,10 +13,10 @@ Change-Id: I6185781c2bd6a2db281201ad705394f4d6d24131
  create mode 100644 init/init_parser.cpp
 
 diff --git a/init/init.cpp b/init/init.cpp
-index 36ce94ad8569f3f86e100cb12458118a9b2a72f2..b240c30fb6b5bcaa73cdee890a749c3494ce29f9 100644
+index 63515c872ffa78f43bc9c07b2d93317a8db95fa6..ead10cbb053300a17dbd1dbe8cf0b6506c188904 100644
 --- a/init/init.cpp
 +++ b/init/init.cpp
-@@ -344,9 +344,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
+@@ -351,9 +351,9 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
  
      std::string bootscript = GetProperty("ro.boot.init_rc", "");
      if (bootscript.empty()) {
@@ -205,10 +205,10 @@ index 0000000000000000000000000000000000000000..c4b80636af96e2d18774fbb15a796c69
 +}  // namespace init
 +}  // namespace android
 diff --git a/init/util.cpp b/init/util.cpp
-index ab5958dafa10fa082d95f3bb7471137681851130..6c3def270f0a7ccee6941ddc93b828458aee0892 100644
+index 134d6496f3d98a0bff0c23a1b5d6ed1c0b1a31ae..0a2445447060f6f0f1e312457558014198306f8c 100644
 --- a/init/util.cpp
 +++ b/init/util.cpp
-@@ -172,7 +172,8 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
+@@ -173,7 +173,8 @@ Result<int> CreateSocket(const std::string& name, int type, bool passcred, bool
  
  Result<std::string> ReadFile(const std::string& path) {
      android::base::unique_fd fd(

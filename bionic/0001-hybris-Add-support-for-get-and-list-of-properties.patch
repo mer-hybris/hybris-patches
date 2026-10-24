@@ -9,7 +9,7 @@ Change-Id: I089a2a146c06d8ad0c234f0a9a4b5aa07beaeed5
  1 file changed, 2 insertions(+)
 
 diff --git a/libc/include/sys/system_properties.h b/libc/include/sys/system_properties.h
-index d850b1e2887cfe5912f6bfff03173a3d50cfa1d3..4e39015595a2fac0a2c6179f083d09aeb79a65a1 100644
+index 1e72bf4772342ccebedd42a145ffee296d518859..9f4caa4f0c80f0ab122e4cfd17dfdcdf2d2bd158 100644
 --- a/libc/include/sys/system_properties.h
 +++ b/libc/include/sys/system_properties.h
 @@ -182,6 +182,8 @@ int __system_properties_init(void);

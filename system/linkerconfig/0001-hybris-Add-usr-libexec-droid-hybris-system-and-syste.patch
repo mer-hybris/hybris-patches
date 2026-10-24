@@ -25,7 +25,7 @@ index 62049210a0a04d3226aad0af9584f24109f3c176..468e653f9c0c1e7e1203089668f43b82
  
    sections.emplace_back(BuildSystemSection(ctx));
 diff --git a/contents/namespace/sphal.cc b/contents/namespace/sphal.cc
-index c91eefa65549239755bf0a1ebd884c14b1f9befe..05e4c095863f2059dd3c3e76b5f895b8bba83b84 100644
+index 76319c05b915f7d78b6d3f1a75afc306716d03b1..1da95506897f60a0f4b3f6713ebc873b922b6299 100644
 --- a/contents/namespace/sphal.cc
 +++ b/contents/namespace/sphal.cc
 @@ -50,6 +50,7 @@ Namespace BuildSphalNamespace([[maybe_unused]] const Context& ctx) {
@@ -37,12 +37,12 @@ index c91eefa65549239755bf0a1ebd884c14b1f9befe..05e4c095863f2059dd3c3e76b5f895b8
    // TODO(b/326839235) Remove access to data once renderscript is deprecated.
    if (!android::linkerconfig::modules::IsVendorVndkVersionDefined()) {
 diff --git a/contents/namespace/systemdefault.cc b/contents/namespace/systemdefault.cc
-index 2ae0ad63ef24746eb3ee48ddbec15bcb60b9c07e..ed821db001a9dc536e970503181c43a960cbf149 100644
+index 842fd8308ceaa76f192f6d3d5217369bdbfe9e94..dc7c7d9717971f8ce7286799958207e7aaf4dfc5 100644
 --- a/contents/namespace/systemdefault.cc
 +++ b/contents/namespace/systemdefault.cc
-@@ -44,6 +44,7 @@ void SetupSystemPermittedPaths(Namespace* ns) {
-       "/system/${LIB}/extractors",
+@@ -45,6 +45,7 @@ void SetupSystemPermittedPaths(Namespace* ns) {
        "/system/${LIB}/hw",
+       "/system/${LIB}/vulkan",
        system_ext + "/${LIB}",
 +      "/usr/libexec/droid-hybris/system/${LIB}",
  

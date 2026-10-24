@@ -9,19 +9,22 @@ from namespaces.
 
 Change-Id: I2fd0be43c8d2c899a108db687dd4204e477f91de
 ---
- init/builtins.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ init/builtins.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/init/builtins.cpp b/init/builtins.cpp
-index 3e1f16f2caccbcaf1fa65eeab47812ef7bf566be..2b27e4e5aeae0d5bd018492f47e52fb149604e87 100644
+index ec606ab13e0fbffe8b16c2bc8b6d0538180f0366..2e1b938fe333382eb170a6f1aa7e21339985489a 100644
 --- a/init/builtins.cpp
 +++ b/init/builtins.cpp
-@@ -1202,7 +1202,7 @@ static Result<void> do_mark_post_data(const BuiltinArguments& args) {
- }
+@@ -1219,9 +1219,9 @@ static Result<void> do_mark_post_data(const BuiltinArguments& args) {
  
  static Result<void> GenerateLinkerConfiguration() {
+ #if defined(RELEASE_DEPRECATE_RUNTIME_APEX)
+-    const char* linkerconfig_binary = "/system/bin/linkerconfig";
++    const char* linkerconfig_binary = "/usr/libexec/droid-hybris/system/bin/linkerconfig";
+ #else
 -    const char* linkerconfig_binary = "/apex/com.android.runtime/bin/linkerconfig";
 +    const char* linkerconfig_binary = "/usr/libexec/droid-hybris/system/bin/linkerconfig";
+ #endif
      const char* linkerconfig_target = "/linkerconfig";
      const char* arguments[] = {linkerconfig_binary, "--target", linkerconfig_target};
- 

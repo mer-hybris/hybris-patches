@@ -9,22 +9,22 @@ Change-Id: I305ac649fd199ef11a8d88d350f1fc06171bc0ba
  1 file changed, 2 insertions(+)
 
 diff --git a/init/first_stage_mount.cpp b/init/first_stage_mount.cpp
-index 0148a5a29899e72106b84923ce0dd8475c3cefa4..1dc08d8e359c05eadf7a3cb88b5c15bc30b9796b 100644
+index 8134a1e1e957567491d9532b1f5218047fad6185..979cbcaf8b47fbeb6af4f7ff70d7015bfbed660b 100644
 --- a/init/first_stage_mount.cpp
 +++ b/init/first_stage_mount.cpp
-@@ -263,6 +263,7 @@ bool FirstStageMountVBootV2::DoCreateDevices() {
+@@ -99,6 +99,7 @@ bool FirstStageMount::DoCreateDevices() {
  }
  
- bool FirstStageMountVBootV2::DoFirstStageMount() {
+ bool FirstStageMount::DoFirstStageMount() {
 +#if DISABLED_FOR_HYBRIS_SUPPORT
      if (!IsDmLinearEnabled() && fstab_.empty()) {
          // Nothing to mount.
          LOG(INFO) << "First stage mount skipped (missing/incompatible/empty fstab in device tree)";
-@@ -271,6 +272,7 @@ bool FirstStageMountVBootV2::DoFirstStageMount() {
+@@ -106,6 +107,7 @@ bool FirstStageMount::DoFirstStageMount() {
+     }
  
      if (!MountPartitions()) return false;
- 
 +#endif
+ 
      return true;
  }
- 

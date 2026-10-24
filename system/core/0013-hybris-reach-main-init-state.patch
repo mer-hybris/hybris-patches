@@ -9,10 +9,10 @@ Change-Id: I471f48afaebf91c92f0d2a7bd3a24c5d1fa58ecd
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 299f2833bc4e9691767c9bb211b6f4a229647351..0b1a4c3c86dcce871b62680258edc9ee3e13c7a5 100644
+index 528151b69dbbcef1c73039e8bc2a29b1e7f92c3d..9a7ed878aa2ea2b2018b4d4bd284b37010a74ffe 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -591,7 +591,7 @@ on late-init
+@@ -600,7 +600,7 @@ on late-init
  
  on early-fs
      # Once metadata has been mounted, we'll need vold to deal with userdata checkpointing
