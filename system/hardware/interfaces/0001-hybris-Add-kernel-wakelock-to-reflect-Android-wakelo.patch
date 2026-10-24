@@ -7,9 +7,12 @@ Subject: [PATCH] (hybris) Add kernel wakelock to reflect Android wakelock
 Android prevents suspend using its internal service in addition to kernel wakelocks. Add
 wakelock reflecting the status of Android service and preventing suspend in kernel autosuspend
 mode
+
+Change-Id: I02b4bec8e17351a53c8e309b62137756db3c2592
 ---
- suspend/1.0/default/SystemSuspend.cpp | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ suspend/1.0/default/SystemSuspend.cpp                 | 11 +++++++++++
+ suspend/1.0/default/android.system.suspend-service.rc |  2 +-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/suspend/1.0/default/SystemSuspend.cpp b/suspend/1.0/default/SystemSuspend.cpp
 index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6f1559c25 100644
@@ -47,3 +50,13 @@ index f0c7eec3aef15b164570c7544ac269770d972b01..36b55e993311c454b7bf4241a334cfa6
              mAutosuspendCondVar.notify_one();
          }
      } else {
+diff --git a/suspend/1.0/default/android.system.suspend-service.rc b/suspend/1.0/default/android.system.suspend-service.rc
+index cafba78ef6ec2a3f2318d30fac5d5c792bb19e23..8c68214892428c9f7e8c490a575bda72c22513a6 100644
+--- a/suspend/1.0/default/android.system.suspend-service.rc
++++ b/suspend/1.0/default/android.system.suspend-service.rc
+@@ -1,4 +1,4 @@
+-service system_suspend /system/bin/hw/android.system.suspend-service
++service system_suspend /usr/libexec/droid-hybris/system/bin/hw/android.system.suspend-service
+     class early_hal
+     user system
+     group system wakelock
